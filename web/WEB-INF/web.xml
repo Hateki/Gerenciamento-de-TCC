@@ -6,6 +6,6 @@
         </session-timeout>
     </session-config>
     <welcome-file-list>
-        <welcome-file>tela1.html</welcome-file>
+        <welcome-file>telaLogin.jsp</welcome-file>
     </welcome-file-list>
 </web-app>

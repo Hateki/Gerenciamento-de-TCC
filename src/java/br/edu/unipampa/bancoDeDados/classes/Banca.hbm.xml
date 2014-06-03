@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 03/06/2014 11:00:57 by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+    <class name="br.edu.unipampa.bancoDeDados.classes.Banca" table="banca" catalog="`GERENCIAMENTO DE TCC`">
+        <id name="professorSiape" type="int">
+            <column name="Professor_siape" />
+            <generator class="foreign">
+                <param name="property">professor</param>
+            </generator>
+        </id>
+        <one-to-one name="professor" class="br.edu.unipampa.bancoDeDados.classes.Professor" constrained="true"></one-to-one>
+        <many-to-one name="aluno" class="br.edu.unipampa.bancoDeDados.classes.Aluno" fetch="select">
+            <column name="Aluno_matricula" not-null="true" />
+        </many-to-one>
+        <many-to-one name="pessoa" class="br.edu.unipampa.bancoDeDados.classes.Pessoa" fetch="select">
+            <column name="Pessoa_idPessoa" not-null="true" />
+        </many-to-one>
+    </class>
+</hibernate-mapping>

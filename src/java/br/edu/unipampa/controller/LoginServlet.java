@@ -6,6 +6,7 @@
 
 package br.edu.unipampa.controller;
 
+import br.edu.unipampa.model.web.Login;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -32,8 +33,17 @@ public class LoginServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        Login login = new Login();
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
+        String nome = request.getParameter("Nome");
+        String senha = request.getParameter("Senha");
+        String result;
+        if(login.verificarDados(nome, senha)){
+            result = "Deu certo";
+        }else{
+            result = "Não deu certo";
+        }
         try {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
@@ -42,7 +52,7 @@ public class LoginServlet extends HttpServlet {
             out.println("<title>Servlet LoginServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet LoginServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet LoginServlet at " + result + "</h1>");
             out.println("</body>");
             out.println("</html>");
         } finally {
