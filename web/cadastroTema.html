@@ -1,0 +1,48 @@
+<!DOCTYPE html
+    <head>
+
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Cadastro Tema</title>
+<script type="text/javascript">
+    function validaCampo()
+    {
+        if (document.cadform.tema.value == ""){
+            alert("O Campo obrigatório Tema não foi preenchido");
+            return false
+        }
+        else
+        return true;
+    }
+     
+    function validaCampo2(){
+    
+    if (document.cadform.orientador.value == ""){
+            alert("O Campo obrigatório Orientador não foi preenchido");
+            return false;
+        }
+        else
+            return true;
+    }
+
+
+<!-- Fim do JavaScript que validará os campos obrigatórios! -->
+</script>
+</head>
+
+<body>
+    <h1>Cadastro Tema</h1>
+    <form id="cadform" name="cadform" method="post" action="LoginServlet"
+          onsubmit="return validaCampo(), validaCampo2();">
+        
+        <label for="titulo">Tema do seu TCC:<br></br></label>
+        
+        Tema:<br><br/>
+        <textarea rows="6" cols="40" name="tema" id="tema" maxlength="200"></textarea><br><br/>
+        
+        Orientador: <input name="orientador" type="text" id="orientador"/>
+        
+        <input type="submit" name="enviar" id="enviar" value="Enviar"   />
+    </form>
+</body>
+</html>
