@@ -9,8 +9,8 @@ package br.edu.unipampa.controller;
 import br.edu.unipampa.model.web.AcessoSistema;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,8 +19,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author pontofrio
  */
-@WebServlet(urlPatterns = {"/LoginServlet"})
-public class LoginServlet extends HttpServlet {
+public class CadastraPessoaExternaServelt extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,31 +32,49 @@ public class LoginServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        AcessoSistema login = new AcessoSistema();
-        response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
-        String nome = request.getParameter("Nome");
-        String senha = request.getParameter("Senha");
-        String result;
-        if(login.verificarDados(nome, senha)){
-            result = "Deu certo";
-        }else{
-            result = "Não deu certo";
+        
+        int resposta;
+        AcessoSistema ac = new AcessoSistema();
+        String nomeUsuario = request.getParameter("nomePessoaExterna");
+        String senha = request.getParameter("passwordPessoaExterna");
+        String cpf = request.getParameter("cpf");
+        String instituicao = request.getParameter("nomeInstituicao");
+        ArrayList<String> listaParametros = new ArrayList<>();
+        
+        for (int i = 0; i < 4; i++) {
+            if(i == 0){
+                listaParametros.add(nomeUsuario);
+            }else if(i == 1){
+                listaParametros.add(senha);
+            }else if(i == 2){
+                listaParametros.add(cpf);
+            }else{
+                listaParametros.add(instituicao);
+            }
         }
-        //Implementar a parte de ir para a página inicial
-        try {
+        
+        resposta = ac.cadastraPessoaExterna(listaParametros);
+        
+        if(resposta == AcessoSistema.LISTA_INCORRETA){
+            //resolve o problema
+        }else if(resposta == AcessoSistema.USUARIO_JA_EXISTENTE){
+            //manda de volta pra pagina de cadastro
+        }else{
+            //manda pra página de cadastro concluido
+        }
+        
+        response.setContentType("text/html;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet LoginServlet</title>");            
+            out.println("<title>Servlet CadastraPessoaExternaServelt</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet LoginServlet at " + result + "</h1>");
+            out.println("<h1>Servlet CadastraPessoaExternaServelt at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
-        } finally {
-            out.close();
         }
     }
 
