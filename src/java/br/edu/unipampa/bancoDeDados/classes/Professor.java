@@ -60,7 +60,9 @@ public class Professor  implements java.io.Serializable {
         this.temas = temas;
     }
 
-
+    public String getSenha(){
+        return pessoa.getSenha();
+    }
 
 
 }
