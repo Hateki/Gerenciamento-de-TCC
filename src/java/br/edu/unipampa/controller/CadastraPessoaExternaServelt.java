@@ -53,7 +53,7 @@ public class CadastraPessoaExternaServelt extends HttpServlet {
                 listaParametros.add(instituicao);
             }
         }
-        
+             
         resposta = ac.cadastraPessoaExterna(listaParametros);
         
         if(resposta == AcessoSistema.LISTA_INCORRETA){

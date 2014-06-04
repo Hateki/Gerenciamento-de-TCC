@@ -89,12 +89,13 @@ public class AcessoSistema {
         pessoa.setSenha(dados.get(POSICAO_SENHA));
         //pessoa.setCPF(dados.get(POSICAO_CPF));
         //pessoa.setInstituicao(dados.get(POSICAO_INSTITUICAO));
-
-        if (verificaExistencia(pessoa)) {
+        
+        SESSAO.beginTransaction();
+        
+        if (verificaExistencia(pessoa,SESSAO)) {
             return USUARIO_JA_EXISTENTE;
         }
 
-        SESSAO.beginTransaction();
         SESSAO.save(pessoa);
         SESSAO.getTransaction().commit();
 
@@ -105,14 +106,12 @@ public class AcessoSistema {
      * Verifica se existe uma pessoa com o nome especificado
      *
      * @param pessoa Pessoa com o nome para se verificar
+     * @param sessao Sessão com a transassão já inicializada
      * @return true se uma pessoa com o mesmo nome foi encontrada
      */
-    public boolean verificaExistencia(Pessoa pessoa) {
+    public boolean verificaExistencia(Pessoa pessoa, Session sessao) {
         List<Pessoa> pessoasBanco;
-
-        SESSAO.beginTransaction();
-
-        pessoasBanco = (List<Pessoa>) SESSAO.createQuery("From Pessoa").list();
+        pessoasBanco = (List<Pessoa>) sessao.createQuery("From Pessoa").list();
 
         for (Pessoa encontrado : pessoasBanco) {
             if (encontrado.getNome().equals(pessoa.getNome())) {
