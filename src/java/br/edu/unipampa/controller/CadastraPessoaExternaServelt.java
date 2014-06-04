@@ -40,6 +40,7 @@ public class CadastraPessoaExternaServelt extends HttpServlet {
         String cpf = request.getParameter("cpf");
         String instituicao = request.getParameter("nomeInstituicao");
         ArrayList<String> listaParametros = new ArrayList<>();
+        String teste = "teste";
         
         for (int i = 0; i < 4; i++) {
             if(i == 0){
@@ -57,10 +58,13 @@ public class CadastraPessoaExternaServelt extends HttpServlet {
         
         if(resposta == AcessoSistema.LISTA_INCORRETA){
             //resolve o problema
+            teste = "Lista está incorreta";
         }else if(resposta == AcessoSistema.USUARIO_JA_EXISTENTE){
             //manda de volta pra pagina de cadastro
+            teste = "O usuário já existe";
         }else{
             //manda pra página de cadastro concluido
+            teste = "Cadastro efetuado com sucesso";
         }
         
         response.setContentType("text/html;charset=UTF-8");
@@ -72,7 +76,7 @@ public class CadastraPessoaExternaServelt extends HttpServlet {
             out.println("<title>Servlet CadastraPessoaExternaServelt</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet CadastraPessoaExternaServelt at " + request.getContextPath() + "</h1>");
+            out.println("<h1> " + teste + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
