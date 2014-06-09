@@ -10,6 +10,7 @@ and open the template in the editor.
 
         <title>Cadastro Pessoa Externa</title>
         <script type="text/javascript">
+            
             function validaCampoNome()
             {
                 if (document.cadPform.nomePessoaExterna.value === "") {
@@ -40,22 +41,12 @@ and open the template in the editor.
                 else
                     return true;
             }
-
-            function validaCampoSenha2() {
-
-                if (document.cadPform.passwordPessoaExterna2.value === "") {
-                    alert("O Campo obrigatório confirmação de senha não foi preenchido");
-                    return false;
-                }
-                else
-                    return true;
-            }
-
             function validaCampoSenhasIguais() {
-                passwordPessoaExterna = document.getElementById("senha1");
-                passwordPessoaExterna2 = document.getElementById("senha2")
-                if (passwordPessoaExterna == passwordPessoaExterna2) {
-                  
+                senha1 = document.cadPform.passwordPessoaExterna.value;
+                senha2 = document.cadPform.passwordPessoaExterna2.value;
+                
+                if (senha1 === senha2) {
+                 alert("Senhas iguais")
                     return true;
                                      }
                 else
@@ -63,10 +54,10 @@ and open the template in the editor.
                 return false;
             }
 
-            function validaInstituicao() {
+            function validaInst() {
 
-                if (document.cadPform.nomeInstituicao.value() === "") {
-                    alert("O campo obrigatório instituição não está preenchido!");
+                if (document.cadPform.nomeInstituicao.value === "") {
+                    alert("O Campo obrigatório Nome Instituicao não foi preenchido");
                     return false;
                 }
                 else
@@ -83,17 +74,18 @@ and open the template in the editor.
 
     <body>
         <h1>Cadastro </h1>
-        <form id="cadPform" name="cadPform" method="post" action="CadastraPessoaExternaServelt"
-              onsubmit="return validaCampoSenha1(), validaCampoSenha2(), validaCampoSenhasIguais(), mensagemCampos();">
+        <form id="cadPform" name="cadPform" method="post" action=""
+              onsubmit="return validaCampoNome(), validaInst(), validaCampoSenha1(), validaCampoSenha2(), validaCampoSenhasIguais();">
 
             <label for="titulo"></label>
             <h2>Pessoa Externa:</h2>
 
             Nome Completo: <input name="nomePessoaExterna" type="text" id="nomePessoaExterna" maxlength="200"/><br></br>
-            Senha: <input name="passwordPessoaExterna" type="password" id="passwordPessoaExterna" maxlength="200" min="5"><br></br>
-            Confirmação de Senha: <input name="passwordPessoaExterna2" type="password" id="passwordPessoaExterna2" maxlength="200" min="5"><br></br>
-            CPF: <input name="cpf" type="text" id="cpf" maxlength="11" min="11"><br></br>
             Instituição: <input name="nomeInstituicao" type="text" id="nomeInstituicao" maxlength="200"/><br></br>
+            Senha: <input name="passwordPessoaExterna" type="password" id="passwordPessoaExterna" maxlength="200"><br></br>
+            Confirmação de Senha: <input name="passwordPessoaExterna2" type="password" id="passwordPessoaExterna2" maxlength="200"><br></br>
+            CPF: <input name="cpf" type="text" id="cpf" maxlength="11"><br></br>
+            
 
             <input type="submit" name="enviar" id="enviar" value="Enviar"   />
         </form>

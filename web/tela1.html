@@ -18,6 +18,16 @@ and open the template in the editor.
                     return true;
             }
 
+  function validaCampoSenha()
+            {
+                if (document.telaLogin.senhaUsuario == "") {
+                    alert("O Campo obrigatório Usuário não foi preenchido");
+                    return false
+                }
+                else
+                    return true;
+            }
+
         </script>
         
         <title>Teste Página Login</title>
@@ -29,10 +39,11 @@ and open the template in the editor.
         
         <form action="LoginServlet" method="post" name="form">
             <div id="area">
-                <form id="telaLogin" name="telaLogin" method="post" action="LoginServlet" onsubmit=" return validaCampoUsuario();">
+                <form id="telaLogin" name="telaLogin" method="post" action="LoginServlet" onsubmit=" 
+                    return validaCampoUsuario(), validaCampoSenha();">
                     <fieldset>
                         <legend>Gerenciador de TCC</legend>
-                        <label> Nome: </label><input name="nomeUsuario" type="text" id="nomeUsuario" maxlength="200" required=""><br>                   
+                        <label> Nome: </label><input name="nomeUsuario" type="text" id="nomeUsuario" maxlength="200"><br>                   
 
                         <label> Senha: </label><input name="Senha"  type="password" id="senhaUsuario" maxlength="200"><br>
                         <input class="btn_submit" type="submit" value="Enviar">
