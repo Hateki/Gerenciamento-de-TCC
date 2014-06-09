@@ -1,23 +1,24 @@
 <!DOCTYPE html
- <head>
+    <head>
 
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Cadastro Tema</title>
 <script type="text/javascript">
+    
     function validaCampo()
     {
-        if (document.cadform.tema.value == ""){
+        if (document.cadform.tema.value == "") {
             alert("O Campo obrigatório Tema não foi preenchido");
             return false
         }
         else
-        return true;
+            return true;
     }
-     
-    function validaCampo2(){
-    
-    if (document.cadform.orientador.value == ""){
+
+    function validaCampo2() {
+
+        if (document.cadform.orientador.value == "") {
             alert("O Campo obrigatório Orientador não foi preenchido");
             return false;
         }
@@ -25,6 +26,27 @@
             return true;
     }
 
+    function validaEspacoOrientador(){
+        var orientador = cadform.orientador.value;
+        var msg = "";
+        if (orientador.search(/\s/g) != -1)
+        {
+            msg += "Não é permitido espaços em branco\n";
+            orientador = orientador.replace(/\s/g, "");
+        }
+        if (orientador.search(/[^a-z0-9]/i) != -1)
+        {
+            msg += "Não é permitido caracteres especiais";
+            orientador = orientador.replace(/[^a-z0-9]/gi, "");
+        }
+        if (msg)
+        {
+            alert(msg);
+            cadform.orientador.value = orientador;
+            return false;
+        }
+        return true;
+    }
 
 <!-- Fim do JavaScript que validará os campos obrigatórios! -->
 </script>
@@ -33,15 +55,15 @@
 <body>
     <h1>Cadastro Tema</h1>
     <form id="cadform" name="cadform" method="post" action=""
-          onsubmit="return validaCampo(), validaCampo2();">
-        
+          onsubmit="return validaEspacoOrientador(),validaCampo(),validaCampo2();">
+
         <label for="titulo">Tema do seu TCC:<br></br></label>
-        
+
         Tema:<br><br/>
-        <textarea rows="6" cols="40" name="tema" id="tema" maxlength="200"></textarea><br><br/>
-        
+        <textarea rows="6" cols="40" name="tema" id="tema" maxlength="200" ></textarea><br><br/>
+
         Orientador: <input name="orientador" type="text" id="orientador"/>
-        
+
         <input type="submit" name="enviar" id="enviar" value="Enviar"   />
     </form>
 </body>
