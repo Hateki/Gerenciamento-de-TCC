@@ -11,4 +11,5 @@ package br.edu.unipampa.model;
  */
 public class Professor extends Pessoa{
     
+    
 }

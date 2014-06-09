@@ -6,16 +6,37 @@
 
 package br.edu.unipampa.model;
 
+import java.util.ArrayList;
+import java.util.Date;
+
 /**
  *
  * @author Miguel Zinelli
  */
 public class Banca {
     
-    private String integrantes;
+    private Aluno aluno;
     private Orientador orientador;
-    //private ProfessorExterno professorExterno;
-    //private ProfessorInterno professorInterno;
+    private String local;
+    private String horario;
+    private ArrayList<Pessoa>Pessoa;
+    private Date data;
     
+    public Banca(Aluno aluno, Orientador orientador, String local, String horario, ArrayList Pessoa, Date data){
+        this.aluno=aluno;
+        this.orientador=orientador;
+        this.local=local;
+        this.horario=horario;
+        this.Pessoa=Pessoa;
+        this.data=data;
+    }
+    
+    public void avaliarAluno(Aluno aluno){
+        
+    }
+    
+    public  boolean analisarParticipacao(String tema, Aluno aluno){
+        return true;
+    }
     
 }

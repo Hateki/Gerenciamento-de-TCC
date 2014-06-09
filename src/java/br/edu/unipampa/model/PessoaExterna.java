@@ -12,6 +12,13 @@ package br.edu.unipampa.model;
  */
 public class PessoaExterna extends Pessoa {
     
+    private String instituicao;
+    private String cpf;
+    private String nome;
     
-    
+    public PessoaExterna(String instituicao, String cpf, String nome){
+        this.instituicao=instituicao;
+        this.cpf=cpf;
+        this.nome=nome;
+    }
 }

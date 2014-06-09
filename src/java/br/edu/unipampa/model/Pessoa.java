@@ -11,8 +11,8 @@ package br.edu.unipampa.model;
  */
 public class Pessoa {
 
-    private String nome;
-    protected int matricula;
-    protected int senha;
-
+    protected String usuario;
+    protected String senha;
+    protected String email;
+    
 }

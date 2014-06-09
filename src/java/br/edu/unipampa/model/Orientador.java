@@ -6,12 +6,29 @@
 
 package br.edu.unipampa.model;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Miguel Zinelli
  */
-public class Orientador {
+public class Orientador extends Professor {
     
-    protected Aluno aluno;
+   private ArrayList<Aluno> Aluno;
     
+   public Orientador(ArrayList aluno){
+       this.Aluno=aluno;
+   }
+   
+   public void definirBanca(ArrayList<Pessoa> outros, String horario, String local){
+       
+   }
+
+   public void enviarFormulario(String nome, String senha, String cpf, String instituicao){
+       
+   }
+   
+   public void analisarTema(Aluno aluno, String tema){
+       
+   }
 }

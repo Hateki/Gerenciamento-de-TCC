@@ -13,5 +13,18 @@ package br.edu.unipampa.model;
 public class Aluno extends Pessoa {
 
     private Orientador orientador;
-    private Tcc tcc;
+    private String tema;
+    
+    private Aluno(Orientador orientador, String tema){
+        this.orientador=orientador;
+        this.tema= tema;
+    }
+    
+    public void cadastrarTema(){
+        
+    }
+    
+    public void selecionarOrientador(){
+        
+    }
 }
