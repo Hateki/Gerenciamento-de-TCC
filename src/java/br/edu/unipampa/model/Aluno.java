@@ -7,7 +7,7 @@
 package br.edu.unipampa.model;
 
 /**
- *CLasse ALuno
+ *
  * @author Miguel Zinelli
  */
 public class Aluno extends Pessoa {
