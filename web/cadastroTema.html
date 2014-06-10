@@ -8,7 +8,8 @@
     
     function validaCampo()
     {
-        if (document.cadform.tema.value == "") {
+            String valorDoCampo = trim(document.cadform.tema.value.toString());
+        if (valorDoCampo == "") {
             alert("O Campo obrigatório Tema não foi preenchido");
             return false
         }
@@ -25,7 +26,7 @@
         else
             return true;
     }
-
+   
     function validaEspacoOrientador(){
         var orientador = cadform.orientador.value;
         var msg = "";
@@ -47,6 +48,11 @@
         }
         return true;
     }
+    
+    //trim completo
+	function trim(str) {
+		return str.replace(/^\s+|\s+$/g,"");
+	}
 
 <!-- Fim do JavaScript que validará os campos obrigatórios! -->
 </script>
