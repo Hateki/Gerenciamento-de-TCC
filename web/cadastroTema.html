@@ -6,10 +6,10 @@
 <title>Cadastro Tema</title>
 <script type="text/javascript">
     
-    function validaCampo()
-    {
-            String valorDoCampo = trim(document.cadform.tema.value.toString());
-        if (valorDoCampo == "") {
+    function validaCampo(){
+        
+        srt = document.cadform.tema.value;
+        if ((srt === "")) {
             alert("O Campo obrigatório Tema não foi preenchido");
             return false
         }
@@ -66,7 +66,7 @@
         <label for="titulo">Tema do seu TCC:<br></br></label>
 
         Tema:<br><br/>
-        <textarea rows="6" cols="40" name="tema" id="tema" maxlength="200" ></textarea><br><br/>
+        <textarea rows="6" cols="40" name="tema" id="tema" maxlength="200"  ></textarea><br><br/>
 
         Orientador: <input name="orientador" type="text" id="orientador"/>
 
