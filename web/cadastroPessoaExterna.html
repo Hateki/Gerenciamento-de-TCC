@@ -10,7 +10,7 @@ and open the template in the editor.
 
         <title>Cadastro Pessoa Externa</title>
         <script type="text/javascript">
-            
+
             function validaCampoNome()
             {
                 if (document.cadPform.nomePessoaExterna.value === "") {
@@ -44,13 +44,13 @@ and open the template in the editor.
             function validaCampoSenhasIguais() {
                 senha1 = document.cadPform.passwordPessoaExterna.value;
                 senha2 = document.cadPform.passwordPessoaExterna2.value;
-                
+
                 if (senha1 === senha2) {
-                 alert("Senhas iguais")
+                    alert("Senhas iguais")
                     return true;
-                                     }
+                }
                 else
-                   alert("As senhas não coincidem")
+                    alert("As senhas não coincidem")
                 return false;
             }
 
@@ -85,7 +85,7 @@ and open the template in the editor.
             Senha: <input name="passwordPessoaExterna" type="password" id="passwordPessoaExterna" maxlength="200"><br></br>
             Confirmação de Senha: <input name="passwordPessoaExterna2" type="password" id="passwordPessoaExterna2" maxlength="200"><br></br>
             CPF: <input name="cpf" type="text" id="cpf" maxlength="11"><br></br>
-            
+
 
             <input type="submit" name="enviar" id="enviar" value="Enviar"   />
         </form>
