@@ -36,7 +36,7 @@ public class LoginServlet extends HttpServlet {
         AcessoSistema login = new AcessoSistema();
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        String nome = request.getParameter("Nome");
+        String nome = request.getParameter("nomeUsuario");
         String senha = request.getParameter("Senha");
         String result;
         if(login.verificarDados(nome, senha)){
