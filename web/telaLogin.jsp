@@ -50,9 +50,9 @@
                     <fieldset>
                         <legend>Gerenciador de TCC</legend>
 
-                        <label> Nome: </label><input name="nomeUsuario" type="text" id="nomeUsuario" maxlength="200"><br>                   
+                        <label> Nome: </label><input name="nomeUsuario" type="text" id="nomeUsuario" maxlength="200" required><br>                   
 
-                        <label> Senha: </label><input name="Senha"  type="password" id="senhaUsuario" maxlength="200"><br>
+                        <label> Senha: </label><input name="Senha"  type="password" id="senhaUsuario" maxlength="200" required><br>
 
                         <input class="btn_submit" type="submit" value="Enviar">
                         <a href="http://www.google.com">  Esqueceu sua senha?
