@@ -11,7 +11,7 @@
         var msg = "";
         if (orientador.search(/\s/g) != -1)
         {
-            msg += "Não é permitido espaços em branco\n";
+            msg += "NNão é permitido iniciar espaços em branco no Campo Orientador\n";
             orientador = orientador.replace(/\s/g, "");
         }
         if (orientador.search(/[^a-z0-9]/i) != -1)
@@ -23,6 +23,28 @@
         {
             alert(msg);
             cadform.orientador.value = orientador;
+            return false;
+        }
+        return true;
+    }
+    
+    function validaEspacoTema() {
+        var tema = cadform.tema.value;
+        var msg = "";
+        if (tema.search(/\s/g) != -1)
+        {
+            msg += "Não é permitido iniciar espaços em branco no Campo Tema\n";
+            tema = tema.replace(/\s/g, "");
+        }
+        if (orientador.search(/[^a-z0-9]/i) != -1)
+        {
+            msg += "Não é permitido caracteres especiais";
+            tema = tema.replace(/[^a-z0-9]/gi, "");
+        }
+        if (msg)
+        {
+            alert(msg);
+            cadform.orientador.value = tema;
             return false;
         }
         return true;
@@ -39,19 +61,19 @@
 <body>
     <h1>Cadastro Tema</h1>
     <form id="cadform" name="cadform" method="post" action=""
-          onsubmit="return validaEspacoOrientador(), validaCampo(), validaCampo2();">
+          onsubmit="return validaEspacoTema(), validaEspacoOrientador(), validaCampo(), validaCampo2();">
 
         <label for="titulo">Tema do seu TCC:<br></br></label>
 
         Tema:<br><br/>
-        <textarea rows="6" cols="40" name="tema" id="tema" maxlength="200"  onblur="validaMiguel(this)" required></textarea><br><br/>
+        <textarea rows="6" cols="40" name="tema" id="tema" maxlength="200"  onblur="validaEspaco(this)" required></textarea><br><br/>
 
-        Orientador: <input name="orientador" type="text" id="orientador" onblur="validaMiguel(this)" required />
+        Orientador: <input name="orientador" type="text" id="orientador" onblur="validaEspaco(this)" required />
 
         <input type="submit" name="enviar" id="enviar" value="Enviar"   />
     </form>
     <script>
-        function validaMiguel(input){
+        function validaEspaco(input){
             texto = input.value;
             textoNovo = trim(texto);
             if(textoNovo === ""){
