@@ -9,11 +9,13 @@ package br.edu.unipampa.controller;
 import br.edu.unipampa.model.web.AcessoSistema;
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -34,31 +36,31 @@ public class LoginServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         AcessoSistema login = new AcessoSistema();
-        response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
         String nome = request.getParameter("nomeUsuario");
         String senha = request.getParameter("Senha");
-        String result;
-        if(login.verificarDados(nome, senha)){
-            result = "Deu certo";
-        }else{
-            result = "Não deu certo";
+        int result;
+        HttpSession session = request.getSession();
+        RequestDispatcher view;
+        
+        session.setAttribute("usuario", nome);
+        
+        result = login.verificarDados(nome, senha);
+        
+        if(result == AcessoSistema.ALUNO){
+            view = request.getRequestDispatcher("menuPrincipalAluno.html");
+            view.forward(request, response);
+        }else if(result == AcessoSistema.PROFESSOR){
+            view = request.getRequestDispatcher("menuPrincipalProfessor.html");
+            view.forward(request, response);
+        }else if(result == AcessoSistema.PESSOA_EXTERNA){
+            view = request.getRequestDispatcher("menuPrincipalProfessor.html");
+            view.forward(request, response);
+        }else {
+            request.setAttribute("sucesso", false);
+            view = request.getRequestDispatcher("telaLogin.html");
+            view.forward(request, response);
         }
-        //Implementar a parte de ir para a página inicial
-        try {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet LoginServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet LoginServlet at " + result + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        } finally {
-            out.close();
-        }
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

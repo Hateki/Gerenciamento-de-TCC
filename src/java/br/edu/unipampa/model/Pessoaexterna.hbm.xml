@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 12/06/2014 22:07:03 by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+    <class name="br.edu.unipampa.model.Pessoaexterna" table="pessoaexterna" catalog="`GERENCIAMENTO DE TCC`">
+        <id name="idPessoaExterna" type="int">
+            <column name="idPessoaExterna" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="pessoa" class="br.edu.unipampa.model.Pessoa" fetch="select">
+            <column name="Pessoa_idPessoa" not-null="true" />
+        </many-to-one>
+        <property name="nome" type="string">
+            <column name="nome" length="45" />
+        </property>
+        <property name="cpf" type="string">
+            <column name="cpf" length="45" />
+        </property>
+        <property name="instituicao" type="string">
+            <column name="instituicao" length="45" />
+        </property>
+        <set name="bancas" table="banca" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="PessoaExterna_idPessoaExterna" not-null="true" />
+            </key>
+            <one-to-many class="br.edu.unipampa.model.Banca" />
+        </set>
+    </class>
+</hibernate-mapping>

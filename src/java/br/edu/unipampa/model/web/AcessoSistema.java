@@ -1,8 +1,6 @@
 package br.edu.unipampa.model.web;
 
-import br.edu.unipampa.bancoDeDados.classes.Aluno;
-import br.edu.unipampa.bancoDeDados.classes.Pessoa;
-import br.edu.unipampa.bancoDeDados.classes.Professor;
+import br.edu.unipampa.model.*;
 import br.edu.unipampa.bancoDeDados.hibernate.HibernateUtil;
 import java.util.List;
 import org.hibernate.Session;
@@ -12,14 +10,21 @@ import org.hibernate.Session;
  * @author Pedro Henrique
  */
 public class AcessoSistema {
-
+    
+    //////////Cadastro Pessoa Externa//////////////
     private final int POSICAO_NOME = 0;
     private final int POSICAO_SENHA = 1;
     private final int POSICAO_CPF = 2;
-    private final int POSICAO_INTITUICAO = 3;
+    private final int POSICAO_INSTITUICAO = 3;
     public static final int LISTA_INCORRETA = 2;
     public static final int USUARIO_JA_EXISTENTE = 1;
     public static final int CADASTRO_CONCLUIDO = 0;
+    ////////////////Login//////////////////////////
+    public static final int PROFESSOR = 1;
+    public static final int ALUNO = 2;
+    public static final int PESSOA_EXTERNA = 3;
+    public static final int NAO_ENCONTRADO = 0;
+    ////////////////////////////////////////////////
 
     private final Session SESSAO;
 
@@ -28,14 +33,14 @@ public class AcessoSistema {
     }
 
     /**
-     * Métod verifica se os dados digitados pelo usuário coerrespondem a algum
+     * Método verifica se os dados digitados pelo usuário coerrespondem a algum
      * dado presente no banco de dados.
      *
      * @param nome Nome do usuário
      * @param senha Senha do usuário
      * @return true se o usuário existe
      */
-    public boolean verificarDados(String nome, String senha) {
+    public int verificarDados(String nome, String senha) {
         boolean flag = false;
         int matricula = 0;
         try {
@@ -45,25 +50,33 @@ public class AcessoSistema {
         }
         SESSAO.beginTransaction();
         if (flag == false) {
+            //Verifica se o usuário é um aluno
             List<Aluno> resultado = (List<Aluno>) SESSAO.createQuery("From Aluno ").list();
             for (Aluno aluno : resultado) {
                 if (aluno.getMatricula() == matricula
                         && aluno.getSenha().equals(senha)) {
-                    return true;
+                    return ALUNO;
                 }
-                return false;
             }
         } else {
+            //Verifica se o usuário é um professor
             List<Professor> resultado = (List<Professor>) SESSAO.createQuery("From Professor ").list();
             for (Professor professor : resultado) {
-                if (professor.getPessoa().getNome().equalsIgnoreCase(nome)
+                if (professor.getPessoa().getUsuario().equalsIgnoreCase(nome)
                         && professor.getSenha().equals(senha)) {
-                    return true;
+                    return PROFESSOR;
                 }
-                return false;
+            }
+            //Verifica se o usuário é uma pessoa externa
+            List<Pessoaexterna> resultadoPE = (List<Pessoaexterna>) SESSAO.createQuery("From Pessoaexterna").list();
+            for (Pessoaexterna pessoaexterna : resultadoPE) {
+                if(pessoaexterna.getUsuario().equals(nome)
+                        && pessoaexterna.getSenha().equals(senha)){
+                    return PESSOA_EXTERNA;
+                }
             }
         }
-        return false;
+        return NAO_ENCONTRADO;
     }
 
     /**
@@ -79,16 +92,17 @@ public class AcessoSistema {
         String nome, senha, instituicao;
         int cpf;
 
-        Pessoa pessoa = new Pessoa("qualquer um", null, null);
+        Pessoa pessoa = new Pessoa(null, null, null);
+        Pessoaexterna pessoaExterna = new Pessoaexterna();
 
         if (dados.size() != 4) {
             return LISTA_INCORRETA;
         }
 
-        pessoa.setNome(dados.get(POSICAO_NOME));
+        pessoa.setUsuario(dados.get(POSICAO_NOME));
         pessoa.setSenha(dados.get(POSICAO_SENHA));
-        //pessoa.setCPF(dados.get(POSICAO_CPF));
-        //pessoa.setInstituicao(dados.get(POSICAO_INSTITUICAO));
+        pessoaExterna.setCpf(dados.get(POSICAO_CPF));
+        pessoaExterna.setInstituicao(dados.get(POSICAO_INSTITUICAO));
         
         SESSAO.beginTransaction();
         
@@ -114,10 +128,50 @@ public class AcessoSistema {
         pessoasBanco = (List<Pessoa>) sessao.createQuery("From Pessoa").list();
 
         for (Pessoa encontrado : pessoasBanco) {
-            if (encontrado.getNome().equals(pessoa.getNome())) {
+            if (encontrado.getUsuario().equals(pessoa.getUsuario())) {
                 return true;
             }
         }
         return false;
     }
+    
+    /**
+     * Método responsável por cadastrar o tema no sistema
+     * @param matriculaAluno Matricula do aluno que requisitou o tema
+     * @param usuarioProfessor Usuário do professor que o aluno indicou como orientador
+     * @param decricao descrição do tema
+     */
+    public void cadastrarTema(int matriculaAluno, String usuarioProfessor, String decricao){
+        List<Professor> professoresEncontrados;
+        List<Aluno> alunosEncontrados;
+        Aluno aluno = null;
+        Professor professor = null;
+        Tema tema = new Tema();
+        
+        SESSAO.beginTransaction();
+        
+        professoresEncontrados = (List<Professor>) SESSAO.createQuery("From Professor").list();
+        alunosEncontrados = (List<Aluno>) SESSAO.createQuery("From Aluno").list();
+        
+        for (Aluno alunoEncontrado : alunosEncontrados) {
+            if(alunoEncontrado.getMatricula() == matriculaAluno){
+                aluno = alunoEncontrado;
+                break;
+            }
+        }
+        
+        for (Professor professorEncontrado : professoresEncontrados) {
+            if(professorEncontrado.getUsuario().equals(usuarioProfessor)){
+                professor = professorEncontrado;
+            }
+        }
+        
+        tema.setAluno(aluno);
+        tema.setProfessor(professor);
+        tema.setAprovado(false);
+        tema.setDescricao(decricao);
+        
+        SESSAO.save(tema);
+        SESSAO.getTransaction().commit();
+    }   
 }

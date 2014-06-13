@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 12/06/2014 22:07:03 by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+    <class name="br.edu.unipampa.model.Banca" table="banca" catalog="`GERENCIAMENTO DE TCC`">
+        <id name="idBanca" type="java.lang.Integer">
+            <column name="idBanca" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="professor" class="br.edu.unipampa.model.Professor" fetch="select">
+            <column name="Professor_siape" not-null="true" />
+        </many-to-one>
+        <many-to-one name="pessoaexterna" class="br.edu.unipampa.model.Pessoaexterna" fetch="select">
+            <column name="PessoaExterna_idPessoaExterna" not-null="true" />
+        </many-to-one>
+        <many-to-one name="aluno" class="br.edu.unipampa.model.Aluno" fetch="select">
+            <column name="Aluno_matricula" not-null="true" />
+        </many-to-one>
+        <property name="local" type="string">
+            <column name="local" length="45" />
+        </property>
+        <property name="horario" type="string">
+            <column name="horario" length="45" />
+        </property>
+        <property name="data" type="string">
+            <column name="data" length="45" />
+        </property>
+    </class>
+</hibernate-mapping>
