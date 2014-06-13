@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 13/06/2014 19:43:05 by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+    <class name="br.edu.unipampa.model.Tema" table="tema" catalog="`GERENCIAMENTO DE TCC`">
+        <id name="idTema" type="java.lang.Integer">
+            <column name="idTema" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="professor" class="br.edu.unipampa.model.Professor" fetch="select">
+            <column name="Professor_siape" not-null="true" />
+        </many-to-one>
+        <many-to-one name="aluno" class="br.edu.unipampa.model.Aluno" fetch="select">
+            <column name="Aluno_matricula" not-null="true" />
+        </many-to-one>
+        <property name="aprovado" type="java.lang.Boolean">
+            <column name="aprovado" />
+        </property>
+        <property name="descricao" type="string">
+            <column name="descricao" length="45" />
+        </property>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 13/06/2014 19:43:05 by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+    <class name="br.edu.unipampa.model.Aluno" table="aluno" catalog="`GERENCIAMENTO DE TCC`">
+        <id name="matricula" type="int">
+            <column name="matricula" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="pessoa" class="br.edu.unipampa.model.Pessoa" fetch="select">
+            <column name="Pessoa_idPessoa" not-null="true" />
+        </many-to-one>
+        <property name="cargaHoraria" type="java.lang.Integer">
+            <column name="cargaHoraria" />
+        </property>
+        <set name="bancas" table="banca" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="Aluno_matricula" not-null="true" />
+            </key>
+            <one-to-many class="br.edu.unipampa.model.Banca" />
+        </set>
+        <set name="temas" table="tema" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="Aluno_matricula" not-null="true" />
+            </key>
+            <one-to-many class="br.edu.unipampa.model.Tema" />
+        </set>
+    </class>
+</hibernate-mapping>

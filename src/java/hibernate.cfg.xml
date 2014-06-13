@@ -8,11 +8,10 @@
     <property name="hibernate.connection.username">root</property>
     <property name="hibernate.connection.password">root</property>
     <property name="hibernate.current_session_context_class">thread</property>
-    <mapping resource="br/edu/unipampa/model/Aluno.hbm.xml"/>
-    <mapping resource="br/edu/unipampa/model/Banca.hbm.xml"/>
-    <mapping resource="br/edu/unipampa/model/Professor.hbm.xml"/>
     <mapping resource="br/edu/unipampa/model/Tema.hbm.xml"/>
+    <mapping resource="br/edu/unipampa/model/Aluno.hbm.xml"/>
     <mapping resource="br/edu/unipampa/model/Pessoa.hbm.xml"/>
-    <mapping resource="br/edu/unipampa/model/Pessoaexterna.hbm.xml"/>
+    <mapping resource="br/edu/unipampa/model/Professor.hbm.xml"/>
+    <mapping resource="br/edu/unipampa/model/Banca.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>

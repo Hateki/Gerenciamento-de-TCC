@@ -4,9 +4,17 @@
         <servlet-name>CadastraPessoaExternaServelt</servlet-name>
         <servlet-class>br.edu.unipampa.controller.CadastraPessoaExternaServelt</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CadastroTemaServlet</servlet-name>
+        <servlet-class>br.edu.unipampa.controller.CadastroTemaServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>CadastraPessoaExternaServelt</servlet-name>
         <url-pattern>/CadastraPessoaExternaServelt</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CadastroTemaServlet</servlet-name>
+        <url-pattern>/CadastroTemaServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

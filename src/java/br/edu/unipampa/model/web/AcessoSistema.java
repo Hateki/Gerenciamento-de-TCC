@@ -16,6 +16,7 @@ public class AcessoSistema {
     private final int POSICAO_SENHA = 1;
     private final int POSICAO_CPF = 2;
     private final int POSICAO_INSTITUICAO = 3;
+    private final int POSICAO_EMAIL = 4;
     public static final int LISTA_INCORRETA = 2;
     public static final int USUARIO_JA_EXISTENTE = 1;
     public static final int CADASTRO_CONCLUIDO = 0;
@@ -30,6 +31,7 @@ public class AcessoSistema {
 
     public AcessoSistema() {
         SESSAO = HibernateUtil.getSessionFactory().getCurrentSession();
+        SESSAO.beginTransaction();
     }
 
     /**
@@ -48,7 +50,6 @@ public class AcessoSistema {
         } catch (Exception e) {
             flag = true;
         }
-        SESSAO.beginTransaction();
         if (flag == false) {
             //Verifica se o usuário é um aluno
             List<Aluno> resultado = (List<Aluno>) SESSAO.createQuery("From Aluno ").list();
@@ -68,8 +69,8 @@ public class AcessoSistema {
                 }
             }
             //Verifica se o usuário é uma pessoa externa
-            List<Pessoaexterna> resultadoPE = (List<Pessoaexterna>) SESSAO.createQuery("From Pessoaexterna").list();
-            for (Pessoaexterna pessoaexterna : resultadoPE) {
+            List<Pessoa> resultadoPE = (List<Pessoa>) SESSAO.createQuery("From Pessoa").list();
+            for (Pessoa pessoaexterna : resultadoPE) {
                 if(pessoaexterna.getUsuario().equals(nome)
                         && pessoaexterna.getSenha().equals(senha)){
                     return PESSOA_EXTERNA;
@@ -89,27 +90,23 @@ public class AcessoSistema {
      * sistema e 2 se a lista fornecida não tem 4 posiçôes
      */
     public int cadastraPessoaExterna(List<String> dados) {
-        String nome, senha, instituicao;
-        int cpf;
+        Pessoa pessoa = new Pessoa();
 
-        Pessoa pessoa = new Pessoa(null, null, null);
-        Pessoaexterna pessoaExterna = new Pessoaexterna();
-
-        if (dados.size() != 4) {
+        if (dados.size() != 5) {
             return LISTA_INCORRETA;
         }
 
         pessoa.setUsuario(dados.get(POSICAO_NOME));
         pessoa.setSenha(dados.get(POSICAO_SENHA));
-        pessoaExterna.setCpf(dados.get(POSICAO_CPF));
-        pessoaExterna.setInstituicao(dados.get(POSICAO_INSTITUICAO));
-        
-        SESSAO.beginTransaction();
+        pessoa.setEmail(dados.get(POSICAO_EMAIL));
+        pessoa.setNome(dados.get(POSICAO_NOME));
+        pessoa.setCpf(dados.get(POSICAO_CPF));
+        pessoa.setInstituicao(dados.get(POSICAO_INSTITUICAO));
         
         if (verificaExistencia(pessoa,SESSAO)) {
             return USUARIO_JA_EXISTENTE;
         }
-
+        
         SESSAO.save(pessoa);
         SESSAO.getTransaction().commit();
 
@@ -148,7 +145,6 @@ public class AcessoSistema {
         Professor professor = null;
         Tema tema = new Tema();
         
-        SESSAO.beginTransaction();
         
         professoresEncontrados = (List<Professor>) SESSAO.createQuery("From Professor").list();
         alunosEncontrados = (List<Aluno>) SESSAO.createQuery("From Aluno").list();
@@ -173,5 +169,25 @@ public class AcessoSistema {
         
         SESSAO.save(tema);
         SESSAO.getTransaction().commit();
-    }   
+    }
+    
+    /**
+     * Método procura um aluno no banco de dados e retorna sua matrícula
+     * @param usuarioAluno O usuario do aluno
+     * @return retorna a matricula do aluno e -1 se não achar um aluno com essa matricula
+     */
+    public int procurarMatriculaAluno(String usuarioAluno){
+        List<Aluno> alunosEncontrados = SESSAO.createQuery("From Aluno").list();
+        
+        for (Aluno aluno : alunosEncontrados) {
+            if(aluno.getUsuario().equals(usuarioAluno)){
+                return aluno.getMatricula();
+            }
+        }
+        return -1;
+    }
+    
+    public void procurarProfessor(String usuarioProfessor){
+        
+    }
 }

@@ -9,7 +9,7 @@ package br.edu.unipampa.controller;
 import br.edu.unipampa.model.web.AcessoSistema;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author pontofrio
  */
-public class CadastraPessoaExternaServelt extends HttpServlet {
+public class CadastroTemaServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,56 +33,14 @@ public class CadastraPessoaExternaServelt extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        int resposta;
-        AcessoSistema ac = new AcessoSistema();
-        String nomeUsuario = request.getParameter("nomePessoaExterna");
-        String senha = request.getParameter("passwordPessoaExterna");
-        String cpf = request.getParameter("cpf");
-        String instituicao = request.getParameter("nomeInstituicao");
-        String email = request.getParameter("email");
-        ArrayList<String> listaParametros = new ArrayList<>();
-        String teste = "teste";
+        RequestDispatcher view;
+        String usuarioAluno = (String) request.getSession().getAttribute("usuario");
+        String usuarioProfessor = request.getParameter("orientador");
+        String descricaoTema = request.getParameter("tema");      
+        AcessoSistema as = new AcessoSistema();
+        int matriculaAluno = as.procurarMatriculaAluno(usuarioAluno);
         
-        for (int i = 0; i < 5; i++) {
-            if(i == 0){
-                listaParametros.add(nomeUsuario);
-            }else if(i == 1){
-                listaParametros.add(senha);
-            }else if(i == 2){
-                listaParametros.add(cpf);
-            }else if(i == 3){
-                listaParametros.add(instituicao);
-            }else{
-                listaParametros.add(email);
-            }
-        }
-             
-        resposta = ac.cadastraPessoaExterna(listaParametros);
-        
-        if(resposta == AcessoSistema.LISTA_INCORRETA){
-            //resolve o problema
-            teste = "Lista está incorreta";
-        }else if(resposta == AcessoSistema.USUARIO_JA_EXISTENTE){
-            //manda de volta pra pagina de cadastro
-            teste = "O usuário já existe";
-        }else{
-            //manda pra página de cadastro concluido
-            teste = "Cadastro efetuado com sucesso";
-        }
-        
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet CadastraPessoaExternaServelt</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1> " + teste + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
+        as.cadastrarTema(matriculaAluno, usuarioProfessor, descricaoTema);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
