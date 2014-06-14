@@ -40,7 +40,13 @@ public class CadastroTemaServlet extends HttpServlet {
         AcessoSistema as = new AcessoSistema();
         int matriculaAluno = as.procurarMatriculaAluno(usuarioAluno);
         
-        as.cadastrarTema(matriculaAluno, usuarioProfessor, descricaoTema);
+        if(!as.verificarProfessor(usuarioProfessor)){
+            view = request.getRequestDispatcher("cadastroTema.html");
+            view.forward(request, response);
+        }else{
+            boolean flag = as.cadastrarTema(matriculaAluno, usuarioProfessor, descricaoTema);
+        }
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

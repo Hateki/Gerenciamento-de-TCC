@@ -10,7 +10,7 @@ import org.hibernate.Session;
  * @author Pedro Henrique
  */
 public class AcessoSistema {
-    
+
     //////////Cadastro Pessoa Externa//////////////
     private final int POSICAO_NOME = 0;
     private final int POSICAO_SENHA = 1;
@@ -71,8 +71,8 @@ public class AcessoSistema {
             //Verifica se o usuário é uma pessoa externa
             List<Pessoa> resultadoPE = (List<Pessoa>) SESSAO.createQuery("From Pessoa").list();
             for (Pessoa pessoaexterna : resultadoPE) {
-                if(pessoaexterna.getUsuario().equals(nome)
-                        && pessoaexterna.getSenha().equals(senha)){
+                if (pessoaexterna.getUsuario().equals(nome)
+                        && pessoaexterna.getSenha().equals(senha)) {
                     return PESSOA_EXTERNA;
                 }
             }
@@ -85,7 +85,7 @@ public class AcessoSistema {
      *
      * @param dados Lista com os dados da pessoa a ser cadastrada, sendo que a
      * posição 0 é o nome, a 1 é a senha, a 2 é o CPF e a 3 é a instituiçâo
-     * 
+     *
      * @return 0 se o cadastro foi bem sucedido, 1 se o usuário já existe no
      * sistema e 2 se a lista fornecida não tem 4 posiçôes
      */
@@ -102,11 +102,11 @@ public class AcessoSistema {
         pessoa.setNome(dados.get(POSICAO_NOME));
         pessoa.setCpf(dados.get(POSICAO_CPF));
         pessoa.setInstituicao(dados.get(POSICAO_INSTITUICAO));
-        
-        if (verificaExistencia(pessoa,SESSAO)) {
+
+        if (verificaExistencia(pessoa, SESSAO)) {
             return USUARIO_JA_EXISTENTE;
         }
-        
+
         SESSAO.save(pessoa);
         SESSAO.getTransaction().commit();
 
@@ -131,63 +131,82 @@ public class AcessoSistema {
         }
         return false;
     }
-    
+
     /**
      * Método responsável por cadastrar o tema no sistema
+     *
      * @param matriculaAluno Matricula do aluno que requisitou o tema
-     * @param usuarioProfessor Usuário do professor que o aluno indicou como orientador
+     * @param usuarioProfessor Usuário do professor que o aluno indicou como
+     * orientador
      * @param decricao descrição do tema
+     * @return true se o cadastro for efetuado com sucesso
      */
-    public void cadastrarTema(int matriculaAluno, String usuarioProfessor, String decricao){
+    public boolean cadastrarTema(int matriculaAluno, String usuarioProfessor, String decricao) {
         List<Professor> professoresEncontrados;
         List<Aluno> alunosEncontrados;
         Aluno aluno = null;
         Professor professor = null;
         Tema tema = new Tema();
-        
-        
+
         professoresEncontrados = (List<Professor>) SESSAO.createQuery("From Professor").list();
         alunosEncontrados = (List<Aluno>) SESSAO.createQuery("From Aluno").list();
-        
+
         for (Aluno alunoEncontrado : alunosEncontrados) {
-            if(alunoEncontrado.getMatricula() == matriculaAluno){
+            if (alunoEncontrado.getMatricula() == matriculaAluno) {
                 aluno = alunoEncontrado;
                 break;
             }
         }
-        
+
         for (Professor professorEncontrado : professoresEncontrados) {
-            if(professorEncontrado.getUsuario().equals(usuarioProfessor)){
+            if (professorEncontrado.getUsuario().equals(usuarioProfessor)) {
                 professor = professorEncontrado;
             }
         }
-        
-        tema.setAluno(aluno);
-        tema.setProfessor(professor);
-        tema.setAprovado(false);
-        tema.setDescricao(decricao);
-        
-        SESSAO.save(tema);
-        SESSAO.getTransaction().commit();
+
+        if (aluno != null && professor != null) {
+            tema.setAluno(aluno);
+            tema.setProfessor(professor);
+            tema.setAprovado(false);
+            tema.setDescricao(decricao);
+            SESSAO.save(tema);
+            SESSAO.getTransaction().commit();
+            return true;
+        }
+        return false;
     }
-    
+
     /**
      * Método procura um aluno no banco de dados e retorna sua matrícula
+     *
      * @param usuarioAluno O usuario do aluno
-     * @return retorna a matricula do aluno e -1 se não achar um aluno com essa matricula
+     * @return retorna a matricula do aluno e -1 se não achar um aluno com essa
+     * matricula
      */
-    public int procurarMatriculaAluno(String usuarioAluno){
+    public int procurarMatriculaAluno(String usuarioAluno) {
         List<Aluno> alunosEncontrados = SESSAO.createQuery("From Aluno").list();
-        
+
         for (Aluno aluno : alunosEncontrados) {
-            if(aluno.getUsuario().equals(usuarioAluno)){
+            if (aluno.getUsuario().equals(usuarioAluno)) {
                 return aluno.getMatricula();
             }
         }
         return -1;
     }
-    
-    public void procurarProfessor(String usuarioProfessor){
-        
+
+    /**
+     * Método verifica se existe no sistema o usuário especificado
+     *
+     * @param usuarioProfessor Usuario para se procurar
+     * @return true se o professor foi encontrado
+     */
+    public boolean verificarProfessor(String usuarioProfessor) {
+        List<Professor> professoresEncontrados = SESSAO.createQuery("From Professor").list();
+        for (Professor professor : professoresEncontrados) {
+            if (usuarioProfessor.equals(professor.getUsuario())) {
+                return true;
+            }
+        }
+        return false;
     }
 }
