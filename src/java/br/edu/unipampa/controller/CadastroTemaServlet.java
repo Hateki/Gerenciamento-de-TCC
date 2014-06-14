@@ -34,6 +34,7 @@ public class CadastroTemaServlet extends HttpServlet {
             throws ServletException, IOException {
         
         RequestDispatcher view;
+        boolean flag;
         String usuarioAluno = (String) request.getSession().getAttribute("usuario");
         String usuarioProfessor = request.getParameter("orientador");
         String descricaoTema = request.getParameter("tema");      
@@ -41,10 +42,20 @@ public class CadastroTemaServlet extends HttpServlet {
         int matriculaAluno = as.procurarMatriculaAluno(usuarioAluno);
         
         if(!as.verificarProfessor(usuarioProfessor)){
+            //Certificar que o usuário saiba que o professor não existe
             view = request.getRequestDispatcher("cadastroTema.html");
             view.forward(request, response);
         }else{
-            boolean flag = as.cadastrarTema(matriculaAluno, usuarioProfessor, descricaoTema);
+            flag = as.cadastrarTema(matriculaAluno, usuarioProfessor, descricaoTema);
+            if(flag){
+                //Certificar de que o usuário saiba que o cadastro foi bem sucedido
+                view = request.getRequestDispatcher("menuPrincipalAluno.html");
+                view.forward(request, response);
+            }else{
+                //Mandar o resultador depois
+                view = request.getRequestDispatcher("cadastroTema.html");
+                view.forward(request, response);
+            }
         }
         
     }
