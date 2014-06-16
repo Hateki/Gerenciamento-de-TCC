@@ -76,7 +76,10 @@ public class Aluno  implements java.io.Serializable {
     public String getUsuario(){
         return pessoa.getUsuario();
     }
-
+    
+    public String getNome(){
+        return pessoa.getNome();
+    }
 
 }
 

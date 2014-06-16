@@ -2,6 +2,7 @@ package br.edu.unipampa.model.web;
 
 import br.edu.unipampa.model.*;
 import br.edu.unipampa.bancoDeDados.hibernate.HibernateUtil;
+import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.Session;
 
@@ -208,5 +209,76 @@ public class AcessoSistema {
             }
         }
         return false;
+    }
+
+    /**
+     * Retorna a lista de temas que foram requisitados para esse professor
+     *
+     * @param professor Professor para se procurar temas relacionados
+     * @return retorna a lista de temas relacionados com esse professor
+     */
+    public List<Tema> retornarTemasRequisitados(Professor professor) {
+        List<Tema> temasRelacionados = new ArrayList<>();
+        List<Tema> temasEncontrados = SESSAO.createQuery("From Tema").list();
+        for (Tema tema : temasEncontrados) {
+            String usuarioProfessor = tema.getProfessor().getUsuario();
+            if (usuarioProfessor.equals(professor.getUsuario())) {
+                temasRelacionados.add(tema);
+            }
+        }
+        return temasRelacionados;
+    }
+
+    /**
+     * Procura um professor através de um usuario
+     *
+     * @param usuarioProfessor Usuário para se procurar
+     * @return retorna o professor encontrado
+     */
+    public Professor procurarProfessor(String usuarioProfessor) {
+        List<Professor> listaProfessores = SESSAO.createQuery("From Professor").list();
+        for (Professor professor : listaProfessores) {
+            if (professor.getUsuario().equals(usuarioProfessor)) {
+                return professor;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Seleciona os temas não confirmados
+     *
+     * @param temasProfessor Temas que o professor tem
+     * @return Lista de temas não confirmados
+     */
+    public List<Tema> selecionaTemaNaoConfirmado(List<Tema> temasProfessor) {
+        List<Tema> temasEncontrados = new ArrayList<>();
+        for (Tema tema : temasProfessor) {
+            if (!tema.getAprovado()) {
+                temasEncontrados.add(tema);
+            }
+        }
+        return temasEncontrados;
+    }
+
+    /**
+     * Método olha o tema que o professor escolheu e confirma ele
+     *
+     * @param listaTemas
+     * @param temaEscolhido
+     */
+    public void confirmarTema(List<Tema> listaTemas, int temaEscolhido) {
+        Tema escolhido = null;
+        if (listaTemas != null) {
+            for (int i = 0; i < listaTemas.size(); i++) {
+                if (i == temaEscolhido - 1) {
+                    escolhido = listaTemas.get(i);
+                    break;
+                }
+            }
+            escolhido.setAprovado(true);
+            SESSAO.update(escolhido);
+            SESSAO.getTransaction().commit();
+        }
     }
 }
