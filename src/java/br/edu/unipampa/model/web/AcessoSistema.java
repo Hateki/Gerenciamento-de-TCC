@@ -11,7 +11,7 @@ import org.hibernate.Session;
  */
 public class AcessoSistema {
 
-    //////////Cadastro Pessoa Externa//////////////
+    //////////Cadastro Pessoa Externa///////////////
     private final int POSICAO_NOME = 0;
     private final int POSICAO_SENHA = 1;
     private final int POSICAO_CPF = 2;
