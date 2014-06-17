@@ -21,13 +21,15 @@ and open the template in the editor.
 
             Data: <input name="date" type="date" id="date" required/><br></br>
             Horario: <input type="time" name="time" id="time" required/><br></br>
+            Local: <input type="text" name="local" id="local" onblur="validaEspaco(this)" required/><br></br>
+            Matrícula Aluno: <input type="number" name="matricula" id="matricula" min="9" max="9" onblur="validaEspaco(this)" required/><br></br>
             Professor: <input type="text" name="professor1" id="professor1" onblur="validaEspaco(this)" required/><br></br>
             Professor: <input type="text" name="professor2" id="professor2" onblur="validaEspaco(this)" required/><br></br>
 
 
             <div style="display: none" id="professor3">Professor : <input type="text" name="professor3" id="professor3" onblur="validaEspaco(this)"/></div>        
 
-            <button type="button" onclick="mostraProfessorInv()" id="botaoAdd" name="btAddProfessor" id="btAddProfessor" >Adicionar</button><br></br>
+            <button type="button" onclick="mostraProfessorInv()" name="btAddProfessor" id="btAddProfessor" >Adicionar</button><br></br>
 
             <input type="submit" name="enviar" id="enviar" value="Enviar"   />
         </form>
