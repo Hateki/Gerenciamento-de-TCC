@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Criar Banca do TCC</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    </head>
+    <body>
+        <h1>Criar banca do TCC</h1>
+        <form id="tccForm" name="tccForm" method="post" action=""
+              onsubmit="return">
+
+            <label for="titulo"></label>
+            <h2>Banca Avaliadora</h2>
+
+            Data: <input name="date" type="date" id="date" required/><br></br>
+            Horario: <input type="time" name="time" id="time" required/><br></br>
+            Professor: <input type="text" name="professor1" id="professor1" onblur="validaEspaco(this)" required/><br></br>
+            Professor: <input type="text" name="professor2" id="professor2" onblur="validaEspaco(this)" required/><br></br>
+
+
+            <div style="display: none" id="professor3">Professor : <input type="text" name="professor3" id="professor3" onblur="validaEspaco(this)"/></div>        
+
+            <button type="button" onclick="mostraProfessorInv()" id="botaoAdd" name="btAddProfessor" id="btAddProfessor" >Adicionar</button><br></br>
+
+            <input type="submit" name="enviar" id="enviar" value="Enviar"   />
+        </form>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <script>
+                function mostraProfessorInv() {
+                    $('#professor3').slideDown();
+                }
+
+                  //trim completo
+            function trim(str) {
+                return str.replace(/^\s+|\s+$/g, "");
+            }
+
+            function validaEspaco(input) {
+                texto = input.value;
+                textoNovo = trim(texto);
+                if (textoNovo === "") {
+                    input.value = textoNovo;
+                    alert("Campo " + input.name + " invalido");
+                }
+            }
+
+        </script>
+    </body>
+</html>
