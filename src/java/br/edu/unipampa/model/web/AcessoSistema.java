@@ -278,7 +278,16 @@ public class AcessoSistema {
             }
             escolhido.setAprovado(true);
             SESSAO.update(escolhido);
+            carregarDados(listaTemas);
             SESSAO.getTransaction().commit();
+        }
+    }
+    
+    public void carregarDados(List<Tema> temas){
+        for (Tema tema : temas) {
+            tema.getAprovado();
+            tema.getAluno().getNome();
+            tema.getDescricao();
         }
     }
 }
