@@ -22,7 +22,7 @@ and open the template in the editor.
             Data: <input name="date" type="date" id="date" required/><br></br>
             Horario: <input type="time" name="time" id="time" required/><br></br>
             Local: <input type="text" name="local" id="local" onblur="validaEspaco(this)" required/><br></br>
-            Matrícula Aluno: <input type="number" name="matricula" id="matricula" min="9" max="9" onblur="validaEspaco(this)" required/><br></br>
+            Matrícula Aluno: <input type="text" name="matricula" id="matricula" maxlength="9" onblur="validaEspaco(this), testarMatricula()" required/><br></br>
             Professor: <input type="text" name="professor1" id="professor1" onblur="validaEspaco(this)" required/><br></br>
             Professor: <input type="text" name="professor2" id="professor2" onblur="validaEspaco(this)" required/><br></br>
 
@@ -39,20 +39,29 @@ and open the template in the editor.
                     $('#professor3').slideDown();
                 }
 
-                  //trim completo
-            function trim(str) {
-                return str.replace(/^\s+|\s+$/g, "");
-            }
-
-            function validaEspaco(input) {
-                texto = input.value;
-                textoNovo = trim(texto);
-                if (textoNovo === "") {
-                    input.value = textoNovo;
-                    alert("Campo " + input.name + " invalido");
+                //trim completo
+                function trim(str) {
+                    return str.replace(/^\s+|\s+$/g, "");
                 }
-            }
 
+                function validaEspaco(input) {
+                    texto = input.value;
+                    textoNovo = trim(texto);
+                    if (textoNovo === "") {
+                        input.value = textoNovo;
+                        alert("Campo " + input.name + " invalido");
+                    }
+                }
+
+                function testarMatricula() {
+
+                    if ((isNaN(tccForm.matricula.value)) || (tccForm.matricula.value == "")) {
+
+                        alert("Digite apenas números!");
+
+                    }
+
+                }
         </script>
     </body>
 </html>
