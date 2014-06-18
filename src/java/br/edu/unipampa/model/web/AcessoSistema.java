@@ -323,4 +323,11 @@ public class AcessoSistema {
     public void completarTransacoes(){
         SESSAO.getTransaction().commit();
     }
+    
+    public void cadastrarBanca(int matriculaAluno, String data,
+            String local, String usuarioOrientador,
+            String professor1, String professor2 , String professor3){
+        
+        
+    }
 }

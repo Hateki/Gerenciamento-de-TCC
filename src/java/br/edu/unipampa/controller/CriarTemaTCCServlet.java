@@ -5,10 +5,12 @@
  */
 package br.edu.unipampa.controller;
 
+import br.edu.unipampa.model.Banca;
 import br.edu.unipampa.model.Professor;
 import br.edu.unipampa.model.web.AcessoSistema;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Set;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -54,6 +56,9 @@ public class CriarTemaTCCServlet extends HttpServlet {
         String matriculaAluno = request.getParameter("matricula");
         String local = request.getParameter("local");
         as = new AcessoSistema();
+        Banca banca = new Banca();
+        banca.setProfessor(null);
+        
 
         int resultadoVerificacao = verificaExistenciaProfessor(professor1, professor2, professor3);
 

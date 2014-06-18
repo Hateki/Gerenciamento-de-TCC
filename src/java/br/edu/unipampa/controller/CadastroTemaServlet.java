@@ -45,6 +45,7 @@ public class CadastroTemaServlet extends HttpServlet {
             //Certificar que o usuário saiba que o professor não existe
             view = request.getRequestDispatcher("cadastroTema.html");
             view.forward(request, response);
+            as.completarTransacoes();
         }else{
             flag = as.cadastrarTema(matriculaAluno, usuarioProfessor, descricaoTema);
             if(flag){
@@ -55,6 +56,7 @@ public class CadastroTemaServlet extends HttpServlet {
                 //Mandar o resultador depois
                 view = request.getRequestDispatcher("cadastroTema.html");
                 view.forward(request, response);
+                as.completarTransacoes();
             }
         }
         
