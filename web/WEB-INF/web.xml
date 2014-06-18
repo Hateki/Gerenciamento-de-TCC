@@ -16,6 +16,10 @@
         <servlet-name>DetalheTemaServlet</servlet-name>
         <servlet-class>br.edu.unipampa.controller.DetalheTemaServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CriarTemaTCCServlet</servlet-name>
+        <servlet-class>br.edu.unipampa.controller.CriarTemaTCCServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>CadastraPessoaExternaServelt</servlet-name>
         <url-pattern>/CadastraPessoaExternaServelt</url-pattern>
@@ -31,6 +35,10 @@
     <servlet-mapping>
         <servlet-name>DetalheTemaServlet</servlet-name>
         <url-pattern>/DetalheTemaServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CriarTemaTCCServlet</servlet-name>
+        <url-pattern>/CriarTemaTCCServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -38,7 +38,6 @@ public class TemasRequisitadosServlet extends HttpServlet {
         String usuarioProfessor = (String) request.getSession().getAttribute("usuario");
         Professor professor = as.procurarProfessor(usuarioProfessor);
         List<Tema> temasEncontrados = as.retornarTemasRequisitados(professor);
-        temasEncontrados = as.selecionaTemaNaoConfirmado(temasEncontrados);
         request.setAttribute("retorno", temasEncontrados);
         request.getRequestDispatcher("temasRequisitados.jsp").forward(request, response);
     }

@@ -18,6 +18,7 @@
         <%
             String valorBotao = null;
             List<Tema> temasPendentes = (List<Tema>) request.getAttribute("retorno");
+            String aprovado;
         %>
         <h1>Temas cadastrados</h1>
         <form name="formConfirmar" action="DetalheTemaServlet" method="POST">
@@ -28,10 +29,24 @@
                         valorBotao = "" + (i + 1);
                 %>
 
-                <li> <%= tema.getAluno().getNome()%> </li>
-                <%= tema.getDescricao()%>
+                <li> <%= "ALUNO QUE REQUISITOU: " + tema.getAluno().getNome()%> </li>
+                    <%= "DESCRIÇÃO DO TEMA: " + tema.getDescricao()%>
                 <br>
-                <input type="submit" name="confirmar" value="<%= "confirmar tema " + (i + 1)%>" />
+                
+
+                <%
+                    if (tema.getAprovado()) {
+                        aprovado = "Aprovado";
+                    } else {
+                        aprovado = "Não aprovado";
+                    }
+                %>
+
+                <%= "SITUAÇÃO: " + aprovado%>
+
+                <input type="submit" name="confirmar" value="<%= "Confirmar Tema " + (i + 1)%>" />
+                <input type="submit" name="confirmar" value="<%= "Recusar Tema " + (i + 1)%> " />
+                <br><br>
                 <%
                     }
                 %>

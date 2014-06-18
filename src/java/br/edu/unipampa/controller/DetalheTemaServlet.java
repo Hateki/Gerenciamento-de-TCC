@@ -33,8 +33,8 @@ public class DetalheTemaServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String valorBotao = (String) request.getParameter("confirmar");
-        valorBotao = verificaValorBotao(valorBotao);
+        String valorCompletoBotao = (String) request.getParameter("confirmar");
+        String valorBotao = verificaValorBotao(valorCompletoBotao);
         AcessoSistema as =  new AcessoSistema();
         String usuarioProfessor = (String) request.getSession().getAttribute("usuario");
         Professor professor = as.procurarProfessor(usuarioProfessor);
@@ -42,10 +42,14 @@ public class DetalheTemaServlet extends HttpServlet {
         List<Tema> temasEncontrados = as.selecionaTemaNaoConfirmado(temasRequisitados);
         int temaEscolhido = Integer.parseInt(valorBotao);
         
-        as.confirmarTema(temasEncontrados, temaEscolhido);
-        
-        temasEncontrados = as.selecionaTemaNaoConfirmado(temasRequisitados);
-        request.setAttribute("retorno", temasEncontrados);
+        if(verificaOpcao(valorCompletoBotao)){
+            as.confirmarTema(temasRequisitados, temaEscolhido);
+        }else{
+            as.recusarTema(temasRequisitados, temaEscolhido);
+        }
+        temasRequisitados = as.retornarTemasRequisitados(professor);
+        as.completarTransacoes();
+        request.setAttribute("retorno", temasRequisitados);
         request.getRequestDispatcher("temasRequisitados.jsp").forward(request, response);
     }
     
@@ -57,6 +61,19 @@ public class DetalheTemaServlet extends HttpServlet {
         }
         valorBotao = valorBotao.trim();
         return valorBotao;
+    }
+    
+    /**
+     * Método verifica que tipo de botão foi apertado
+     * @param valorBotao Valor para se verificar
+     * @return True se for Confirmar e false se for recusar
+     */
+    public boolean verificaOpcao(String valorBotao){
+        if(valorBotao.charAt(0) == 'C'){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

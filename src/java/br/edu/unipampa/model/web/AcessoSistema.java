@@ -264,8 +264,8 @@ public class AcessoSistema {
     /**
      * Método olha o tema que o professor escolheu e confirma ele
      *
-     * @param listaTemas
-     * @param temaEscolhido
+     * @param listaTemas lista de temas para se procurar o tema escolhido
+     * @param temaEscolhido qual foi o tema escolhido
      */
     public void confirmarTema(List<Tema> listaTemas, int temaEscolhido) {
         Tema escolhido = null;
@@ -276,18 +276,51 @@ public class AcessoSistema {
                     break;
                 }
             }
-            escolhido.setAprovado(true);
+            if (escolhido != null) {
+                escolhido.setAprovado(true);
+            }
             SESSAO.update(escolhido);
-            carregarDados(listaTemas);
-            SESSAO.getTransaction().commit();
+
+            carregarDados(listaTemas);//Carrega os temas para que não ocorra um erro
         }
     }
-    
-    public void carregarDados(List<Tema> temas){
+
+    /**
+     * Carrega os atributos do tema para que não ocorra um erro na hora da
+     * execução
+     *
+     * @param temas temas para se carregar
+     */
+    public void carregarDados(List<Tema> temas) {
         for (Tema tema : temas) {
             tema.getAprovado();
             tema.getAluno().getNome();
             tema.getDescricao();
         }
+    }
+    
+    /**
+     * Procura o tema escolhido pelo professor e apaga o tema do banco de dados
+     * @param listaTemas Lista de temas para se procurar
+     * @param temaEscolhido Tema que foi escolhido
+     */
+    public void recusarTema(List<Tema> listaTemas, int temaEscolhido){
+        Tema escolhido = null;
+        if (listaTemas != null) {
+            for (int i = 0; i < listaTemas.size(); i++) {
+                if (i == temaEscolhido - 1) {
+                    escolhido = listaTemas.get(i);
+                    break;
+                }
+            }
+            SESSAO.delete(escolhido);
+
+            carregarDados(listaTemas);//Carrega os temas para que não ocorra um erro
+
+        }
+    }
+    
+    public void completarTransacoes(){
+        SESSAO.getTransaction().commit();
     }
 }
