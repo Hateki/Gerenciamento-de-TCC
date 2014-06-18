@@ -62,9 +62,11 @@ public class CadastraPessoaExternaServelt extends HttpServlet {
         if(resposta == AcessoSistema.LISTA_INCORRETA){
             //resolve o problema
             teste = "Lista está incorreta";
+            ac.completarTransacoes();
         }else if(resposta == AcessoSistema.USUARIO_JA_EXISTENTE){
             //manda de volta pra pagina de cadastro
             teste = "O usuário já existe";
+            ac.completarTransacoes();
         }else{
             //manda pra página de cadastro concluido
             teste = "Cadastro efetuado com sucesso";

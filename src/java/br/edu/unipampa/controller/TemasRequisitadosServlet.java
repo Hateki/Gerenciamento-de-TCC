@@ -40,6 +40,7 @@ public class TemasRequisitadosServlet extends HttpServlet {
         List<Tema> temasEncontrados = as.retornarTemasRequisitados(professor);
         request.setAttribute("retorno", temasEncontrados);
         request.getRequestDispatcher("temasRequisitados.jsp").forward(request, response);
+        as.completarTransacoes();
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
