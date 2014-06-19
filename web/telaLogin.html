@@ -4,9 +4,15 @@ To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
-<html>
-    <head>
 
+<html>
+
+    <head>
+        <style> 
+            #area {margin-left:550px; margin-right:550px}; 
+           
+        </style>
+        <link href="bootstrap.min.css" rel="stylesheet" media="screen">
         <script type="text/javascript">
             function validaCampoUsuario()
             {
@@ -28,7 +34,7 @@ and open the template in the editor.
                     return true;
             }
 
-            
+
             //trim completo
             function trim(str) {
                 return str.replace(/^\s+|\s+$/g, "");
@@ -43,26 +49,38 @@ and open the template in the editor.
                 }
             }
 
-            
+
         </script>
 
-        <title>Teste Página Login</title>
+        <title>UNIPAMPA</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
-        <div id="title" ><h1>UNIPAMPA.EDU.BR</h1></div>
+        
+        <img src="unipampa2.jpg" >
+        <script src="http://code.jquery.com/jquery-latest.js"></script>
+        <script src="bootstrap.min.js"></script>
+        
+        <div id="titulo" ><br></br><br></br></div>
 
         <form action="LoginServlet" method="post" name="form">
             <div id="area">
                 <form id="telaLogin" name="telaLogin" method="post" action="LoginServlet" onsubmit="
-                        return validaCampoUsuario(), validaCampoSenha();">
+                return validaCampoUsuario(), validaCampoSenha();">
                     <fieldset>
-                        <legend>Gerenciador de TCC</legend>
-                        <label> Nome: </label><input name="nomeUsuario" type="text" id="nomeUsuario" maxlength="200" onblur="validaEspaco(this)" required ><br>                   
-
-                        <label> Senha: </label><input name="Senha"  type="password" id="senhaUsuario" maxlength="200" onblur="validaEspaco(this)" required ><br>
-                        <input class="btn_submit" type="submit" value="Enviar">
+                        <br></br>
+                       
+                        <legend><strong>Gerenciador de TCC</strong></legend>
+                        <label> Usuário: </label><input name="nomeUsuario" type="text" id="nomeUsuario" maxlength="200" onblur="validaEspaco(this)" placeholder="Digite E-mail" required ><br>                   
+                        
+                        
+                        <label> Senha: </label><input name="Senha"  type="password" id="senhaUsuario" maxlength="200" onblur="validaEspaco(this)" placeholder="Digite sua senha" required ><br>
+                        <br></br>
+                       
+                         <input type="submit" class="btn btn-primary" name="enviar" id="enviar" value="Entrar"   />
+   
+                        
                         <a href="http://www.google.com">Esqueceu sua senha?
                     </fieldset>
                 </form>
