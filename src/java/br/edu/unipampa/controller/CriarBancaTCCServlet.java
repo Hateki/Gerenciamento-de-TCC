@@ -162,7 +162,7 @@ public class CriarBancaTCCServlet extends HttpServlet {
                 return ALUNO_NO_LUGAR_PROFESSOR;
             }
         } catch (Exception e) {
-            return ALUNO_NO_LUGAR_PROFESSOR;
+            return 0;
         }
         return 0;
     }
