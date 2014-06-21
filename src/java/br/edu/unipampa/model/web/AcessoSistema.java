@@ -350,6 +350,10 @@ public class AcessoSistema {
         Pessoa convidado2 = procurarPessoa(professor2);
         Pessoa convidado3 = procurarPessoa(professor3);
         Banca banca = new Banca();
+        
+        if(aluno == null){
+            return false;
+        }
 
         if (convidado1 != null && convidado2 != null
                 && professor != null) {

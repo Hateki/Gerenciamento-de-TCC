@@ -5,7 +5,9 @@
  */
 package br.edu.unipampa.controller;
 
+import br.edu.unipampa.model.Aluno;
 import br.edu.unipampa.model.Banca;
+import br.edu.unipampa.model.Pessoa;
 import br.edu.unipampa.model.Professor;
 import br.edu.unipampa.model.web.AcessoSistema;
 import java.io.IOException;
@@ -34,6 +36,7 @@ public class CriarBancaTCCServlet extends HttpServlet {
     public static final int PROFESSORES_3 = 7;//O terceiro professor digitado não existe
     public static final int PROFESSORES_EXISTEM = 0;//Todos os professores existem
     public static final int ORIENTADOR_IGUAL_PROFESSOR = 8;//O Professor digitado é igual ao orientador digitado
+    public static final int ALUNO_NO_LUGAR_PROFESSOR = 9;//Um usuário de aluno foi encontrado no lugar onde deveria haver um professor
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////
     /**
@@ -55,10 +58,10 @@ public class CriarBancaTCCServlet extends HttpServlet {
         String orientador = (String) request.getSession().getAttribute("usuario");
         int matriculaAluno = Integer.parseInt(request.getParameter("matricula"));
         String local = request.getParameter("local");
+        boolean verificaCadastro;
         as = new AcessoSistema();
         Banca banca = new Banca();
         banca.setProfessor(null);
-        
 
         int resultadoVerificacao = verificaExistenciaProfessor(professor1, professor2, professor3);
 
@@ -69,9 +72,16 @@ public class CriarBancaTCCServlet extends HttpServlet {
                 request.setAttribute("retorno", ORIENTADOR_IGUAL_PROFESSOR);
                 request.getRequestDispatcher("criarBancaTCC.html").forward(request, response);
             } else {
-                as.cadastrarBanca(matriculaAluno, data, horario, local, orientador, professor1, professor2, professor3);
-                request.setAttribute("retorno", resultadoVerificacao);
-                request.getRequestDispatcher("menuPrincipalProfessor.html").forward(request, response);
+                verificaCadastro = as.cadastrarBanca(matriculaAluno, data, horario, local, orientador, professor1, professor2, professor3);
+
+                if (verificaCadastro) {
+                    request.setAttribute("retorno", resultadoVerificacao);
+                    request.getRequestDispatcher("menuPrincipalProfessor.html").forward(request, response);
+                } else {
+                    resultadoVerificacao = ALUNO_NO_LUGAR_PROFESSOR;
+                    request.setAttribute("retorno", resultadoVerificacao);
+                    request.getRequestDispatcher("criarBancaTCC.html").forward(request, response);
+                }
             }
         } else {
             request.setAttribute("retorno", resultadoVerificacao);
@@ -88,35 +98,43 @@ public class CriarBancaTCCServlet extends HttpServlet {
      * @return O resultado de quantos professores existem
      */
     public int verificaExistenciaProfessor(String professor1, String professor2, String professor3) {
-        boolean professor1Existe = as.verificarProfessor(professor1);
-        boolean professor2Existe = as.verificarProfessor(professor2);
-        boolean professor3Existe = false;
+        Pessoa convidado1 = as.procurarPessoa(professor1);
+        Pessoa convidado2 = as.procurarPessoa(professor2);
+        Pessoa convidado3 = null;
+
+        if (confirmarNaoExistenciaAluno(professor1) == ALUNO_NO_LUGAR_PROFESSOR
+                || confirmarNaoExistenciaAluno(professor2) == ALUNO_NO_LUGAR_PROFESSOR) {
+            return ALUNO_NO_LUGAR_PROFESSOR;
+        }
 
         if (!professor3.equals("")) {
-            professor3Existe = as.verificarProfessor(professor3);
-            if (professor1Existe && professor2Existe && professor3Existe) {
+            if (confirmarNaoExistenciaAluno(professor3) == ALUNO_NO_LUGAR_PROFESSOR) {
+                return ALUNO_NO_LUGAR_PROFESSOR;
+            }
+            convidado3 = as.procurarPessoa(professor3);
+            if (convidado1 != null && convidado2 != null && convidado3 != null) {
                 return PROFESSORES_EXISTEM;
-            } else if (professor1Existe && professor2Existe) {
+            } else if (convidado1 != null && convidado2 != null) {
                 return PROFESSORES_3;
-            } else if (professor1Existe && professor3Existe) {
+            } else if (convidado1 != null && convidado3 != null) {
                 return PROFESSORES_2;
-            } else if (professor2Existe && professor3Existe) {
+            } else if (convidado2 != null && convidado3 != null) {
                 return PROFESSORES_1;
-            } else if (professor1Existe) {
+            } else if (convidado1 != null) {
                 return PROFESSORES_2_3;
-            } else if (professor2Existe) {
+            } else if (convidado2 != null) {
                 return PROFESSORES_1_3;
-            } else if (professor3Existe) {
+            } else if (convidado3 != null) {
                 return PROFESSORES_1_2;
             } else {
                 return PROFESSORES_1_2_3;
             }
         } else {
-            if (professor1Existe && professor2Existe) {
+            if (convidado1 != null && convidado2 != null) {
                 return PROFESSORES_EXISTEM;
-            } else if (professor1Existe) {
+            } else if (convidado1 != null) {
                 return PROFESSORES_2;
-            } else if (professor2Existe) {
+            } else if (convidado2 != null) {
                 return PROFESSORES_1;
             } else {
                 return PROFESSORES_1_2;
@@ -125,7 +143,7 @@ public class CriarBancaTCCServlet extends HttpServlet {
     }
 
     public boolean confirmaProfessor(String usuarioOrientador, String usuarioProfessor) {
-        if (usuarioProfessor.equals("")) {
+        if (usuarioProfessor.equals("")) {//Se o usuário do professor não foi preenchido
             return false;
         }
         if (usuarioOrientador.equals(usuarioProfessor)) {
@@ -133,6 +151,20 @@ public class CriarBancaTCCServlet extends HttpServlet {
         } else {
             return false;
         }
+    }
+
+    public int confirmarNaoExistenciaAluno(String usuario) {
+        Aluno aluno;
+        try {
+            int matriculaAluno = Integer.parseInt(usuario);
+            aluno = as.procurarAluno(matriculaAluno);
+            if (aluno != null) {
+                return ALUNO_NO_LUGAR_PROFESSOR;
+            }
+        } catch (Exception e) {
+            return ALUNO_NO_LUGAR_PROFESSOR;
+        }
+        return 0;
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
