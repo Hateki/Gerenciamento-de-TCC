@@ -53,7 +53,7 @@ public class CriarBancaTCCServlet extends HttpServlet {
         String professor2 = request.getParameter("professor2");
         String professor3 = request.getParameter("professor3");
         String orientador = (String) request.getSession().getAttribute("usuario");
-        String matriculaAluno = request.getParameter("matricula");
+        int matriculaAluno = Integer.parseInt(request.getParameter("matricula"));
         String local = request.getParameter("local");
         as = new AcessoSistema();
         Banca banca = new Banca();
@@ -69,6 +69,7 @@ public class CriarBancaTCCServlet extends HttpServlet {
                 request.setAttribute("retorno", ORIENTADOR_IGUAL_PROFESSOR);
                 request.getRequestDispatcher("criarBancaTCC.html").forward(request, response);
             } else {
+                as.cadastrarBanca(matriculaAluno, data, horario, local, orientador, professor1, professor2, professor3);
                 request.setAttribute("retorno", resultadoVerificacao);
                 request.getRequestDispatcher("menuPrincipalProfessor.html").forward(request, response);
             }

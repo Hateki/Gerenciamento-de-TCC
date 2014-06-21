@@ -1,5 +1,5 @@
 package br.edu.unipampa.model;
-// Generated 13/06/2014 19:43:05 by Hibernate Tools 3.6.0
+// Generated 21/06/2014 18:48:59 by Hibernate Tools 3.6.0
 
 
 import java.util.HashSet;
@@ -18,9 +18,11 @@ public class Pessoa  implements java.io.Serializable {
      private String nome;
      private String cpf;
      private String instituicao;
-     private Set bancas = new HashSet(0);
+     private Set bancasForConvidado2IdPessoa = new HashSet(0);
+     private Set bancasForConvidado1IdPessoa = new HashSet(0);
      private Set alunos = new HashSet(0);
      private Set professors = new HashSet(0);
+     private Set bancasForConvidado3IdPessoa = new HashSet(0);
 
     public Pessoa() {
     }
@@ -31,16 +33,18 @@ public class Pessoa  implements java.io.Serializable {
         this.senha = senha;
         this.email = email;
     }
-    public Pessoa(String usuario, String senha, String email, String nome, String cpf, String instituicao, Set bancas, Set alunos, Set professors) {
+    public Pessoa(String usuario, String senha, String email, String nome, String cpf, String instituicao, Set bancasForConvidado2IdPessoa, Set bancasForConvidado1IdPessoa, Set alunos, Set professors, Set bancasForConvidado3IdPessoa) {
        this.usuario = usuario;
        this.senha = senha;
        this.email = email;
        this.nome = nome;
        this.cpf = cpf;
        this.instituicao = instituicao;
-       this.bancas = bancas;
+       this.bancasForConvidado2IdPessoa = bancasForConvidado2IdPessoa;
+       this.bancasForConvidado1IdPessoa = bancasForConvidado1IdPessoa;
        this.alunos = alunos;
        this.professors = professors;
+       this.bancasForConvidado3IdPessoa = bancasForConvidado3IdPessoa;
     }
    
     public Integer getIdPessoa() {
@@ -92,12 +96,19 @@ public class Pessoa  implements java.io.Serializable {
     public void setInstituicao(String instituicao) {
         this.instituicao = instituicao;
     }
-    public Set getBancas() {
-        return this.bancas;
+    public Set getBancasForConvidado2IdPessoa() {
+        return this.bancasForConvidado2IdPessoa;
     }
     
-    public void setBancas(Set bancas) {
-        this.bancas = bancas;
+    public void setBancasForConvidado2IdPessoa(Set bancasForConvidado2IdPessoa) {
+        this.bancasForConvidado2IdPessoa = bancasForConvidado2IdPessoa;
+    }
+    public Set getBancasForConvidado1IdPessoa() {
+        return this.bancasForConvidado1IdPessoa;
+    }
+    
+    public void setBancasForConvidado1IdPessoa(Set bancasForConvidado1IdPessoa) {
+        this.bancasForConvidado1IdPessoa = bancasForConvidado1IdPessoa;
     }
     public Set getAlunos() {
         return this.alunos;
@@ -112,6 +123,13 @@ public class Pessoa  implements java.io.Serializable {
     
     public void setProfessors(Set professors) {
         this.professors = professors;
+    }
+    public Set getBancasForConvidado3IdPessoa() {
+        return this.bancasForConvidado3IdPessoa;
+    }
+    
+    public void setBancasForConvidado3IdPessoa(Set bancasForConvidado3IdPessoa) {
+        this.bancasForConvidado3IdPessoa = bancasForConvidado3IdPessoa;
     }
 
 

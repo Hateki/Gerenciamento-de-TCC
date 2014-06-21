@@ -210,6 +210,21 @@ public class AcessoSistema {
         }
         return false;
     }
+    
+    /**
+     * Verifica se o usuário fornecido existe ou não.
+     * @param usuario Usuário para se verificar
+     * @return true se o usuário existe
+     */
+    public boolean verificarPessoa(String usuario) {
+        List<Pessoa> pessoasEncontradas = SESSAO.createQuery("From Pessoa").list();
+        for (Pessoa pessoa : pessoasEncontradas) {
+            if (usuario.equals(pessoa.getUsuario())) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     /**
      * Retorna a lista de temas que foram requisitados para esse professor
@@ -298,13 +313,14 @@ public class AcessoSistema {
             tema.getDescricao();
         }
     }
-    
+
     /**
      * Procura o tema escolhido pelo professor e apaga o tema do banco de dados
+     *
      * @param listaTemas Lista de temas para se procurar
      * @param temaEscolhido Tema que foi escolhido
      */
-    public void recusarTema(List<Tema> listaTemas, int temaEscolhido){
+    public void recusarTema(List<Tema> listaTemas, int temaEscolhido) {
         Tema escolhido = null;
         if (listaTemas != null) {
             for (int i = 0; i < listaTemas.size(); i++) {
@@ -319,52 +335,73 @@ public class AcessoSistema {
 
         }
     }
-    
-    public void completarTransacoes(){
+
+    public void completarTransacoes() {
         SESSAO.getTransaction().commit();
     }
-    
-    public void cadastrarBanca(int matriculaAluno, String data,
+
+    public boolean cadastrarBanca(int matriculaAluno, String data, String horario,
             String local, String usuarioOrientador,
-            String professor1, String professor2 , String professor3){
-            
-            Aluno aluno = procurarAluno(matriculaAluno);
-            Professor professor = procurarProfessor(usuarioOrientador);
-            Pessoa convidado1 = procurarPessoa(professor1);
-            Pessoa convidado2 = procurarPessoa(professor2);
-            Pessoa convidado3 = procurarPessoa(professor3);
-            Banca banca = new Banca();
+            String professor1, String professor2, String professor3) {
+
+        Aluno aluno = procurarAluno(matriculaAluno);
+        Professor professor = procurarProfessor(usuarioOrientador);
+        Pessoa convidado1 = procurarPessoa(professor1);
+        Pessoa convidado2 = procurarPessoa(professor2);
+        Pessoa convidado3 = procurarPessoa(professor3);
+        Banca banca = new Banca();
+
+        if (convidado1 != null && convidado2 != null
+                && professor != null) {
+
             banca.setData(data);
             banca.setLocal(local);
+            banca.setHorario(horario);
+            banca.setPessoaByConvidado1IdPessoa(convidado1);
+            banca.setPessoaByConvidado2IdPessoa(convidado2);
+            banca.setPessoaByConvidado3IdPessoa(convidado3);
+            banca.setAluno(aluno);
+            banca.setProfessor(professor);
+
+            SESSAO.save(banca);
+
+            SESSAO.getTransaction().commit();
+            
+            return true;
+        }
+        return false;
     }
-    
+
     /**
      * Procura um aluno através de matrícula
+     *
      * @param matriculaAluno Matricula do aluno para se para se procurar
      * @return Aluno encontrado
      */
-    public Aluno procurarAluno(int matriculaAluno){
+    public Aluno procurarAluno(int matriculaAluno) {
         List<Aluno> alunosEncontrados = SESSAO.createQuery("From Aluno").list();
         for (Aluno aluno : alunosEncontrados) {
-            if(matriculaAluno == aluno.getMatricula()){
+            if (matriculaAluno == aluno.getMatricula()) {
                 return aluno;
             }
         }
         return null;
     }
-    
+
     /**
      * Procura uma pessoa através do usuário especificado
+     *
      * @param usuario Usuário pra se procurar
      * @return O usuário encontrado
      */
-    public Pessoa procurarPessoa(String usuario){
+    public Pessoa procurarPessoa(String usuario) {
         List<Pessoa> pessoasEncontradas = SESSAO.createQuery("From Pessoa").list();
         for (Pessoa pessoa : pessoasEncontradas) {
-            if(usuario.equals(pessoa.getUsuario())){
+            if (usuario.equals(pessoa.getUsuario())) {
                 return pessoa;
             }
         }
         return null;
     }
+
 }

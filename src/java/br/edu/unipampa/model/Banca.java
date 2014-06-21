@@ -1,5 +1,5 @@
 package br.edu.unipampa.model;
-// Generated 13/06/2014 19:43:05 by Hibernate Tools 3.6.0
+// Generated 21/06/2014 18:48:59 by Hibernate Tools 3.6.0
 
 
 
@@ -10,9 +10,11 @@ public class Banca  implements java.io.Serializable {
 
 
      private Integer idBanca;
+     private Pessoa pessoaByConvidado3IdPessoa;
      private Professor professor;
+     private Pessoa pessoaByConvidado1IdPessoa;
+     private Pessoa pessoaByConvidado2IdPessoa;
      private Aluno aluno;
-     private Pessoa pessoa;
      private String data;
      private String horario;
      private String local;
@@ -21,15 +23,18 @@ public class Banca  implements java.io.Serializable {
     }
 
 	
-    public Banca(Professor professor, Aluno aluno, Pessoa pessoa) {
+    public Banca(Professor professor, Pessoa pessoaByConvidado1IdPessoa, Pessoa pessoaByConvidado2IdPessoa, Aluno aluno) {
         this.professor = professor;
+        this.pessoaByConvidado1IdPessoa = pessoaByConvidado1IdPessoa;
+        this.pessoaByConvidado2IdPessoa = pessoaByConvidado2IdPessoa;
         this.aluno = aluno;
-        this.pessoa = pessoa;
     }
-    public Banca(Professor professor, Aluno aluno, Pessoa pessoa, String data, String horario, String local) {
+    public Banca(Pessoa pessoaByConvidado3IdPessoa, Professor professor, Pessoa pessoaByConvidado1IdPessoa, Pessoa pessoaByConvidado2IdPessoa, Aluno aluno, String data, String horario, String local) {
+       this.pessoaByConvidado3IdPessoa = pessoaByConvidado3IdPessoa;
        this.professor = professor;
+       this.pessoaByConvidado1IdPessoa = pessoaByConvidado1IdPessoa;
+       this.pessoaByConvidado2IdPessoa = pessoaByConvidado2IdPessoa;
        this.aluno = aluno;
-       this.pessoa = pessoa;
        this.data = data;
        this.horario = horario;
        this.local = local;
@@ -42,6 +47,13 @@ public class Banca  implements java.io.Serializable {
     public void setIdBanca(Integer idBanca) {
         this.idBanca = idBanca;
     }
+    public Pessoa getPessoaByConvidado3IdPessoa() {
+        return this.pessoaByConvidado3IdPessoa;
+    }
+    
+    public void setPessoaByConvidado3IdPessoa(Pessoa pessoaByConvidado3IdPessoa) {
+        this.pessoaByConvidado3IdPessoa = pessoaByConvidado3IdPessoa;
+    }
     public Professor getProfessor() {
         return this.professor;
     }
@@ -49,19 +61,26 @@ public class Banca  implements java.io.Serializable {
     public void setProfessor(Professor professor) {
         this.professor = professor;
     }
+    public Pessoa getPessoaByConvidado1IdPessoa() {
+        return this.pessoaByConvidado1IdPessoa;
+    }
+    
+    public void setPessoaByConvidado1IdPessoa(Pessoa pessoaByConvidado1IdPessoa) {
+        this.pessoaByConvidado1IdPessoa = pessoaByConvidado1IdPessoa;
+    }
+    public Pessoa getPessoaByConvidado2IdPessoa() {
+        return this.pessoaByConvidado2IdPessoa;
+    }
+    
+    public void setPessoaByConvidado2IdPessoa(Pessoa pessoaByConvidado2IdPessoa) {
+        this.pessoaByConvidado2IdPessoa = pessoaByConvidado2IdPessoa;
+    }
     public Aluno getAluno() {
         return this.aluno;
     }
     
     public void setAluno(Aluno aluno) {
         this.aluno = aluno;
-    }
-    public Pessoa getPessoa() {
-        return this.pessoa;
-    }
-    
-    public void setPessoa(Pessoa pessoa) {
-        this.pessoa = pessoa;
     }
     public String getData() {
         return this.data;
