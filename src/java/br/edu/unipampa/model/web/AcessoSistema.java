@@ -327,7 +327,44 @@ public class AcessoSistema {
     public void cadastrarBanca(int matriculaAluno, String data,
             String local, String usuarioOrientador,
             String professor1, String professor2 , String professor3){
-        
-        
+            
+            Aluno aluno = procurarAluno(matriculaAluno);
+            Professor professor = procurarProfessor(usuarioOrientador);
+            Pessoa convidado1 = procurarPessoa(professor1);
+            Pessoa convidado2 = procurarPessoa(professor2);
+            Pessoa convidado3 = procurarPessoa(professor3);
+            Banca banca = new Banca();
+            banca.setData(data);
+            banca.setLocal(local);
+    }
+    
+    /**
+     * Procura um aluno através de matrícula
+     * @param matriculaAluno Matricula do aluno para se para se procurar
+     * @return Aluno encontrado
+     */
+    public Aluno procurarAluno(int matriculaAluno){
+        List<Aluno> alunosEncontrados = SESSAO.createQuery("From Aluno").list();
+        for (Aluno aluno : alunosEncontrados) {
+            if(matriculaAluno == aluno.getMatricula()){
+                return aluno;
+            }
+        }
+        return null;
+    }
+    
+    /**
+     * Procura uma pessoa através do usuário especificado
+     * @param usuario Usuário pra se procurar
+     * @return O usuário encontrado
+     */
+    public Pessoa procurarPessoa(String usuario){
+        List<Pessoa> pessoasEncontradas = SESSAO.createQuery("From Pessoa").list();
+        for (Pessoa pessoa : pessoasEncontradas) {
+            if(usuario.equals(pessoa.getUsuario())){
+                return pessoa;
+            }
+        }
+        return null;
     }
 }

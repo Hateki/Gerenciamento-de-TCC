@@ -18,7 +18,7 @@
     </servlet>
     <servlet>
         <servlet-name>CriarTemaTCCServlet</servlet-name>
-        <servlet-class>br.edu.unipampa.controller.CriarTemaTCCServlet</servlet-class>
+        <servlet-class>br.edu.unipampa.controller.CriarBancaTCCServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>CadastraPessoaExternaServelt</servlet-name>

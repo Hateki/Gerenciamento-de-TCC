@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author pontofrio
  */
-public class CriarTemaTCCServlet extends HttpServlet {
+public class CriarBancaTCCServlet extends HttpServlet {
 
     private AcessoSistema as;
 
