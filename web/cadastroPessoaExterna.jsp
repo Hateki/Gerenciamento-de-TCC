@@ -209,7 +209,13 @@
             E-mail:   <input type="email" name="email" id="email" onBlur="ValidaEmail()" placeholder="Digite seu e-mail" required><br></br>
 
             <input type="submit" class="btn btn-primary" name="enviar" id="enviar" value="Confirmar"   />
-            
+            <input type="reset" class="btn btn-warning" name="limpar" id="limpar" value="Limpar" />
+            <input  type="button" class="btn btn-danger  " name="voltar" id="voltar" value="Voltar" onClick="retornaPaginaPrincipal()">
+            <script>
+                        function retornaPaginaPrincipal() {
+                            location.href = "menuPrincipalProfessor.html"
+                        }
+            </script>
             <%
                 String retorno = (String) request.getAttribute("retorno");
                 if(retorno != null && retorno.equalsIgnoreCase("usuario Existe"))

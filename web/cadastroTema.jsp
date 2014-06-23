@@ -75,15 +75,17 @@
     <form id="cadform" name="cadform" method="post" action="CadastroTemaServlet"
           onsubmit="return validaEspacoTema(), validaEspacoOrientador(), validaCampo(), validaCampo2();">
         <div id="cadTema">
-            
+
             <legend>Cadastro Do Tema</legend>
-      
+
             <strong>Tema:</strong><br><br/>
             <textarea rows="6" cols="40" name="tema" id="tema" maxlength="200"  onblur="validaEspaco(this)" required></textarea><br><br/>
 
-             Orientador: <input type="text" name="orientador" id="orientador" onblur="validaEspaco(this)" placeholder="Orientador" required /><br></br>
-            
+            Orientador: <input type="text" name="orientador" id="orientador" onblur="validaEspaco(this)" placeholder="Orientador" required /><br></br>
+
             <input class="btn btn-primary" type="submit" id="enviar" name="enviar" value="Enviar">
+            <input type="reset" class="btn btn-warning" name="limpar" id="limpar" value="Limpar" />
+            <input  type="button" class="btn btn-danger  " name="voltar" id="voltar" value="Voltar" onClick="retornaPaginaPrincipalAluno()"> 
             </form>
         </div>
         <script>
@@ -95,32 +97,29 @@
                     alert("Campo " + input.name + " invalido");
                 }
             }
+
+            function retornaPaginaPrincipalAluno() {
+                location.href = "menuPrincipalAluno.html"
+            }
         </script>
-        
+
         <%
             String retorno = (String) request.getAttribute("retorno");
-            
-            if(retorno != null && retorno.equalsIgnoreCase("Sucesso"))
-            {
+
+            if (retorno != null && retorno.equalsIgnoreCase("Sucesso")) {
         %>
-        
-            <script> alert("Cadastro realizado com sucesso!"); </script>
-        
-        <%  }
-            
-            else if(retorno != null && retorno.equalsIgnoreCase("Professor Nao Existe"))
-            {
+
+        <script> alert("Cadastro realizado com sucesso!");</script>
+
+        <%  } else if (retorno != null && retorno.equalsIgnoreCase("Professor Nao Existe")) {
         %>
-            <script> alert("O professor digitado não existe"); </script>
-        <%  }
-            
-            else if(retorno != null && retorno.equalsIgnoreCase("Problema"))
-            {
+        <script> alert("O professor digitado não existe");</script>
+        <%  } else if (retorno != null && retorno.equalsIgnoreCase("Problema")) {
         %>
-            <script> alert("Ocorreu um problema no cadastro, tente novamente."); </script>
+        <script> alert("Ocorreu um problema no cadastro, tente novamente.");</script>
         <%
             }
         %>
-        
+
 </body>
 </html>
