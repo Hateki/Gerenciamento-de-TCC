@@ -78,10 +78,17 @@
 
             <input class="btn btn-primary" type="submit" id="enviar" name="enviar" value="Enviar">
             <input type="reset" class="btn btn-warning" name="limpar" id="limpar" value="Limpar" />
-            <input type="button" class="btn btn-danger  " name="voltar" id="voltar" value="Voltar" onClick="history.go(-1)"> 
+            <input  type="button" class="btn btn-danger  " name="voltar" id="voltar" value="Voltar" onClick="retornaPaginaPrincipalAluno()"> 
             </form>
+    
         </div>
         <script>
+            
+            function retornaPaginaPrincipalAluno() {
+                            location.href = "menuPrincipalAluno.html"
+                        }
+            
+            
             function validaEspaco(input) {
                 texto = input.value;
                 textoNovo = trim(texto);
