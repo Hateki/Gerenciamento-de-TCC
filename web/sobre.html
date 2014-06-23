@@ -6,7 +6,14 @@ and open the template in the editor.
 -->
 <html>
     <head>
-         <link href="bootstrap.min.css" rel="stylesheet" media="screen">
+        <style> 
+            #sobre {margin-left:550px; margin-right:300px}; 
+
+        </style>
+        <style>
+            #botao {margin-left: 100px; margin-right: 500px};
+        </style>
+        <link href="bootstrap.min.css" rel="stylesheet" media="screen">
         <title>Sobre</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,13 +21,25 @@ and open the template in the editor.
     <body>
         <script src="http://code.jquery.com/jquery-latest.js"></script>
         <script src="bootstrap.min.js"></script>
-        <h1>Aplicação WEB desenvolvida por:</h1>
-        <ul>
-            <li>Gean Trindade</li> 
-            <li>Kézia Lobo</li> 
-            <li>Miguel Zinelli Jr.</li> 
-            <li>Pedro Henrique França</li> 
-            <li>Tiago Ricaldi</li> 
-        </ul>
+        <div id="sobre">
+            <h1>Aplicação WEB.</h1>
+            <h2>Desenvolvida por:</h2>
+            <br></br>
+            <div id="nomes">
+            <ul>
+                
+                    <li>Gean Trindade</li> 
+                    <li>Kézia Lobo</li> 
+                    <li>Miguel Zinelli Jr.</li> 
+                    <li>Pedro Henrique França</li> 
+                    <li>Tiago Ricaldi</li> 
+                
+            </ul>
+                </div>
+            <br></br>
+            <div id="botao">
+                <input type="button" class="btn btn-danger  " name="voltar" id="voltar" value="Voltar" onClick="history.go(-1)"> 
+            </div>
+        </div>
     </body>
 </html>
