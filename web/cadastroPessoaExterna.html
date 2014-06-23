@@ -9,9 +9,9 @@ and open the template in the editor.
     <head>
         <style> 
             #form1 {margin-left:550px; margin-right:550px}; 
-           
+
         </style>
-         <link href="bootstrap.min.css" rel="stylesheet" media="screen">
+        <link href="bootstrap.min.css" rel="stylesheet" media="screen">
         <title>Cadastro Pessoa Externa</title>
         <script type="text/javascript">
 
@@ -176,7 +176,7 @@ and open the template in the editor.
 
             function ValidaEmail()
             {
-                var obj = document.cadPform.email;                     
+                var obj = document.cadPform.email;
                 var txt = obj.value;
                 if ((txt.length != 0) && ((txt.indexOf("@") < 1) || (txt.indexOf('.') < 7)))
                 {
@@ -196,23 +196,30 @@ and open the template in the editor.
         <script src="bootstrap.min.js"></script>
         <div id="form1">
             <form id="cadPform" name="cadPform" method="post" action="CadastraPessoaExternaServelt"
-              onsubmit="return validaCampoNome(), validaInst(), validaCampoSenha1(), validaCampoSenha2(), validaCampoSenhasIguais();">
+                  onsubmit="return validaCampoNome(), validaInst(), validaCampoSenha1(), validaCampoSenha2(), validaCampoSenhasIguais();">
 
-            <label for="titulo"></label>
-            <legend>Cadastro Pessoa Externa</legend>
+                <label for="titulo"></label>
+                <legend>Cadastro Pessoa Externa</legend>
 
-            Nome Completo: <input name="nomePessoaExterna" type="text" id="nomePessoaExterna" maxlength="200" onblur="validaEspaco(this)" placeholder="Nome Completo" required/><br></br>
-            Instituição: <input name="nomeInstituicao" type="text" id="nomeInstituicao" maxlength="200" onblur="validaEspaco(this)" placeholder="Nome da Instituição" required/><br></br>
-            Senha: <input name="passwordPessoaExterna" type="password" id="passwordPessoaExterna" maxlength="200" onblur="validaEspaco(this)" placeholder="Digite sua senha" required><br></br>
-            Confirmação de Senha: <input name="passwordPessoaExterna2" type="password" id="passwordPessoaExterna2" maxlength="200" onblur="validaEspaco(this)" placeholder="Confirme sua senha" required><br></br>
-            Número do CPF:   <input type="text" name="cpf" id="cpf" onblur="javascript: validarCPF(this.value);" onkeypress="javascript: mascara(this, cpf_mask);"  placeholder="Digite seu CPF" maxlength="14" required/><br></br>
-            E-mail:   <input type="email" name="email" id="email" onBlur="ValidaEmail()" placeholder="Digite seu e-mail" required><br></br>
+                Nome Completo: <input name="nomePessoaExterna" type="text" id="nomePessoaExterna" maxlength="200" onblur="validaEspaco(this)" placeholder="Nome Completo" required/><br></br>
+                Instituição: <input name="nomeInstituicao" type="text" id="nomeInstituicao" maxlength="200" onblur="validaEspaco(this)" placeholder="Nome da Instituição" required/><br></br>
+                Senha: <input name="passwordPessoaExterna" type="password" id="passwordPessoaExterna" maxlength="200" onblur="validaEspaco(this)" placeholder="Digite sua senha" required><br></br>
+                Confirmação de Senha: <input name="passwordPessoaExterna2" type="password" id="passwordPessoaExterna2" maxlength="200" onblur="validaEspaco(this)" placeholder="Confirme sua senha" required><br></br>
+                Número do CPF:   <input type="text" name="cpf" id="cpf" onblur="javascript: validarCPF(this.value);" onkeypress="javascript: mascara(this, cpf_mask);"  placeholder="Digite seu CPF" maxlength="14" required/><br></br>
+                E-mail:   <input type="email" name="email" id="email" onBlur="ValidaEmail()" placeholder="Digite seu e-mail" required><br></br>
 
-            <input type="submit" class="btn btn-primary" name="enviar" id="enviar" value="Confirmar"   />
-            <input type="reset" class="btn btn-warning" name="limpar" id="limpar" value="Limpar" />
-            <input type="button" class="btn btn-danger  " name="voltar" id="voltar" value="Voltar" onClick="history.go(-1)"> 
-   
-        </form>
+                <input type="submit" class="btn btn-primary" name="enviar" id="enviar" value="Confirmar"   />
+                <input type="reset" class="btn btn-warning" name="limpar" id="limpar" value="Limpar" />
+                <input  type="button" class="btn btn-danger  " name="voltar" id="voltar" value="Voltar" onClick="retornaPaginaPrincipal()"> 
+                
+
+                    <script>
+                        function retornaPaginaPrincipal() {
+                            location.href = "menuPrincipalProfessor.html"
+                        }
+                    </script>
+
+            </form>
         </div>
     </body>
 </html>
