@@ -5,15 +5,18 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page isELIgnored="false"%> 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Teste Página Login</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <head>
+        <style> 
+            #area {margin-left:550px; margin-right:550px}; 
+
+        </style>
+        <link href="bootstrap.min.css" rel="stylesheet" media="screen">
         <script type="text/javascript">
-            
             function validaCampoUsuario()
             {
                 if (document.telaLogin.nomeUsuario == "") {
@@ -27,7 +30,7 @@
             function validaCampoSenha()
             {
                 if (document.telaLogin.senhaUsuario == "") {
-                    alert("O Campo obrigatório Senha não foi preenchido");
+                    alert("O Campo obrigatório Usuário não foi preenchido");
                     return false
                 }
                 else
@@ -35,28 +38,63 @@
             }
 
 
-<!-- Fim do JavaScript que validará os campos obrigatórios! -->
-        </script>   
+            //trim completo
+            function trim(str) {
+                return str.replace(/^\s+|\s+$/g, "");
+            }
+
+            function validaEspaco(input) {
+                texto = input.value;
+                textoNovo = trim(texto);
+                if (textoNovo === "") {
+                    input.value = textoNovo;
+                    alert("Campo " + input.name + " invalido");
+                }
+            }
 
 
+        </script>
 
-
+        <title>UNIPAMPA</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
-        <div id="title" ><h1>UNIPAMPA.EDU.BR</h1></div>
-        <form action="LoginServlet" method="post" name="form"
-              <div id="area">
-                <form id="telaLogin" name="telaLogin" method="post" action="LoginServlet" onsubmit=" return validaCampoUsuario(), validaCampoSenha();">
+
+        <img src="unipampa2.jpg" >
+        <script src="http://code.jquery.com/jquery-latest.js"></script>
+        <script src="bootstrap.min.js"></script>
+
+        <div id="titulo" ><br></br><br></br></div>
+
+        <form action="LoginServlet" method="post" name="form">
+            <div id="area">
+                <form id="telaLogin" name="telaLogin" method="post" action="LoginServlet" onsubmit="
+                return validaCampoUsuario(), validaCampoSenha();">
                     <fieldset>
-                        <legend>Gerenciador de TCC</legend>
+                        <br></br>
 
-                        <label> Nome: </label><input name="nomeUsuario" type="text" id="nomeUsuario" maxlength="200" required><br>                   
+                        <legend><strong>Gerenciador de TCC</strong></legend>
+                        <label> Usuário: </label><input name="nomeUsuario" type="text" id="nomeUsuario" maxlength="200" onblur="validaEspaco(this)" placeholder="Digite E-mail" required ><br>                   
 
-                        <label> Senha: </label><input name="Senha"  type="password" id="senhaUsuario" maxlength="200" required><br>
 
-                        <input class="btn_submit" type="submit" value="Enviar">
-                        <a href="http://www.google.com">  Esqueceu sua senha?
+                        <label> Senha: </label><input name="Senha"  type="password" id="senhaUsuario" maxlength="200" onblur="validaEspaco(this)" placeholder="Digite sua senha" required ><br>
+                        <br></br>
+
+                        <input type="submit" class="btn btn-primary" name="enviar" id="enviar" value="Entrar"   />
+
+
+                        <a href="http://www.google.com">Esqueceu sua senha?
                     </fieldset>
+                    <%
+                        String fracasso = (String) request.getAttribute("fracasso");
+                        if(fracasso != null)
+                        {
+                    %>
+                        <script> alert("Usuário ou senha incorretos");</script>
+                    <%
+                        }
+                    %>
                 </form>
             </div>
 

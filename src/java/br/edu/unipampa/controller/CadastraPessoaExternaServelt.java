@@ -41,7 +41,6 @@ public class CadastraPessoaExternaServelt extends HttpServlet {
         String instituicao = request.getParameter("nomeInstituicao");
         String email = request.getParameter("email");
         ArrayList<String> listaParametros = new ArrayList<>();
-        String teste = "teste";
         
         for (int i = 0; i < 5; i++) {
             if(i == 0){
@@ -61,30 +60,21 @@ public class CadastraPessoaExternaServelt extends HttpServlet {
         
         if(resposta == AcessoSistema.LISTA_INCORRETA){
             //resolve o problema
-            teste = "Lista está incorreta";
+            request.setAttribute("retorno", "Lista Incorreta");
+            request.getRequestDispatcher("cadastroPessoaExterna.jsp").forward(request, response);
             ac.completarTransacoes();
         }else if(resposta == AcessoSistema.USUARIO_JA_EXISTENTE){
             //manda de volta pra pagina de cadastro
-            teste = "O usuário já existe";
+            request.setAttribute("retorno", "Usuario Existe");
+            request.getRequestDispatcher("cadastroPessoaExterna.jsp").forward(request, response);
             ac.completarTransacoes();
         }else{
             //manda pra página de cadastro concluido
-            teste = "Cadastro efetuado com sucesso";
+            request.setAttribute("retorno", "Sucesso");
+            request.getRequestDispatcher("cadastroPessoaExterna.jsp").forward(request, response);
         }
         
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet CadastraPessoaExternaServelt</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1> " + teste + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

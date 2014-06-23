@@ -56,8 +56,8 @@ public class LoginServlet extends HttpServlet {
             view = request.getRequestDispatcher("menuPrincipalProfessor.html");
             view.forward(request, response);
         }else {
-            request.setAttribute("sucesso", false);
-            view = request.getRequestDispatcher("telaLogin.html");
+            request.setAttribute("fracasso", "erro");
+            view = request.getRequestDispatcher("telaLogin.jsp");
             view.forward(request, response);
         }
         

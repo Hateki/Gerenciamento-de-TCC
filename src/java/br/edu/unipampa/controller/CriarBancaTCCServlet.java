@@ -70,22 +70,22 @@ public class CriarBancaTCCServlet extends HttpServlet {
                     || confirmaProfessor(orientador, professor2)
                     || confirmaProfessor(orientador, professor3)) {
                 request.setAttribute("retorno", ORIENTADOR_IGUAL_PROFESSOR);
-                request.getRequestDispatcher("criarBancaTCC.html").forward(request, response);
+                request.getRequestDispatcher("criarBancaTCC.jsp").forward(request, response);
             } else {
                 verificaCadastro = as.cadastrarBanca(matriculaAluno, data, horario, local, orientador, professor1, professor2, professor3);
 
                 if (verificaCadastro) {
                     request.setAttribute("retorno", resultadoVerificacao);
-                    request.getRequestDispatcher("menuPrincipalProfessor.html").forward(request, response);
+                    request.getRequestDispatcher("criarBancaTCC.jsp").forward(request, response);
                 } else {
                     resultadoVerificacao = ALUNO_NO_LUGAR_PROFESSOR;
                     request.setAttribute("retorno", resultadoVerificacao);
-                    request.getRequestDispatcher("criarBancaTCC.html").forward(request, response);
+                    request.getRequestDispatcher("criarBancaTCC.jsp").forward(request, response);
                 }
             }
         } else {
             request.setAttribute("retorno", resultadoVerificacao);
-            request.getRequestDispatcher("criarBancaTCC.html").forward(request, response);
+            request.getRequestDispatcher("criarBancaTCC.jsp").forward(request, response);
         }
     }
 
