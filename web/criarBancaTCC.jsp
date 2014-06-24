@@ -34,7 +34,12 @@
             <div style="display: none" id="professor3">Professor : <input type="text" name="professor3" id="professor3" onblur="validaEspaco(this)"/></div>        
 
             <button type="button" onclick="mostraProfessorInv()" name="btAddProfessor" id="btAddProfessor" >Adicionar</button><br></br>
-            <input type="button" class="btn btn-danger  " name="voltar" id="voltar" value="Voltar" onClick="history.go(-1)">
+            <input  type="button" class="btn btn-danger  " name="voltar" id="voltar" value="Voltar" onClick="retornaPaginaPrincipal()">
+            <script>
+                function retornaPaginaPrincipal() {
+                    location.href = "menuPrincipalProfessor.html"
+                }
+            </script>
 
             <input type="submit" name="enviar" id="enviar" value="Enviar"   />
         </form>

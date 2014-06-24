@@ -32,7 +32,7 @@
                 <li> <%= "ALUNO QUE REQUISITOU: " + tema.getAluno().getNome()%> </li>
                     <%= "DESCRIÇÃO DO TEMA: " + tema.getDescricao()%>
                 <br>
-                
+
 
                 <%
                     if (tema.getAprovado()) {
@@ -52,6 +52,12 @@
                 %>
                 <br>
             </ul>
+            <input  type="button" class="btn btn-danger  " name="voltar" id="voltar" value="Voltar" onClick="retornaPaginaPrincipal()">
+            <script>
+                function retornaPaginaPrincipal() {
+                    location.href = "menuPrincipalProfessor.html"
+                }
+            </script>
         </form>
     </body>
 </html>
