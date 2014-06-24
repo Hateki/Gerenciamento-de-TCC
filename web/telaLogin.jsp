@@ -15,6 +15,17 @@
             #area {margin-left:550px; margin-right:550px}; 
 
         </style>
+        
+        <style> 
+            #imagem {margin-left:500px; margin-right:550px}; 
+
+        </style>
+        
+         <style> 
+            #botao {margin-left:70px; margin-right:550px}; 
+
+        </style>
+        
         <link href="bootstrap.min.css" rel="stylesheet" media="screen">
         <script type="text/javascript">
             function validaCampoUsuario()
@@ -60,8 +71,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
-
-        <img src="unipampa2.jpg" >
+        <div id="imagem">
+        <img src="imagem_unipampa.jpg" >
+        </div>
         <script src="http://code.jquery.com/jquery-latest.js"></script>
         <script src="bootstrap.min.js"></script>
 
@@ -80,11 +92,10 @@
 
                         <label> Senha: </label><input name="Senha"  type="password" id="senhaUsuario" maxlength="200" onblur="validaEspaco(this)" placeholder="Digite sua senha" required ><br>
                         <br></br>
-
+                        <div id="botao">
                         <input type="submit" class="btn btn-primary" name="enviar" id="enviar" value="Entrar"   />
+                        </div>
 
-
-                        <a href="http://www.google.com">Esqueceu sua senha?
                     </fieldset>
                     <%
                         String fracasso = (String) request.getAttribute("fracasso");

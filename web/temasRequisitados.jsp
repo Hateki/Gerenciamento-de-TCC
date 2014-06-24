@@ -10,16 +10,25 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <style> 
+            #tela {margin-left:550px; margin-right:550px}; 
+
+        </style>
+         <link href="bootstrap.min.css" rel="stylesheet" media="screen">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Temas requisitados</title>
 
     </head>
     <body>
+         <script src="http://code.jquery.com/jquery-latest.js"></script>
+        <script src="bootstrap.min.js"></script>
+
         <%
             String valorBotao = null;
             List<Tema> temasPendentes = (List<Tema>) request.getAttribute("retorno");
             String aprovado;
         %>
+        <div id="tela">
         <h1>Temas cadastrados</h1>
         <form name="formConfirmar" action="DetalheTemaServlet" method="POST">
             <ul type="disc">
@@ -53,6 +62,7 @@
                 <br>
             </ul>
             <input  type="button" class="btn btn-danger  " name="voltar" id="voltar" value="Voltar" onClick="retornaPaginaPrincipal()">
+            </div>
             <script>
                 function retornaPaginaPrincipal() {
                     location.href = "menuPrincipalProfessor.html"

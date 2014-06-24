@@ -10,18 +10,29 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <style> 
+            #area {margin-left:550px; margin-right:550px}; 
+           
+        </style>
+        <link href="bootstrap.min.css" rel="stylesheet" media="screen">
         <title>Criar Banca do TCC</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     </head>
     <body>
-        <h1>Criar banca do TCC</h1>
+        <script src="http://code.jquery.com/jquery-latest.js"></script>
+        <script src="bootstrap.min.js"></script>
+        
         <form id="tccForm" name="tccForm" method="post" action="CriarTemaTCCServlet"
               onsubmit="return">
 
             <label for="titulo"></label>
-            <h2>Banca Avaliadora</h2>
+            <div id="area">
+                
+             <h1>Criar banca do TCC</h1>
+             <br></br>
+            <h4>Banca Avaliadora</h4>
 
             Data: <input name="date" type="date" id="date" required/><br></br>
             Horario: <input type="time" name="time" id="time" required/><br></br>
@@ -33,15 +44,17 @@
 
             <div style="display: none" id="professor3">Professor : <input type="text" name="professor3" id="professor3" onblur="validaEspaco(this)"/></div>        
 
-            <button type="button" onclick="mostraProfessorInv()" name="btAddProfessor" id="btAddProfessor" >Adicionar</button><br></br>
+            <button type="button" class="btn btn-success" onclick="mostraProfessorInv()" name="btAddProfessor" id="btAddProfessor" >Adicionar</button><br></br>
             <input  type="button" class="btn btn-danger  " name="voltar" id="voltar" value="Voltar" onClick="retornaPaginaPrincipal()">
+           <input type="submit" class="btn btn-info" name="enviar" id="enviar" value="Enviar"   />
+            </div>
             <script>
                 function retornaPaginaPrincipal() {
                     location.href = "menuPrincipalProfessor.html"
                 }
             </script>
 
-            <input type="submit" name="enviar" id="enviar" value="Enviar"   />
+            
         </form>
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
         <script>
