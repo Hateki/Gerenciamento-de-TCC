@@ -60,6 +60,7 @@ public class CriarBancaTCCServlet extends HttpServlet {
         String local = request.getParameter("local");
         boolean verificaCadastro;
         as = new AcessoSistema();
+        AcessoSistema professor = as;
         Banca banca = new Banca();
         banca.setProfessor(null);
 
@@ -72,7 +73,7 @@ public class CriarBancaTCCServlet extends HttpServlet {
                 request.setAttribute("retorno", ORIENTADOR_IGUAL_PROFESSOR);
                 request.getRequestDispatcher("criarBancaTCC.jsp").forward(request, response);
             } else {
-                verificaCadastro = as.cadastrarBanca(matriculaAluno, data, horario, local, orientador, professor1, professor2, professor3);
+                verificaCadastro = professor.cadastrarBanca(matriculaAluno, data, horario, local, orientador, professor1, professor2, professor3);
 
                 if (verificaCadastro) {
                     request.setAttribute("retorno", resultadoVerificacao);

@@ -35,10 +35,12 @@ public class CadastroTemaServlet extends HttpServlet {
         
         RequestDispatcher view;
         boolean flag;
+        AcessoSistema aluno = new AcessoSistema();
         String usuarioAluno = (String) request.getSession().getAttribute("usuario");
         String usuarioProfessor = request.getParameter("orientador");
         String descricaoTema = request.getParameter("tema");      
-        AcessoSistema as = new AcessoSistema();
+        AcessoSistema as = aluno;
+        
         int matriculaAluno = as.procurarMatriculaAluno(usuarioAluno);
         
         if(!as.verificarProfessor(usuarioProfessor)){
@@ -48,7 +50,7 @@ public class CadastroTemaServlet extends HttpServlet {
             view.forward(request, response);
             as.completarTransacoes();
         }else{
-            flag = as.cadastrarTema(matriculaAluno, usuarioProfessor, descricaoTema);
+            flag = aluno.cadastrarTema(matriculaAluno, usuarioProfessor, descricaoTema);
             if(flag){
                 //Certificar de que o usuário saiba que o cadastro foi bem sucedido
                 request.setAttribute("retorno", "Sucesso");

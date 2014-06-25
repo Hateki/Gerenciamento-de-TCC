@@ -34,7 +34,8 @@ public class CadastraPessoaExternaServelt extends HttpServlet {
             throws ServletException, IOException {
         
         int resposta;
-        AcessoSistema ac = new AcessoSistema();
+        AcessoSistema professor = new AcessoSistema();
+        AcessoSistema ac = professor;
         String nomeUsuario = request.getParameter("nomePessoaExterna");
         String senha = request.getParameter("passwordPessoaExterna");
         String cpf = request.getParameter("cpf");
@@ -56,7 +57,7 @@ public class CadastraPessoaExternaServelt extends HttpServlet {
             }
         }
              
-        resposta = ac.cadastraPessoaExterna(listaParametros);
+        resposta = professor.cadastraPessoaExterna(listaParametros);
         
         if(resposta == AcessoSistema.LISTA_INCORRETA){
             //resolve o problema

@@ -165,7 +165,7 @@ public class AcessoSistema {
             }
         }
 
-        if (aluno != null && professor != null) {
+        if (aluno != null && professor != null && verificarCargaHorario(aluno)) {
             tema.setAluno(aluno);
             tema.setProfessor(professor);
             tema.setAprovado(false);
@@ -175,6 +175,15 @@ public class AcessoSistema {
             return true;
         }
         return false;
+    }
+    
+    /**
+     * Verifica se o aluno tem a carga horário necessária para realizar o TCC
+     * @param aluno Aluno para se verificar
+     * @return True se o aluno pode fazer o tcc
+     */
+    public boolean verificarCargaHorario(Aluno aluno){
+        return aluno.getCargaHoraria() >= 360;
     }
 
     /**
@@ -407,5 +416,11 @@ public class AcessoSistema {
         }
         return null;
     }
+
+    public Session getSESSAO() {
+        return SESSAO;
+    }
+    
+    
 
 }
