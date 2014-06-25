@@ -17,7 +17,7 @@
         </style>
         
         <style> 
-            #imagem {margin-left:500px; margin-right:550px}; 
+            #imagem {margin-left:550px; margin-right:550px}; 
 
         </style>
         

@@ -11,7 +11,7 @@
 <html>
     <head>
         <style> 
-            #tela {margin-left:550px; margin-right:550px}; 
+            #tela {margin-left:550px; margin-right:350px}; 
 
         </style>
          <link href="bootstrap.min.css" rel="stylesheet" media="screen">
@@ -30,6 +30,7 @@
         %>
         <div id="tela">
         <h1>Temas cadastrados</h1>
+        
         <form name="formConfirmar" action="DetalheTemaServlet" method="POST">
             <ul type="disc">
                 <%
@@ -38,9 +39,10 @@
                         valorBotao = "" + (i + 1);
                 %>
 
-                <li> <%= "ALUNO QUE REQUISITOU: " + tema.getAluno().getNome()%> </li>
-                    <%= "DESCRIÇÃO DO TEMA: " + tema.getDescricao()%>
+                <li> <%= "ALUNO QUE REQUISITOU: \n" + tema.getAluno().getNome()%> </li>
                 <br>
+                    <%= "\nDESCRIÇÃO DO TEMA: " + tema.getDescricao()%>
+                    <br><br>
 
 
                 <%
@@ -52,16 +54,18 @@
                 %>
 
                 <%= "SITUAÇÃO: " + aprovado%>
-
-                <input type="submit" name="confirmar" value="<%= "Confirmar Tema " + (i + 1)%>" />
-                <input type="submit" name="confirmar" value="<%= "Recusar Tema " + (i + 1)%> " />
+                <br></br>
+                <input type="submit" class="btn btn-info" name="confirmar" value="<%= "Confirmar Tema " + (i + 1)%>" />
                 <br><br>
+                <input type="submit" name="confirmar" class="btn btn-warning" value="<%= "Recusar Tema " + (i + 1)%> " />
+                <br><br>
+                <input  type="button" class="btn btn-danger  " name="voltar" id="voltar" value="Voltar" onClick="retornaPaginaPrincipal()">
                 <%
                     }
                 %>
                 <br>
             </ul>
-            <input  type="button" class="btn btn-danger  " name="voltar" id="voltar" value="Voltar" onClick="retornaPaginaPrincipal()">
+            
             </div>
             <script>
                 function retornaPaginaPrincipal() {
