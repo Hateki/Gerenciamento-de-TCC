@@ -34,9 +34,6 @@
              <br></br>
             <h4>Banca Avaliadora</h4>
 
-            Data: <input name="date" type="date" id="date" required/><br></br>
-            Horario: <input type="time" name="time" id="time" required/><br></br>
-            Local: <input type="text" name="local" id="local" onblur="validaEspaco(this)" required/><br></br>
             Matrícula Aluno: <input type="text" name="matricula" id="matricula" maxlength="9" onblur="validaEspaco(this), testarMatricula()" required/><br></br>
             Professor: <input type="text" name="professor1" id="professor1" onblur="validaEspaco(this)" required/><br></br>
             Professor: <input type="text" name="professor2" id="professor2" onblur="validaEspaco(this)" required/><br></br>
