@@ -165,7 +165,7 @@ public class AcessoSistema {
             }
         }
 
-        if (aluno != null && professor != null && verificarCargaHorario(aluno)) {
+        if (aluno != null && professor != null) {
             tema.setAluno(aluno);
             tema.setProfessor(professor);
             tema.setAprovado(false);
