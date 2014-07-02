@@ -11,7 +11,7 @@
 <!DOCTYPE html>
 <head>
     <style> 
-        #cadTema {margin-left:550px; margin-right:550px}; 
+        #cadTema {margin-left:500px;}; 
 
     </style>
     <link href="../../GerenciamentoTCC/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -117,33 +117,31 @@
             <textarea rows="6" cols="40" name="tema" id="tema" maxlength="200"  onblur="validaEspaco(this)" required></textarea><br><br/>
 
             Orientador: <input type="text" name="orientador" id="orientador" onblur="validaEspaco(this)" placeholder="Orientador" required />
-            <a href="#listaProfessores" data-toggle="modal" class="btn btn-success"> Ver lista </a>
+            <a href="#listaProfessores" data-toggle="modal" class="btn btn-primary"> Ver lista </a>
             <br></br>
 
-            <input class="btn btn-primary" type="submit" id="enviar" name="enviar" value="Enviar">
+            <input class="btn btn-success" type="submit" id="enviar" name="enviar" value="Enviar">
             <input type="reset" class="btn btn-warning" name="limpar" id="limpar" value="Limpar" />
-            <input  type="button" class="btn btn-danger  " name="voltar" id="voltar" value="Voltar" onClick="retornaPaginaPrincipalAluno()"> 
             </form>
         </div>
-
-        <%
-            String retorno = (String) request.getAttribute("retorno");
-            List<Professor> professores = (List<Professor>) request.getAttribute("professores");
-
-            if (retorno != null && retorno.equalsIgnoreCase("Sucesso")) {
-        %>
-
-        <div class="alert alert-success" role="alert">Cadastro realizado com sucesso</div>
-
-        <%  } else if (retorno != null && retorno.equalsIgnoreCase("Professor Nao Existe")) {
-        %>
-        <div class="alert alert-danger" role="alert">O professor digitado não existe</div>
-        <%  } else if (retorno != null && retorno.equalsIgnoreCase("Problema")) {
-        %>
-        <div class="alert alert-danger" role="alert">Ocorreu um problema no sistema tente o cadastro novamente</div>
-        <%
-            }
-        %>
+        
+        <c:if test="${retorno == 'Sucesso'}" var="teste" scope="request">
+            <div class="alert alert-success" role="alert">Cadastro realizado com sucesso</div>
+        </c:if>
+        
+        <c:if test="${retorno == 'Professor Nao Existe'}" var="teste" scope="request">
+            <div class="alert alert-danger" role="alert">O usuário de professor digitado não existe</div>
+        </c:if>
+        
+        <c:if test="${retorno == 'Tema Ja Cadastrado'}" var="teste" scope="request">
+            <div class="alert alert-danger" role="alert">Você já cadastrou um tema</div>
+        </c:if>
+            
+        <c:if test="${retorno == 'Problema'}" var="teste" scope="request">
+            <div class="alert alert-danger" role="alert">Ocorreu um problema no sistema tente o cadastro novamente</div>
+        </c:if> 
+        
+            
         <div class="modal fade" id="listaProfessores" role="dialog">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -154,6 +152,7 @@
                         <table border="1" class="table table-hover">
                             <thead>
                                 <tr>
+                                    <th>Usuário Professor</th>
                                     <th>Nome do Professor</th>
                                     <th>Email</th>
                                 </tr>
@@ -161,6 +160,7 @@
                             <tbody>
                                 <c:forEach var="professor" items="${professores}">
                                     <tr>
+                                        <td> <c:out value="${professor.usuario}"/> </td>
                                         <td> <c:out value="${professor.nome}"/> </td>
                                         <td> <c:out value="${professor.pessoa.email}"/> </td>
                                     </tr>

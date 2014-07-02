@@ -51,7 +51,13 @@ public class CadastroTemaServlet extends HttpServlet {
                 view = request.getRequestDispatcher("cadastroTema.jsp");
                 view.forward(request, response);
                 as.completarTransacoes();
-            } else {
+            }else if(as.verificaExistenciaTema(matriculaAluno)){
+                request.setAttribute("retorno", "Tema Ja Cadastrado");
+                view = request.getRequestDispatcher("cadastroTema.jsp");
+                view.forward(request, response);
+                as.completarTransacoes();
+            }
+            else {
                 flag = aluno.cadastrarTema(matriculaAluno, usuarioProfessor, descricaoTema);
                 if (flag) {
                     //Certificar de que o usuário saiba que o cadastro foi bem sucedido

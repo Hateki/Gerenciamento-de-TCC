@@ -1,8 +1,9 @@
 package br.edu.unipampa.model.web;
 
-import br.edu.unipampa.model.*;
 import br.edu.unipampa.bancoDeDados.hibernate.HibernateUtil;
+import br.edu.unipampa.model.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import org.hibernate.Session;
 
@@ -436,9 +437,47 @@ public class AcessoSistema {
         }
         return temasConfirmados;
    }
-    
+    /**
+     * Procura os professores cadastrados no sitema
+     * @return A lista de professores encontrados ordenada alfebeticamente
+     */
     public List<Professor> retornarProfossores(){
-        return SESSAO.createQuery("From Professor").list();
+        List<Professor> listaProfessores =  SESSAO.createQuery("From Professor").list();
+        List<Professor> listaProfessoresOrdenada =  new ArrayList<>();
+        List<String> listaUsuarios = new ArrayList<>();
+        
+        for (Professor professor : listaProfessores) {
+            listaUsuarios.add(professor.getUsuario());
+        }
+        
+        Collections.sort(listaUsuarios);
+        
+        for (String string : listaUsuarios) {
+            for (Professor professor : listaProfessores) {
+                if(professor.getUsuario().equals(string)){
+                    listaProfessoresOrdenada.add(professor);
+                    break;
+                }
+            }
+        }
+        
+        return listaProfessoresOrdenada;
+    }
+    
+    
+    /**
+     * Verifica se o aluno já cadastrou um tema no sistema
+     * @param matriculaAluno Aluno para se verificar
+     * @return true se o aluno já tem um cadastro no sitema
+     */
+    public boolean verificaExistenciaTema(int matriculaAluno){
+        List<Tema> listaTema = SESSAO.createQuery("From Tema").list();
+        for (Tema temaEncontrado : listaTema) {
+            if(temaEncontrado.getAluno().getMatricula() == matriculaAluno){
+                return true;
+            }
+        }
+        return false;
     }
     
 }
