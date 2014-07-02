@@ -1,5 +1,5 @@
 package br.edu.unipampa.model;
-// Generated 21/06/2014 18:48:59 by Hibernate Tools 3.6.0
+// Generated 02/07/2014 01:11:04 by Hibernate Tools 3.6.0
 
 
 import java.util.HashSet;

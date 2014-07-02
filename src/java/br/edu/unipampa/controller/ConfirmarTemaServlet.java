@@ -6,23 +6,21 @@
 
 package br.edu.unipampa.controller;
 
+import br.edu.unipampa.model.Tema;
 import br.edu.unipampa.model.web.AcessoSistema;
 import java.io.IOException;
 import java.io.PrintWriter;
-import javax.servlet.RequestDispatcher;
+import java.util.List;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author pontofrio
  */
-@WebServlet(urlPatterns = {"/LoginServlet"})
-public class LoginServlet extends HttpServlet {
+public class ConfirmarTemaServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,34 +33,17 @@ public class LoginServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        AcessoSistema login = new AcessoSistema();
-        String nome = request.getParameter("nomeUsuario");
-        String senha = request.getParameter("Senha");
-        int result;
-        HttpSession session = request.getSession();
-        RequestDispatcher view;
+        AcessoSistema as = new AcessoSistema();
+        List<Tema> temasEncontrados = as.procurarTemasConfirmados();
+        Integer acaoTema = (Integer) request.getAttribute("temaEscolhido");
         
-        session.setAttribute("usuario", nome);
+        request.setAttribute("retorno", temasEncontrados);
         
-        result = login.verificarDados(nome, senha);
-        
-        if(result == AcessoSistema.ALUNO){
-            view = request.getRequestDispatcher("menuPrincipalAluno.jsp");
-            view.forward(request, response);
-        }else if(result == AcessoSistema.PROFESSOR){
-            view = request.getRequestDispatcher("menuPrincipalProfessor.jsp");
-            view.forward(request, response);
-        }else if(result == AcessoSistema.PESSOA_EXTERNA){
-            view = request.getRequestDispatcher("menuPrincipalProfessor.jsp");
-            view.forward(request, response);
-        }else {
-            request.setAttribute("fracasso", "erro");
-            view = request.getRequestDispatcher("telaLogin.jsp");
-            view.forward(request, response);
+        if(acaoTema != null){
+            
         }
         
-        login.completarTransacoes();
-        
+        request.getRequestDispatcher("confirmarTema.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

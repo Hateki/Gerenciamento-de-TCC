@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package br.edu.unipampa.controller;
 
 import br.edu.unipampa.model.web.AcessoSistema;
@@ -32,39 +31,47 @@ public class CadastroTemaServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         RequestDispatcher view;
         boolean flag;
         AcessoSistema aluno = new AcessoSistema();
         String usuarioAluno = (String) request.getSession().getAttribute("usuario");
         String usuarioProfessor = request.getParameter("orientador");
-        String descricaoTema = request.getParameter("tema");      
+        String descricaoTema = request.getParameter("tema");
         AcessoSistema as = aluno;
-        
-        int matriculaAluno = as.procurarMatriculaAluno(usuarioAluno);
-        
-        if(!as.verificarProfessor(usuarioProfessor)){
-            //Certificar que o usuário saiba que o professor não existe
-            request.setAttribute("retorno", "Professor Nao Existe");
-            view = request.getRequestDispatcher("cadastroTema.jsp");
-            view.forward(request, response);
-            as.completarTransacoes();
-        }else{
-            flag = aluno.cadastrarTema(matriculaAluno, usuarioProfessor, descricaoTema);
-            if(flag){
-                //Certificar de que o usuário saiba que o cadastro foi bem sucedido
-                request.setAttribute("retorno", "Sucesso");
-                view = request.getRequestDispatcher("cadastroTema.jsp");
-                view.forward(request, response);
-            }else{
-                //Mandar o resultador depois
-                request.setAttribute("retorno", "Problema");
+
+        request.setAttribute("professores", as.retornarProfossores());
+
+        if (usuarioProfessor != null) {
+            int matriculaAluno = as.procurarMatriculaAluno(usuarioAluno);
+
+            if (!as.verificarProfessor(usuarioProfessor)) {
+                //Certificar que o usuário saiba que o professor não existe
+                request.setAttribute("retorno", "Professor Nao Existe");
                 view = request.getRequestDispatcher("cadastroTema.jsp");
                 view.forward(request, response);
                 as.completarTransacoes();
+            } else {
+                flag = aluno.cadastrarTema(matriculaAluno, usuarioProfessor, descricaoTema);
+                if (flag) {
+                    //Certificar de que o usuário saiba que o cadastro foi bem sucedido
+                    request.setAttribute("retorno", "Sucesso");
+                    view = request.getRequestDispatcher("cadastroTema.jsp");
+                    view.forward(request, response);
+                } else {
+                    //Mandar o resultador depois
+                    request.setAttribute("retorno", "Problema");
+                    view = request.getRequestDispatcher("cadastroTema.jsp");
+                    view.forward(request, response);
+                    as.completarTransacoes();
+                }
             }
+        } else {
+            view = request.getRequestDispatcher("cadastroTema.jsp");
+            view.forward(request, response);
+            as.completarTransacoes();
         }
-        
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

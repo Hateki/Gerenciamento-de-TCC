@@ -39,7 +39,6 @@ public class DetalheTemaServlet extends HttpServlet {
         String usuarioProfessor = (String) request.getSession().getAttribute("usuario");
         Professor professor = as.procurarProfessor(usuarioProfessor);
         List<Tema> temasRequisitados = as.retornarTemasRequisitados(professor);
-        List<Tema> temasEncontrados = as.selecionaTemaNaoConfirmado(temasRequisitados);
         int temaEscolhido = Integer.parseInt(valorBotao);
         
         if(verificaOpcao(valorCompletoBotao)){

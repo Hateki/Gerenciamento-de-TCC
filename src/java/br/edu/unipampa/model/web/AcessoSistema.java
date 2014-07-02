@@ -168,7 +168,7 @@ public class AcessoSistema {
         if (aluno != null && professor != null) {
             tema.setAluno(aluno);
             tema.setProfessor(professor);
-            tema.setAprovado(false);
+            tema.setAprovado(Tema.NAO_APROVADO);
             tema.setDescricao(decricao);
             SESSAO.save(tema);
             SESSAO.getTransaction().commit();
@@ -278,7 +278,7 @@ public class AcessoSistema {
     public List<Tema> selecionaTemaNaoConfirmado(List<Tema> temasProfessor) {
         List<Tema> temasEncontrados = new ArrayList<>();
         for (Tema tema : temasProfessor) {
-            if (!tema.getAprovado()) {
+            if (tema.getAprovado() == Tema.NAO_APROVADO) {
                 temasEncontrados.add(tema);
             }
         }
@@ -301,7 +301,7 @@ public class AcessoSistema {
                 }
             }
             if (escolhido != null) {
-                escolhido.setAprovado(true);
+                escolhido.setAprovado(Tema.APROVADO_ORIENTADOR);
             }
             SESSAO.update(escolhido);
 
@@ -421,6 +421,24 @@ public class AcessoSistema {
         return SESSAO;
     }
     
+    /**
+     * Procura os temas confirmados no banco de dados
+     * @return Lista de temas que foi encontrada
+     */
+    public List<Tema> procurarTemasConfirmados(){
+        List<Tema> temasEncontrados = SESSAO.createQuery("From Tema").list();
+        List<Tema> temasConfirmados = new ArrayList<>();
+        
+        for (Tema tema : temasEncontrados) {
+            if(tema.getAprovado() == Tema.APROVADO_COODENADOR){
+                temasConfirmados.add(tema);
+            }
+        }
+        return temasConfirmados;
+   }
     
-
+    public List<Professor> retornarProfossores(){
+        return SESSAO.createQuery("From Professor").list();
+    }
+    
 }

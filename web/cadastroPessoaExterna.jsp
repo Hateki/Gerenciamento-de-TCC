@@ -1,3 +1,5 @@
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page isELIgnored="false" %>
 <%-- 
     Document   : cadastroPessoaExterna
     Created on : 22/06/2014, 17:44:21
@@ -9,10 +11,10 @@
 <html>
     <head>
         <style> 
-            #form1 {margin-left:550px; margin-right:550px}; 
-           
+            #form1 {margin-left:550px; margin-right:550px};         
         </style>
-         <link href="bootstrap.min.css" rel="stylesheet" media="screen">
+        <link href="../../GerenciamentoTCC/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../GerenciamentoTCC/bootstrap/css/styles.css" rel="stylesheet">
         <title>Cadastro Pessoa Externa</title>
         <script type="text/javascript">
 
@@ -176,7 +178,7 @@
 
             function ValidaEmail()
             {
-                var obj = document.cadPform.email;                     
+                var obj = document.cadPform.email;
                 var txt = obj.value;
                 if ((txt.length != 0) && ((txt.indexOf("@") < 1) || (txt.indexOf('.') < 7)))
                 {
@@ -192,46 +194,80 @@
 
 
     <body>
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <a href="menuPrincipalAluno.html" class="navbar-brand"> Menu Principal </a>
+                <button class="navbar-toggle" data-toggle = "collapse" data-target = ".OpcoesMenu">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <div class="collapse navbar-collapse OpcoesMenu">
+                    <ul class="nav navbar-nav">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Banca <span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li> <a href="http://localhost:8080/GerenciamentoTCC/criarBancaTCC.jsp"> Marcar Banca </a></li>
+                                <li> <a href="http://localhost:8080/GerenciamentoTCC/definirHLD.jsp"> Definir Horário Local e Data </a> </li>
+                            </ul>
+                        </li>
+                        <li> <a href="http://localhost:8080/GerenciamentoTCC/TemasRequisitadosServlet"> Temas Requisitados  </a></li>
+                        <li> <a href="http://localhost:8080/GerenciamentoTCC/cadastroPessoaExterna.jsp"> Cadastrar Pessoa Externa </a> </li>
+                        <li> <a href="http://localhost:8080/GerenciamentoTCC/contato.html"> Contato </a> </li>
+                        <li> <a href="http://localhost:8080/GerenciamentoTCC/sobre.html"> Sobre</a> </li>
+                        <li> <a href="http://localhost:8080/GerenciamentoTCC/telaLogin.jsp"> Sair</a> </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <br><br><br><br><br>
         <script src="http://code.jquery.com/jquery-latest.js"></script>
         <script src="bootstrap.min.js"></script>
+
         <div id="form1">
-            <form id="cadPform" name="cadPform" method="post" action="CadastraPessoaExternaServelt"
-              onsubmit="return validaCampoNome(), validaInst(), validaCampoSenha1(), validaCampoSenha2(), validaCampoSenhasIguais();">
-
-            <label for="titulo"></label>
-            <legend>Cadastro Pessoa Externa</legend>
-
-            Nome Completo: <input name="nomePessoaExterna" type="text" id="nomePessoaExterna" maxlength="200" onblur="validaEspaco(this)" placeholder="Nome Completo" required/><br></br>
-            Instituição: <input name="nomeInstituicao" type="text" id="nomeInstituicao" maxlength="200" onblur="validaEspaco(this)" placeholder="Nome da Instituição" required/><br></br>
-            Senha: <input name="passwordPessoaExterna" type="password" id="passwordPessoaExterna" maxlength="200" onblur="validaEspaco(this)" placeholder="Digite sua senha" required><br></br>
-            Confirmação de Senha: <input name="passwordPessoaExterna2" type="password" id="passwordPessoaExterna2" maxlength="200" onblur="validaEspaco(this)" placeholder="Confirme sua senha" required><br></br>
-            Número do CPF:   <input type="text" name="cpf" id="cpf" onblur="javascript: validarCPF(this.value);" onkeypress="javascript: mascara(this, cpf_mask);"  placeholder="Digite seu CPF" maxlength="14" required/><br></br>
-            E-mail:   <input type="email" name="email" id="email" onBlur="ValidaEmail()" placeholder="Digite seu e-mail" required><br></br>
-
-            <input type="submit" class="btn btn-primary" name="enviar" id="enviar" value="Confirmar"   />
-            <input type="reset" class="btn btn-warning" name="limpar" id="limpar" value="Limpar" />
-            <input  type="button" class="btn btn-danger  " name="voltar" id="voltar" value="Voltar" onClick="retornaPaginaPrincipal()">
-            <script>
-                        function retornaPaginaPrincipal() {
-                            location.href = "menuPrincipalProfessor.html"
-                        }
-            </script>
             <%
                 String retorno = (String) request.getAttribute("retorno");
-                if(retorno != null && retorno.equalsIgnoreCase("usuario Existe"))
-                {
+                if (retorno != null && retorno.equalsIgnoreCase("usuario Existe")) {
             %>
-                <script> alert("O usuário já existe"); </script>
+                <br>
+                <div class="alert alert-danger" role="alert">Usuário já existe</div>
             <%  }
-                if(retorno != null && retorno.equalsIgnoreCase("Sucesso"))
-                {
+                if (retorno != null && retorno.equalsIgnoreCase("Sucesso")) {
             %>
-            <script> alert("Cadastro realizado com sucesso"); </script>
+                <br>
+                <div class="alert alert-success" role="alert">Cadastro realizado com sucesso</div>
             <%
                 }
             %>
-        </form>
+            <form id="cadPform" name="cadPform" method="post" action="CadastraPessoaExternaServelt"
+                  onsubmit="return validaCampoNome(), validaInst(), validaCampoSenha1(), validaCampoSenha2(), validaCampoSenhasIguais();">
+
+                <label for="titulo"></label>
+                <legend>Cadastro Pessoa Externa</legend>
+
+                Nome Completo: <input name="nomePessoaExterna" type="text" id="nomePessoaExterna" maxlength="200" onblur="validaEspaco(this)" placeholder="Nome Completo" required /><br></br>
+                Instituição: <input name="nomeInstituicao" type="text" id="nomeInstituicao" maxlength="200" onblur="validaEspaco(this)" placeholder="Nome da Instituição" required/><br></br>
+                Senha: <input name="passwordPessoaExterna" type="password" id="passwordPessoaExterna" maxlength="200" onblur="validaEspaco(this)" placeholder="Digite sua senha" required><br></br>
+                Confirmação de Senha: <input name="passwordPessoaExterna2" type="password" id="passwordPessoaExterna2" maxlength="200" onblur="validaEspaco(this)" placeholder="Confirme sua senha" required><br></br>
+                Número do CPF:   <input type="text" name="cpf" id="cpf" onblur="javascript: validarCPF(this.value);" onkeypress="javascript: mascara(this, cpf_mask);"  placeholder="Digite seu CPF" maxlength="14" required/><br></br>
+                E-mail:   <input type="email" name="email" id="email" onBlur="ValidaEmail()" placeholder="Digite seu e-mail" required><br></br>
+
+                <input type="submit" class="btn btn-primary" name="enviar" id="enviar" value="Confirmar"   />
+                <input type="reset" class="btn btn-warning" name="limpar" id="limpar" value="Limpar" />
+                <input  type="button" class="btn btn-danger  " name="voltar" id="voltar" value="Voltar" onClick="retornaPaginaPrincipal()">
+                <script>
+                    function retornaPaginaPrincipal() {
+                        location.href = "menuPrincipalProfessor.html"
+                    }
+                </script>
+
+            </form>
         </div>
+        <!-- Bootstrap core JavaScript
+        ================================================== -->
+        <!-- Placed at the end of the document so the pages load faster -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <script src="../../GerenciamentoTCC/bootstrap/js/bootstrap.min.js"></script>
     </body>
 </html>
 </html>
