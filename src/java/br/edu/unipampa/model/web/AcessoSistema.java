@@ -177,13 +177,14 @@ public class AcessoSistema {
         }
         return false;
     }
-    
+
     /**
      * Verifica se o aluno tem a carga horário necessária para realizar o TCC
+     *
      * @param aluno Aluno para se verificar
      * @return True se o aluno pode fazer o tcc
      */
-    public boolean verificarCargaHorario(Aluno aluno){
+    public boolean verificarCargaHorario(Aluno aluno) {
         return aluno.getCargaHoraria() >= 360;
     }
 
@@ -220,9 +221,10 @@ public class AcessoSistema {
         }
         return false;
     }
-    
+
     /**
      * Verifica se o usuário fornecido existe ou não.
+     *
      * @param usuario Usuário para se verificar
      * @return true se o usuário existe
      */
@@ -291,8 +293,9 @@ public class AcessoSistema {
      *
      * @param listaTemas lista de temas para se procurar o tema escolhido
      * @param temaEscolhido qual foi o tema escolhido
+     * @param coordenador true se quem está confirmando é o coordenador de TCC
      */
-    public void confirmarTema(List<Tema> listaTemas, int temaEscolhido) {
+    public void confirmarTema(List<Tema> listaTemas, int temaEscolhido, boolean coordenador) {
         Tema escolhido = null;
         if (listaTemas != null) {
             for (int i = 0; i < listaTemas.size(); i++) {
@@ -302,7 +305,11 @@ public class AcessoSistema {
                 }
             }
             if (escolhido != null) {
-                escolhido.setAprovado(Tema.APROVADO_ORIENTADOR);
+                if (coordenador) {
+                    escolhido.setAprovado(Tema.APROVADO_COODENADOR);
+                } else {
+                    escolhido.setAprovado(Tema.APROVADO_ORIENTADOR);
+                }
             }
             SESSAO.update(escolhido);
 
@@ -350,8 +357,7 @@ public class AcessoSistema {
         SESSAO.getTransaction().commit();
     }
 
-    public boolean cadastrarBanca(int matriculaAluno, String data, String horario,
-            String local, String usuarioOrientador,
+    public boolean cadastrarBanca(int matriculaAluno, String usuarioOrientador,
             String professor1, String professor2, String professor3) {
 
         Aluno aluno = procurarAluno(matriculaAluno);
@@ -360,17 +366,14 @@ public class AcessoSistema {
         Pessoa convidado2 = procurarPessoa(professor2);
         Pessoa convidado3 = procurarPessoa(professor3);
         Banca banca = new Banca();
-        
-        if(aluno == null){
+
+        if (aluno == null) {
             return false;
         }
 
         if (convidado1 != null && convidado2 != null
                 && professor != null) {
 
-            banca.setData(data);
-            banca.setLocal(local);
-            banca.setHorario(horario);
             banca.setPessoaByConvidado1IdPessoa(convidado1);
             banca.setPessoaByConvidado2IdPessoa(convidado2);
             banca.setPessoaByConvidado3IdPessoa(convidado3);
@@ -379,8 +382,6 @@ public class AcessoSistema {
 
             SESSAO.save(banca);
 
-            SESSAO.getTransaction().commit();
-            
             return true;
         }
         return false;
@@ -421,63 +422,140 @@ public class AcessoSistema {
     public Session getSESSAO() {
         return SESSAO;
     }
-    
+
     /**
      * Procura os temas confirmados no banco de dados
+     *
      * @return Lista de temas que foi encontrada
      */
-    public List<Tema> procurarTemasConfirmados(){
+    public List<Tema> procurarTemasConfirmados() {
         List<Tema> temasEncontrados = SESSAO.createQuery("From Tema").list();
         List<Tema> temasConfirmados = new ArrayList<>();
-        
+
         for (Tema tema : temasEncontrados) {
-            if(tema.getAprovado() == Tema.APROVADO_COODENADOR){
+            if (tema.getAprovado() == Tema.APROVADO_ORIENTADOR
+                    || tema.getAprovado() == Tema.APROVADO_COODENADOR) {
                 temasConfirmados.add(tema);
             }
         }
         return temasConfirmados;
-   }
+    }
+
     /**
      * Procura os professores cadastrados no sitema
+     *
      * @return A lista de professores encontrados ordenada alfebeticamente
      */
-    public List<Professor> retornarProfossores(){
-        List<Professor> listaProfessores =  SESSAO.createQuery("From Professor").list();
-        List<Professor> listaProfessoresOrdenada =  new ArrayList<>();
+    public List<Professor> retornarProfossores() {
+        List<Professor> listaProfessores = SESSAO.createQuery("From Professor").list();
+        List<Professor> listaProfessoresOrdenada = new ArrayList<>();
         List<String> listaUsuarios = new ArrayList<>();
-        
+
         for (Professor professor : listaProfessores) {
             listaUsuarios.add(professor.getUsuario());
         }
-        
+
         Collections.sort(listaUsuarios);
-        
+
         for (String string : listaUsuarios) {
             for (Professor professor : listaProfessores) {
-                if(professor.getUsuario().equals(string)){
+                if (professor.getUsuario().equals(string)) {
                     listaProfessoresOrdenada.add(professor);
                     break;
                 }
             }
         }
-        
+
         return listaProfessoresOrdenada;
     }
     
+    /**
+     * Procura os alunos cadastrados no sistema
+     * @return retorna a lista de alunos encontrados ordenados alfabeticamente
+     * pelo nome
+     */
+    public List<Aluno> retornarAlunos() {
+        List<Aluno> listaAlunos = SESSAO.createQuery("From Aluno").list();
+        List<Aluno> listaAlunosOrdenada = new ArrayList<>();
+        List<String> listaNomes = new ArrayList<>();
+
+        for (Aluno aluno : listaAlunos) {
+            listaNomes.add(aluno.getNome());
+        }
+
+        Collections.sort(listaNomes);
+
+        for (String string : listaNomes) {
+            for (Aluno aluno : listaAlunos) {
+                if (aluno.getNome().equals(string)) {
+                    listaAlunosOrdenada.add(aluno);
+                    break;
+                }
+            }
+        }
+
+        return listaAlunosOrdenada;
+    }
     
     /**
+     * Procura as pessoas cadastradas no sistema que podem ser convidadas para as bancas
+     * @return Uma lista de pessoas organizadas alfabeticamente pelo usuário
+     */
+    public List<Pessoa> retornarPessoas() {
+        List<Pessoa> listaPessoas = SESSAO.createQuery("From Pessoa").list();
+        List<Pessoa> listaPessoasOrdenada = new ArrayList<>();
+        List<String> listaUsuarios = new ArrayList<>();
+
+        for (Pessoa pessoa : listaPessoas) {
+            listaUsuarios.add(pessoa.getUsuario());
+        }
+
+        Collections.sort(listaUsuarios);
+
+        for (String string : listaUsuarios) {
+            for (Pessoa pessoa : listaPessoas) {
+                if (pessoa.getUsuario().equals(string)) {
+                    listaPessoasOrdenada.add(pessoa);
+                    break;
+                }
+            }
+        }
+
+        return retirarAlunos(listaPessoasOrdenada);
+    }
+    
+    /**
+     * Retira os alunos de uma lista de pessoas
+     * @param listaPessoas lista de pessoas para se retirar os alunos
+     * @return A lista fornecida no parâmetro sem os alunos
+     */
+    private List<Pessoa> retirarAlunos(List<Pessoa> listaPessoas){
+        List<Aluno> alunosEcontrados = SESSAO.createQuery("From Aluno").list();
+        for (Aluno aluno : alunosEcontrados) {
+            for (Pessoa pessoa : listaPessoas) {
+                if(aluno.getUsuario().equals(pessoa.getUsuario())){
+                    listaPessoas.remove(pessoa);
+                    break;
+                }
+            }
+        }
+        return listaPessoas;
+    }
+
+    /**
      * Verifica se o aluno já cadastrou um tema no sistema
+     *
      * @param matriculaAluno Aluno para se verificar
      * @return true se o aluno já tem um cadastro no sitema
      */
-    public boolean verificaExistenciaTema(int matriculaAluno){
+    public boolean verificaExistenciaTema(int matriculaAluno) {
         List<Tema> listaTema = SESSAO.createQuery("From Tema").list();
         for (Tema temaEncontrado : listaTema) {
-            if(temaEncontrado.getAluno().getMatricula() == matriculaAluno){
+            if (temaEncontrado.getAluno().getMatricula() == matriculaAluno) {
                 return true;
             }
         }
         return false;
     }
-    
+
 }

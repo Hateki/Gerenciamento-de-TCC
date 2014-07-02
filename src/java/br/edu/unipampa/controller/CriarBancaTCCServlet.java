@@ -50,44 +50,46 @@ public class CriarBancaTCCServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String data = request.getParameter("date");
-        String horario = request.getParameter("time");
         String professor1 = request.getParameter("professor1");
         String professor2 = request.getParameter("professor2");
         String professor3 = request.getParameter("professor3");
         String orientador = (String) request.getSession().getAttribute("usuario");
-        int matriculaAluno = Integer.parseInt(request.getParameter("matricula"));
-        String local = request.getParameter("local");
+        String matriculaAlunoString = (String) request.getParameter("matricula");
+        int matriculaAluno = -1;
         boolean verificaCadastro;
+        int resultadoVerificacao;
         as = new AcessoSistema();
         AcessoSistema professor = as;
-        Banca banca = new Banca();
-        banca.setProfessor(null);
 
-        int resultadoVerificacao = verificaExistenciaProfessor(professor1, professor2, professor3);
+        if (professor1 != null && professor2 != null && matriculaAlunoString != null) {
+            
+            matriculaAluno = Integer.parseInt(matriculaAlunoString);
+            resultadoVerificacao = verificaExistenciaProfessor(professor1, professor2, professor3);
 
-        if (resultadoVerificacao == PROFESSORES_EXISTEM) {
-            if (confirmaProfessor(orientador, professor1)
-                    || confirmaProfessor(orientador, professor2)
-                    || confirmaProfessor(orientador, professor3)) {
-                request.setAttribute("retorno", ORIENTADOR_IGUAL_PROFESSOR);
-                request.getRequestDispatcher("criarBancaTCC.jsp").forward(request, response);
-            } else {
-                verificaCadastro = professor.cadastrarBanca(matriculaAluno, data, horario, local, orientador, professor1, professor2, professor3);
-
-                if (verificaCadastro) {
-                    request.setAttribute("retorno", resultadoVerificacao);
-                    request.getRequestDispatcher("criarBancaTCC.jsp").forward(request, response);
+            if (resultadoVerificacao == PROFESSORES_EXISTEM) {
+                if (confirmaProfessor(orientador, professor1)
+                        || confirmaProfessor(orientador, professor2)
+                        || confirmaProfessor(orientador, professor3)) {
+                    request.setAttribute("retorno", ORIENTADOR_IGUAL_PROFESSOR);
                 } else {
-                    resultadoVerificacao = ALUNO_NO_LUGAR_PROFESSOR;
-                    request.setAttribute("retorno", resultadoVerificacao);
-                    request.getRequestDispatcher("criarBancaTCC.jsp").forward(request, response);
+                    verificaCadastro = professor.cadastrarBanca(matriculaAluno, orientador, professor1, professor2, professor3);
+
+                    if (verificaCadastro) {
+                        request.setAttribute("retorno", resultadoVerificacao);
+                    } else {
+                        resultadoVerificacao = ALUNO_NO_LUGAR_PROFESSOR;
+                        request.setAttribute("retorno", resultadoVerificacao);
+                    }
                 }
+            } else {
+                request.setAttribute("retorno", resultadoVerificacao);
             }
-        } else {
-            request.setAttribute("retorno", resultadoVerificacao);
-            request.getRequestDispatcher("criarBancaTCC.jsp").forward(request, response);
         }
+        
+        request.setAttribute("pessoas", as.retornarPessoas());
+        request.setAttribute("alunos", as.retornarAlunos());
+        as.completarTransacoes();
+        request.getRequestDispatcher("criarBancaTCC.jsp").forward(request, response);
     }
 
     /**
@@ -147,11 +149,7 @@ public class CriarBancaTCCServlet extends HttpServlet {
         if (usuarioProfessor.equals("")) {//Se o usuário do professor não foi preenchido
             return false;
         }
-        if (usuarioOrientador.equals(usuarioProfessor)) {
-            return true;
-        } else {
-            return false;
-        }
+        return usuarioOrientador.equals(usuarioProfessor);
     }
 
     public int confirmarNaoExistenciaAluno(String usuario) {

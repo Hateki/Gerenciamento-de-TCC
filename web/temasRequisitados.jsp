@@ -11,7 +11,7 @@
 <html>
     <head>
         <style> 
-            #tela {margin-left:550px; margin-right:350px}; 
+            
 
         </style>
         <link href="../../GerenciamentoTCC/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -80,7 +80,7 @@
                     <tbody>
                         <tr>
                             <%
-                                if (tema.getAprovado() == Tema.APROVADO_COODENADOR) {
+                                if (tema.getAprovado() == Tema.APROVADO_ORIENTADOR) {
                                     aprovado = "Aprovado";
                                 } else if (tema.getAprovado() == Tema.APROVADO_COODENADOR) {
                                     aprovado = "Aprovado pelo coordenador";

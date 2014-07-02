@@ -1,4 +1,5 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page isELIgnored="false" %>
 <%-- 
     Document   : cadastroTema
     Created on : 22/06/2014, 18:53:32
@@ -105,7 +106,6 @@
                 </ul>
             </div>
         </div>
-
     </div>
     <form id="cadform" name="cadform" method="post" action="CadastroTemaServlet"
           onsubmit="return validaEspacoTema(), validaEspacoOrientador(), validaCampo(), validaCampo2();">
@@ -171,6 +171,7 @@
                 </div>
             </div>
         </div>
+            
         <!-- Bootstrap core JavaScript
         ================================================== -->
         <!-- Placed at the end of the document so the pages load faster -->

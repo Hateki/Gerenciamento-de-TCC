@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package br.edu.unipampa.controller;
 
+import br.edu.unipampa.model.Professor;
 import br.edu.unipampa.model.Tema;
 import br.edu.unipampa.model.web.AcessoSistema;
 import java.io.IOException;
@@ -33,17 +33,51 @@ public class ConfirmarTemaServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String valorCompletoBotao = (String) request.getParameter("confirmar");
+        String valorBotao;
         AcessoSistema as = new AcessoSistema();
-        List<Tema> temasEncontrados = as.procurarTemasConfirmados();
-        Integer acaoTema = (Integer) request.getAttribute("temaEscolhido");
+        List<Tema> temasRequisitados = as.procurarTemasConfirmados();
+        int temaEscolhido = -1;
         
-        request.setAttribute("retorno", temasEncontrados);
+        request.setAttribute("retorno", temasRequisitados);
         
-        if(acaoTema != null){
-            
+        if (valorCompletoBotao != null) {
+            valorBotao = verificaValorBotao(valorCompletoBotao);
+            temaEscolhido = Integer.parseInt(valorBotao);
+
+            if (verificaOpcao(valorCompletoBotao)) {
+                as.confirmarTema(temasRequisitados, temaEscolhido, true);
+            } else {
+                as.recusarTema(temasRequisitados, temaEscolhido);
+            }
         }
-        
+
         request.getRequestDispatcher("confirmarTema.jsp").forward(request, response);
+        as.completarTransacoes();
+    }
+
+    public String verificaValorBotao(String valorBotao) {
+        for (int i = 0; i < valorBotao.length(); i++) {
+            if (valorBotao.charAt(i) > '9' || valorBotao.charAt(i) < '0') {
+                valorBotao = valorBotao.replace(valorBotao.charAt(i), ' ');
+            }
+        }
+        valorBotao = valorBotao.trim();
+        return valorBotao;
+    }
+
+    /**
+     * Método verifica que tipo de botão foi apertado
+     *
+     * @param valorBotao Valor para se verificar
+     * @return True se for Confirmar e false se for recusar
+     */
+    public boolean verificaOpcao(String valorBotao) {
+        if (valorBotao.charAt(0) == 'C') {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
