@@ -42,17 +42,21 @@ public class LoginServlet extends HttpServlet {
         HttpSession session = request.getSession();
         RequestDispatcher view;
         
-        session.setAttribute("usuario", nome);
-        
         result = login.verificarDados(nome, senha);
         
         if(result == AcessoSistema.ALUNO){
+            session = request.getSession();
+            session.setAttribute("usuario", nome);
             view = request.getRequestDispatcher("menuPrincipalAluno.jsp");
             view.forward(request, response);
         }else if(result == AcessoSistema.PROFESSOR){
+            session = request.getSession();
+            session.setAttribute("usuario", nome);
             view = request.getRequestDispatcher("menuPrincipalProfessor.jsp");
             view.forward(request, response);
         }else if(result == AcessoSistema.PESSOA_EXTERNA){
+            session = request.getSession();
+            session.setAttribute("usuario", nome);
             view = request.getRequestDispatcher("menuPrincipalProfessor.jsp");
             view.forward(request, response);
         }else {

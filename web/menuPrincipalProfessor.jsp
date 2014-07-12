@@ -31,7 +31,7 @@
     <body>
         <div class="navbar navbar-inverse navbar-fixed-top">
             <div class="container">
-                <a href="menuPrincipalAluno.html" class="navbar-brand"> Menu Principal </a>
+                <a href="menuPrincipalProfessor.jsp" class="navbar-brand"> Gerenciamento de TCC </a>
                 <button class="navbar-toggle" data-toggle = "collapse" data-target = ".OpcoesMenu">
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>

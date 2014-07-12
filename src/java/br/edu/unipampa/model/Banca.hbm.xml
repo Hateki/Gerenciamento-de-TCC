@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 02/07/2014 19:53:43 by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+    <class name="br.edu.unipampa.model.Banca" table="banca" catalog="`GERENCIAMENTO DE TCC`">
+        <id name="idBanca" type="java.lang.Integer">
+            <column name="idBanca" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="pessoaByConvidado3IdPessoa" class="br.edu.unipampa.model.Pessoa" fetch="select">
+            <column name="Convidado3_idPessoa" />
+        </many-to-one>
+        <many-to-one name="professor" class="br.edu.unipampa.model.Professor" fetch="select">
+            <column name="Orientador_siape" not-null="true" />
+        </many-to-one>
+        <many-to-one name="pessoaByConvidado1IdPessoa" class="br.edu.unipampa.model.Pessoa" fetch="select">
+            <column name="Convidado1_idPessoa" not-null="true" />
+        </many-to-one>
+        <many-to-one name="pessoaByConvidado2IdPessoa" class="br.edu.unipampa.model.Pessoa" fetch="select">
+            <column name="Convidado2_idPessoa" not-null="true" />
+        </many-to-one>
+        <many-to-one name="aluno" class="br.edu.unipampa.model.Aluno" fetch="select">
+            <column name="Aluno_matricula" not-null="true" />
+        </many-to-one>
+        <property name="data" type="string">
+            <column name="data" length="45" />
+        </property>
+        <property name="horario" type="string">
+            <column name="horario" length="45" />
+        </property>
+        <property name="local" type="string">
+            <column name="local" length="45" />
+        </property>
+    </class>
+</hibernate-mapping>

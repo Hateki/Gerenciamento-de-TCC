@@ -33,7 +33,9 @@ public class AcessoSistema {
 
     public AcessoSistema() {
         SESSAO = HibernateUtil.getSessionFactory().getCurrentSession();
-        SESSAO.beginTransaction();
+        if (!SESSAO.getTransaction().isActive()) {
+            SESSAO.beginTransaction();
+        }
     }
 
     /**
@@ -85,46 +87,28 @@ public class AcessoSistema {
     /**
      * Método cadastra pessoas externas no sistema
      *
-     * @param dados Lista com os dados da pessoa a ser cadastrada, sendo que a
-     * posição 0 é o nome, a 1 é a senha, a 2 é o CPF e a 3 é a instituiçâo
-     *
-     * @return 0 se o cadastro foi bem sucedido, 1 se o usuário já existe no
-     * sistema e 2 se a lista fornecida não tem 4 posiçôes
+     * @param pessoa A pessoa para se salvar no banco
+     * @return True se o cadastro deu certo
      */
-    public int cadastraPessoaExterna(List<String> dados) {
-        Pessoa pessoa = new Pessoa();
-
-        if (dados.size() != 5) {
-            return LISTA_INCORRETA;
+    public boolean cadastraPessoaExterna(Pessoa pessoa) {
+        try {
+            SESSAO.save(pessoa);
+            SESSAO.getTransaction().commit();
+            return true;
+        } catch (Exception e) {
+            return false;
         }
-
-        pessoa.setUsuario(dados.get(POSICAO_NOME));
-        pessoa.setSenha(dados.get(POSICAO_SENHA));
-        pessoa.setEmail(dados.get(POSICAO_EMAIL));
-        pessoa.setNome(dados.get(POSICAO_NOME));
-        pessoa.setCpf(dados.get(POSICAO_CPF));
-        pessoa.setInstituicao(dados.get(POSICAO_INSTITUICAO));
-
-        if (verificaExistencia(pessoa, SESSAO)) {
-            return USUARIO_JA_EXISTENTE;
-        }
-
-        SESSAO.save(pessoa);
-        SESSAO.getTransaction().commit();
-
-        return CADASTRO_CONCLUIDO;
     }
 
     /**
      * Verifica se existe uma pessoa com o nome especificado
      *
      * @param pessoa Pessoa com o nome para se verificar
-     * @param sessao Sessão com a transassão já inicializada
      * @return true se uma pessoa com o mesmo nome foi encontrada
      */
-    public boolean verificaExistencia(Pessoa pessoa, Session sessao) {
+    public boolean verificaExistencia(Pessoa pessoa) {
         List<Pessoa> pessoasBanco;
-        pessoasBanco = (List<Pessoa>) sessao.createQuery("From Pessoa").list();
+        pessoasBanco = (List<Pessoa>) SESSAO.createQuery("From Pessoa").list();
 
         for (Pessoa encontrado : pessoasBanco) {
             if (encontrado.getUsuario().equals(pessoa.getUsuario())) {
@@ -137,40 +121,11 @@ public class AcessoSistema {
     /**
      * Método responsável por cadastrar o tema no sistema
      *
-     * @param matriculaAluno Matricula do aluno que requisitou o tema
-     * @param usuarioProfessor Usuário do professor que o aluno indicou como
-     * orientador
-     * @param decricao descrição do tema
+     * @param tema Tema para se cadastrar
      * @return true se o cadastro for efetuado com sucesso
      */
-    public boolean cadastrarTema(int matriculaAluno, String usuarioProfessor, String decricao) {
-        List<Professor> professoresEncontrados;
-        List<Aluno> alunosEncontrados;
-        Aluno aluno = null;
-        Professor professor = null;
-        Tema tema = new Tema();
-
-        professoresEncontrados = (List<Professor>) SESSAO.createQuery("From Professor").list();
-        alunosEncontrados = (List<Aluno>) SESSAO.createQuery("From Aluno").list();
-
-        for (Aluno alunoEncontrado : alunosEncontrados) {
-            if (alunoEncontrado.getMatricula() == matriculaAluno) {
-                aluno = alunoEncontrado;
-                break;
-            }
-        }
-
-        for (Professor professorEncontrado : professoresEncontrados) {
-            if (professorEncontrado.getUsuario().equals(usuarioProfessor)) {
-                professor = professorEncontrado;
-            }
-        }
-
-        if (aluno != null && professor != null) {
-            tema.setAluno(aluno);
-            tema.setProfessor(professor);
-            tema.setAprovado(Tema.NAO_APROVADO);
-            tema.setDescricao(decricao);
+    public boolean cadastrarTema(Tema tema) {
+        if (tema != null) {
             SESSAO.save(tema);
             SESSAO.getTransaction().commit();
             return true;
@@ -287,34 +242,21 @@ public class AcessoSistema {
         }
         return temasEncontrados;
     }
-
+    
     /**
-     * Método olha o tema que o professor escolheu e confirma ele
-     *
-     * @param listaTemas lista de temas para se procurar o tema escolhido
-     * @param temaEscolhido qual foi o tema escolhido
-     * @param coordenador true se quem está confirmando é o coordenador de TCC
+     * Atualiza o tema escolhido
+     * @param tema tema para se atualizar
      */
-    public void confirmarTema(List<Tema> listaTemas, int temaEscolhido, boolean coordenador) {
-        Tema escolhido = null;
-        if (listaTemas != null) {
-            for (int i = 0; i < listaTemas.size(); i++) {
-                if (i == temaEscolhido - 1) {
-                    escolhido = listaTemas.get(i);
-                    break;
-                }
-            }
-            if (escolhido != null) {
-                if (coordenador) {
-                    escolhido.setAprovado(Tema.APROVADO_COODENADOR);
-                } else {
-                    escolhido.setAprovado(Tema.APROVADO_ORIENTADOR);
-                }
-            }
-            SESSAO.update(escolhido);
-
-            carregarDados(listaTemas);//Carrega os temas para que não ocorra um erro
-        }
+    public void atualizarTema(Tema tema){
+        SESSAO.update(tema);
+    }
+    
+    /**
+     * Deleta o tema do banco de dados
+     * @param tema Tema para ser deletado
+     */
+    public void deletarTema(Tema tema){
+        SESSAO.delete(tema);
     }
 
     /**
@@ -331,60 +273,12 @@ public class AcessoSistema {
         }
     }
 
-    /**
-     * Procura o tema escolhido pelo professor e apaga o tema do banco de dados
-     *
-     * @param listaTemas Lista de temas para se procurar
-     * @param temaEscolhido Tema que foi escolhido
-     */
-    public void recusarTema(List<Tema> listaTemas, int temaEscolhido) {
-        Tema escolhido = null;
-        if (listaTemas != null) {
-            for (int i = 0; i < listaTemas.size(); i++) {
-                if (i == temaEscolhido - 1) {
-                    escolhido = listaTemas.get(i);
-                    break;
-                }
-            }
-            SESSAO.delete(escolhido);
-
-            carregarDados(listaTemas);//Carrega os temas para que não ocorra um erro
-
-        }
-    }
-
     public void completarTransacoes() {
         SESSAO.getTransaction().commit();
     }
 
-    public boolean cadastrarBanca(int matriculaAluno, String usuarioOrientador,
-            String professor1, String professor2, String professor3) {
-
-        Aluno aluno = procurarAluno(matriculaAluno);
-        Professor professor = procurarProfessor(usuarioOrientador);
-        Pessoa convidado1 = procurarPessoa(professor1);
-        Pessoa convidado2 = procurarPessoa(professor2);
-        Pessoa convidado3 = procurarPessoa(professor3);
-        Banca banca = new Banca();
-
-        if (aluno == null) {
-            return false;
-        }
-
-        if (convidado1 != null && convidado2 != null
-                && professor != null) {
-
-            banca.setPessoaByConvidado1IdPessoa(convidado1);
-            banca.setPessoaByConvidado2IdPessoa(convidado2);
-            banca.setPessoaByConvidado3IdPessoa(convidado3);
-            banca.setAluno(aluno);
-            banca.setProfessor(professor);
-
-            SESSAO.save(banca);
-
-            return true;
-        }
-        return false;
+    public void salvarBanca(Banca banca){
+        SESSAO.save(banca);
     }
 
     /**
@@ -468,9 +362,10 @@ public class AcessoSistema {
 
         return listaProfessoresOrdenada;
     }
-    
+
     /**
      * Procura os alunos cadastrados no sistema
+     *
      * @return retorna a lista de alunos encontrados ordenados alfabeticamente
      * pelo nome
      */
@@ -496,9 +391,11 @@ public class AcessoSistema {
 
         return listaAlunosOrdenada;
     }
-    
+
     /**
-     * Procura as pessoas cadastradas no sistema que podem ser convidadas para as bancas
+     * Procura as pessoas cadastradas no sistema que podem ser convidadas para
+     * as bancas
+     *
      * @return Uma lista de pessoas organizadas alfabeticamente pelo usuário
      */
     public List<Pessoa> retornarPessoas() {
@@ -523,17 +420,18 @@ public class AcessoSistema {
 
         return retirarAlunos(listaPessoasOrdenada);
     }
-    
+
     /**
      * Retira os alunos de uma lista de pessoas
+     *
      * @param listaPessoas lista de pessoas para se retirar os alunos
      * @return A lista fornecida no parâmetro sem os alunos
      */
-    private List<Pessoa> retirarAlunos(List<Pessoa> listaPessoas){
+    private List<Pessoa> retirarAlunos(List<Pessoa> listaPessoas) {
         List<Aluno> alunosEcontrados = SESSAO.createQuery("From Aluno").list();
         for (Aluno aluno : alunosEcontrados) {
             for (Pessoa pessoa : listaPessoas) {
-                if(aluno.getUsuario().equals(pessoa.getUsuario())){
+                if (aluno.getUsuario().equals(pessoa.getUsuario())) {
                     listaPessoas.remove(pessoa);
                     break;
                 }
@@ -556,6 +454,33 @@ public class AcessoSistema {
             }
         }
         return false;
+    }
+
+    /**
+     * Procura no banco, a lista de alunos
+     *
+     * @return Retorna uma lista com os alunos presentes no sistema ou null, se
+     * a trasação não está ativa
+     */
+    public List<Aluno> procurarListaAlunos() {
+        if (SESSAO.getTransaction().isActive()) {
+            return SESSAO.createQuery("From Aluno").list();
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Procura no banco, a lista de professores
+     *
+     * @return Retorna uma lista com os professores presentes no sistema
+     */
+    public List<Professor> procurarListaProfessores() {
+        if (SESSAO.getTransaction().isActive()) {
+            return SESSAO.createQuery("From Professor").list();
+        } else {
+            return null;
+        }
     }
 
 }

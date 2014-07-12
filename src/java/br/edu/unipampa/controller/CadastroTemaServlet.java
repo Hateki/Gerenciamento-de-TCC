@@ -5,6 +5,7 @@
  */
 package br.edu.unipampa.controller;
 
+import br.edu.unipampa.model.Aluno;
 import br.edu.unipampa.model.web.AcessoSistema;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -34,11 +35,11 @@ public class CadastroTemaServlet extends HttpServlet {
 
         RequestDispatcher view;
         boolean flag;
-        AcessoSistema aluno = new AcessoSistema();
+        Aluno aluno = new Aluno();
         String usuarioAluno = (String) request.getSession().getAttribute("usuario");
         String usuarioProfessor = request.getParameter("orientador");
         String descricaoTema = request.getParameter("tema");
-        AcessoSistema as = aluno;
+        AcessoSistema as = new AcessoSistema();
 
         request.setAttribute("professores", as.retornarProfossores());
 

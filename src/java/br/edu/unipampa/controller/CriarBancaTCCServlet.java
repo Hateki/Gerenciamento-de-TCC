@@ -59,7 +59,7 @@ public class CriarBancaTCCServlet extends HttpServlet {
         boolean verificaCadastro;
         int resultadoVerificacao;
         as = new AcessoSistema();
-        AcessoSistema professor = as;
+        Professor professor = new Professor();
 
         if (professor1 != null && professor2 != null && matriculaAlunoString != null) {
             

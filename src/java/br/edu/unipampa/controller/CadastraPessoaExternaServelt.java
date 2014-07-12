@@ -6,6 +6,7 @@
 
 package br.edu.unipampa.controller;
 
+import br.edu.unipampa.model.Professor;
 import br.edu.unipampa.model.web.AcessoSistema;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -34,8 +35,8 @@ public class CadastraPessoaExternaServelt extends HttpServlet {
             throws ServletException, IOException {
         
         int resposta;
-        AcessoSistema professor = new AcessoSistema();
-        AcessoSistema ac = professor;
+        Professor professor = new Professor();
+        AcessoSistema ac = new AcessoSistema();
         String nomeUsuario = request.getParameter("nomePessoaExterna");
         String senha = request.getParameter("passwordPessoaExterna");
         String cpf = request.getParameter("cpf");

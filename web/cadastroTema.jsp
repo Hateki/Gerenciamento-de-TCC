@@ -107,7 +107,7 @@
             </div>
         </div>
     </div>
-    <form id="cadform" name="cadform" method="post" action="CadastroTemaServlet"
+    <form id="cadform" name="cadform" method="post" action="CadastroTemaServlet" enctype="multipart/form-data"
           onsubmit="return validaEspacoTema(), validaEspacoOrientador(), validaCampo(), validaCampo2();">
         <div id="cadTema">
 
@@ -115,6 +115,7 @@
 
             <strong>Tema:</strong><br><br/>
             <textarea rows="6" cols="40" name="tema" id="tema" maxlength="200"  onblur="validaEspaco(this)" required></textarea><br><br/>
+            Documento com TCC: <input type="file" name="arquivo" id="arquivo" /><br><br>
 
             Orientador: <input type="text" name="orientador" id="orientador" onblur="validaEspaco(this)" placeholder="Orientador" required />
             <a href="#listaProfessores" data-toggle="modal" class="btn btn-primary"> Ver lista </a>
@@ -122,60 +123,60 @@
 
             <input class="btn btn-success" type="submit" id="enviar" name="enviar" value="Enviar">
             <input type="reset" class="btn btn-warning" name="limpar" id="limpar" value="Limpar" />
-            </form>
-        </div>
-        
-        <c:if test="${retorno == 'Sucesso'}" var="teste" scope="request">
-            <div class="alert alert-success" role="alert">Cadastro realizado com sucesso</div>
-        </c:if>
-        
-        <c:if test="${retorno == 'Professor Nao Existe'}" var="teste" scope="request">
-            <div class="alert alert-danger" role="alert">O usuário de professor digitado não existe</div>
-        </c:if>
-        
-        <c:if test="${retorno == 'Tema Ja Cadastrado'}" var="teste" scope="request">
-            <div class="alert alert-danger" role="alert">Você já cadastrou um tema</div>
-        </c:if>
-            
-        <c:if test="${retorno == 'Problema'}" var="teste" scope="request">
-            <div class="alert alert-danger" role="alert">Ocorreu um problema no sistema tente o cadastro novamente</div>
-        </c:if> 
-        
-            
-        <div class="modal fade" id="listaProfessores" role="dialog">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4>Lista de Professores</h4>
-                    </div>
-                    <div class="modal-body">
-                        <table border="1" class="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th>Usuário Professor</th>
-                                    <th>Nome do Professor</th>
-                                    <th>Email</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <c:forEach var="professor" items="${professores}">
-                                    <tr>
-                                        <td> <c:out value="${professor.usuario}"/> </td>
-                                        <td> <c:out value="${professor.nome}"/> </td>
-                                        <td> <c:out value="${professor.pessoa.email}"/> </td>
-                                    </tr>
-                                </c:forEach>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+    </form>
+</div>
+
+<c:if test="${retorno == 'Sucesso'}" var="teste" scope="request">
+    <div class="alert alert-success" role="alert">Cadastro realizado com sucesso</div>
+</c:if>
+
+<c:if test="${retorno == 'Professor Nao Existe'}" var="teste" scope="request">
+    <div class="alert alert-danger" role="alert">O usuário de professor digitado não existe</div>
+</c:if>
+
+<c:if test="${retorno == 'Tema Ja Cadastrado'}" var="teste" scope="request">
+    <div class="alert alert-danger" role="alert">Você já cadastrou um tema</div>
+</c:if>
+
+<c:if test="${retorno == 'Problema'}" var="teste" scope="request">
+    <div class="alert alert-danger" role="alert">Ocorreu um problema no sistema tente o cadastro novamente</div>
+</c:if> 
+
+
+<div class="modal fade" id="listaProfessores" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4>Lista de Professores</h4>
+            </div>
+            <div class="modal-body">
+                <table border="1" class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Usuário Professor</th>
+                            <th>Nome do Professor</th>
+                            <th>Email</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <c:forEach var="professor" items="${professores}">
+                            <tr>
+                                <td> <c:out value="${professor.usuario}"/> </td>
+                                <td> <c:out value="${professor.nome}"/> </td>
+                                <td> <c:out value="${professor.pessoa.email}"/> </td>
+                            </tr>
+                        </c:forEach>
+                    </tbody>
+                </table>
             </div>
         </div>
-            
-        <!-- Bootstrap core JavaScript
-        ================================================== -->
-        <!-- Placed at the end of the document so the pages load faster -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-        <script src="../../GerenciamentoTCC/bootstrap/js/bootstrap.min.js"></script>
+    </div>
+</div>
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="../../GerenciamentoTCC/bootstrap/js/bootstrap.min.js"></script>
 </body>
 </html>

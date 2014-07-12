@@ -42,9 +42,9 @@ public class DetalheTemaServlet extends HttpServlet {
         int temaEscolhido = Integer.parseInt(valorBotao);
         
         if(verificaOpcao(valorCompletoBotao)){
-            as.confirmarTema(temasRequisitados, temaEscolhido, false);
+            professor.confirmarTema(temasRequisitados, temaEscolhido, false);
         }else{
-            as.recusarTema(temasRequisitados, temaEscolhido);
+            professor.recusarTema(temasRequisitados, temaEscolhido);
         }
         temasRequisitados = as.retornarTemasRequisitados(professor);
         as.completarTransacoes();

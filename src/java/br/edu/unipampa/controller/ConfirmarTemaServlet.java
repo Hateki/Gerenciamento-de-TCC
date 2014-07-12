@@ -36,21 +36,24 @@ public class ConfirmarTemaServlet extends HttpServlet {
         String valorCompletoBotao = (String) request.getParameter("confirmar");
         String valorBotao;
         AcessoSistema as = new AcessoSistema();
+        Professor professor = new Professor();
         List<Tema> temasRequisitados = as.procurarTemasConfirmados();
         int temaEscolhido = -1;
-        
-        request.setAttribute("retorno", temasRequisitados);
         
         if (valorCompletoBotao != null) {
             valorBotao = verificaValorBotao(valorCompletoBotao);
             temaEscolhido = Integer.parseInt(valorBotao);
 
             if (verificaOpcao(valorCompletoBotao)) {
-                as.confirmarTema(temasRequisitados, temaEscolhido, true);
+                professor.confirmarTema(temasRequisitados, temaEscolhido, true);
             } else {
-                as.recusarTema(temasRequisitados, temaEscolhido);
+                professor.recusarTema(temasRequisitados, temaEscolhido);
             }
         }
+        
+        temasRequisitados = as.procurarTemasConfirmados();//Garante que a lista esteja atualizada
+        
+        request.setAttribute("retorno", temasRequisitados);
 
         request.getRequestDispatcher("confirmarTema.jsp").forward(request, response);
         as.completarTransacoes();

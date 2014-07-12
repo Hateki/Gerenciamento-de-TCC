@@ -20,15 +20,42 @@
             #area {margin-left:550px;}; 
 
         </style>
-        <link href="bootstrap.min.css" rel="stylesheet" media="screen">
+        <link href="../../GerenciamentoTCC/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../GerenciamentoTCC/bootstrap/css/styles.css" rel="stylesheet">
         <title>Criar Banca do TCC</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     </head>
     <body>
-        <script src="http://code.jquery.com/jquery-latest.js"></script>
-        <script src="bootstrap.min.js"></script>
+
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <a href="menuPrincipalProfessor.jsp" class="navbar-brand"> Gerenciamento de TCC </a>
+                <button class="navbar-toggle" data-toggle = "collapse" data-target = ".OpcoesMenu">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <div class="collapse navbar-collapse OpcoesMenu">
+                    <ul class="nav navbar-nav">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Banca <span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li> <a href="http://localhost:8080/GerenciamentoTCC/CriarTemaTCCServlet"> Marcar Banca </a></li>
+                                <li> <a href="http://localhost:8080/GerenciamentoTCC/definirHLD.jsp"> Definir Horário Local e Data </a> </li>
+                            </ul>
+                        </li>
+                        <li> <a href="http://localhost:8080/GerenciamentoTCC/TemasRequisitadosServlet"> Temas Requisitados  </a></li>
+                        <li> <a href="http://localhost:8080/GerenciamentoTCC/ConfirmarTemaServlet"> Confirmar Tema  </a></li>
+                        <li> <a href="http://localhost:8080/GerenciamentoTCC/cadastroPessoaExterna.jsp"> Cadastrar Pessoa Externa </a> </li>
+                        <li> <a href="http://localhost:8080/GerenciamentoTCC/contato.html"> Contato </a> </li>
+                        <li> <a href="http://localhost:8080/GerenciamentoTCC/sobre.html"> Sobre</a> </li>
+                        <li> <a href="http://localhost:8080/GerenciamentoTCC/telaLogin.jsp"> Sair</a> </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
 
         <form id="tccForm" name="tccForm" method="post" action="CriarTemaTCCServlet"
               onsubmit="return">
@@ -98,63 +125,63 @@
 
         <c:if test="${not empty retorno}" var="variavel" scope="request">
             <c:if test="${retorno == 0 }" var="variavel" scope="request"><!Professores Existem>
-                <div class="alert alert-success" role="alert">Cadastro realizado com sucesso</div>
-            </c:if>
+            <div class="alert alert-success" role="alert">Cadastro realizado com sucesso</div>
         </c:if>
+    </c:if>
 
-        <c:if test="${not empty retorno}" var="variavel" scope="request">
-            <c:if test="${retorno == 1 }" var="variavel" scope="request"><!Os usuarios dos três professores digitados não existem>
-                <div class="alert alert-danger" role="alert">Os usuarios dos três professores digitados não existem</div>
-            </c:if>
+    <c:if test="${not empty retorno}" var="variavel" scope="request">
+        <c:if test="${retorno == 1 }" var="variavel" scope="request"><!Os usuarios dos três professores digitados não existem>
+            <div class="alert alert-danger" role="alert">Os usuarios dos três professores digitados não existem</div>
         </c:if>
-            
-        <c:if test="${not empty retorno}" var="variavel" scope="request">
-            <c:if test="${retorno == 2 }" var="variavel" scope="request"><!Os usuários do primeiro e do segundo professor não existem>
-                <div class="alert alert-danger" role="alert">Os usuários do primeiro e do segundo professor não existem</div>
-            </c:if>
+    </c:if>
+
+    <c:if test="${not empty retorno}" var="variavel" scope="request">
+        <c:if test="${retorno == 2 }" var="variavel" scope="request"><!Os usuários do primeiro e do segundo professor não existem>
+            <div class="alert alert-danger" role="alert">Os usuários do primeiro e do segundo professor não existem</div>
         </c:if>
-            
-        <c:if test="${not empty retorno}" var="variavel" scope="request">
-            <c:if test="${retorno == 3 }" var="variavel" scope="request"><!Os usuários do primeiro e do terceiro professor não existem>
-                <div class="alert alert-danger" role="alert">Os usuários do primeiro e do terceiro professor não existem</div>
-            </c:if>
+    </c:if>
+
+    <c:if test="${not empty retorno}" var="variavel" scope="request">
+        <c:if test="${retorno == 3 }" var="variavel" scope="request"><!Os usuários do primeiro e do terceiro professor não existem>
+            <div class="alert alert-danger" role="alert">Os usuários do primeiro e do terceiro professor não existem</div>
         </c:if>
-            
-        <c:if test="${not empty retorno}" var="variavel" scope="request">
-            <c:if test="${retorno == 4 }" var="variavel" scope="request"><!Os usuários do segundo e do terceiro professor não existem>
-                <div class="alert alert-danger" role="alert">Os usuários do segundo e do terceiro professor não existem</div>
-            </c:if>
+    </c:if>
+
+    <c:if test="${not empty retorno}" var="variavel" scope="request">
+        <c:if test="${retorno == 4 }" var="variavel" scope="request"><!Os usuários do segundo e do terceiro professor não existem>
+            <div class="alert alert-danger" role="alert">Os usuários do segundo e do terceiro professor não existem</div>
         </c:if>
-            
-        <c:if test="${not empty retorno}" var="variavel" scope="request">
-            <c:if test="${retorno == 5 }" var="variavel" scope="request"><!O primeiro professor digitado não existe>
-                <div class="alert alert-danger" role="alert">O primeiro professor digitado não existe</div>
-            </c:if>
+    </c:if>
+
+    <c:if test="${not empty retorno}" var="variavel" scope="request">
+        <c:if test="${retorno == 5 }" var="variavel" scope="request"><!O primeiro professor digitado não existe>
+            <div class="alert alert-danger" role="alert">O primeiro professor digitado não existe</div>
         </c:if>
-            
-        <c:if test="${not empty retorno}" var="variavel" scope="request">
-            <c:if test="${retorno == 6 }" var="variavel" scope="request"><!O segundo professor digitado não existe>
-                <div class="alert alert-danger" role="alert">O segundo professor digitado não existe</div>
-            </c:if>
-        </c:if>   
-         
-        <c:if test="${not empty retorno}" var="variavel" scope="request">
-            <c:if test="${retorno == 7 }" var="variavel" scope="request"><!O terceiro professor digitado não existe>
-                <div class="alert alert-danger" role="alert">O terceiro professor digitado não existe</div>
-            </c:if>
+    </c:if>
+
+    <c:if test="${not empty retorno}" var="variavel" scope="request">
+        <c:if test="${retorno == 6 }" var="variavel" scope="request"><!O segundo professor digitado não existe>
+            <div class="alert alert-danger" role="alert">O segundo professor digitado não existe</div>
         </c:if>
-            
-        <c:if test="${not empty retorno}" var="variavel" scope="request">
-            <c:if test="${retorno == 8 }" var="variavel" scope="request"><!O Professor digitado é igual ao orientador digitado>
-                <div class="alert alert-danger" role="alert">O Professor digitado é igual ao orientador digitado</div>
-            </c:if>
+    </c:if>   
+
+    <c:if test="${not empty retorno}" var="variavel" scope="request">
+        <c:if test="${retorno == 7 }" var="variavel" scope="request"><!O terceiro professor digitado não existe>
+            <div class="alert alert-danger" role="alert">O terceiro professor digitado não existe</div>
         </c:if>
-            
-        <c:if test="${not empty retorno}" var="variavel" scope="request">
-            <c:if test="${retorno == 9 }" var="variavel" scope="request"><!Um usuário de aluno foi encontrado no lugar onde deveria haver um professor>
-                <div class="alert alert-danger" role="alert">Um usuário de aluno foi encontrado no lugar onde deveria haver um professor</div>
-            </c:if>
+    </c:if>
+
+    <c:if test="${not empty retorno}" var="variavel" scope="request">
+        <c:if test="${retorno == 8 }" var="variavel" scope="request"><!O Professor digitado é igual ao orientador digitado>
+            <div class="alert alert-danger" role="alert">O Professor digitado é igual ao orientador digitado</div>
         </c:if>
+    </c:if>
+
+    <c:if test="${not empty retorno}" var="variavel" scope="request">
+        <c:if test="${retorno == 9 }" var="variavel" scope="request"><!Um usuário de aluno foi encontrado no lugar onde deveria haver um professor>
+            <div class="alert alert-danger" role="alert">Um usuário de aluno foi encontrado no lugar onde deveria haver um professor</div>
+        </c:if>
+    </c:if>
 
     <div class="modal fade" id="listaPessoas" role="dialog">
         <div class="modal-dialog">
@@ -215,7 +242,11 @@
             </div>
         </div>
     </div>
-
+    <!-- Bootstrap core JavaScript
+                ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="../../GerenciamentoTCC/bootstrap/js/bootstrap.min.js"></script>
 </body>
 </html>
 
