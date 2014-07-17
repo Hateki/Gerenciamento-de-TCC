@@ -2,9 +2,13 @@
 <!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-reverse-engineering-3.0.dtd">
 <hibernate-reverse-engineering>
   <schema-selection match-catalog="gerenciamento de tcc"/>
-  <table-filter match-name="pessoa"/>
-  <table-filter match-name="tema"/>
-  <table-filter match-name="professor"/>
+  <table-filter match-name="tecnicoadministrativo"/>
   <table-filter match-name="aluno"/>
+  <table-filter match-name="orientador"/>
+  <table-filter match-name="tcc"/>
+  <table-filter match-name="pessoaexterna"/>
   <table-filter match-name="banca"/>
+  <table-filter match-name="pessoa"/>
+  <table-filter match-name="professor"/>
+  <table-filter match-name="tema"/>
 </hibernate-reverse-engineering>

@@ -6,6 +6,7 @@
 
 package br.edu.unipampa.controller;
 
+import br.edu.unipampa.model.Orientador;
 import br.edu.unipampa.model.Professor;
 import br.edu.unipampa.model.Tema;
 import br.edu.unipampa.model.web.AcessoSistema;
@@ -36,7 +37,7 @@ public class TemasRequisitadosServlet extends HttpServlet {
             throws ServletException, IOException {
         AcessoSistema as = new AcessoSistema();
         String usuarioProfessor = (String) request.getSession().getAttribute("usuario");
-        Professor professor = as.procurarProfessor(usuarioProfessor);
+        Orientador professor = as.procurarOrientador(usuarioProfessor);
         List<Tema> temasEncontrados = as.retornarTemasRequisitados(professor);
         request.setAttribute("retorno", temasEncontrados);
         request.getRequestDispatcher("temasRequisitados.jsp").forward(request, response);

@@ -5,6 +5,7 @@
  */
 package br.edu.unipampa.controller;
 
+import br.edu.unipampa.model.Orientador;
 import br.edu.unipampa.model.Professor;
 import br.edu.unipampa.model.Tema;
 import br.edu.unipampa.model.web.AcessoSistema;
@@ -37,16 +38,16 @@ public class DetalheTemaServlet extends HttpServlet {
         String valorBotao = verificaValorBotao(valorCompletoBotao);
         AcessoSistema as =  new AcessoSistema();
         String usuarioProfessor = (String) request.getSession().getAttribute("usuario");
-        Professor professor = as.procurarProfessor(usuarioProfessor);
-        List<Tema> temasRequisitados = as.retornarTemasRequisitados(professor);
+        Orientador orientador = as.procurarOrientador(usuarioProfessor);
+        List<Tema> temasRequisitados = as.retornarTemasRequisitados(orientador);
         int temaEscolhido = Integer.parseInt(valorBotao);
         
         if(verificaOpcao(valorCompletoBotao)){
-            professor.confirmarTema(temasRequisitados, temaEscolhido, false);
+            orientador.confirmarTema(temasRequisitados, temaEscolhido, false);
         }else{
-            professor.recusarTema(temasRequisitados, temaEscolhido);
+            orientador.recusarTema(temasRequisitados, temaEscolhido);
         }
-        temasRequisitados = as.retornarTemasRequisitados(professor);
+        temasRequisitados = as.retornarTemasRequisitados(orientador);
         as.completarTransacoes();
         request.setAttribute("retorno", temasRequisitados);
         request.getRequestDispatcher("temasRequisitados.jsp").forward(request, response);

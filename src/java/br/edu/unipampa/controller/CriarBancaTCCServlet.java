@@ -7,6 +7,7 @@ package br.edu.unipampa.controller;
 
 import br.edu.unipampa.model.Aluno;
 import br.edu.unipampa.model.Banca;
+import br.edu.unipampa.model.Orientador;
 import br.edu.unipampa.model.Pessoa;
 import br.edu.unipampa.model.Professor;
 import br.edu.unipampa.model.web.AcessoSistema;
@@ -59,7 +60,7 @@ public class CriarBancaTCCServlet extends HttpServlet {
         boolean verificaCadastro;
         int resultadoVerificacao;
         as = new AcessoSistema();
-        Professor professor = new Professor();
+        Orientador professor = as.procurarOrientador(orientador);
 
         if (professor1 != null && professor2 != null && matriculaAlunoString != null) {
             

@@ -1,5 +1,5 @@
 package br.edu.unipampa.model;
-// Generated 02/07/2014 19:53:43 by Hibernate Tools 3.6.0
+// Generated 16/07/2014 21:01:23 by Hibernate Tools 3.6.0
 
 
 
@@ -11,10 +11,11 @@ public class Banca  implements java.io.Serializable {
 
      private Integer idBanca;
      private Pessoa pessoaByConvidado3IdPessoa;
-     private Professor professor;
      private Pessoa pessoaByConvidado1IdPessoa;
      private Pessoa pessoaByConvidado2IdPessoa;
+     private Orientador orientadorByOrientadorIdOrientador;
      private Aluno aluno;
+     private Orientador orientadorByCoorientadorIdOrientador;
      private String data;
      private String horario;
      private String local;
@@ -23,18 +24,19 @@ public class Banca  implements java.io.Serializable {
     }
 
 	
-    public Banca(Professor professor, Pessoa pessoaByConvidado1IdPessoa, Pessoa pessoaByConvidado2IdPessoa, Aluno aluno) {
-        this.professor = professor;
+    public Banca(Pessoa pessoaByConvidado1IdPessoa, Pessoa pessoaByConvidado2IdPessoa, Orientador orientadorByOrientadorIdOrientador, Aluno aluno) {
         this.pessoaByConvidado1IdPessoa = pessoaByConvidado1IdPessoa;
         this.pessoaByConvidado2IdPessoa = pessoaByConvidado2IdPessoa;
+        this.orientadorByOrientadorIdOrientador = orientadorByOrientadorIdOrientador;
         this.aluno = aluno;
     }
-    public Banca(Pessoa pessoaByConvidado3IdPessoa, Professor professor, Pessoa pessoaByConvidado1IdPessoa, Pessoa pessoaByConvidado2IdPessoa, Aluno aluno, String data, String horario, String local) {
+    public Banca(Pessoa pessoaByConvidado3IdPessoa, Pessoa pessoaByConvidado1IdPessoa, Pessoa pessoaByConvidado2IdPessoa, Orientador orientadorByOrientadorIdOrientador, Aluno aluno, Orientador orientadorByCoorientadorIdOrientador, String data, String horario, String local) {
        this.pessoaByConvidado3IdPessoa = pessoaByConvidado3IdPessoa;
-       this.professor = professor;
        this.pessoaByConvidado1IdPessoa = pessoaByConvidado1IdPessoa;
        this.pessoaByConvidado2IdPessoa = pessoaByConvidado2IdPessoa;
+       this.orientadorByOrientadorIdOrientador = orientadorByOrientadorIdOrientador;
        this.aluno = aluno;
+       this.orientadorByCoorientadorIdOrientador = orientadorByCoorientadorIdOrientador;
        this.data = data;
        this.horario = horario;
        this.local = local;
@@ -54,13 +56,6 @@ public class Banca  implements java.io.Serializable {
     public void setPessoaByConvidado3IdPessoa(Pessoa pessoaByConvidado3IdPessoa) {
         this.pessoaByConvidado3IdPessoa = pessoaByConvidado3IdPessoa;
     }
-    public Professor getProfessor() {
-        return this.professor;
-    }
-    
-    public void setProfessor(Professor professor) {
-        this.professor = professor;
-    }
     public Pessoa getPessoaByConvidado1IdPessoa() {
         return this.pessoaByConvidado1IdPessoa;
     }
@@ -75,12 +70,26 @@ public class Banca  implements java.io.Serializable {
     public void setPessoaByConvidado2IdPessoa(Pessoa pessoaByConvidado2IdPessoa) {
         this.pessoaByConvidado2IdPessoa = pessoaByConvidado2IdPessoa;
     }
+    public Orientador getOrientadorByOrientadorIdOrientador() {
+        return this.orientadorByOrientadorIdOrientador;
+    }
+    
+    public void setOrientadorByOrientadorIdOrientador(Orientador orientadorByOrientadorIdOrientador) {
+        this.orientadorByOrientadorIdOrientador = orientadorByOrientadorIdOrientador;
+    }
     public Aluno getAluno() {
         return this.aluno;
     }
     
     public void setAluno(Aluno aluno) {
         this.aluno = aluno;
+    }
+    public Orientador getOrientadorByCoorientadorIdOrientador() {
+        return this.orientadorByCoorientadorIdOrientador;
+    }
+    
+    public void setOrientadorByCoorientadorIdOrientador(Orientador orientadorByCoorientadorIdOrientador) {
+        this.orientadorByCoorientadorIdOrientador = orientadorByCoorientadorIdOrientador;
     }
     public String getData() {
         return this.data;

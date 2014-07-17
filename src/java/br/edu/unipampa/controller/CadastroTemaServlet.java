@@ -6,14 +6,31 @@
 package br.edu.unipampa.controller;
 
 import br.edu.unipampa.model.Aluno;
+import br.edu.unipampa.model.Professor;
+import br.edu.unipampa.model.Tema;
 import br.edu.unipampa.model.web.AcessoSistema;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.DataInputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Iterator;
+import java.util.List;
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
+
 
 /**
  *
@@ -42,6 +59,9 @@ public class CadastroTemaServlet extends HttpServlet {
         AcessoSistema as = new AcessoSistema();
 
         request.setAttribute("professores", as.retornarProfossores());
+        
+        //doDownload(request, response, "Um nome", "Outro nome");
+        //salvarArquivo(request, response);
 
         if (usuarioProfessor != null) {
             int matriculaAluno = as.procurarMatriculaAluno(usuarioAluno);
@@ -52,13 +72,12 @@ public class CadastroTemaServlet extends HttpServlet {
                 view = request.getRequestDispatcher("cadastroTema.jsp");
                 view.forward(request, response);
                 as.completarTransacoes();
-            }else if(as.verificaExistenciaTema(matriculaAluno)){
+            } else if (as.verificaExistenciaTema(matriculaAluno)) {
                 request.setAttribute("retorno", "Tema Ja Cadastrado");
                 view = request.getRequestDispatcher("cadastroTema.jsp");
                 view.forward(request, response);
                 as.completarTransacoes();
-            }
-            else {
+            } else {
                 flag = aluno.cadastrarTema(matriculaAluno, usuarioProfessor, descricaoTema);
                 if (flag) {
                     //Certificar de que o usuário saiba que o cadastro foi bem sucedido
@@ -80,6 +99,61 @@ public class CadastroTemaServlet extends HttpServlet {
         }
 
     }
+
+    public boolean salvarArquivo(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        AcessoSistema as = new AcessoSistema();
+        if (ServletFileUpload.isMultipartContent(request)) {
+
+            int cont = 0;
+
+            ServletFileUpload servletFileUpload = new ServletFileUpload(
+                    new DiskFileItemFactory());
+
+            List fileItemsList = null;
+
+            try {
+                fileItemsList = servletFileUpload.parseRequest(request);
+            } catch (FileUploadException e1) {
+                e1.printStackTrace();
+            }
+
+            String optionalFileName = "";
+            FileItem fileItem = null;
+
+            Iterator it = fileItemsList.iterator();
+
+            do {
+
+                cont++;
+
+                FileItem fileItemTemp = (FileItem) it.next();
+                
+                if (cont != (fileItemsList.size())) {
+                    fileItem = fileItemTemp;
+                    if (fileItem != null && fileItem.getName() != null) {
+                        byte[] arquivo = fileItem.get();
+                        String fileName = fileItem.getName();
+                        if (fileItem.getSize() > 0) {
+                            //Salva no banco de dados
+                            Tema tema = new Tema();
+                            Aluno aluno = as.procurarAluno(121150130);
+                            Professor professor = as.procurarProfessor("Paulo");
+                            tema.setAluno(aluno);
+                            //tema.setProfessor(professor);
+                            tema.setDescricao("Oi");
+                            //tema.setTcc(arquivo);
+                            as.salvarTema(tema);
+                        }
+                    }
+                }
+            } while (it.hasNext());
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+   
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

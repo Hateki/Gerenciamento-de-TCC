@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 02/07/2014 19:53:43 by Hibernate Tools 3.6.0 -->
+<!-- Generated 16/07/2014 21:01:25 by Hibernate Tools 3.6.0 -->
 <hibernate-mapping>
     <class name="br.edu.unipampa.model.Pessoa" table="pessoa" catalog="`GERENCIAMENTO DE TCC`">
         <id name="idPessoa" type="java.lang.Integer">
@@ -20,11 +20,8 @@
         <property name="nome" type="string">
             <column name="nome" length="45" />
         </property>
-        <property name="cpf" type="string">
-            <column name="cpf" length="45" />
-        </property>
-        <property name="instituicao" type="string">
-            <column name="instituicao" length="45" />
+        <property name="areaAtuacao" type="java.lang.Integer">
+            <column name="areaAtuacao" />
         </property>
         <set name="bancasForConvidado2IdPessoa" table="banca" inverse="true" lazy="true" fetch="select">
             <key>
@@ -50,11 +47,23 @@
             </key>
             <one-to-many class="br.edu.unipampa.model.Professor" />
         </set>
+        <set name="tecnicoadministrativos" table="tecnicoadministrativo" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="Pessoa_idPessoa" not-null="true" />
+            </key>
+            <one-to-many class="br.edu.unipampa.model.Tecnicoadministrativo" />
+        </set>
         <set name="bancasForConvidado3IdPessoa" table="banca" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="Convidado3_idPessoa" />
             </key>
             <one-to-many class="br.edu.unipampa.model.Banca" />
+        </set>
+        <set name="pessoaexternas" table="pessoaexterna" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="Pessoa_idPessoa" not-null="true" />
+            </key>
+            <one-to-many class="br.edu.unipampa.model.Pessoaexterna" />
         </set>
     </class>
 </hibernate-mapping>

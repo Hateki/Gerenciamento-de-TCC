@@ -1,14 +1,12 @@
 <%-- 
-    Document   : menuPrincipalAluno
-    Created on : 01/07/2014, 21:54:49
+    Document   : submeterTCC
+    Created on : 17/07/2014, 11:10:14
     Author     : pontofrio
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-
-<!DOCTYPE html>
-<html lang="en">
+<html>
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -17,7 +15,7 @@
         <meta name="author" content="">
         <link rel="icon" href="../../favicon.ico">
 
-        <title>Menu Principal</title>
+        <title>Submeter TCC</title>
 
         <!-- Bootstrap core CSS -->
         <link href="../../GerenciamentoTCC/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -28,10 +26,11 @@
           <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
           <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
+        <style>
+            #titulo {margin-left: 500px;};
+        </style>
     </head>
-
     <body>
-
         <div class="navbar navbar-inverse navbar-fixed-top">
             <div class="container">
                 <a href="menuPrincipalAluno.html" class="navbar-brand"> Gerenciamento de TCC </a>
@@ -57,6 +56,29 @@
                 </div>
             </div>
         </div>
+        <br><br><br>
+
+        <div class="page-header" id="titulo">
+            <h1> Envio de TCC's </h1>
+            <p class="lead"> Aqui pode enviar os TCC 1, 2 e o final </p>
+        </div>
+
+        <br><br>
+
+        <div>
+            <h3> Situação TCC 1 </h3>
+            <p>
+                Aqui pode ver a situação de seu
+                <strong> TCC da primeira fase</strong>
+            </p>
+            <br><br>
+            <div class="row row-fluid">
+                <div class="col-md-4">.arquivo</div>
+                <div class="col-md-4">.situação</div>
+                <div class="col-md-4">.col-md-4</div>
+            </div>
+
+        </div>
 
         <!-- Bootstrap core JavaScript
         ================================================== -->
@@ -64,3 +86,4 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
         <script src="../../GerenciamentoTCC/bootstrap/js/bootstrap.min.js"></script>
     </body>
+</html>

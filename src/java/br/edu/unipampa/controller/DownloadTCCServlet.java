@@ -3,16 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package br.edu.unipampa.controller;
 
-import br.edu.unipampa.model.Orientador;
-import br.edu.unipampa.model.Professor;
-import br.edu.unipampa.model.Tema;
 import br.edu.unipampa.model.web.AcessoSistema;
+import java.io.ByteArrayInputStream;
+import java.io.DataInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,7 +23,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author pontofrio
  */
-public class ConfirmarTemaServlet extends HttpServlet {
+public class DownloadTCCServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,55 +36,58 @@ public class ConfirmarTemaServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String valorCompletoBotao = (String) request.getParameter("confirmar");
-        String valorBotao;
-        AcessoSistema as = new AcessoSistema();
-        Orientador orientador = new Orientador();
-        List<Tema> temasRequisitados = as.procurarTemasConfirmados();
-        int temaEscolhido = -1;
-        
-        if (valorCompletoBotao != null) {
-            valorBotao = verificaValorBotao(valorCompletoBotao);
-            temaEscolhido = Integer.parseInt(valorBotao);
-
-            if (verificaOpcao(valorCompletoBotao)) {
-                orientador.confirmarTema(temasRequisitados, temaEscolhido, true);
-            } else {
-                orientador.recusarTema(temasRequisitados, temaEscolhido);
-            }
-        }
-        
-        temasRequisitados = as.procurarTemasConfirmados();//Garante que a lista esteja atualizada
-        
-        request.setAttribute("retorno", temasRequisitados);
-
-        request.getRequestDispatcher("confirmarTema.jsp").forward(request, response);
-        as.completarTransacoes();
+        doDownload(request, response, "Um nome", "Outro nome");
     }
+    
+     /**
+   *  Sends a file to the ServletResponse output stream.  Typically
+   *  you want the browser to receive a different name than the
+   *  name the file has been saved in your local database, since
+   *  your local names need to be unique.
+   *
+   *  @param req The request
+   *  @param resp The response
+   *  @param filename The name of the file you want to download.
+   *  @param original_filename The name the browser should receive.
+   */
+  private void doDownload( HttpServletRequest req, HttpServletResponse resp,
+                           String filename, String original_filename )
+      throws IOException
+  {
+      File                f        = new File(filename);
+      int                 length   = -1;
+      ServletOutputStream op       = resp.getOutputStream();
+      ServletContext      context  = getServletConfig().getServletContext();
+      String              mimetype = context.getMimeType( filename );
+      AcessoSistema as = new AcessoSistema();
+      byte[] bbuf = new byte[1024];//Colocar o arquivo do hibernate
 
-    public String verificaValorBotao(String valorBotao) {
-        for (int i = 0; i < valorBotao.length(); i++) {
-            if (valorBotao.charAt(i) > '9' || valorBotao.charAt(i) < '0') {
-                valorBotao = valorBotao.replace(valorBotao.charAt(i), ' ');
-            }
-        }
-        valorBotao = valorBotao.trim();
-        return valorBotao;
-    }
+      //
+      //  Set the response and go!
+      //
+      //
+      resp.setContentType( "image/jpg" );
+      resp.setContentLength(bbuf.length);
+      resp.setHeader( "Content-Disposition", "attachment; filename=\"" + original_filename + "\"" );
 
-    /**
-     * Método verifica que tipo de botão foi apertado
-     *
-     * @param valorBotao Valor para se verificar
-     * @return True se for Confirmar e false se for recusar
-     */
-    public boolean verificaOpcao(String valorBotao) {
-        if (valorBotao.charAt(0) == 'C') {
-            return true;
-        } else {
-            return false;
-        }
-    }
+      //
+      //  Stream to the requester.
+      //
+      
+      byte[] buf = new byte[bbuf.length];
+      
+      DataInputStream in = new DataInputStream(new ByteArrayInputStream(bbuf));
+      int teste = in.available();
+
+      while (((length = in.read(buf)) != -1))
+      {
+          op.write(buf,0,length);
+      }
+      
+      in.close();
+      op.flush();
+      op.close();
+  }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

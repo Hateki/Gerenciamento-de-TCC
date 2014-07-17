@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 16/07/2014 21:01:25 by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+    <class name="br.edu.unipampa.model.Tcc" table="tcc" catalog="`GERENCIAMENTO DE TCC`">
+        <id name="idTcc" type="java.lang.Integer">
+            <column name="idTCC" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="tema" class="br.edu.unipampa.model.Tema" fetch="select">
+            <column name="Tema_idTema" not-null="true" />
+        </many-to-one>
+        <property name="titulo" type="string">
+            <column name="titulo" length="45" />
+        </property>
+        <property name="descricao" type="string">
+            <column name="descricao" length="300" />
+        </property>
+        <property name="arquivoTcc" type="binary">
+            <column name="arquivoTCC" />
+        </property>
+        <property name="status" type="java.lang.Integer">
+            <column name="status" />
+        </property>
+        <property name="tipoArquivo" type="string">
+            <column name="tipoArquivo" length="45" />
+        </property>
+    </class>
+</hibernate-mapping>

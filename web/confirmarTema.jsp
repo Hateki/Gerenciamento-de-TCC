@@ -79,7 +79,7 @@
                     <tbody>
                         <tr>
                             <td><%=tema.getAluno().getNome()%></td>
-                            <td><%=tema.getProfessor().getNome()%></td>
+                            <td><%=tema.getOrientador().getProfessor().getNome()%></td>
                             <td><%=tema.getDescricao()%></td>
                             <td> <%=tema.getAluno().getCargaHoraria()%> </td>
                             <td> <%=aprovado%> </td>

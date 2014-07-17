@@ -107,7 +107,7 @@
             </div>
         </div>
     </div>
-    <form id="cadform" name="cadform" method="post" action="CadastroTemaServlet" enctype="multipart/form-data"
+    <form id="cadform" name="cadform" method="post" action="CadastroTemaServlet"
           onsubmit="return validaEspacoTema(), validaEspacoOrientador(), validaCampo(), validaCampo2();">
         <div id="cadTema">
 
@@ -115,7 +115,6 @@
 
             <strong>Tema:</strong><br><br/>
             <textarea rows="6" cols="40" name="tema" id="tema" maxlength="200"  onblur="validaEspaco(this)" required></textarea><br><br/>
-            Documento com TCC: <input type="file" name="arquivo" id="arquivo" /><br><br>
 
             Orientador: <input type="text" name="orientador" id="orientador" onblur="validaEspaco(this)" placeholder="Orientador" required />
             <a href="#listaProfessores" data-toggle="modal" class="btn btn-primary"> Ver lista </a>

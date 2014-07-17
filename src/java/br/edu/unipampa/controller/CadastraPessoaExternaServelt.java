@@ -6,6 +6,7 @@
 
 package br.edu.unipampa.controller;
 
+import br.edu.unipampa.model.Orientador;
 import br.edu.unipampa.model.Professor;
 import br.edu.unipampa.model.web.AcessoSistema;
 import java.io.IOException;
@@ -35,7 +36,7 @@ public class CadastraPessoaExternaServelt extends HttpServlet {
             throws ServletException, IOException {
         
         int resposta;
-        Professor professor = new Professor();
+        Orientador orientador = new Orientador();
         AcessoSistema ac = new AcessoSistema();
         String nomeUsuario = request.getParameter("nomePessoaExterna");
         String senha = request.getParameter("passwordPessoaExterna");
@@ -58,7 +59,7 @@ public class CadastraPessoaExternaServelt extends HttpServlet {
             }
         }
              
-        resposta = professor.cadastraPessoaExterna(listaParametros);
+        resposta = orientador.cadastraPessoaExterna(listaParametros);
         
         if(resposta == AcessoSistema.LISTA_INCORRETA){
             //resolve o problema

@@ -87,17 +87,19 @@ public class AcessoSistema {
     /**
      * Método cadastra pessoas externas no sistema
      *
-     * @param pessoa A pessoa para se salvar no banco
+     * @param pessoaExterna A pessoa externa para se salvar no banco
      * @return True se o cadastro deu certo
      */
-    public boolean cadastraPessoaExterna(Pessoa pessoa) {
-        try {
-            SESSAO.save(pessoa);
-            SESSAO.getTransaction().commit();
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
+    public boolean cadastraPessoaExterna(Pessoaexterna pessoaExterna) {
+
+        SESSAO.save(pessoaExterna);
+        SESSAO.getTransaction().commit();
+        return true;
+
+    }
+    
+    public void cadastrarPessoa(Pessoa pessoa){
+        SESSAO.save(pessoa);
     }
 
     /**
@@ -199,11 +201,11 @@ public class AcessoSistema {
      * @param professor Professor para se procurar temas relacionados
      * @return retorna a lista de temas relacionados com esse professor
      */
-    public List<Tema> retornarTemasRequisitados(Professor professor) {
+    public List<Tema> retornarTemasRequisitados(Orientador professor) {
         List<Tema> temasRelacionados = new ArrayList<>();
         List<Tema> temasEncontrados = SESSAO.createQuery("From Tema").list();
         for (Tema tema : temasEncontrados) {
-            String usuarioProfessor = tema.getProfessor().getUsuario();
+            String usuarioProfessor = tema.getOrientador().getUsuario();
             if (usuarioProfessor.equals(professor.getUsuario())) {
                 temasRelacionados.add(tema);
             }
@@ -227,6 +229,16 @@ public class AcessoSistema {
         return null;
     }
 
+    public Orientador procurarOrientador(String usuarioOrientador) {
+        List<Orientador> listaOrientadores = SESSAO.createQuery("From Orientador").list();
+        for (Orientador orientador : listaOrientadores) {
+            if (orientador.getUsuario().equals(usuarioOrientador)) {
+                return orientador;
+            }
+        }
+        return null;
+    }
+
     /**
      * Seleciona os temas não confirmados
      *
@@ -242,20 +254,22 @@ public class AcessoSistema {
         }
         return temasEncontrados;
     }
-    
+
     /**
      * Atualiza o tema escolhido
+     *
      * @param tema tema para se atualizar
      */
-    public void atualizarTema(Tema tema){
+    public void atualizarTema(Tema tema) {
         SESSAO.update(tema);
     }
-    
+
     /**
      * Deleta o tema do banco de dados
+     *
      * @param tema Tema para ser deletado
      */
-    public void deletarTema(Tema tema){
+    public void deletarTema(Tema tema) {
         SESSAO.delete(tema);
     }
 
@@ -277,7 +291,7 @@ public class AcessoSistema {
         SESSAO.getTransaction().commit();
     }
 
-    public void salvarBanca(Banca banca){
+    public void salvarBanca(Banca banca) {
         SESSAO.save(banca);
     }
 
@@ -481,6 +495,48 @@ public class AcessoSistema {
         } else {
             return null;
         }
+    }
+
+    /**
+     * Procura a lista de Orientadores presentes no banco de dados
+     *
+     * @return
+     */
+    public List<Orientador> procurarListaOrientadores() {
+        if (SESSAO.getTransaction().isActive()) {
+            return SESSAO.createQuery("From Orientador").list();
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Salva o tema no banco de dados
+     *
+     * @param tema Tema para ser salvado
+     */
+    public void salvarTema(Tema tema) {
+        SESSAO.save(tema);
+    }
+
+    /**
+     * Procura um tema através da matrícula do aluno
+     *
+     * @param matricula Matricula para se procurar
+     * @return O tema encontrado
+     */
+    public Tema procurarTema(int matricula) {
+        List<Tema> temasEncontrados = SESSAO.createQuery("From Tema").list();
+        Tema temaEncontrado = null;
+
+        for (Tema tema : temasEncontrados) {
+            if (tema.getAluno().getMatricula() == matricula) {
+                temaEncontrado = tema;
+                break;
+            }
+        }
+
+        return temaEncontrado;
     }
 
 }

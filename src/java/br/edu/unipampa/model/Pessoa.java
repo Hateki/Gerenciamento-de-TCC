@@ -1,5 +1,5 @@
 package br.edu.unipampa.model;
-// Generated 02/07/2014 19:53:43 by Hibernate Tools 3.6.0
+// Generated 16/07/2014 21:01:23 by Hibernate Tools 3.6.0
 
 
 import java.util.HashSet;
@@ -16,13 +16,14 @@ public class Pessoa  implements java.io.Serializable {
      private String senha;
      private String email;
      private String nome;
-     private String cpf;
-     private String instituicao;
+     private Integer areaAtuacao;
      private Set bancasForConvidado2IdPessoa = new HashSet(0);
      private Set bancasForConvidado1IdPessoa = new HashSet(0);
      private Set alunos = new HashSet(0);
      private Set professors = new HashSet(0);
+     private Set tecnicoadministrativos = new HashSet(0);
      private Set bancasForConvidado3IdPessoa = new HashSet(0);
+     private Set pessoaexternas = new HashSet(0);
 
     public Pessoa() {
     }
@@ -33,18 +34,19 @@ public class Pessoa  implements java.io.Serializable {
         this.senha = senha;
         this.email = email;
     }
-    public Pessoa(String usuario, String senha, String email, String nome, String cpf, String instituicao, Set bancasForConvidado2IdPessoa, Set bancasForConvidado1IdPessoa, Set alunos, Set professors, Set bancasForConvidado3IdPessoa) {
+    public Pessoa(String usuario, String senha, String email, String nome, Integer areaAtuacao, Set bancasForConvidado2IdPessoa, Set bancasForConvidado1IdPessoa, Set alunos, Set professors, Set tecnicoadministrativos, Set bancasForConvidado3IdPessoa, Set pessoaexternas) {
        this.usuario = usuario;
        this.senha = senha;
        this.email = email;
        this.nome = nome;
-       this.cpf = cpf;
-       this.instituicao = instituicao;
+       this.areaAtuacao = areaAtuacao;
        this.bancasForConvidado2IdPessoa = bancasForConvidado2IdPessoa;
        this.bancasForConvidado1IdPessoa = bancasForConvidado1IdPessoa;
        this.alunos = alunos;
        this.professors = professors;
+       this.tecnicoadministrativos = tecnicoadministrativos;
        this.bancasForConvidado3IdPessoa = bancasForConvidado3IdPessoa;
+       this.pessoaexternas = pessoaexternas;
     }
    
     public Integer getIdPessoa() {
@@ -82,19 +84,12 @@ public class Pessoa  implements java.io.Serializable {
     public void setNome(String nome) {
         this.nome = nome;
     }
-    public String getCpf() {
-        return this.cpf;
+    public Integer getAreaAtuacao() {
+        return this.areaAtuacao;
     }
     
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
-    }
-    public String getInstituicao() {
-        return this.instituicao;
-    }
-    
-    public void setInstituicao(String instituicao) {
-        this.instituicao = instituicao;
+    public void setAreaAtuacao(Integer areaAtuacao) {
+        this.areaAtuacao = areaAtuacao;
     }
     public Set getBancasForConvidado2IdPessoa() {
         return this.bancasForConvidado2IdPessoa;
@@ -124,12 +119,26 @@ public class Pessoa  implements java.io.Serializable {
     public void setProfessors(Set professors) {
         this.professors = professors;
     }
+    public Set getTecnicoadministrativos() {
+        return this.tecnicoadministrativos;
+    }
+    
+    public void setTecnicoadministrativos(Set tecnicoadministrativos) {
+        this.tecnicoadministrativos = tecnicoadministrativos;
+    }
     public Set getBancasForConvidado3IdPessoa() {
         return this.bancasForConvidado3IdPessoa;
     }
     
     public void setBancasForConvidado3IdPessoa(Set bancasForConvidado3IdPessoa) {
         this.bancasForConvidado3IdPessoa = bancasForConvidado3IdPessoa;
+    }
+    public Set getPessoaexternas() {
+        return this.pessoaexternas;
+    }
+    
+    public void setPessoaexternas(Set pessoaexternas) {
+        this.pessoaexternas = pessoaexternas;
     }
 
 
