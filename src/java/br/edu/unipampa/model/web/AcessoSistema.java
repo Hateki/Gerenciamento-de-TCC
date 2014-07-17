@@ -551,6 +551,14 @@ public class AcessoSistema {
         
         for (Tcc tcc : listaTcc) {
             if(tema == tcc.getTema()){
+                
+                //Carrega os dados///
+                tcc.getArquivoTcc();
+                tcc.getDescricao();
+                tcc.getStatus();
+                tcc.getTitulo();
+                //////////////////////
+                
                 tccEncontrados.add(tcc);
             }
         }

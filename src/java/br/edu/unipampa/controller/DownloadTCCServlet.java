@@ -3,16 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package br.edu.unipampa.controller;
 
+import br.edu.unipampa.model.Tcc;
 import br.edu.unipampa.model.web.AcessoSistema;
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
-import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
@@ -36,58 +33,59 @@ public class DownloadTCCServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        doDownload(request, response, "Um nome", "Outro nome");
+
+        Tcc tcc = (Tcc) request.getSession().getAttribute("tcc");
+        
+        if (tcc != null) {
+            doDownload(request, response, tcc);
+        }
+        
+        request.removeAttribute("tcc");
     }
-    
-     /**
-   *  Sends a file to the ServletResponse output stream.  Typically
-   *  you want the browser to receive a different name than the
-   *  name the file has been saved in your local database, since
-   *  your local names need to be unique.
-   *
-   *  @param req The request
-   *  @param resp The response
-   *  @param filename The name of the file you want to download.
-   *  @param original_filename The name the browser should receive.
-   */
-  private void doDownload( HttpServletRequest req, HttpServletResponse resp,
-                           String filename, String original_filename )
-      throws IOException
-  {
-      File                f        = new File(filename);
-      int                 length   = -1;
-      ServletOutputStream op       = resp.getOutputStream();
-      ServletContext      context  = getServletConfig().getServletContext();
-      String              mimetype = context.getMimeType( filename );
-      AcessoSistema as = new AcessoSistema();
-      byte[] bbuf = new byte[1024];//Colocar o arquivo do hibernate
+
+    /**
+     * Sends a file to the ServletResponse output stream. Typically you want the
+     * browser to receive a different name than the name the file has been saved
+     * in your local database, since your local names need to be unique.
+     *
+     * @param req The request
+     * @param resp The response
+     * @param filename The name of the file you want to download.
+     * @param original_filename The name the browser should receive.
+     */
+    private void doDownload(HttpServletRequest req, HttpServletResponse resp,
+            Tcc tcc)
+            throws IOException {
+        
+        int length = -1;
+        ServletOutputStream op = resp.getOutputStream();
+        AcessoSistema acessoSistema = new AcessoSistema();
+
+        byte[] bbuf = tcc.getArquivoTcc();//Colocar o arquivo do hibernate
 
       //
-      //  Set the response and go!
-      //
-      //
-      resp.setContentType( "image/jpg" );
-      resp.setContentLength(bbuf.length);
-      resp.setHeader( "Content-Disposition", "attachment; filename=\"" + original_filename + "\"" );
+        //  Set the response and go!
+        //
+        //
+        resp.setContentType(tcc.getTipoArquivo());
+        resp.setContentLength(bbuf.length);
+        resp.setHeader("Content-Disposition", "attachment; filename=\"" + tcc.getTitulo() + "\"");
 
       //
-      //  Stream to the requester.
-      //
-      
-      byte[] buf = new byte[bbuf.length];
-      
-      DataInputStream in = new DataInputStream(new ByteArrayInputStream(bbuf));
-      int teste = in.available();
+        //  Stream to the requester.
+        //
+        byte[] buf = new byte[bbuf.length];
 
-      while (((length = in.read(buf)) != -1))
-      {
-          op.write(buf,0,length);
-      }
-      
-      in.close();
-      op.flush();
-      op.close();
-  }
+        DataInputStream in = new DataInputStream(new ByteArrayInputStream(bbuf));
+
+        while (((length = in.read(buf)) != -1)) {
+            op.write(buf, 0, length);
+        }
+
+        in.close();
+        op.flush();
+        op.close();
+    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

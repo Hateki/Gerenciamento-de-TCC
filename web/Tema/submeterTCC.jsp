@@ -1,4 +1,6 @@
+<%@page import="br.edu.unipampa.model.Tcc"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page isELIgnored="false" %>
 <%-- 
     Document   : submeterTCC
     Created on : 17/07/2014, 11:10:14
@@ -77,8 +79,20 @@
                     <br><br>
                     <div class="row row-fluid">
                         <c:if test="${not empty tcc1}" var="v" scope="request">
-                            <div class="col-md-2">.arquivo</div>
-                            <div class="col-md-4">.situação</div>
+                            
+                            <% Tcc tcc = (Tcc) request.getAttribute("tcc1"); %>
+                            <% request.getSession().setAttribute("tcc", tcc); %>
+                            
+                            
+                            <div class="col-md-3"><c:out value="${tcc1.titulo}"/></div>
+                            <div class="col-md-3">
+                                <form name="download" action="DownloadTCCServlet">
+                                    <button type="submit" class="bnt btn-success">
+                                        Fazer Download Arquivo 
+                                    </button>
+                                </form>
+                            </div>
+                            <div class="col-md-4">situação</div>
                         </c:if>
 
                         <c:if test="${empty tcc1}" var="v" scope="request">
