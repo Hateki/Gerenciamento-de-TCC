@@ -73,16 +73,24 @@ public class Aluno extends Pessoa implements java.io.Serializable {
         this.temas = temas;
     }
 
+    @Override
     public String getSenha() {
         return pessoa.getSenha();
     }
 
+    @Override
     public String getNome() {
         return pessoa.getNome();
     }
 
+    @Override
     public String getUsuario() {
         return pessoa.getUsuario();
+    }
+    
+    public Tema getTema(){
+        AcessoSistema as = new AcessoSistema();
+        return as.procurarTema(matricula);
     }
 
     public boolean cadastrarTema(int matriculaAluno, String usuarioProfessor, String descricaoTema) {

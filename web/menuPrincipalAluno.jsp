@@ -46,7 +46,7 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"> Tema <span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">
                                 <li> <a href="http://localhost:8080/GerenciamentoTCC/CadastroTemaServlet"> Cadastrar Tema </a> </li>
-                                <li> <a href="http://localhost:8080/GerenciamentoTCC/SubmeterTemaTCCServlet"> SubmeterTCC </a></li>
+                                <li> <a href="http://localhost:8080/GerenciamentoTCC/SubmeterTCCServlet"> SubmeterTCC </a></li>
                                 <li> <a href="http://localhost:8080/GerenciamentoTCC/ExibirSituacoServlet"> Exibir Situacao Tema </a> </li>
                             </ul>
                         </li>

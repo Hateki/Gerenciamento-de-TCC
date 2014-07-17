@@ -100,61 +100,7 @@ public class CadastroTemaServlet extends HttpServlet {
 
     }
 
-    public boolean salvarArquivo(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        AcessoSistema as = new AcessoSistema();
-        if (ServletFileUpload.isMultipartContent(request)) {
-
-            int cont = 0;
-
-            ServletFileUpload servletFileUpload = new ServletFileUpload(
-                    new DiskFileItemFactory());
-
-            List fileItemsList = null;
-
-            try {
-                fileItemsList = servletFileUpload.parseRequest(request);
-            } catch (FileUploadException e1) {
-                e1.printStackTrace();
-            }
-
-            String optionalFileName = "";
-            FileItem fileItem = null;
-
-            Iterator it = fileItemsList.iterator();
-
-            do {
-
-                cont++;
-
-                FileItem fileItemTemp = (FileItem) it.next();
-                
-                if (cont != (fileItemsList.size())) {
-                    fileItem = fileItemTemp;
-                    if (fileItem != null && fileItem.getName() != null) {
-                        byte[] arquivo = fileItem.get();
-                        String fileName = fileItem.getName();
-                        if (fileItem.getSize() > 0) {
-                            //Salva no banco de dados
-                            Tema tema = new Tema();
-                            Aluno aluno = as.procurarAluno(121150130);
-                            Professor professor = as.procurarProfessor("Paulo");
-                            tema.setAluno(aluno);
-                            //tema.setProfessor(professor);
-                            tema.setDescricao("Oi");
-                            //tema.setTcc(arquivo);
-                            as.salvarTema(tema);
-                        }
-                    }
-                }
-            } while (it.hasNext());
-            return true;
-        } else {
-            return false;
-        }
-    }
-    
-   
-
+       
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.

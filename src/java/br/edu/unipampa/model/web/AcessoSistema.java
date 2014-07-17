@@ -511,12 +511,12 @@ public class AcessoSistema {
     }
 
     /**
-     * Salva o tema no banco de dados
+     * Salva o tcc no banco de dados
      *
-     * @param tema Tema para ser salvado
+     * @param tcc Tcc para ser salvado
      */
-    public void salvarTema(Tema tema) {
-        SESSAO.save(tema);
+    public void salvarTcc(Tcc tcc) {
+        SESSAO.save(tcc);
     }
 
     /**
@@ -537,6 +537,24 @@ public class AcessoSistema {
         }
 
         return temaEncontrado;
+    }
+    
+    /**
+     * Procura os Tcc's pertencentes ao aluno especificado
+     * @param matriculaAluno Matricula do aluno que se quer procurar os Tcc's
+     * @return A lista de Tcc's encontrados
+     */
+    public List<Tcc> procurarTCC(int matriculaAluno){
+        Tema tema = procurarTema(matriculaAluno);
+        List<Tcc> listaTcc = SESSAO.createQuery("From Tcc").list();
+        List<Tcc> tccEncontrados = new ArrayList<>();
+        
+        for (Tcc tcc : listaTcc) {
+            if(tema == tcc.getTema()){
+                tccEncontrados.add(tcc);
+            }
+        }
+        return tccEncontrados;
     }
 
 }

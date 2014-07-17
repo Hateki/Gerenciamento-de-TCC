@@ -1,3 +1,4 @@
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%-- 
     Document   : submeterTCC
     Created on : 17/07/2014, 11:10:14
@@ -45,7 +46,7 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"> Tema <span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">
                                 <li> <a href="http://localhost:8080/GerenciamentoTCC/CadastroTemaServlet"> Cadastrar Tema </a> </li>
-                                <li> <a href="http://localhost:8080/GerenciamentoTCC/SubmeterTemaTCCServlet"> SubmeterTCC </a></li>
+                                <li> <a href="http://localhost:8080/GerenciamentoTCC/SubmeterTCCServlet"> SubmeterTCC </a></li>
                                 <li> <a href="http://localhost:8080/GerenciamentoTCC/ExibirSituacoServlet"> Exibir Situacao Tema </a> </li>
                             </ul>
                         </li>
@@ -65,19 +66,33 @@
 
         <br><br>
 
-        <div>
-            <h3> Situação TCC 1 </h3>
-            <p>
-                Aqui pode ver a situação de seu
-                <strong> TCC da primeira fase</strong>
-            </p>
-            <br><br>
-            <div class="row row-fluid">
-                <div class="col-md-4">.arquivo</div>
-                <div class="col-md-4">.situação</div>
-                <div class="col-md-4">.col-md-4</div>
-            </div>
+        <div class="panel panel-primary">
+            <div class="panel-heading"><h4> Situação TCC 1 </h4></div>
+            <div class="panel-body">
+                <div>
+                    <p>
+                        Aqui pode ver a situação de seu
+                        <strong> TCC da primeira fase</strong>
+                    </p>
+                    <br><br>
+                    <div class="row row-fluid">
+                        <c:if test="${not empty tcc1}" var="v" scope="request">
+                            <div class="col-md-2">.arquivo</div>
+                            <div class="col-md-4">.situação</div>
+                        </c:if>
 
+                        <c:if test="${empty tcc1}" var="v" scope="request">
+                            <div class="col-md-3">.<strong>Selecione um documento para enviar</strong>:</div>
+                            <div class="col-md-2">
+                                <form method="post" action="SubmeterTCCServlet" enctype="multipart/form-data">
+                                    <input type="file" name="file" size="60"/><br/>
+                                    <input type="submit" value="Enviar" class="btn btn-success"/>
+                                </form>
+                            </div>
+                        </c:if>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- Bootstrap core JavaScript

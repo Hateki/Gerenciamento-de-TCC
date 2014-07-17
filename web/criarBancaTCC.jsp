@@ -123,8 +123,8 @@
                 }
         </script>
 
-        <c:if test="${not empty retorno}" var="variavel" scope="request">
-            <c:if test="${retorno == 0 }" var="variavel" scope="request"><!Professores Existem>
+    <c:if test="${not empty retorno}" var="variavel" scope="request">
+        <c:if test="${retorno == 0 }" var="variavel" scope="request"><!Professores Existem>
             <div class="alert alert-success" role="alert">Cadastro realizado com sucesso</div>
         </c:if>
     </c:if>

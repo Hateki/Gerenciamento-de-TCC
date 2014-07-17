@@ -28,6 +28,10 @@
         <servlet-name>DownloadTCCServlet</servlet-name>
         <servlet-class>br.edu.unipampa.controller.DownloadTCCServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SubmeterTCCServlet</servlet-name>
+        <servlet-class>br.edu.unipampa.controller.SubmeterTCCServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>CadastraPessoaExternaServelt</servlet-name>
         <url-pattern>/CadastraPessoaExternaServelt</url-pattern>
@@ -55,6 +59,10 @@
     <servlet-mapping>
         <servlet-name>DownloadTCCServlet</servlet-name>
         <url-pattern>/DownloadTCCServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SubmeterTCCServlet</servlet-name>
+        <url-pattern>/SubmeterTCCServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
