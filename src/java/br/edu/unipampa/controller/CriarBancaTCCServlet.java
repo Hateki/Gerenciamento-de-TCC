@@ -61,6 +61,9 @@ public class CriarBancaTCCServlet extends HttpServlet {
         int resultadoVerificacao;
         as = new AcessoSistema();
         Orientador professor = as.procurarOrientador(orientador);
+        
+        //retorna a lista de temas pertencentes a esse orientador
+        request.setAttribute("listaTemasOrientador", as.procurarTemasConfirmados(professor));
 
         if (professor1 != null && professor2 != null && matriculaAlunoString != null) {
             

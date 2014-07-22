@@ -67,7 +67,7 @@ public class AcessoSistema {
             //Verifica se o usuário é um professor
             List<Professor> resultado = (List<Professor>) SESSAO.createQuery("From Professor ").list();
             for (Professor professor : resultado) {
-                if (professor.getPessoa().getUsuario().equalsIgnoreCase(nome)
+                if (professor.getUsuario().equalsIgnoreCase(nome)
                         && professor.getSenha().equals(senha)) {
                     return PROFESSOR;
                 }
@@ -97,8 +97,8 @@ public class AcessoSistema {
         return true;
 
     }
-    
-    public void cadastrarPessoa(Pessoa pessoa){
+
+    public void cadastrarPessoa(Pessoa pessoa) {
         SESSAO.save(pessoa);
     }
 
@@ -538,31 +538,116 @@ public class AcessoSistema {
 
         return temaEncontrado;
     }
-    
+
+    /**
+     * Procura no banco os temas que esse orientador orienta
+     *
+     * @param orientador Orientador para se procurar os temas
+     * @return lista de temas que esse orientador orienta
+     */
+    public List<Tema> procurarTemasConfirmados(Orientador orientador) {
+        List<Tema> temasBanco = procurarTemasConfirmados();
+        List<Tema> temasEncontrados = new ArrayList<>();
+
+        for (Tema tema : temasBanco) {
+            if (tema.getOrientador() == orientador) {
+                temasEncontrados.add(tema);
+            }
+        }
+
+        return temasEncontrados;
+
+    }
+
     /**
      * Procura os Tcc's pertencentes ao aluno especificado
+     *
      * @param matriculaAluno Matricula do aluno que se quer procurar os Tcc's
      * @return A lista de Tcc's encontrados
      */
-    public List<Tcc> procurarTCC(int matriculaAluno){
+    public List<Tcc> procurarTCC(int matriculaAluno) {
         Tema tema = procurarTema(matriculaAluno);
         List<Tcc> listaTcc = SESSAO.createQuery("From Tcc").list();
         List<Tcc> tccEncontrados = new ArrayList<>();
-        
+
         for (Tcc tcc : listaTcc) {
-            if(tema == tcc.getTema()){
-                
+            if (tema == tcc.getTema()) {
+
                 //Carrega os dados///
                 tcc.getArquivoTcc();
                 tcc.getDescricao();
                 tcc.getStatus();
                 tcc.getTitulo();
                 //////////////////////
-                
+
                 tccEncontrados.add(tcc);
             }
         }
         return tccEncontrados;
+    }
+
+    /**
+     * Procura o Tcc que o aluno envio para a banca
+     *
+     * @param banca Banca da qual o tcc pertence
+     * @return O tcc do aluno
+     */
+    public Tcc procurarTCCPorBanca(Banca banca) {
+        Aluno aluno = banca.getAluno();
+        List<Tcc> tccsEncontrados = SESSAO.createQuery("From Tcc").list();
+        List<Tema> temasConfirmados = procurarTemasConfirmados(banca.getOrientadorByOrientadorIdOrientador());
+        Tema temaBanca = null;
+
+        for (Tema tema : temasConfirmados) {
+            if (aluno == tema.getAluno()) {
+                temaBanca = tema;
+                break;
+            }
+        }
+
+        for (Tcc tcc : tccsEncontrados) {
+            if (tcc.getTema() == temaBanca) {
+                return tcc;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Procura por bancas que o usuário especificado participe
+     *
+     * @param usuario Usuário para se procurar a banca
+     * @return Lista de bancas encontradas
+     */
+    public List<Banca> procurarBancas(String usuario) {
+        List<Banca> bancas = SESSAO.createQuery("From Banca").list();
+        List<Banca> bancasEncontradas = new ArrayList<>();
+
+        for (Banca banca : bancas) {
+
+            //Carrega os dados//////////////////////////////////////
+            banca.getAluno().getNome();
+            banca.getOrientadorByOrientadorIdOrientador().getNome();
+            banca.getPessoaByConvidado1IdPessoa().getNome();
+            banca.getPessoaByConvidado2IdPessoa().getNome();
+            if (banca.getPessoaByConvidado3IdPessoa() != null) {
+                banca.getPessoaByConvidado3IdPessoa().getNome();
+            }
+            ////////////////////////////////////////////////////////
+
+            if (banca.getOrientadorByOrientadorIdOrientador().getUsuario().equals(usuario)) {
+                bancasEncontradas.add(banca);
+            } else if (banca.getPessoaByConvidado1IdPessoa().getUsuario().equals(usuario)) {
+                bancasEncontradas.add(banca);
+            } else if (banca.getPessoaByConvidado2IdPessoa().getUsuario().equals(usuario)) {
+                bancasEncontradas.add(banca);
+            } else if (banca.getPessoaByConvidado3IdPessoa() != null
+                    && banca.getPessoaByConvidado3IdPessoa().getUsuario().equals(usuario)) {
+                bancasEncontradas.add(banca);
+            }
+        }
+
+        return bancasEncontradas;
     }
 
 }

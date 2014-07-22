@@ -1,9 +1,12 @@
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page isELIgnored="false" %>
 <%-- 
-    Document   : menuPrincipalProfessor
-    Created on : 01/07/2014, 23:45:22
-    Author     : pontofrio
+    Document   : verificarBanca
+    Created on : 20/07/2014, 14:35:57
+    Author     : Pedro Henrique França Silva
 --%>
 
+<%@page import="br.edu.unipampa.model.Tcc"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -15,7 +18,7 @@
         <meta name="author" content="">
         <link rel="icon" href="../../favicon.ico">
 
-        <title>Starter Template for Bootstrap</title>
+        <title>Verificar Banca</title>
 
         <!-- Bootstrap core CSS -->
         <link href="../../GerenciamentoTCC/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -44,7 +47,6 @@
                             <ul class="dropdown-menu" role="menu">
                                 <li> <a href="http://localhost:8080/GerenciamentoTCC/CriarTemaTCCServlet"> Marcar Banca </a></li>
                                 <li> <a href="http://localhost:8080/GerenciamentoTCC/definirHLD.jsp"> Definir Horário Local e Data </a> </li>
-                                <li> <a href="http://localhost:8080/GerenciamentoTCC/VerificarBancaServlet"> VerificarBanca </a> </li>
                             </ul>
                         </li>
                         <li> <a href="http://localhost:8080/GerenciamentoTCC/TemasRequisitadosServlet"> Temas Requisitados  </a></li>
@@ -57,7 +59,54 @@
                 </div>
             </div>
         </div>
+        <br><br><br><br>
 
+        <h3> Aqui pode ver as bancas em que participa </h3>
+
+        <br><br><br>
+        
+        <% int cont = 1; %>
+        <c:forEach var="bancaEncontrada" items="${Bancas}">
+            <div class="panel panel-primary">
+                <div class="panel-heading"><h5>Banca <%= cont %></h5></div>
+                <div class="panel-body">
+                    <div class="row row-fluid">
+                        <c:if test="${not empty bancaEncontrada}" var="v" scope="request"> 
+
+                            <div class="col-md-2"> <strong> Orientador: </strong><c:out value="${bancaEncontrada.orientadorByOrientadorIdOrientador.nome}"/></div>
+                            <div class="col-md-3"><strong> Aluno: </strong><c:out value="${bancaEncontrada.aluno.nome}"/></div>
+                            <div class="col-md-3"><strong> Convidado: </strong><c:out value="${bancaEncontrada.pessoaByConvidado1IdPessoa.nome}"/></div>
+                            <div class="col-md-3"><strong> Convidado: </strong><c:out value="${bancaEncontrada.pessoaByConvidado2IdPessoa.nome}"/></div>
+                            <c:if test="${not empty bancaEncontrada.pessoaByConvidado3IdPessoa}">
+                                <div class="col-md-3"><strong> Convidado: </strong><c:out value="${bancaEncontrada.pessoaByConvidado3IdPessoa.nome}"/></div>
+                            </c:if>
+                            <br><br>
+                            <div class="col-md-2">
+                                <form name="download" action="DetalheTCCServlet">
+                                    <button type="submit" class="bnt btn-success" name="botao" value="<%= cont %>">
+                                        Fazer dowload do TCC 
+                                    </button>
+                                </form>    
+                            </div>    
+
+
+                            <!-- 
+                            <div class="col-md-3">
+                                <form name="download" action="DownloadTCCServlet">
+                                    <button type="submit" class="bnt btn-success">
+                                        Fazer Download Arquivo 
+                                    </button>
+                                </form>
+                            </div>
+                            
+                            -->
+                        </c:if>
+                    </div>
+                </div>
+            </div>
+            <br><br>
+            <% cont ++ ;%>
+        </c:forEach>
 
         <!-- Bootstrap core JavaScript
         ================================================== -->

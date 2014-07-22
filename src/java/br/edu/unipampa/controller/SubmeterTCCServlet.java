@@ -44,9 +44,12 @@ public class SubmeterTCCServlet extends HttpServlet {
 
         AcessoSistema acessoSistema = new AcessoSistema();
         String usuarioAluno = (String) request.getSession().getAttribute("usuario");
+        
         List<Tcc> listaTcc;
 
-        salvarArquivo(request, response, Integer.parseInt(usuarioAluno));
+        if(salvarArquivo(request, response, Integer.parseInt(usuarioAluno))){
+            request.setAttribute("retorno", "Envio de arquivo bem sucedido");
+        }
 
         listaTcc = acessoSistema.procurarTCC(Integer.parseInt(usuarioAluno));
 
