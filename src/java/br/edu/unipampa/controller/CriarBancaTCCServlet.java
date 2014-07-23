@@ -11,6 +11,7 @@ import br.edu.unipampa.model.Orientador;
 import br.edu.unipampa.model.Pessoa;
 import br.edu.unipampa.model.Professor;
 import br.edu.unipampa.model.web.AcessoSistema;
+import br.edu.unipampa.model.web.EnvioEmails;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Set;
@@ -57,16 +58,16 @@ public class CriarBancaTCCServlet extends HttpServlet {
         String orientador = (String) request.getSession().getAttribute("usuario");
         String matriculaAlunoString = (String) request.getParameter("matricula");
         int matriculaAluno = -1;
-        boolean verificaCadastro;
+        Banca bancaCriada;
         int resultadoVerificacao;
         as = new AcessoSistema();
         Orientador professor = as.procurarOrientador(orientador);
-        
+
         //retorna a lista de temas pertencentes a esse orientador
         request.setAttribute("listaTemasOrientador", as.procurarTemasConfirmados(professor));
 
         if (professor1 != null && professor2 != null && matriculaAlunoString != null) {
-            
+
             matriculaAluno = Integer.parseInt(matriculaAlunoString);
             resultadoVerificacao = verificaExistenciaProfessor(professor1, professor2, professor3);
 
@@ -76,9 +77,10 @@ public class CriarBancaTCCServlet extends HttpServlet {
                         || confirmaProfessor(orientador, professor3)) {
                     request.setAttribute("retorno", ORIENTADOR_IGUAL_PROFESSOR);
                 } else {
-                    verificaCadastro = professor.cadastrarBanca(matriculaAluno, orientador, professor1, professor2, professor3);
+                    bancaCriada = professor.cadastrarBanca(matriculaAluno, orientador, professor1, professor2, professor3);
 
-                    if (verificaCadastro) {
+                    if (bancaCriada != null) {
+                        mandarEmails(bancaCriada);
                         request.setAttribute("retorno", resultadoVerificacao);
                     } else {
                         resultadoVerificacao = ALUNO_NO_LUGAR_PROFESSOR;
@@ -89,7 +91,7 @@ public class CriarBancaTCCServlet extends HttpServlet {
                 request.setAttribute("retorno", resultadoVerificacao);
             }
         }
-        
+
         request.setAttribute("pessoas", as.retornarPessoas());
         request.setAttribute("alunos", as.retornarAlunos());
         as.completarTransacoes();
@@ -104,7 +106,7 @@ public class CriarBancaTCCServlet extends HttpServlet {
      * @param professor3 Professor especificado no campo 3
      * @return O resultado de quantos professores existem
      */
-    public int verificaExistenciaProfessor(String professor1, String professor2, String professor3) {
+    private int verificaExistenciaProfessor(String professor1, String professor2, String professor3) {
         Pessoa convidado1 = as.procurarPessoa(professor1);
         Pessoa convidado2 = as.procurarPessoa(professor2);
         Pessoa convidado3 = null;
@@ -149,14 +151,14 @@ public class CriarBancaTCCServlet extends HttpServlet {
         }
     }
 
-    public boolean confirmaProfessor(String usuarioOrientador, String usuarioProfessor) {
+    private boolean confirmaProfessor(String usuarioOrientador, String usuarioProfessor) {
         if (usuarioProfessor.equals("")) {//Se o usuário do professor não foi preenchido
             return false;
         }
         return usuarioOrientador.equals(usuarioProfessor);
     }
 
-    public int confirmarNaoExistenciaAluno(String usuario) {
+    private int confirmarNaoExistenciaAluno(String usuario) {
         Aluno aluno;
         try {
             int matriculaAluno = Integer.parseInt(usuario);
@@ -168,6 +170,54 @@ public class CriarBancaTCCServlet extends HttpServlet {
             return 0;
         }
         return 0;
+    }
+
+    private void mandarEmail(Pessoa pessoa, String nomeOrientador) {
+        EnvioEmails emails = new EnvioEmails();
+        String mensagem = "";
+        String assunto = "Banca Criada";
+
+        if (pessoa instanceof Orientador) {
+            mensagem = "Banca criada com sucesso";
+        } else if (pessoa instanceof Aluno) {
+            mensagem = "A banca para a sua defesa de TCC foi criada";
+        } else {
+            mensagem = "Você foi incluido em uma banca do Orientador "
+                    + nomeOrientador
+                    + ". Acesse a aba de 'verificar banca' no sistema para ter mais detalhes";
+        }
+
+        emails.enviaEmailSimples(mensagem, assunto, pessoa.getEmail());
+    }
+
+    private void mandarEmails(Banca banca) {
+        String nomeOrientador = banca.getOrientadorByOrientadorIdOrientador().getNome();
+        Orientador orientador = banca.getOrientadorByOrientadorIdOrientador();
+        Pessoa convidadado1 = banca.getPessoaByConvidado1IdPessoa();
+        Pessoa convidadado2 = banca.getPessoaByConvidado2IdPessoa();
+        Pessoa convidadado3 = banca.getPessoaByConvidado3IdPessoa();
+        Orientador coorientador = banca.getOrientadorByCoorientadorIdOrientador();
+
+        for (int i = 0; i < 6; i++) {
+            if (i == 0) {
+                mandarEmail(orientador, nomeOrientador);
+            } else if (i == 1) {
+                mandarEmail(convidadado1, nomeOrientador);
+            } else if (i == 2) {
+                mandarEmail(convidadado2, nomeOrientador);
+            } else if (i == 3) {
+                if (convidadado3 != null) {
+                    mandarEmail(convidadado3, nomeOrientador);
+                }
+            } else if (i == 4) {
+                if(coorientador != null){
+                    mandarEmail(convidadado1, nomeOrientador);
+                }
+            }else{
+                mandarEmail(banca.getAluno(), nomeOrientador);
+            }
+        }
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

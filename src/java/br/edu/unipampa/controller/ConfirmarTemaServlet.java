@@ -5,10 +5,14 @@
  */
 package br.edu.unipampa.controller;
 
+import br.edu.unipampa.model.Aluno;
+import br.edu.unipampa.model.Banca;
 import br.edu.unipampa.model.Orientador;
+import br.edu.unipampa.model.Pessoa;
 import br.edu.unipampa.model.Professor;
 import br.edu.unipampa.model.Tema;
 import br.edu.unipampa.model.web.AcessoSistema;
+import br.edu.unipampa.model.web.EnvioEmails;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -39,21 +43,24 @@ public class ConfirmarTemaServlet extends HttpServlet {
         AcessoSistema as = new AcessoSistema();
         Orientador orientador = new Orientador();
         List<Tema> temasRequisitados = as.procurarTemasConfirmados();
+        Tema escolhido = null;
         int temaEscolhido = -1;
-        
+
         if (valorCompletoBotao != null) {
             valorBotao = verificaValorBotao(valorCompletoBotao);
             temaEscolhido = Integer.parseInt(valorBotao);
 
             if (verificaOpcao(valorCompletoBotao)) {
-                orientador.confirmarTema(temasRequisitados, temaEscolhido, true);
+                escolhido = orientador.confirmarTema(temasRequisitados, temaEscolhido, true);
+                mandarEmails(escolhido.getAluno(), escolhido.getOrientador(), true);
             } else {
-                orientador.recusarTema(temasRequisitados, temaEscolhido);
+                escolhido = orientador.recusarTema(temasRequisitados, temaEscolhido);
+                mandarEmails(escolhido.getAluno(), escolhido.getOrientador(), false);
             }
         }
         
         temasRequisitados = as.procurarTemasConfirmados();//Garante que a lista esteja atualizada
-        
+
         request.setAttribute("retorno", temasRequisitados);
 
         request.getRequestDispatcher("confirmarTema.jsp").forward(request, response);
@@ -68,6 +75,32 @@ public class ConfirmarTemaServlet extends HttpServlet {
         }
         valorBotao = valorBotao.trim();
         return valorBotao;
+    }
+
+    private void mandarEmails(Aluno aluno, Orientador orientador, boolean autorizacao) {
+        EnvioEmails emails = new EnvioEmails();
+        String mensagemAluno = null;
+        String mensagemOrientador = null;
+        String assunto = null;
+
+        if (autorizacao) {
+            assunto = "Tema autorizado pelo Coordenador de Tcc's";
+            mensagemAluno = "O seu tema foi autorizado pelo coordenador";
+            mensagemOrientador = "O tema do aluno " + aluno.getNome()
+                    + " foi autorizado pelo Coordenador do Tcc!";
+        } else {
+            assunto = "Tema não autorizado pelo Coordenador de Tcc's";
+            
+            mensagemAluno = "O seu tema não foi autorizado pelo"
+                    + " coordenador devido a falta de carga horária";
+            
+            mensagemOrientador = "O tema do aluno " + aluno.getNome()
+                    + "não  foi autorizado pelo Coordenador do Tcc, devido"
+                    + " a falta de carga horária";
+        }
+
+        emails.enviaEmailSimples(mensagemAluno, assunto, aluno.getEmail());
+        emails.enviaEmailSimples(mensagemOrientador, assunto, orientador.getEmail());
     }
 
     /**

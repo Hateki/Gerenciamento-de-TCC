@@ -5,10 +5,12 @@
  */
 package br.edu.unipampa.controller;
 
+import br.edu.unipampa.model.Aluno;
 import br.edu.unipampa.model.Orientador;
 import br.edu.unipampa.model.Professor;
 import br.edu.unipampa.model.Tema;
 import br.edu.unipampa.model.web.AcessoSistema;
+import br.edu.unipampa.model.web.EnvioEmails;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -41,16 +43,37 @@ public class DetalheTemaServlet extends HttpServlet {
         Orientador orientador = as.procurarOrientador(usuarioProfessor);
         List<Tema> temasRequisitados = as.retornarTemasRequisitados(orientador);
         int temaEscolhido = Integer.parseInt(valorBotao);
+        Tema escolhido;
         
         if(verificaOpcao(valorCompletoBotao)){
-            orientador.confirmarTema(temasRequisitados, temaEscolhido, false);
+            escolhido = orientador.confirmarTema(temasRequisitados, temaEscolhido, false);
+            mandarEmails(escolhido.getAluno(), escolhido.getOrientador(), true);
         }else{
-            orientador.recusarTema(temasRequisitados, temaEscolhido);
+            escolhido = orientador.recusarTema(temasRequisitados, temaEscolhido);
+            mandarEmails(escolhido.getAluno(), escolhido.getOrientador(), false);
         }
         temasRequisitados = as.retornarTemasRequisitados(orientador);
         as.completarTransacoes();
         request.setAttribute("retorno", temasRequisitados);
         request.getRequestDispatcher("temasRequisitados.jsp").forward(request, response);
+    }
+    
+    private void mandarEmails(Aluno aluno, Orientador orientador, boolean autorizacao) {
+        EnvioEmails emails = new EnvioEmails();
+        String mensagemAluno = null;
+        String assunto = null;
+
+        if (autorizacao) {
+            assunto = "Tema autorizado pelo Orientador ";
+            mensagemAluno = "O seu tema foi autorizado pelo Orientador "+ orientador.getNome() + ".";
+        } else {
+            assunto = "Tema não autorizado pelo Orientador";
+            
+            mensagemAluno = "O seu tema não foi autorizado pelo Orientador "  + orientador.getNome() + ".";
+            
+        }
+
+        emails.enviaEmailSimples(mensagemAluno, assunto, aluno.getEmail());
     }
     
     public String verificaValorBotao(String valorBotao){
