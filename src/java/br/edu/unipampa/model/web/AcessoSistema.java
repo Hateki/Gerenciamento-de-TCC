@@ -518,6 +518,14 @@ public class AcessoSistema {
     public void salvarTcc(Tcc tcc) {
         SESSAO.save(tcc);
     }
+    
+    /**
+     * Salva as aterações na banca no banco de dados
+     * @param banca Banca para se salvar as alterações
+     */
+    public void salvarMarcacaoBanca(Banca banca){
+        SESSAO.merge(banca);
+    }
 
     /**
      * Procura um tema através da matrícula do aluno

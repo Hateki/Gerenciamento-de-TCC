@@ -212,5 +212,22 @@ public class Orientador extends Professor implements java.io.Serializable {
         }
         return false;
     }
+    
+    /**
+     * 
+     * @param banca
+     * @param horario
+     * @param data
+     * @param local 
+     */
+    public void marcarBanca(Banca banca,String horario,String data,String local){
+        AcessoSistema as = new AcessoSistema();
+        
+        banca.setData(data);
+        banca.setHorario(horario);
+        banca.setLocal(local);
+        
+        as.salvarMarcacaoBanca(banca);
+    }
 
 }

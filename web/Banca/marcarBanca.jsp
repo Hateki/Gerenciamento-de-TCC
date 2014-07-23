@@ -1,9 +1,9 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page isELIgnored="false" %>
 <%-- 
-    Document   : verificarBanca
-    Created on : 20/07/2014, 14:35:57
-    Author     : Pedro Henrique França Silva
+    Document   : marcarBanca
+    Created on : 22/07/2014, 19:37:56
+    Author     : pontofrio
 --%>
 
 <%@page import="br.edu.unipampa.model.Tcc"%>
@@ -66,7 +66,7 @@
         <br><br><br>
 
         <% int cont = 1;%>
-        <c:forEach var="bancaEncontrada" items="${Bancas}">
+        <c:forEach var="bancaEncontrada" items="${bancas}">
             <div class="panel panel-primary">
                 <div class="panel-heading"><h5>Banca <%= cont%></h5></div>
                 <div class="panel-body">
@@ -89,12 +89,12 @@
                             </c:if>
                             <c:if test="${not empty bancaEncontrada.data}">
                                 <div class="col-md-3"><strong> Data: </strong><c:out value="${bancaEncontrada.data}"/></div>
-                            </c:if>    
+                            </c:if>
                             <br><br>
                             <div class="col-md-2">
-                                <form name="download" action="DetalheTCCServlet">
+                                <form name="download" action="MarcarBancaServlet">
                                     <button type="submit" class="bnt btn-success" name="botao" value="<%= cont%>">
-                                        Fazer dowload do TCC 
+                                        Marcar Banca 
                                     </button>
                                 </form>    
                             </div>    
