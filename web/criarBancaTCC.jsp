@@ -57,6 +57,66 @@
             </div>
         </div>
 
+        <div class="modal fade" id="listaPessoas" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4>Lista de Pessoas</h4>
+                    </div>
+                    <div class="modal-body">
+                        <table border="1" class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Usuário Pessoa</th>
+                                    <th>Nome do Pessoa</th>
+                                    <th>Email</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <c:forEach var="pessoa" items="${pessoas}">
+                                    <tr>
+                                        <td> <c:out value="${pessoa.usuario}"/> </td>
+                                        <td> <c:out value="${pessoa.nome}"/> </td>
+                                        <td> <c:out value="${pessoa.email}"/> </td>
+                                    </tr>
+                                </c:forEach>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="listaAlunos" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4>Lista de Alunos</h4>
+                    </div>
+                    <div class="modal-body">
+                        <table border="1" class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Usuário Aluno</th>
+                                    <th>Nome do Aluno</th>
+                                    <th>Email</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <c:forEach var="aluno" items="${alunos}">
+                                    <tr>
+                                        <td> <c:out value="${aluno.usuario}"/> </td>
+                                        <td> <c:out value="${aluno.nome}"/> </td>
+                                        <td> <c:out value="${aluno.pessoa.email}"/> </td>
+                                    </tr>
+                                </c:forEach>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <form id="tccForm" name="tccForm" method="post" action="CriarTemaTCCServlet"
               onsubmit="return">
 
@@ -78,7 +138,22 @@
                 <div style="display: none" id="professor3">
                     Professor : <input type="text" name="professor3" id="professor3" onblur="validaEspaco(this)"/>
                     <a href="#listaPessoas" data-toggle="modal" class="btn btn-primary"> Ver lista de Pessoas </a>
-                </div>        
+                </div>     
+
+
+                <!-- 
+                ================================================== 
+                
+                <c:if test="${not empty listaTemasOrientador}" var="v" scope="request">
+                    <select name="listaTemas" onselect="">
+                        <c:forEach var="tema" items="${listaTemasOrientador}">
+                            <option><c:out value="${tema.aluno.nome}"/></option>
+                        </c:forEach>
+                    </select>
+                </c:if>
+                
+                -->
+               
 
                 <button type="button" class="btn btn-success" onclick="mostraProfessorInv()" name="btAddProfessor" id="btAddProfessor" >Adicionar</button><br></br>
                 <input  type="button" class="btn btn-danger  " name="voltar" id="voltar" value="Voltar" onClick="retornaPaginaPrincipal()">
@@ -123,8 +198,8 @@
                 }
         </script>
 
-    <c:if test="${not empty retorno}" var="variavel" scope="request">
-        <c:if test="${retorno == 0 }" var="variavel" scope="request"><!Professores Existem>
+        <c:if test="${not empty retorno}" var="variavel" scope="request">
+            <c:if test="${retorno == 0 }" var="variavel" scope="request"><!Professores Existem>
             <div class="alert alert-success" role="alert">Cadastro realizado com sucesso</div>
         </c:if>
     </c:if>
@@ -183,65 +258,7 @@
         </c:if>
     </c:if>
 
-    <div class="modal fade" id="listaPessoas" role="dialog">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4>Lista de Pessoas</h4>
-                </div>
-                <div class="modal-body">
-                    <table border="1" class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th>Usuário Pessoa</th>
-                                <th>Nome do Pessoa</th>
-                                <th>Email</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <c:forEach var="pessoa" items="${pessoas}">
-                                <tr>
-                                    <td> <c:out value="${pessoa.usuario}"/> </td>
-                                    <td> <c:out value="${pessoa.nome}"/> </td>
-                                    <td> <c:out value="${pessoa.email}"/> </td>
-                                </tr>
-                            </c:forEach>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <div class="modal fade" id="listaAlunos" role="dialog">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4>Lista de Alunos</h4>
-                </div>
-                <div class="modal-body">
-                    <table border="1" class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th>Usuário Aluno</th>
-                                <th>Nome do Aluno</th>
-                                <th>Email</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <c:forEach var="aluno" items="${alunos}">
-                                <tr>
-                                    <td> <c:out value="${aluno.usuario}"/> </td>
-                                    <td> <c:out value="${aluno.nome}"/> </td>
-                                    <td> <c:out value="${aluno.pessoa.email}"/> </td>
-                                </tr>
-                            </c:forEach>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
     <!-- Bootstrap core JavaScript
                 ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->

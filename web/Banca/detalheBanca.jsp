@@ -1,9 +1,12 @@
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page isELIgnored="false" %>
 <%-- 
-    Document   : menuPrincipalProfessor
-    Created on : 01/07/2014, 23:45:22
+    Document   : detalheBanca
+    Created on : 22/07/2014, 22:49:01
     Author     : pontofrio
 --%>
 
+<%@page import="br.edu.unipampa.model.Tcc"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -15,7 +18,7 @@
         <meta name="author" content="">
         <link rel="icon" href="../../favicon.ico">
 
-        <title>Starter Template for Bootstrap</title>
+        <title>Verificar Banca</title>
 
         <!-- Bootstrap core CSS -->
         <link href="../../GerenciamentoTCC/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -42,9 +45,8 @@
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Banca <span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">
-                                <li> <a href="http://localhost:8080/GerenciamentoTCC/CriarBancaTCCServlet"> Criar Banca </a></li>
-                                <li> <a href="http://localhost:8080/GerenciamentoTCC/MarcarBancaServlet"> Definir Horário Local e Data </a> </li>
-                                <li> <a href="http://localhost:8080/GerenciamentoTCC/VerificarBancaServlet"> VerificarBanca </a> </li>
+                                <li> <a href="http://localhost:8080/GerenciamentoTCC/CriarTemaTCCServlet"> Marcar Banca </a></li>
+                                <li> <a href="http://localhost:8080/GerenciamentoTCC/definirHLD.jsp"> Definir Horário Local e Data </a> </li>
                             </ul>
                         </li>
                         <li> <a href="http://localhost:8080/GerenciamentoTCC/TemasRequisitadosServlet"> Temas Requisitados  </a></li>
@@ -57,7 +59,24 @@
                 </div>
             </div>
         </div>
+        <br><br><br><br>
 
+        <h3> Defina o horario o local e a data da banca </h3>
+
+        <br><br><br>
+
+        <c:if test="${not empty banca}" var="v" scope="request">
+            <form name="download" action="MarcarBancaServlet" method="POST">
+                <% request.getSession().setAttribute("banca", request.getAttribute("banca"));%>
+                <strong> Orientador </strong> : <c:out value="${banca.orientadorByOrientadorIdOrientador.nome}"/><br><br>
+                <strong> Aluno: </strong> <c:out value="${banca.aluno.nome}"/><br><br>
+                <strong> Local: </strong> <input type="local" name="local" value="" /><br><br>
+                <strong> Data: </strong> <input name="data" type="date" id="date" required/><br><br>
+                <strong> Horario: </strong> <input type="time" name="horario" id="time" required/><br><br>
+
+                <button type="submit" class="bnt btn-success" name="botao"> Marcar </button> 
+            </form>
+        </c:if>
 
         <!-- Bootstrap core JavaScript
         ================================================== -->

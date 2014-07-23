@@ -32,6 +32,18 @@
         <servlet-name>SubmeterTCCServlet</servlet-name>
         <servlet-class>br.edu.unipampa.controller.SubmeterTCCServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>VerificarBancaServlet</servlet-name>
+        <servlet-class>br.edu.unipampa.controller.VerificarBancaServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DetalheTCCServlet</servlet-name>
+        <servlet-class>br.edu.unipampa.controller.DetalheTCCServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>MarcarBancaServlet</servlet-name>
+        <servlet-class>br.edu.unipampa.controller.MarcarBancaServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>CadastraPessoaExternaServelt</servlet-name>
         <url-pattern>/CadastraPessoaExternaServelt</url-pattern>
@@ -63,6 +75,18 @@
     <servlet-mapping>
         <servlet-name>SubmeterTCCServlet</servlet-name>
         <url-pattern>/SubmeterTCCServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>VerificarBancaServlet</servlet-name>
+        <url-pattern>/VerificarBancaServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DetalheTCCServlet</servlet-name>
+        <url-pattern>/DetalheTCCServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MarcarBancaServlet</servlet-name>
+        <url-pattern>/MarcarBancaServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

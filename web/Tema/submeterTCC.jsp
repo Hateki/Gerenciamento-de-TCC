@@ -105,10 +105,13 @@
                             </div>
                         </c:if>
                     </div>
+                    <c:if test="${not empty retorno}" var="v" scope="request">
+                        <div class="alert alert-success" role="alert"><c:out value="${retorno}"/></div>
+                    </c:if>
                 </div>
             </div>
         </div>
-
+        
         <!-- Bootstrap core JavaScript
         ================================================== -->
         <!-- Placed at the end of the document so the pages load faster -->
