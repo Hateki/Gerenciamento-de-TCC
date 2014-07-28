@@ -51,16 +51,24 @@ public class Professor extends Pessoa implements java.io.Serializable {
         this.orientadors = orientadors;
     }
 
+    @Override
     public String getSenha() {
         return pessoa.getSenha();
     }
 
+    @Override
     public String getNome() {
         return pessoa.getNome();
     }
 
+    @Override
     public String getUsuario() {
         return pessoa.getUsuario();
+    }
+    
+    @Override
+    public String getEmail() {
+        return pessoa.getEmail();
     }
 
 }

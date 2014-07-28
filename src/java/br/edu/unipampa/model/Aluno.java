@@ -88,12 +88,17 @@ public class Aluno extends Pessoa implements java.io.Serializable {
         return pessoa.getUsuario();
     }
     
+    @Override
+    public String getEmail() {
+        return pessoa.getEmail();
+    }
+    
     public Tema getTema(){
         AcessoSistema as = new AcessoSistema();
         return as.procurarTema(matricula);
     }
 
-    public boolean cadastrarTema(int matriculaAluno, String usuarioProfessor, String descricaoTema) {
+    public Tema cadastrarTema(int matriculaAluno, String usuarioProfessor, String descricaoTema) {
         List<Orientador> OrientadoresEncontrados;
         List<Aluno> alunosEncontrados;
         Aluno aluno = null;
@@ -123,9 +128,11 @@ public class Aluno extends Pessoa implements java.io.Serializable {
             tema.setAprovado(Tema.NAO_APROVADO);
             tema.setDescricao(descricaoTema);
 
-            return acessoSistema.cadastrarTema(tema);
+            if(acessoSistema.cadastrarTema(tema)){
+                return tema;
+            }
         }
-        return false;
+        return null;
     }
 
 }

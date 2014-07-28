@@ -6,9 +6,11 @@
 package br.edu.unipampa.controller;
 
 import br.edu.unipampa.model.Aluno;
+import br.edu.unipampa.model.Orientador;
 import br.edu.unipampa.model.Professor;
 import br.edu.unipampa.model.Tema;
 import br.edu.unipampa.model.web.AcessoSistema;
+import br.edu.unipampa.model.web.EnvioEmails;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
@@ -51,7 +53,7 @@ public class CadastroTemaServlet extends HttpServlet {
             throws ServletException, IOException {
 
         RequestDispatcher view;
-        boolean flag;
+        Tema temaCriado;
         Aluno aluno = new Aluno();
         String usuarioAluno = (String) request.getSession().getAttribute("usuario");
         String usuarioProfessor = request.getParameter("orientador");
@@ -78,12 +80,13 @@ public class CadastroTemaServlet extends HttpServlet {
                 view.forward(request, response);
                 as.completarTransacoes();
             } else {
-                flag = aluno.cadastrarTema(matriculaAluno, usuarioProfessor, descricaoTema);
-                if (flag) {
+                temaCriado = aluno.cadastrarTema(matriculaAluno, usuarioProfessor, descricaoTema);
+                if (temaCriado != null) {
                     //Certificar de que o usuário saiba que o cadastro foi bem sucedido
                     request.setAttribute("retorno", "Sucesso");
                     view = request.getRequestDispatcher("cadastroTema.jsp");
                     view.forward(request, response);
+                    mandarEmails(temaCriado.getAluno(),temaCriado.getOrientador());
                 } else {
                     //Mandar o resultador depois
                     request.setAttribute("retorno", "Problema");
@@ -98,6 +101,19 @@ public class CadastroTemaServlet extends HttpServlet {
             as.completarTransacoes();
         }
 
+    }
+    
+    private void mandarEmails(Aluno aluno, Orientador orientador) {
+        EnvioEmails emails = new EnvioEmails();
+        String mensagemOrientador = null;
+        String assunto = null;
+
+        assunto = "Aluno o escolheu como orientador";
+        mensagemOrientador = "O aluno " + aluno.getNome() +" o escolheu como"
+                + " orientador, vá para aba 'Verificar Temas' no sitema"
+                + " para ter mais detalhes";
+
+        emails.enviaEmailSimples(mensagemOrientador, assunto, orientador.getEmail());
     }
 
        

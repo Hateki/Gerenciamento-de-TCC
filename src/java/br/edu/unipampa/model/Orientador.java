@@ -82,16 +82,24 @@ public class Orientador extends Professor implements java.io.Serializable {
         this.bancasForOrientadorIdOrientador = bancasForOrientadorIdOrientador;
     }
 
+    @Override
     public String getSenha() {
         return professor.getSenha();
     }
 
+    @Override
     public String getNome() {
         return professor.getNome();
     }
 
+    @Override
     public String getUsuario() {
         return professor.getUsuario();
+    }
+    
+    @Override
+    public String getEmail() {
+        return professor.getEmail();
     }
     
     /**
@@ -139,7 +147,7 @@ public class Orientador extends Professor implements java.io.Serializable {
      * @param temaEscolhido qual foi o tema escolhido
      * @param coordenador true se quem está confirmando é o coordenador de TCC
      */
-    public void confirmarTema(List<Tema> listaTemas, int temaEscolhido, boolean coordenador) {
+    public Tema confirmarTema(List<Tema> listaTemas, int temaEscolhido, boolean coordenador) {
         Tema escolhido = null;
         AcessoSistema acessoSistema = new AcessoSistema();
         if (listaTemas != null) {
@@ -159,6 +167,7 @@ public class Orientador extends Professor implements java.io.Serializable {
             acessoSistema.atualizarTema(escolhido);
             acessoSistema.carregarDados(listaTemas);
         }
+        return escolhido;
     }
 
     /**
@@ -167,7 +176,7 @@ public class Orientador extends Professor implements java.io.Serializable {
      * @param listaTemas Lista de temas para se procurar
      * @param temaEscolhido Tema que foi escolhido
      */
-    public void recusarTema(List<Tema> listaTemas, int temaEscolhido) {
+    public Tema recusarTema(List<Tema> listaTemas, int temaEscolhido) {
         Tema escolhido = null;
         AcessoSistema acessoSistema = new AcessoSistema();
         if (listaTemas != null) {
@@ -180,9 +189,10 @@ public class Orientador extends Professor implements java.io.Serializable {
             acessoSistema.deletarTema(escolhido);
             acessoSistema.carregarDados(listaTemas);
         }
+        return escolhido;
     }
 
-    public boolean cadastrarBanca(int matriculaAluno, String usuarioOrientador,
+    public Banca cadastrarBanca(int matriculaAluno, String usuarioOrientador,
             String professor1, String professor2, String professor3) {
 
         AcessoSistema acessoSistema = new AcessoSistema();
@@ -194,7 +204,7 @@ public class Orientador extends Professor implements java.io.Serializable {
         Banca banca = new Banca();
 
         if (aluno == null) {
-            return false;
+            return null;
         }
 
         if (convidado1 != null && convidado2 != null
@@ -208,9 +218,9 @@ public class Orientador extends Professor implements java.io.Serializable {
 
             acessoSistema.salvarBanca(banca);
 
-            return true;
+            return banca;
         }
-        return false;
+        return null;
     }
     
     /**

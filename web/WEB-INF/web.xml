@@ -44,6 +44,10 @@
         <servlet-name>MarcarBancaServlet</servlet-name>
         <servlet-class>br.edu.unipampa.controller.MarcarBancaServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>EnviarEmailServlet</servlet-name>
+        <servlet-class>br.edu.unipampa.controller.EnviarEmailServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>CadastraPessoaExternaServelt</servlet-name>
         <url-pattern>/CadastraPessoaExternaServelt</url-pattern>
@@ -87,6 +91,10 @@
     <servlet-mapping>
         <servlet-name>MarcarBancaServlet</servlet-name>
         <url-pattern>/MarcarBancaServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EnviarEmailServlet</servlet-name>
+        <url-pattern>/EnviarEmailServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
