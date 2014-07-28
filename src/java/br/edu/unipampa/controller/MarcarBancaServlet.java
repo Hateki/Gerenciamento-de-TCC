@@ -122,6 +122,24 @@ public class MarcarBancaServlet extends HttpServlet {
             }
         }
     }
+    
+    public void conferirPrazo(String data){
+        String ano = "";
+        String mes = "";
+        String dia = "";
+        int cont = 0;
+        
+        for (int i = 0; i < data.length(); i++) {
+            if(cont < 4){
+                ano = ano + data.charAt(i);
+            }else if(cont < 7 && cont != 4){
+                mes = mes + data.charAt(i);
+            }else if(cont > 6 && cont != 7){
+                dia = dia + data.charAt(i);
+            }
+            cont++;
+        }
+    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

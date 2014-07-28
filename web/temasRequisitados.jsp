@@ -11,7 +11,7 @@
 <html>
     <head>
         <style> 
-            
+
 
         </style>
         <link href="../../GerenciamentoTCC/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -30,7 +30,7 @@
             String aprovado;
             String classe;//Classe da linha da tabela
         %>
-        
+
         <!-- Criando o menuPrincipal -->
         <div class="navbar navbar-inverse navbar-fixed-top">
             <div class="container">
@@ -64,12 +64,12 @@
         <div id="tela">
             <h1>Temas cadastrados</h1>
 
-            <form name="formConfirmar" action="DetalheTemaServlet" method="POST">
                 <%
                     for (int i = 0; i < temasPendentes.size(); i++) {
                         Tema tema = temasPendentes.get(i);
                         valorBotao = "" + (i + 1);
                 %>
+                <form name="formConfirmar" action="DetalheTemaServlet" method="POST">
                 <table border="1" class="table table-hover">
                     <thead>
                         <tr>
@@ -98,20 +98,19 @@
                 </table>
                 <input type="submit" class="btn btn-info" name="confirmar" value="<%= "Confirmar Tema " + (i + 1)%>" />
                 <input type="submit" name="confirmar" class="btn btn-warning" value="<%= "Recusar Tema " + (i + 1)%> " />
-                <br><br>
-
-                <%
-                    }
-                %>
-                <input  type="button" class="btn btn-danger  " name="voltar" id="voltar" value="Voltar" onClick="retornaPaginaPrincipal()">
                 <br>
                 </div>
-                <script>
-                    function retornaPaginaPrincipal() {
-                        location.href = "menuPrincipalProfessor.html"
-                    }
-                </script>
             </form>
+            <br>
+            <form action="ConfirmarTccServlet" method="POST">
+                <button type="submit" class="bnt btn-success"  name="confirmarTcc" value="<%=i%>">
+                    Situação Tcc
+                </button>
+            </form>
+            <br><br>
+            <%
+                }
+            %>
             <!-- Bootstrap core JavaScript
             ================================================== -->
             <!-- Placed at the end of the document so the pages load faster -->

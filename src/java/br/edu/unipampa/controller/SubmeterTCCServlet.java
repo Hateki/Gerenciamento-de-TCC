@@ -123,6 +123,7 @@ public class SubmeterTCCServlet extends HttpServlet {
                             tcc.setDescricao("Uma ai por enquanto");
                             tcc.setTipoArquivo(fileItem.getContentType());
                             tcc.setTitulo(fileName);
+                            tcc.setStatus(Tcc.NAO_APROVADO);
 
                             as.salvarTcc(tcc);
                         }

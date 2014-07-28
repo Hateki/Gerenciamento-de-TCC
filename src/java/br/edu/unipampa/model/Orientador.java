@@ -239,5 +239,27 @@ public class Orientador extends Professor implements java.io.Serializable {
         
         as.salvarMarcacaoBanca(banca);
     }
+    
+    /**
+     * Aprova o tcc especificado
+     * @param tcc Tcc para se aprovar
+     */
+    public void aprovarTcc(Tcc tcc){
+        AcessoSistema acessoSistema = new AcessoSistema();
+        tcc.setStatus(Tcc.APROVADO);
+        
+        acessoSistema.atualizarTcc(tcc);
+    }
+    
+    /**
+     * Reprova o Tcc especificado
+     * @param tcc Tcc para se aprovar
+     */
+    public void reprovarTcc(Tcc tcc) {
+        AcessoSistema acessoSistema = new AcessoSistema();
+        tcc.setStatus(Tcc.NAO_APROVADO);
+        
+        acessoSistema.atualizarTcc(tcc);
+    }
 
 }

@@ -48,6 +48,14 @@
         <servlet-name>EnviarEmailServlet</servlet-name>
         <servlet-class>br.edu.unipampa.controller.EnviarEmailServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ConfirmarTccServlet</servlet-name>
+        <servlet-class>br.edu.unipampa.controller.ConfirmarTccServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AprovarTccServlet</servlet-name>
+        <servlet-class>br.edu.unipampa.controller.AprovarTccServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>CadastraPessoaExternaServelt</servlet-name>
         <url-pattern>/CadastraPessoaExternaServelt</url-pattern>
@@ -95,6 +103,14 @@
     <servlet-mapping>
         <servlet-name>EnviarEmailServlet</servlet-name>
         <url-pattern>/EnviarEmailServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ConfirmarTccServlet</servlet-name>
+        <url-pattern>/ConfirmarTccServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AprovarTccServlet</servlet-name>
+        <url-pattern>/AprovarTccServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -263,6 +263,14 @@ public class AcessoSistema {
     public void atualizarTema(Tema tema) {
         SESSAO.update(tema);
     }
+    
+    /**
+     * Atualiza o Tcc especificado
+     * @param tcc Tcc para se atualizar
+     */
+    public void atualizarTcc (Tcc tcc) {
+        SESSAO.update(tcc);
+    }
 
     /**
      * Deleta o tema do banco de dados
