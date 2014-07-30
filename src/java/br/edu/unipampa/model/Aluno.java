@@ -99,17 +99,17 @@ public class Aluno extends Pessoa implements java.io.Serializable {
     }
 
     public Tema cadastrarTema(int matriculaAluno, String usuarioProfessor, String descricaoTema) {
-        List<Orientador> OrientadoresEncontrados;
+        List<Professor> professoresEncontrados;
         List<Aluno> alunosEncontrados;
         Aluno aluno = null;
-        Orientador orientador = null;
+        Professor professor = null;
         Tema tema = new Tema();
         AcessoSistema acessoSistema = new AcessoSistema();
 
-        OrientadoresEncontrados = acessoSistema.procurarListaOrientadores();
+        professoresEncontrados = acessoSistema.procurarListaProfessores();
         alunosEncontrados = acessoSistema.procurarListaAlunos();
 
-        if (OrientadoresEncontrados != null || alunosEncontrados != null) {
+        if (professoresEncontrados != null || alunosEncontrados != null) {
             for (Aluno alunoEncontrado : alunosEncontrados) {
                 if (alunoEncontrado.getMatricula() == matriculaAluno) {
                     aluno = alunoEncontrado;
@@ -117,14 +117,16 @@ public class Aluno extends Pessoa implements java.io.Serializable {
                 }
             }
 
-            for (Orientador orientadorEncontrado : OrientadoresEncontrados) {
+            for (Professor orientadorEncontrado : professoresEncontrados) {
                 if (orientadorEncontrado.getUsuario().equals(usuarioProfessor)) {
-                    orientador = orientadorEncontrado;
+                    professor = orientadorEncontrado;
                 }
             }
+            
+            
 
             tema.setAluno(aluno);
-            tema.setOrientador(orientador);
+            tema.setOrientador(professor);
             tema.setAprovado(Tema.NAO_APROVADO);
             tema.setDescricao(descricaoTema);
 

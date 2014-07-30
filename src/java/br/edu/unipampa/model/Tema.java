@@ -1,6 +1,7 @@
 package br.edu.unipampa.model;
 // Generated 16/07/2014 21:01:23 by Hibernate Tools 3.6.0
 
+import br.edu.unipampa.model.web.AcessoSistema;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -50,6 +51,22 @@ public class Tema implements java.io.Serializable {
 
     public void setOrientador(Orientador orientador) {
         this.orientador = orientador;
+    }
+
+    /**
+     * Pega o professor e o salva como um orientador
+     *
+     * @param professor Professor para ser salvo
+     */
+    public void setOrientador(Professor professor) {
+        AcessoSistema acessoSistema = new AcessoSistema();
+        Orientador orientador = acessoSistema.procurarOrientador(professor.getUsuario());
+        if (orientador == null) {
+            orientador = new Orientador();
+            orientador.setProfessor(professor);
+            acessoSistema.cadastrarOrientador(orientador);
+        }
+        this.setOrientador(orientador);
     }
 
     public Aluno getAluno() {

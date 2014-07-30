@@ -101,6 +101,10 @@ public class AcessoSistema {
     public void cadastrarPessoa(Pessoa pessoa) {
         SESSAO.save(pessoa);
     }
+    
+    public void cadastrarOrientador(Orientador orientador){
+        SESSAO.save(orientador);
+    }
 
     /**
      * Verifica se existe uma pessoa com o nome especificado
@@ -364,9 +368,14 @@ public class AcessoSistema {
      */
     public List<Professor> retornarProfossores() {
         List<Professor> listaProfessores = SESSAO.createQuery("From Professor").list();
+        List<Orientador> listaOrientador = SESSAO.createQuery("From Orientador").list();
         List<Professor> listaProfessoresOrdenada = new ArrayList<>();
         List<String> listaUsuarios = new ArrayList<>();
-
+        
+        for(Orientador orientador : listaOrientador){
+            listaProfessores.remove(orientador);
+        }
+        
         for (Professor professor : listaProfessores) {
             listaUsuarios.add(professor.getUsuario());
         }
@@ -381,6 +390,7 @@ public class AcessoSistema {
                 }
             }
         }
+        
 
         return listaProfessoresOrdenada;
     }
@@ -422,9 +432,24 @@ public class AcessoSistema {
      */
     public List<Pessoa> retornarPessoas() {
         List<Pessoa> listaPessoas = SESSAO.createQuery("From Pessoa").list();
+        List<Aluno> alunosEncontrados = SESSAO.createQuery("From Aluno").list();
+        List<Professor> professoresEncontrados = SESSAO.createQuery("From Professor").list();
+        List<Pessoaexterna> pessoasEncontradas = SESSAO.createQuery("From Pessoaexterna").list();
         List<Pessoa> listaPessoasOrdenada = new ArrayList<>();
         List<String> listaUsuarios = new ArrayList<>();
-
+        
+        for(Pessoaexterna pessoaExterna : pessoasEncontradas){
+            listaPessoas.remove(pessoaExterna);
+        }
+        
+        for(Professor professor : professoresEncontrados){
+            listaPessoas.remove(professor);
+        }
+        
+        for (Aluno aluno : alunosEncontrados) {
+            listaPessoas.remove(aluno);
+        }
+        
         for (Pessoa pessoa : listaPessoas) {
             listaUsuarios.add(pessoa.getUsuario());
         }
