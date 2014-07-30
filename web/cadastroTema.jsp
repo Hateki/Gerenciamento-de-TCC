@@ -11,10 +11,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <head>
-    <style> 
-        #cadTema {margin-left:500px;}; 
-
-    </style>
     <link href="../../GerenciamentoTCC/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="../../GerenciamentoTCC/bootstrap/css/styles.css" rel="stylesheet">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -115,7 +111,6 @@
 
             <strong>Tema:</strong><br><br/>
             <textarea rows="6" cols="40" name="tema" id="tema" maxlength="200"  onblur="validaEspaco(this)" required></textarea><br><br/>
-
             Orientador: <input type="text" name="orientador" id="orientador" onblur="validaEspaco(this)" placeholder="Orientador" required />
             <a href="#listaProfessores" data-toggle="modal" class="btn btn-primary"> Ver lista </a>
             <br></br>
@@ -159,11 +154,15 @@
                     </thead>
                     <tbody>
                         <c:forEach var="professor" items="${professores}">
-                            <tr>
-                                <td> <c:out value="${professor.usuario}"/> </td>
+                            <% int cont = 0;%>
+                            <tr onclick="pegaTabela('<c:out value="${professor.usuario}"/>')">
+                                <td id="<%= cont%>">
+                                    <c:out value="${professor.usuario}"/>
+                                </td>
                                 <td> <c:out value="${professor.nome}"/> </td>
                                 <td> <c:out value="${professor.pessoa.email}"/> </td>
                             </tr>
+                            <% cont++;%>
                         </c:forEach>
                     </tbody>
                 </table>
@@ -171,6 +170,13 @@
         </div>
     </div>
 </div>
+
+<script>
+    function pegaTabela(id) {
+        var v = document.getElementById("orientador");
+        v.value = id;
+    }
+</script>
 
 <!-- Bootstrap core JavaScript
 ================================================== -->

@@ -74,7 +74,7 @@
                             </thead>
                             <tbody>
                                 <c:forEach var="pessoa" items="${pessoas}">
-                                    <tr>
+                                    <tr onclick="pegaTabelaPessoa('<c:out value="${pessoa.usuario}"/>')">
                                         <td> <c:out value="${pessoa.usuario}"/> </td>
                                         <td> <c:out value="${pessoa.nome}"/> </td>
                                         <td> <c:out value="${pessoa.email}"/> </td>
@@ -104,7 +104,7 @@
                             </thead>
                             <tbody>
                                 <c:forEach var="aluno" items="${alunos}">
-                                    <tr>
+                                    <tr onclick="pegaTabelaAluno('<c:out value="${aluno.usuario}"/>')">
                                         <td> <c:out value="${aluno.usuario}"/> </td>
                                         <td> <c:out value="${aluno.nome}"/> </td>
                                         <td> <c:out value="${aluno.pessoa.email}"/> </td>
@@ -146,14 +146,14 @@
                 
                 <c:if test="${not empty listaTemasOrientador}" var="v" scope="request">
                     <select name="listaTemas" onselect="">
-                        <c:forEach var="tema" items="${listaTemasOrientador}">
-                            <option><c:out value="${tema.aluno.nome}"/></option>
-                        </c:forEach>
-                    </select>
+                    <c:forEach var="tema" items="${listaTemasOrientador}">
+                        <option><c:out value="${tema.aluno.nome}"/></option>
+                    </c:forEach>
+                </select>
                 </c:if>
                 
                 -->
-               
+
 
                 <button type="button" class="btn btn-success" onclick="mostraProfessorInv()" name="btAddProfessor" id="btAddProfessor" >Adicionar</button><br></br>
                 <input  type="button" class="btn btn-danger  " name="voltar" id="voltar" value="Voltar" onClick="retornaPaginaPrincipal()">
@@ -258,6 +258,23 @@
         </c:if>
     </c:if>
 
+
+    <script>
+        function pegaTabelaPessoa1(id) {
+            var v = document.getElementById("orientador");
+            v.value = id;
+        }
+        
+        function pegaTabelaPessoa2(id) {
+            var v = document.getElementById("orientador");
+            v.value = id;
+        }
+        
+        function pegaTabelaPessoa3(id) {
+            var v = document.getElementById("orientador");
+            v.value = id;
+        }
+    </script>
 
     <!-- Bootstrap core JavaScript
                 ================================================== -->
