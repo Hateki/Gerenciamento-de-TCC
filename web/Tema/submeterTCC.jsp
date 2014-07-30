@@ -79,11 +79,11 @@
                     <br><br>
                     <div class="row row-fluid">
                         <c:if test="${not empty tcc1}" var="v" scope="request">
-                            
+
                             <% Tcc tcc = (Tcc) request.getAttribute("tcc1"); %>
-                            <% request.getSession().setAttribute("tcc", tcc); %>
-                            
-                            
+                            <% request.getSession().setAttribute("tcc", tcc);%>
+
+
                             <div class="col-md-3"><c:out value="${tcc1.titulo}"/></div>
                             <div class="col-md-3">
                                 <form name="download" action="DownloadTCCServlet">
@@ -92,7 +92,21 @@
                                     </button>
                                 </form>
                             </div>
-                            <div class="col-md-4">situação</div>
+                            
+                            <c:if test="${tcc1.status == 1}" var="v" scope="request">
+                                <div class="col-md-2"> Aprovado </div>
+                            </c:if>
+
+                            <c:if test="${tcc1.status == 0}" var="v" scope="request">
+                                <div class="col-md-2"> Não Aprovado </div>
+                            </c:if>    
+                            <div class="col-md-3">    
+                                <form name="refazerUpload" action="SubmeterTCCServlet">
+                                    <button type="submit" class="bnt btn-warning" name="rafazerUpload" value="0">
+                                        Refazer a subimissão do Tcc
+                                    </button>
+                                </form>
+                            </div>
                         </c:if>
 
                         <c:if test="${empty tcc1}" var="v" scope="request">
@@ -111,7 +125,7 @@
                 </div>
             </div>
         </div>
-        
+
         <!-- Bootstrap core JavaScript
         ================================================== -->
         <!-- Placed at the end of the document so the pages load faster -->

@@ -282,7 +282,23 @@ public class AcessoSistema {
      * @param tema Tema para ser deletado
      */
     public void deletarTema(Tema tema) {
+        List<Tcc> listaTcc = SESSAO.createQuery("From Tcc").list();
+        
+        for (Tcc tcc : listaTcc) {
+            if(tcc.getTema() == tema){
+                SESSAO.delete(tcc);
+            }
+        }
+        
         SESSAO.delete(tema);
+    }
+    
+    /**
+     * Deleta o tcc especificado do banco de dados
+     * @param tcc Tcc para ser deletador
+     */
+    public void deletarTcc(Tcc tcc){
+        SESSAO.delete(tcc);
     }
 
     /**

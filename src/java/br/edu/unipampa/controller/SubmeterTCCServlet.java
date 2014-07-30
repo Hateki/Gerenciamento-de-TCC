@@ -44,13 +44,22 @@ public class SubmeterTCCServlet extends HttpServlet {
 
         AcessoSistema acessoSistema = new AcessoSistema();
         String usuarioAluno = (String) request.getSession().getAttribute("usuario");
+        String botaoRefazer = request.getParameter("rafazerUpload");
         
         List<Tcc> listaTcc;
+        
+        listaTcc = acessoSistema.procurarTCC(Integer.parseInt(usuarioAluno));
+        
+        if(botaoRefazer != null){
+            if(botaoRefazer.equals("0")){
+                acessoSistema.deletarTcc(listaTcc.get(0));
+            }
+        }
 
         if(salvarArquivo(request, response, Integer.parseInt(usuarioAluno))){
             request.setAttribute("retorno", "Envio de arquivo bem sucedido");
         }
-
+        
         listaTcc = acessoSistema.procurarTCC(Integer.parseInt(usuarioAluno));
 
         if (!listaTcc.isEmpty()) {
