@@ -26,5 +26,17 @@
         <property name="tipoArquivo" type="string">
             <column name="tipoArquivo" length="45" />
         </property>
+        <property name="notaOrientador" type="float">
+            <column name="notaOrientador" />
+        </property>
+        <property name="notaCoorientador" type="float">
+            <column name="notaCoorientador" />
+        </property>
+        <property name="notaConvidado1" type="float">
+            <column name="notaConvidado1" />
+        </property>
+        <property name="notaConvidado2" type="float">
+            <column name="notaConvidado2" />
+        </property>
     </class>
 </hibernate-mapping>

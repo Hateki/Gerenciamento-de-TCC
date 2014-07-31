@@ -56,6 +56,18 @@
         <servlet-name>AprovarTccServlet</servlet-name>
         <servlet-class>br.edu.unipampa.controller.AprovarTccServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AgendaDefesasServlet</servlet-name>
+        <servlet-class>br.edu.unipampa.controller.AgendaDefesasServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>FormularioAvaliacaoServlet</servlet-name>
+        <servlet-class>br.edu.unipampa.controller.FormularioAvaliacaoServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SalvarNotasServlet</servlet-name>
+        <servlet-class>br.edu.unipampa.controller.SalvarNotasServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>CadastraPessoaExternaServelt</servlet-name>
         <url-pattern>/CadastraPessoaExternaServelt</url-pattern>
@@ -111,6 +123,18 @@
     <servlet-mapping>
         <servlet-name>AprovarTccServlet</servlet-name>
         <url-pattern>/AprovarTccServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AgendaDefesasServlet</servlet-name>
+        <url-pattern>/AgendaDefesasServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>FormularioAvaliacaoServlet</servlet-name>
+        <url-pattern>/FormularioAvaliacaoServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SalvarNotasServlet</servlet-name>
+        <url-pattern>/SalvarNotasServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

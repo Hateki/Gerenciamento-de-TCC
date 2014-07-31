@@ -376,6 +376,7 @@ public class AcessoSistema {
         }
         return temasConfirmados;
     }
+    
 
     /**
      * Procura os professores cadastrados no sitema
@@ -587,7 +588,24 @@ public class AcessoSistema {
         Tema temaEncontrado = null;
 
         for (Tema tema : temasEncontrados) {
-            if (tema.getAluno().getMatricula() == matricula) {
+            Aluno aluno = tema.getAluno();
+            int matriculaAluno = aluno.getMatricula();
+            if (matriculaAluno == matricula) {
+                temaEncontrado = tema;
+                break;
+            }
+        }
+
+        return temaEncontrado;
+    }
+    
+    
+    public Tema procurarTema(Aluno aluno) {
+        List<Tema> temasEncontrados = SESSAO.createQuery("From Tema").list();
+        Tema temaEncontrado = null;
+
+        for (Tema tema : temasEncontrados) {
+            if (aluno == tema.getAluno()) {
                 temaEncontrado = tema;
                 break;
             }
@@ -669,7 +687,24 @@ public class AcessoSistema {
         }
         return null;
     }
-
+    
+    /**
+     * Procura as bancas que foram marcadas
+     * @return A lista de bancas marcardas
+     */
+    public List<Banca> procurarBancasMarcadas(){
+        List<Banca> bancasEncontrados = SESSAO.createQuery("From Banca").list();
+        List<Banca> bancasMarcadas = new ArrayList<Banca>();
+        
+        for (Banca banca : bancasEncontrados) {
+            if(banca.getLocal() != null && banca.getData() != null && banca.getHorario() != null){
+                bancasMarcadas.add(banca);
+            }
+        }
+        
+        return bancasMarcadas;
+    }
+    
     /**
      * Procura por bancas que o usuário especificado participe
      *
@@ -706,5 +741,4 @@ public class AcessoSistema {
 
         return bancasEncontradas;
     }
-
 }

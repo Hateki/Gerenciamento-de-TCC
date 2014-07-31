@@ -16,6 +16,10 @@ public class Tcc implements java.io.Serializable {
     private byte[] arquivoTcc;
     private Integer status;
     private String tipoArquivo;
+    private float notaOrientador;
+    private float notaCoorientador;
+    private float notaConvidado1;
+    private float notaConvidado2;
 
     public Tcc() {
     }
@@ -87,6 +91,62 @@ public class Tcc implements java.io.Serializable {
 
     public void setTipoArquivo(String tipoArquivo) {
         this.tipoArquivo = tipoArquivo;
+    }
+
+    /**
+     * @return the notaOrientador
+     */
+    public float getNotaOrientador() {
+        return notaOrientador;
+    }
+
+    /**
+     * @param notaOrientador the notaOrientador to set
+     */
+    public void setNotaOrientador(float notaOrientador) {
+        this.notaOrientador = notaOrientador;
+    }
+
+    /**
+     * @return the notaCoorientador
+     */
+    public float getNotaCoorientador() {
+        return notaCoorientador;
+    }
+
+    /**
+     * @param notaCoorientador the notaCoorientador to set
+     */
+    public void setNotaCoorientador(float notaCoorientador) {
+        this.notaCoorientador = notaCoorientador;
+    }
+
+    /**
+     * @return the notaConvidado1
+     */
+    public float getNotaConvidado1() {
+        return notaConvidado1;
+    }
+
+    /**
+     * @param notaConvidado1 the notaConvidado1 to set
+     */
+    public void setNotaConvidado1(float notaConvidado1) {
+        this.notaConvidado1 = notaConvidado1;
+    }
+
+    /**
+     * @return the notaConvidado2
+     */
+    public float getNotaConvidado2() {
+        return notaConvidado2;
+    }
+
+    /**
+     * @param notaConvidado2 the notaConvidado2 to set
+     */
+    public void setNotaConvidado2(float notaConvidado2) {
+        this.notaConvidado2 = notaConvidado2;
     }
 
 }

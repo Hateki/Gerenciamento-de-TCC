@@ -133,6 +133,10 @@ public class SubmeterTCCServlet extends HttpServlet {
                             tcc.setTipoArquivo(fileItem.getContentType());
                             tcc.setTitulo(fileName);
                             tcc.setStatus(Tcc.NAO_APROVADO);
+                            tcc.setNotaOrientador(0);
+                            tcc.setNotaCoorientador(0);
+                            tcc.setNotaConvidado1(0);
+                            tcc.setNotaConvidado2(0);
 
                             as.salvarTcc(tcc);
                         }

@@ -70,5 +70,10 @@ public class Professor extends Pessoa implements java.io.Serializable {
     public String getEmail() {
         return pessoa.getEmail();
     }
+    
+    @Override
+    public Integer getIdPessoa() {
+        return pessoa.getIdPessoa();
+    }
 
 }

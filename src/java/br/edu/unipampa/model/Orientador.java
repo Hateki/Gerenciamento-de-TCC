@@ -102,6 +102,11 @@ public class Orientador extends Professor implements java.io.Serializable {
         return professor.getEmail();
     }
     
+    @Override
+    public Integer getIdPessoa() {
+        return professor.getIdPessoa();
+    }
+    
     /**
      * Cadatra uma pessoa externa no sistema
      *

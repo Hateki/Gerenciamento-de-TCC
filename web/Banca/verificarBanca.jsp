@@ -98,7 +98,13 @@
                                     </button>
                                 </form>    
                             </div>    
-
+                            <div class="col-md-2">
+                                <form name="formularioAvaliacao" action="FormularioAvaliacaoServlet">
+                                    <button type="submit" class="bnt btn-primary" name="botaoAvaliacao" value="<%= cont%>">
+                                        Avaliar Aluno
+                                    </button>
+                                </form>    
+                            </div>            
 
                             <!-- 
                             <div class="col-md-3">
