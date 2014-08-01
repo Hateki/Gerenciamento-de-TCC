@@ -22,16 +22,17 @@
         <link href="../../GerenciamentoTCC/bootstrap/css/styles.css" rel="stylesheet">
     </head>
     <body>
-        <h1><center>LISTA DE PRESENÇA</center></h1>
-        <h3><left>DISCIPLINA:</left> <input type="text" name="disciplina" id="disciplina" ><br>
-            <left>COORDENADOR</left><input type="text" name="coordenador" id="coordenador" ><br>
-            <left>CURSO</left><input type="text" name="curso" id="curso" ><br>
-            <left>ANO/SEMESTRE</left><input type="text" name="anoESemestre" id="anoESemestre" ><br>
-            <left>HORÁRIO</left><input type="text" name="horario" id="horario" ><br>
-            <left>APRESENTADOR</left><input type="text" name="apresentador" id="apresentador" ><br></h3>
+        <h1 class="h1 text-center text-muted"><strong>LISTA DE PRESENÇA</strong></h1>
+        <div class="input-group">
+            <h3><left>DISCIPLINA:</left><input class="form-control" type="text" name="disciplina" id="disciplina" ><br>
+                <left>COORDENADOR:</left><input class="form-control" type="text" name="coordenador" id="coordenador" ><br>
+                <left>CURSO:</left><input class="form-control" type="text" name="curso" id="curso" ><br>
+                <left>ANO/SEMESTRE:</left><input class="form-control" type="text" name="anoESemestre" id="anoESemestre" ><br>
+                <left>APRESENTADOR:</left><input class="form-control" type="text" name="apresentador" id="apresentador" ><br></h3>
+        </div>
 
         <script language="javascript">
-            var cont=1;
+            var cont = 1;
             // Função responsável por inserir linhas na tabela
             function inserirLinhaTabela() {
                 // Captura a referência da tabela com id “minhaTabela”
@@ -43,30 +44,34 @@
                 // Insere uma linha no fim da tabela.
                 var newRow = table.insertRow(numOfRows);
                 // Faz um loop para criar as colunas
-       
-                var currentElement = document.createElement("input");  
-                currentElement.setAttribute("type", "text");  
+
+                var currentElement = document.createElement("input");
+                currentElement.setAttribute("type", "text");
                 //currentElement.setAttribute("name", "oInput" + id);  
                 //currentElement.setAttribute("id", "oInput" + id);  
-  
+
                 for (var j = 0; j < numOfCols; j++) {
-                    
+
                     // Insere uma coluna na nova linha 
                     newCell = newRow.insertCell(j);
-                    if(j===0){
+                    if (j === 0) {
                         newCell.innerHTML = cont;
-                         cont++;
-                    }else{
-                     //Insere um conteúdo na coluna
-                    newCell.appendChild(currentElement);
+                        cont++;
+                    } else if (j === numOfCols - 1) {
+                        newCell.innerHTML = ""
+                    } else {
+                        //Insere um conteúdo na coluna
+                        newCell.innerHTML = "<input type='text' name='apresentador' id='apresentador'>";
+
                     }
-                   
+
                 }
             }
         </script>
 
         <div>
-            <table id="listaDeParticipantes" class="table table-hover">
+            <br>
+            <table id="listaDeParticipantes" class="table table-bordered">
                 <tr>
                     <td><label>Nº</label></td>
                     <td><label>Matrícula</label></td>
@@ -74,9 +79,8 @@
                     <td><label>Assinatura</label></td>
                 </tr>
             </table>
-            <input type="submit" name="apresentador" id="apresentador" value="Testar" onclick="inserirLinhaTabela()">
+            <input class="btn btn-success" type="button" name="adicionarItemTabela" id="adicionarItemTabela" value="Adicionar" onclick="inserirLinhaTabela()"> 
+            <input class="btn btn-info" type="submit" name="finalizarForm" id="finalizarForm" value="Finalizar" onclick="inserirLinhaTabela()"><br><br>
         </div>
-
-
     </body>
 </html>
