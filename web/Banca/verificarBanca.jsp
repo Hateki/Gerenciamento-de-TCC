@@ -66,6 +66,9 @@
         <br><br><br>
 
         <% int cont = 1;%>
+        <c:if test="${not empty retorno}" var="v" scope="request">
+            <div class="alert alert-danger" role="alert"><c:out value="${retorno}"/></div>
+        </c:if>
         <c:forEach var="bancaEncontrada" items="${Bancas}">
             <div class="panel panel-primary">
                 <div class="panel-heading"><h5>Banca <%= cont%></h5></div>

@@ -7,6 +7,7 @@
 package br.edu.unipampa.controller;
 
 import br.edu.unipampa.model.Banca;
+import br.edu.unipampa.model.Pessoa;
 import br.edu.unipampa.model.Tema;
 import br.edu.unipampa.model.web.AcessoSistema;
 import java.io.IOException;
@@ -39,6 +40,7 @@ public class FormularioAvaliacaoServlet extends HttpServlet {
         String usuario = (String) request.getSession().getAttribute("usuario");
         String botaoAvaliacao = request.getParameter("botaoAvaliacao");
         List<Banca> bancaMarcada = acessoSistema.procurarBancasMarcadas();
+        Pessoa pessoa = acessoSistema.procurarPessoa(usuario);
         Banca bancaEscolhida = null;
         Tema tema;
         
@@ -100,4 +102,8 @@ public class FormularioAvaliacaoServlet extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
+    public boolean verificarPrazo(Pessoa pessoa, Banca banca){
+        return true;
+        
+    }
 }

@@ -88,7 +88,8 @@ public class SubmeterTCCServlet extends HttpServlet {
     public boolean salvarArquivo(HttpServletRequest request, HttpServletResponse response, int matriculaAluno)
             throws ServletException, IOException {
 
-        AcessoSistema as = new AcessoSistema();
+        AcessoSistema as = new AcessoSistema();//Clase que da acesso ao banco de dados
+        
         if (ServletFileUpload.isMultipartContent(request)) {
 
             int cont = 0;
@@ -121,6 +122,7 @@ public class SubmeterTCCServlet extends HttpServlet {
                     if (fileItem != null && fileItem.getName() != null) {
                         byte[] arquivo = fileItem.get();
                         String fileName = fileItem.getName();
+                        
                         if (fileItem.getSize() > 0) {
                             //Salva no banco de dados
                             Aluno aluno = as.procurarAluno(matriculaAluno);
@@ -133,10 +135,10 @@ public class SubmeterTCCServlet extends HttpServlet {
                             tcc.setTipoArquivo(fileItem.getContentType());
                             tcc.setTitulo(fileName);
                             tcc.setStatus(Tcc.NAO_APROVADO);
-                            tcc.setNotaOrientador(0);
-                            tcc.setNotaCoorientador(0);
-                            tcc.setNotaConvidado1(0);
-                            tcc.setNotaConvidado2(0);
+                            tcc.setNotaOrientador(-1);
+                            tcc.setNotaCoorientador(-1);
+                            tcc.setNotaConvidado1(-1);
+                            tcc.setNotaConvidado2(-1);
 
                             as.salvarTcc(tcc);
                         }

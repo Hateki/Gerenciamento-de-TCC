@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package br.edu.unipampa.controller;
 
 import br.edu.unipampa.model.Banca;
@@ -22,7 +21,7 @@ import javax.servlet.http.HttpServletResponse;
  * @author pontofrio
  */
 public class DetalheTCCServlet extends HttpServlet {
-    
+
     AcessoSistema acessoSistema;
 
     /**
@@ -36,31 +35,37 @@ public class DetalheTCCServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         String valorBotao = request.getParameter("botao");
         String usuario = (String) request.getSession().getAttribute("usuario");
         int posicaoBanca = Integer.parseInt(valorBotao);
         Tcc tccAluno;
         Banca bancaEncontrada;
-        
+
         acessoSistema = new AcessoSistema();
-        
+
         bancaEncontrada = procuraBanca(posicaoBanca, usuario);
-        
+
         tccAluno = acessoSistema.procurarTCCPorBanca(bancaEncontrada);
-        
-        request.getSession().setAttribute("tcc", tccAluno);
-        
-        request.getRequestDispatcher("DownloadTCCServlet").forward(request, response);
+
+        if (tccAluno != null && tccAluno.getStatus() == Tcc.APROVADO) {
+            request.getSession().setAttribute("tcc", tccAluno);
+
+            request.getRequestDispatcher("DownloadTCCServlet").forward(request, response);
+        }else{
+            request.getSession().setAttribute("retorno", "O Tcc ainda não foi enviado ou não foi aprovado.");
+
+            request.getRequestDispatcher("Banca/verificarBanca.jsp").forward(request, response);
+        }
     }
-    
-    private Banca procuraBanca(int posicaoBanca, String usuario){
+
+    private Banca procuraBanca(int posicaoBanca, String usuario) {
         List<Banca> bancasEncontradas = acessoSistema.procurarBancas(usuario);
-        
-        for(int i = 0; i < bancasEncontradas.size();i++){
-           if(i == posicaoBanca - 1){
-               return bancasEncontradas.get(i);
-           } 
+
+        for (int i = 0; i < bancasEncontradas.size(); i++) {
+            if (i == posicaoBanca - 1) {
+                return bancasEncontradas.get(i);
+            }
         }
         return null;
     }
