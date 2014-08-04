@@ -65,17 +65,18 @@
 
         <div>
             <br><br>
-            <label class="text text-uppercase" style="font-size: x-large">Aluno:</label> <label> <c:out value="${bancaEscolhida.aluno.nome}"/>         </label><br>
-            <label class="text text-uppercase" style="font-size: x-large" >Matrícula:</label> <c:out value="${bancaEscolhida.aluno.matricula}"/>
+            <label class="text text-uppercase" style="font-size: x-large">Aluno:</label> <label> <c:out value="${bancaEscolhida.aluno.nome}"/></label><br>
+            <label class="text text-uppercase" style="font-size: x-large" >Matrícula:</label> <c:out value="${bancaEscolhida.aluno.matricula}"/><br>
             <label class="text text-uppercase" style="font-size: x-large">Título do Trabalho:</label> <c:out value="${tema.descricao}"/><br>
         </div>
 
         <form method="post">
-            Banca Examinadora: <c:out value="${bancaEscolhida.orientadorByOrientadorIdOrientador.nome}"/><br>
+            <br><br>
+            Banca Examinadora:<center> <c:out value="${bancaEscolhida.orientadorByOrientadorIdOrientador.nome}"/>(Orientador)</center><br>
 
-            <c:out value="${bancaEscolhida.pessoaByConvidado1IdPessoa.nome}"/><br>
-            <c:out value="${bancaEscolhida.pessoaByConvidado2IdPessoa.nome}"/><br>
-            <c:out value="${bancaEscolhida.pessoaByConvidado3IdPessoa.nome}"/><br>
+            <center><c:out value="${bancaEscolhida.pessoaByConvidado1IdPessoa.nome}"/></center><br>
+            <center><c:out value="${bancaEscolhida.pessoaByConvidado2IdPessoa.nome}"/></center><br>
+            <center><c:out value="${bancaEscolhida.pessoaByConvidado3IdPessoa.nome}"/></center><br>
             <%
                 String situacaoAluno;
                 Float mediaFinal = (Float) request.getAttribute("mediaFinal");
@@ -87,19 +88,20 @@
             %>
            
             <c:if test="${mediaFinal > 0}" var="v" scope="request">
-                <c:out value="${mediaFinal}" /><br>
+                Nota final do Trabalho de Conclusão de Curso: <center><c:out value="${mediaFinal}" /></center><br>
             </c:if>
             <c:if test="${mediaFinal < 0}" var="v" scope="request">
-                Nem todos os avaliadores deram a nota<br>
+            <center>Nem todos os avaliadores deram a nota</center><br>
             </c:if>
-            <label class="text text-uppercase">Situação Aluno: <%= situacaoAluno%> </label><br><br><br>
+                <label>Situação Aluno:</label> 
+                <center><label><%= situacaoAluno%> </label></center><br><br><br>
 
-            <label>_______________________________________</label><br>
-            <label><c:out value="${bancaEscolhida.orientadorByOrientadorIdOrientador.nome}" /></label><br>
-            <label>_______________________________________</label><br>
-            <label><c:out value="${bancaEscolhida.pessoaByConvidado1IdPessoa.nome}" /></label><br>
-            <label>_______________________________________</label><br>
-            <label><c:out value="${bancaEscolhida.pessoaByConvidado2IdPessoa.nome}" /></label><br>
+            <center><label>_______________________________________</label></center><br>
+            <center><label><c:out value="${bancaEscolhida.orientadorByOrientadorIdOrientador.nome}" /></center></label><br>
+            <center><label>_______________________________________</label></center><br>
+            <center><label><c:out value="${bancaEscolhida.pessoaByConvidado1IdPessoa.nome}" /></label></center><br>
+            <center><label>_______________________________________</label><br></center>
+            <center><label><c:out value="${bancaEscolhida.pessoaByConvidado2IdPessoa.nome}" /></label></center><br>
         </form>
 
     </body>

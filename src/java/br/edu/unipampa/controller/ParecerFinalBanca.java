@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package br.edu.unipampa.controller;
 
 import br.edu.unipampa.model.Banca;
@@ -42,59 +41,62 @@ public class ParecerFinalBanca extends HttpServlet {
         Banca bancaEscolhida = null;
         Tema tema;
         Tcc tcc;
-        
-        
+
         for (int i = 0; i < bancaMarcada.size(); i++) {
             int teste = Integer.parseInt(botaoAvaliacao) - 1;
-            if(i == Integer.parseInt(botaoAvaliacao) - 1){
+            if (i == Integer.parseInt(botaoAvaliacao) - 1) {
                 bancaEscolhida = bancaMarcada.get(i);
                 break;
             }
         }
-        
+
         tema = acessoSistema.procurarTema(bancaEscolhida.getAluno());
-        
+
         tcc = acessoSistema.procurarTCCPorBanca(bancaEscolhida);
-        
-        request.setAttribute("mediaFinal", fazerMedia(tcc));
-        
+
+        request.setAttribute("mediaFinal", fazerMedia(tcc,bancaEscolhida));
+
         request.setAttribute("tcc", tcc);
-        
+
         request.setAttribute("tema", tema);
-        
+
         request.setAttribute("bancaEscolhida", bancaEscolhida);
-        
+
         request.getRequestDispatcher("parecerFinalDaBanca.jsp").forward(request, response);
     }
 
-    public float fazerMedia(Tcc tcc){
+    public float fazerMedia(Tcc tcc, Banca banca) {
         float mediaFinal = 0;
         int cont = 0;
-        
-        if(tcc.getNotaOrientador() > 0){
+
+        if (tcc.getNotaOrientador() > 0) {
             mediaFinal = mediaFinal + tcc.getNotaOrientador();
             cont++;
         }
-        if(tcc.getNotaConvidado1() > 0){
+        if (tcc.getNotaConvidado1() > 0) {
             mediaFinal = mediaFinal + tcc.getNotaConvidado1();
             cont++;
         }
-        if(tcc.getNotaConvidado2() > 0){
+        if (tcc.getNotaConvidado2() > 0) {
             mediaFinal = mediaFinal + tcc.getNotaConvidado2();
             cont++;
         }
-        if(tcc.getNotaCoorientador() > 0){
+        if (tcc.getNotaCoorientador() > 0) {
             mediaFinal = mediaFinal + tcc.getNotaCoorientador();
             cont++;
         }
-        
-        if(cont == 4){
-           return mediaFinal; 
-        }else{
+
+        if (cont == 3 && banca.getPessoaByConvidado3IdPessoa() == null) {
+            return mediaFinal / 3;
+        } else if (cont == 4) {
+            return mediaFinal / 3;
+        } else {
             return -1;
         }
     }
+
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+
     /**
      * Handles the HTTP <code>GET</code> method.
      *

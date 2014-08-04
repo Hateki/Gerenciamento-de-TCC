@@ -85,7 +85,7 @@ public class AtaDefesaServlet extends HttpServlet {
         if(tcc.getNotaCoorientador() > 0){
             mediaFinal = mediaFinal + tcc.getNotaCoorientador();
         }
-        return mediaFinal;
+        return mediaFinal/3;
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -139,12 +139,12 @@
 
             <label class="text text-uppercase" style="font-size: x-large">Situação Aluno: <%= situacaoAluno%> </label><br><br><br>
 
-            <label>_______________________________________</label><br>
-            <label><c:out value="${bancaEscolhida.orientadorByOrientadorIdOrientador.nome}" /></label><br>
-            <label>_______________________________________</label><br>
-            <label><c:out value="${bancaEscolhida.pessoaByConvidado1IdPessoa.nome}" /></label><br>
-            <label>_______________________________________</label><br>
-            <label><c:out value="${bancaEscolhida.pessoaByConvidado2IdPessoa.nome}" /></label><br>
+            <center><label>_______________________________________</label></center><br>
+            <center><label><c:out value="${bancaEscolhida.orientadorByOrientadorIdOrientador.nome}" /></center></label><br>
+            <center><label>_______________________________________</label></center><br>
+            <center><label><c:out value="${bancaEscolhida.pessoaByConvidado1IdPessoa.nome}" /></label></center><br>
+            <center><label>_______________________________________</label><br></center>
+            <center><label><c:out value="${bancaEscolhida.pessoaByConvidado2IdPessoa.nome}" /></label></center><br>
         </form>
 
     </body>
