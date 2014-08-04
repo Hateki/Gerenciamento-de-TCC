@@ -11,7 +11,8 @@
 <html>
     <head>
         <style> 
-            #form1 {margin-left:550px; margin-right:550px};         
+            #form1 {margin-left:550px; margin-right:550px}; 
+            H1 { text-align: right}
         </style>
         <link href="../../GerenciamentoTCC/bootstrap/css/bootstrap.min.css" rel="stylesheet">
         <link href="../../GerenciamentoTCC/bootstrap/css/styles.css" rel="stylesheet">
