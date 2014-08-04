@@ -111,7 +111,12 @@
                                     <button type="submit" class="bnt btn-primary" name="botaoAvaliacao" value="<%= cont%>">
                                         Ata de defesa
                                     </button>
-                                </form>        
+                                </form>
+                                <form name="parecerFinal" action="ParecerFinalBanca">
+                                    <button type="submit" class="bnt btn-primary" name="botaoAvaliacao" value="<%= cont%>">
+                                        Parecer Final da Banca
+                                    </button>
+                                </form>         
                             </div>            
 
                             <!-- 
