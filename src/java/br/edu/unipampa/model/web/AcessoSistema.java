@@ -625,7 +625,7 @@ public class AcessoSistema {
         List<Tema> temasEncontrados = new ArrayList<>();
 
         for (Tema tema : temasBanco) {
-            if (tema.getOrientador() == orientador) {
+            if (tema.getOrientador().getUsuario().equals(orientador.getUsuario())) {
                 temasEncontrados.add(tema);
             }
         }

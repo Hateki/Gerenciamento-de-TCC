@@ -68,6 +68,10 @@
         <servlet-name>SalvarNotasServlet</servlet-name>
         <servlet-class>br.edu.unipampa.controller.SalvarNotasServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AtaDefesaServlet</servlet-name>
+        <servlet-class>br.edu.unipampa.controller.AtaDefesaServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>CadastraPessoaExternaServelt</servlet-name>
         <url-pattern>/CadastraPessoaExternaServelt</url-pattern>
@@ -135,6 +139,10 @@
     <servlet-mapping>
         <servlet-name>SalvarNotasServlet</servlet-name>
         <url-pattern>/SalvarNotasServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AtaDefesaServlet</servlet-name>
+        <url-pattern>/AtaDefesaServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

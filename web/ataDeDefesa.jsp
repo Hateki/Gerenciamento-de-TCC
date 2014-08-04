@@ -16,7 +16,7 @@
         <meta name="author" content="">
         <link rel="icon" href="../../favicon.ico">
 
-        <title>Formulário de Avaliação de Aluno de TCC</title>
+        <title>Ata de Defesa</title>
 
         <!-- Bootstrap core CSS -->
         <link href="../../GerenciamentoTCC/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -61,14 +61,13 @@
                     <br>Curso de Engenharia de Software</center>
             </strong>
         </h1>
-        <h2><center><br><b>FORMULÁRIO DE AVALIAÇÃO DE TRABALHO DE CONCLUSÃO DE CURSO</b></center></h2>
+        <h2><center><br><b>ATA DE DEFESA</b></center></h2>
 
         <div>
             <br><br>
-            <label class="text text-uppercase" style="font-size: x-large">Aluno:</label> <label> <c:out value="${bancaEscolhida.aluno.nome}"/> </label>
+            <label class="text text-uppercase" style="font-size: x-large">Aluno:</label> <label> <c:out value="${bancaEscolhida.aluno.nome}"/> </label><br>
             <label class="text text-uppercase" style="font-size: x-large" >Matrícula:</label> <c:out value="${bancaEscolhida.aluno.matricula}"/><br>
             <label class="text text-uppercase" style="font-size: x-large">Título do Trabalho:</label> <c:out value="${tema.descricao}"/><br>
-            <label class="text text-uppercase" style="font-size: x-large">Avaliador:</label> <c:out value="${avaliador.nome}"/><br>
             <label class="text text-uppercase" style="font-size: x-large">Data:</label> <c:out value="${bancaEscolhida.data}"/><br>
             <label class="text text-uppercase" style="font-size: x-large">Local:</label> <c:out value="${bancaEscolhida.local}"/><br>
             <label class="text text-uppercase" style="font-size: x-large">Horario:</label> <c:out value="${bancaEscolhida.horario}"/><br><br><br>
@@ -84,21 +83,41 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td> Orientador: <c:out value="${bancaEncontrada.orientadorByOrientadorIdOrientador.nome}"/> </td>
-                        <td> <c:out value="${tcc.notaOrientador}"/> </td>
-                    </tr>
-                    <tr>
-                        <td> <c:out value="${bancaEncontrada.pessoaByConvidado1IdPessoa.nome}"/> </td>
-                        <td> <c:out value="${tcc.notaOrientador}"/> </td>
-                    </tr>
-                    <tr>
-                        <td> <c:out value="${bancaEncontrada.pessoaByConvidado2IdPessoa.nome}"/> </td>
-                        <td> <c:out value="${tcc.notaOrientador}"/> </td>
-                    </tr>
-                    <c:if test="${not empty bancaEncontrada.pessoaByConvidado3IdPessoa}" var="v" scope="request">
-                        <tr>
-                            <td> <c:out value="${bancaEncontrada.pessoaByConvidado3IdPessoa.nome}"/> </td>
+                        <td> Orientador: <c:out value="${bancaEscolhida.orientadorByOrientadorIdOrientador.nome}"/> </td>
+                        <c:if test="${tcc.notaOrientador < 0}" var="v" scope="request">
+                            <td> Não Avaliado </td>
+                        </c:if>
+                        <c:if test="${tcc.notaOrientador >= 0}" var="v" scope="request">
                             <td> <c:out value="${tcc.notaOrientador}"/> </td>
+                        </c:if>
+                    </tr>
+                    <tr>
+                        <td> <c:out value="${bancaEscolhida.pessoaByConvidado1IdPessoa.nome}"/> </td>
+                        <c:if test="${tcc.notaConvidado1 < 0}" var="v" scope="request">
+                            <td> Não Avaliado </td>
+                        </c:if>
+                        <c:if test="${tcc.notaConvidado1 >= 0}" var="v" scope="request">
+                            <td> <c:out value="${tcc.notaConvidado1}"/> </td>
+                        </c:if>
+                    </tr>
+                    <tr>
+                        <td> <c:out value="${bancaEscolhida.pessoaByConvidado2IdPessoa.nome}"/> </td>
+                        <c:if test="${tcc.notaConvidado2 < 0}" var="v" scope="request">
+                            <td> Não Avaliado </td>
+                        </c:if>
+                        <c:if test="${tcc.notaConvidado2 >= 0}" var="v" scope="request">
+                            <td> <c:out value="${tcc.notaConvidado2}"/> </td>
+                        </c:if>
+                    </tr>
+                    <c:if test="${not empty bancaEscolhida.pessoaByConvidado3IdPessoa}" var="v" scope="request">
+                        <tr>
+                            <td> <c:out value="${bancaEscolhida.pessoaByConvidado3IdPessoa.nome}"/> </td>
+                            <c:if test="${tcc.notaConvidado3 < 0}" var="v" scope="request">
+                                <td> Não Avaliado </td>
+                            </c:if>
+                            <c:if test="${tcc.notaConvidado3 >= 0}" var="v" scope="request">
+                                <td> <c:out value="${tcc.notaConvidado3}"/> </td>
+                            </c:if>
                         </tr>
                     </c:if>
                     <tr>
@@ -106,137 +125,28 @@
                         <td> <c:out value="${mediaFinal}"/> </td>
                     </tr>    
                 </tbody>
-                </table>
-                
-                <%
-                    String situacaoAluno;
-                    Float mediaFinal = (Float) request.getAttribute("mediaFinal");
-                    if(mediaFinal != null && mediaFinal > 6){
-                        situacaoAluno = "Aprovado";
-                    }else{
-                        situacaoAluno = "Reprovado";
-                    }
-                %>
-                
-                <label> Situação Aluno: <%= situacaoAluno %> </label><br>
-                
-                <label>_______________________________________</label><br>
-                <label><c:out value="${bancaEncontrada.orientadorByOrientadorIdOrientador.nome}" /></label>
-                <label>_______________________________________</label><br>
-                <label><c:out value="${bancaEncontrada.pessoaByConvidado1IdPessoa.nome}" /></label>
-                <label>_______________________________________</label><br>
-                <label><c:out value="${bancaEncontrada.pessoaByConvidado2IdPessoa.nome}" /></label>
+            </table>
+
+            <%
+                String situacaoAluno;
+                Float mediaFinal = (Float) request.getAttribute("mediaFinal");
+                if (mediaFinal != null && mediaFinal > 6) {
+                    situacaoAluno = "Aprovado";
+                } else {
+                    situacaoAluno = "Reprovado";
+                }
+            %>
+
+            <label class="text text-uppercase" style="font-size: x-large">Situação Aluno: <%= situacaoAluno%> </label><br><br><br>
+
+            <label>_______________________________________</label><br>
+            <label><c:out value="${bancaEscolhida.orientadorByOrientadorIdOrientador.nome}" /></label><br>
+            <label>_______________________________________</label><br>
+            <label><c:out value="${bancaEscolhida.pessoaByConvidado1IdPessoa.nome}" /></label><br>
+            <label>_______________________________________</label><br>
+            <label><c:out value="${bancaEscolhida.pessoaByConvidado2IdPessoa.nome}" /></label><br>
         </form>
-        <script>
-            var flag = false;
-            var valorAnterior = 0.0;
-            var contNotaParcial = 0;
-            function incrementarNotaParcialTrabDesenvolvido(valor) {
-                var valorParcial = document.getElementById("notaParcialTrabDesenvolvido");
-                if (!isNaN(valor) && valor !== "" && flag !== true) {
-                    var valorAntigo = Number(valorParcial.value);
-                    valorParcial.value = parseFloat(valorAntigo, 10) + parseFloat(valor, 10);
-                    contNotaParcial++;
-                } else {
-                    if (valor !== "" && isNaN(valor)) {
-                        alert("Digite somente números,\n\
-         as notas parciais devem ser feitas utilizando ponto. Exemplo : 8.1");
-                    }
-                }
-                flag = false;
-            }
 
-            function incrementarNotaParcialApresentacao(valor) {
-                var valorParcial = document.getElementById("notaParcialApresentacao");
-                if (!isNaN(valor) && valor !== "" && flag !== true) {
-                    var valorAntigo = Number(valorParcial.value);
-                    valorParcial.value = parseFloat(valorAntigo, 10) + parseFloat(valor, 10);
-                    contNotaParcial++;
-                } else {
-                    if (valor !== "" && isNaN(valor)) {
-                        alert("Digite somente números,\n\
-         as notas parciais devem ser feitas utilizando ponto. Exemplo : 8.1");
-                    }
-                }
-                flag = false;
-            }
-
-            function incrementarNotaParcialQualidade(valor) {
-                var valorParcial = document.getElementById("notaParcialQualidade");
-                if (!isNaN(valor) && valor !== "" && flag !== true) {
-                    var valorAntigo = Number(valorParcial.value);
-                    valorParcial.value = parseFloat(valorAntigo, 10) + parseFloat(valor, 10);
-                    contNotaParcial++;
-                } else {
-                    if (valor !== "" && isNaN(valor)) {
-                        alert("Digite somente números,\n\
-         as notas parciais devem ser feitas utilizando ponto. Exemplo : 8.1");
-                    }
-                }
-                flag = false;
-            }
-
-            function decrementaNotaParcial1(valor) {
-                if (!isNaN(valor) && valor !== "") {
-                    //valorAnterior = parseFloat(valor,10);
-                    contNotaParcial = contNotaParcial - 1;
-                }
-            }
-
-            function SomenteNumero(e) {
-                var tecla = (window.event) ? event.keyCode : e.which;
-                if ((tecla > 47 && tecla < 58))
-                    return true;
-                else {
-                    if (tecla == 8 || tecla == 0) {
-                        return true;
-                    } else if (tecla == 46) {
-                        return true;
-                    }
-                    else {
-                        return false;
-                    }
-                }
-            }
-
-            function tamanhoNumero(numero) {
-                if (!isNaN(numero) && numero !== "") {
-                    var numeroFloat = parseFloat(numero);
-                    if (numeroFloat <= 1 && numeroFloat >= 0) {
-                        return true;
-                    } else {
-                        alert("Digite somente um valor de 0 a 1");
-                        flag = true;
-                        return false;
-                    }
-                }
-                return false;
-            }
-
-            function somarNotas() {
-                var notaFinal = document.getElementById("notaFinal");
-                var valorParcialDesenvolvimento = document.getElementById("notaParcialTrabDesenvolvido");
-                var valorParcialApresentação = document.getElementById("notaParcialApresentacao");
-                var valorParcialQualidade = document.getElementById("notaParcialQualidade");
-                if (contNotaParcial == 10) {
-                    notaFinal.value = parseFloat(valorParcialDesenvolvimento.value)
-                            + parseFloat(valorParcialApresentação.valueOf().value)
-                            + parseFloat(valorParcialQualidade.valueOf().value);
-                } else {
-                    alert("Preencha todas as notas primeiro");
-                }
-            }
-
-            function verificarNotaFinal() {
-                var notaFinal = document.getElementById("notaFinal");
-                if (notaFinal.value == "" || isNaN(notaFinal.value)) {
-                    alert("Faça a soma da nota final primeiro");
-                    return false;
-                } else {
-                    return true;
-                }
-            }
-        </script>
     </body>
 </html>
 

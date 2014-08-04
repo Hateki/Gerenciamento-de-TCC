@@ -106,7 +106,12 @@
                                     <button type="submit" class="bnt btn-primary" name="botaoAvaliacao" value="<%= cont%>">
                                         Avaliar Aluno
                                     </button>
-                                </form>    
+                                </form>
+                                <form name="ataDefesa" action="AtaDefesaServlet">
+                                    <button type="submit" class="bnt btn-primary" name="botaoAvaliacao" value="<%= cont%>">
+                                        Ata de defesa
+                                    </button>
+                                </form>        
                             </div>            
 
                             <!-- 
