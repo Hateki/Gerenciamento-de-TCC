@@ -47,7 +47,7 @@
                             <ul class="dropdown-menu" role="menu">
                                 <li> <a href="http://localhost:8080/GerenciamentoTCC/CadastroTemaServlet"> Cadastrar Tema </a> </li>
                                 <li> <a href="http://localhost:8080/GerenciamentoTCC/SubmeterTCCServlet"> SubmeterTCC </a></li>
-                                <li> <a href="http://localhost:8080/GerenciamentoTCC/ExibirSituacoServlet"> Exibir Situacao Tema </a> </li>
+                                <li> <a href="http://localhost:8080/GerenciamentoTCC/ExibirSituacaoServlet"> Exibir Situacao Tema </a> </li>
                             </ul>
                         </li>
                         <li> <a href="http://localhost:8080/GerenciamentoTCC/contato.html"> Contato </a> </li>
@@ -71,3 +71,4 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
         <script src="../../GerenciamentoTCC/bootstrap/js/bootstrap.min.js"></script>
     </body>
+</html>

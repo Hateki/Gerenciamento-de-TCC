@@ -80,6 +80,10 @@
         <servlet-name>DatasPrazosServlet</servlet-name>
         <servlet-class>br.edu.unipampa.controller.DatasPrazosServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ExibirSituacaoServlet</servlet-name>
+        <servlet-class>br.edu.unipampa.controller.ExibirSituacaoServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>CadastraPessoaExternaServelt</servlet-name>
         <url-pattern>/CadastraPessoaExternaServelt</url-pattern>
@@ -159,6 +163,10 @@
     <servlet-mapping>
         <servlet-name>DatasPrazosServlet</servlet-name>
         <url-pattern>/DatasPrazosServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ExibirSituacaoServlet</servlet-name>
+        <url-pattern>/ExibirSituacaoServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -53,8 +53,8 @@ public class MarcarBancaServlet extends HttpServlet {
         Banca bancaEscolhida = null;
         Orientador orientador = acessoSistema.procurarOrientador(usuario);
         Datas prazo = acessoSistema.procurarDatas();
-        String[] prazoInicial = separarDatas(prazo.getDataInicioTcc());
-        String[] prazoFinal = separarDatas(prazo.getDataFimTcc());
+        String[] prazoInicial = separarDatas(prazo.getDataInicioBanca());
+        String[] prazoFinal = separarDatas(prazo.getDataFimBanca());
         
         request.setAttribute("Prazo", verificarPrazo());
         
