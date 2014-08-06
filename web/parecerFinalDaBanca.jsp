@@ -25,37 +25,6 @@
     </head>
     <body>
 
-        <div class="navbar navbar-inverse navbar-fixed-top">
-            <div class="container">
-                <a href="menuPrincipalProfessor.jsp" class="navbar-brand"> Gerenciamento de TCC </a>
-                <button class="navbar-toggle" data-toggle = "collapse" data-target = ".OpcoesMenu">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <div class="collapse navbar-collapse OpcoesMenu">
-                    <ul class="nav navbar-nav">
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Banca <span class="caret"></span></a>
-                            <ul class="dropdown-menu" role="menu">
-                                <li> <a href="http://localhost:8080/GerenciamentoTCC/CriarTemaTCCServlet"> Criar Banca </a></li>
-                                <li> <a href="http://localhost:8080/GerenciamentoTCC/MarcarBancaServlet"> Definir Horário Local e Data </a> </li>
-                                <li> <a href="http://localhost:8080/GerenciamentoTCC/VerificarBancaServlet"> VerificarBanca </a> </li>
-                            </ul>
-                        </li>
-                        <li> <a href="http://localhost:8080/GerenciamentoTCC/TemasRequisitadosServlet"> Temas Requisitados  </a></li>
-                        <li> <a href="http://localhost:8080/GerenciamentoTCC/ConfirmarTemaServlet"> Confirmar Tema  </a></li>
-                        <li> <a href="http://localhost:8080/GerenciamentoTCC/cadastroPessoaExterna.jsp"> Cadastrar Pessoa Externa </a> </li>
-                        <li> <a href="http://localhost:8080/GerenciamentoTCC/contato.html"> Contato </a> </li>
-                        <li> <a href="http://localhost:8080/GerenciamentoTCC/sobre.html"> Sobre</a> </li>
-                        <li> <a href="http://localhost:8080/GerenciamentoTCC/telaLogin.jsp"> Sair</a> </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <br><br>
-
         <h1 style="color: #3c763d"><strong><center>Universidade Federal do Pampa 
                     <br>Campus Alegrete
                     <br>Curso de Engenharia de Software</center>
@@ -71,8 +40,9 @@
         </div>
 
         <form method="post">
-            <br><br>
-            Banca Examinadora:<center> <c:out value="${bancaEscolhida.orientadorByOrientadorIdOrientador.nome}"/>(Orientador)</center><br>
+            <br>
+            <label>Banca Examinadora:</label>
+            <center> <c:out value="${bancaEscolhida.orientadorByOrientadorIdOrientador.nome}"/>(Orientador)</center><br>
 
             <center><c:out value="${bancaEscolhida.pessoaByConvidado1IdPessoa.nome}"/></center><br>
             <center><c:out value="${bancaEscolhida.pessoaByConvidado2IdPessoa.nome}"/></center><br>
@@ -88,13 +58,14 @@
             %>
            
             <c:if test="${mediaFinal > 0}" var="v" scope="request">
-                Nota final do Trabalho de Conclusão de Curso: <center><c:out value="${mediaFinal}" /></center><br>
+                <label>Nota final do Tcc: </label>
+                <center><c:out value="${mediaFinal}" /></center><br>
             </c:if>
             <c:if test="${mediaFinal < 0}" var="v" scope="request">
-            <center>Nem todos os avaliadores deram a nota</center><br>
+            <center><label>Nem todos os avaliadores deram a nota</label></center><br>
             </c:if>
                 <label>Situação Aluno:</label> 
-                <center><label><%= situacaoAluno%> </label></center><br><br><br>
+                <center><%= situacaoAluno%></center><br><br><br>
 
             <center><label>_______________________________________</label></center><br>
             <center><label><c:out value="${bancaEscolhida.orientadorByOrientadorIdOrientador.nome}" /></center></label><br>

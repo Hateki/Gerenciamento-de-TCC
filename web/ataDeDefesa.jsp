@@ -25,37 +25,6 @@
     </head>
     <body>
 
-        <div class="navbar navbar-inverse navbar-fixed-top">
-            <div class="container">
-                <a href="menuPrincipalProfessor.jsp" class="navbar-brand"> Gerenciamento de TCC </a>
-                <button class="navbar-toggle" data-toggle = "collapse" data-target = ".OpcoesMenu">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <div class="collapse navbar-collapse OpcoesMenu">
-                    <ul class="nav navbar-nav">
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Banca <span class="caret"></span></a>
-                            <ul class="dropdown-menu" role="menu">
-                                <li> <a href="http://localhost:8080/GerenciamentoTCC/CriarTemaTCCServlet"> Criar Banca </a></li>
-                                <li> <a href="http://localhost:8080/GerenciamentoTCC/MarcarBancaServlet"> Definir Horário Local e Data </a> </li>
-                                <li> <a href="http://localhost:8080/GerenciamentoTCC/VerificarBancaServlet"> VerificarBanca </a> </li>
-                            </ul>
-                        </li>
-                        <li> <a href="http://localhost:8080/GerenciamentoTCC/TemasRequisitadosServlet"> Temas Requisitados  </a></li>
-                        <li> <a href="http://localhost:8080/GerenciamentoTCC/ConfirmarTemaServlet"> Confirmar Tema  </a></li>
-                        <li> <a href="http://localhost:8080/GerenciamentoTCC/cadastroPessoaExterna.jsp"> Cadastrar Pessoa Externa </a> </li>
-                        <li> <a href="http://localhost:8080/GerenciamentoTCC/contato.html"> Contato </a> </li>
-                        <li> <a href="http://localhost:8080/GerenciamentoTCC/sobre.html"> Sobre</a> </li>
-                        <li> <a href="http://localhost:8080/GerenciamentoTCC/telaLogin.jsp"> Sair</a> </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <br><br>
-
         <h1 style="color: #3c763d"><strong><center>Universidade Federal do Pampa 
                     <br>Campus Alegrete
                     <br>Curso de Engenharia de Software</center>
@@ -64,13 +33,13 @@
         <h2><center><br><b>ATA DE DEFESA</b></center></h2>
 
         <div>
-            <br><br>
-            <label class="text text-uppercase" style="font-size: x-large">Aluno:</label> <label> <c:out value="${bancaEscolhida.aluno.nome}"/> </label><br>
-            <label class="text text-uppercase" style="font-size: x-large" >Matrícula:</label> <c:out value="${bancaEscolhida.aluno.matricula}"/><br>
-            <label class="text text-uppercase" style="font-size: x-large">Título do Trabalho:</label> <c:out value="${tema.descricao}"/><br>
-            <label class="text text-uppercase" style="font-size: x-large">Data:</label> <c:out value="${bancaEscolhida.data}"/><br>
-            <label class="text text-uppercase" style="font-size: x-large">Local:</label> <c:out value="${bancaEscolhida.local}"/><br>
-            <label class="text text-uppercase" style="font-size: x-large">Horario:</label> <c:out value="${bancaEscolhida.horario}"/><br><br><br>
+            <br>
+            <label class="text text-uppercase" style="font-size: large">Aluno:</label> <label> <c:out value="${bancaEscolhida.aluno.nome}"/> </label><br>
+            <label class="text text-uppercase" style="font-size: large" >Matrícula:</label> <c:out value="${bancaEscolhida.aluno.matricula}"/><br>
+            <label class="text text-uppercase" style="font-size: large">Título do Trabalho:</label> <c:out value="${tema.descricao}"/><br>
+            <label class="text text-uppercase" style="font-size: large">Data:</label> <c:out value="${bancaEscolhida.data}"/><br>
+            <label class="text text-uppercase" style="font-size: large">Local:</label> <c:out value="${bancaEscolhida.local}"/><br>
+            <label class="text text-uppercase" style="font-size: large">Horario:</label> <c:out value="${bancaEscolhida.horario}"/><br><br><br>
         </div>
 
         <form method="post">
@@ -137,7 +106,7 @@
                 }
             %>
 
-            <label class="text text-uppercase" style="font-size: x-large">Situação Aluno: <%= situacaoAluno%> </label><br><br><br>
+            <label class="text text-uppercase" style="font-size: x-large">Situação Aluno: <%= situacaoAluno%> </label><br><br>
 
             <center><label>_______________________________________</label></center><br>
             <center><label><c:out value="${bancaEscolhida.orientadorByOrientadorIdOrientador.nome}" /></center></label><br>

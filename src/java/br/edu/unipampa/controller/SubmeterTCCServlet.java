@@ -110,7 +110,6 @@ public class SubmeterTCCServlet extends HttpServlet {
             Iterator it = fileItemsList.iterator();
 
             do {
-
                 cont++;
 
                 FileItem fileItemTemp = (FileItem) it.next();
