@@ -6,51 +6,47 @@
 
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html>
     <head>
         <style> 
-            #form1 {margin-left:550px; margin-right:550px}; 
-            H1 { text-align: right}
+            #area {margin-left:550px;}; 
+
         </style>
         <link href="../../GerenciamentoTCC/bootstrap/css/bootstrap.min.css" rel="stylesheet">
         <link href="../../GerenciamentoTCC/bootstrap/css/styles.css" rel="stylesheet">
-        <title>Gerenciamento TCC</title>
-        <script type="text/javascript">
-            
-      function testarData() {
-
-                    if ((isNaN(tccForm.date.value)) || (tccForm.date.value === "")) {
-
-                        alert("Digite apenas números!");
-
-                    }
-
-                }
-           
-            
-            //trim completo
-            function trim(str) {
-            return str.replace(/^\s+|\s+$/g, "");
-            }
-
-            function validaEspaco(input) {
-            texto = input.value;
-                    textoNovo = trim(texto);
-                    if (textoNovo === "") {
-            input.value = textoNovo;
-                    alert("Campo " + input.name + " invalido");
-            }
-            }
-
-            }
-<!-- Fim do JavaScript que validará os campos obrigatórios! -->
-        </script>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
-
+    <script>
+function validaData(campo){  
+        if (campo.value!=""){  
+            erro=0;  
+            hoje = new Date();  
+            anoAtual = hoje.getFullYear();  
+            barras = campo.value.split("/");  
+  
+            if (barras.length == 3){  
+                dia = barras[0];  
+                mes = barras[1];  
+                ano = barras[2];  
+                resultado = (!isNaN(dia) && (dia > 0) && (dia < 32)) && (!isNaN(mes) && (mes > 0) && (mes < 13)) && (!isNaN(ano) && (ano.length == 4) && (ano <= anoAtual && ano >= 1900));  
+  
+                if (!resultado){  
+                    alert("Data inválida.");  
+                    campo.focus();  
+                    return false;  
+                    }  
+                }else{  
+                    alert("Data inválida.");  
+                    campo.focus();  
+                    return false;  
+                    }  
+            return true;  
+            }  
+        } 
+    </script>
     <body>
+
         <div class="navbar navbar-inverse navbar-fixed-top">
             <div class="container">
                 <a href="menuPrincipalProfessor.jsp" class="navbar-brand"> Gerenciamento de TCC </a>
@@ -78,11 +74,27 @@
                 </div>
             </div>
         </div>
-        <br><br><br><br><br>
+        <br><br><br><br>
         <script src="http://code.jquery.com/jquery-latest.js"></script>
-        <script src="bootstrap.min.js"></script>
 
-    <legend>Datas de Envios TCC</legend>
+        <script src="bootstrap.min.js"></script>
+        <script>
+                //trim completo
+                        function trim(str) {
+                        return str.replace(/^\s+|\s+$/g, "");
+                        }
+
+                function validaEspaco(input) {
+                texto = input.value;
+                        textoNovo = trim(texto);
+                        if (textoNovo === "") {
+                input.value = textoNovo;
+                        alert("Campo " + input.name + " invalido");
+                }
+                }
+                }
+        </script>
+    <legend> Datas de Envio TCC</legend>
 
     Data para Entrega Inicial: <input name="date" type="date"  id="date" onblur="javascript: validardata(this.value);" placeholder="Digite data Inicial" maxlength="14" required/><br></br>
     Data para Entrega Final:   <input name="date" type="date" id="date" onblur="javascript: validardata(this.value);" placeholder="Digite data Final" maxlength="14" required/><br></br>
@@ -96,16 +108,15 @@
                 }
     </script>
 
-</form>
-</div>
-<!-- Bootstrap core JavaScript
-================================================== -->
-<!-- Placed at the end of the document so the pages load faster -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-<script src="../../GerenciamentoTCC/bootstrap/js/bootstrap.min.js"></script>
+    <!-- Bootstrap core JavaScript
+                ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="../../GerenciamentoTCC/bootstrap/js/bootstrap.min.js"></script>
+</body>
+</html>
 
+</script>
 </body>
 </html>
-</body>
-</html>
-</html>
+
