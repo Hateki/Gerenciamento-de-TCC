@@ -58,6 +58,13 @@
             </div>
         </div>
 
+        <div class="jumbotron">
+            <div class="container">
+                <h1>Sistema de gerenciamento de Tcc</h1>
+                <p>Use o menu acima para navegar no sistema.</p>
+            </div>
+        </div>
+
 
         <!-- Bootstrap core JavaScript
         ================================================== -->

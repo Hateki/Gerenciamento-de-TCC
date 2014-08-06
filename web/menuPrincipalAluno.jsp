@@ -34,7 +34,7 @@
 
         <div class="navbar navbar-inverse navbar-fixed-top">
             <div class="container">
-                <a href="menuPrincipalAluno.html" class="navbar-brand"> Gerenciamento de TCC </a>
+                <a href="menuPrincipalAluno.jsp" class="navbar-brand"> Gerenciamento de TCC </a>
                 <button class="navbar-toggle" data-toggle = "collapse" data-target = ".OpcoesMenu">
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
@@ -55,6 +55,13 @@
                         <li> <a href="http://localhost:8080/GerenciamentoTCC/telaLogin.jsp"> Sair</a> </li>
                     </ul>
                 </div>
+            </div>
+        </div>
+        
+        <div class="jumbotron">
+            <div class="container">
+                <h1>Sistema de gerenciamento de Tcc</h1>
+                <p>Use o menu acima para navegar no sistema.</p>
             </div>
         </div>
 

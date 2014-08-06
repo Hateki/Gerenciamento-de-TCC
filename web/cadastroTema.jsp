@@ -85,24 +85,30 @@
 
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <a href="menuPrincipalAluno.html" class="navbar-brand"> Gerenciamento de TCC </a>
-            <button class="navbar-toggle" data-toggle = "collapse" data-target = ".OpcoesMenu">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <div class="collapse navbar-collapse OpcoesMenu">
-                <ul class="nav navbar-nav navbar-right">
-                    <li> <a href="http://localhost:8080/GerenciamentoTCC/verificarTemaAluno.html"> Verificar Situação de Tema </a> </li>
-                    <li> <a href="http://localhost:8080/GerenciamentoTCC/CadastroTemaServlet"> Cadastrar Tema </a> </li>
-                    <li> <a href="http://localhost:8080/GerenciamentoTCC/contato.html"> Contato </a> </li>
-                    <li> <a href="http://localhost:8080/GerenciamentoTCC/sobre.html"> Sobre</a> </li>
-                    <li> <a href="http://localhost:8080/GerenciamentoTCC/telaLogin.jsp"> Sair</a> </li>
-                </ul>
+            <div class="container">
+                <a href="menuPrincipalAluno.jsp" class="navbar-brand"> Gerenciamento de TCC </a>
+                <button class="navbar-toggle" data-toggle = "collapse" data-target = ".OpcoesMenu">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <div class="collapse navbar-collapse OpcoesMenu">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"> Tema <span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li> <a href="http://localhost:8080/GerenciamentoTCC/CadastroTemaServlet"> Cadastrar Tema </a> </li>
+                                <li> <a href="http://localhost:8080/GerenciamentoTCC/SubmeterTCCServlet"> SubmeterTCC </a></li>
+                                <li> <a href="http://localhost:8080/GerenciamentoTCC/ExibirSituacoServlet"> Exibir Situacao Tema </a> </li>
+                            </ul>
+                        </li>
+                        <li> <a href="http://localhost:8080/GerenciamentoTCC/contato.html"> Contato </a> </li>
+                        <li> <a href="http://localhost:8080/GerenciamentoTCC/sobre.html"> Sobre</a> </li>
+                        <li> <a href="http://localhost:8080/GerenciamentoTCC/telaLogin.jsp"> Sair</a> </li>
+                    </ul>
+                </div>
             </div>
         </div>
-    </div>
     <form id="cadform" name="cadform" method="post" action="CadastroTemaServlet"
           onsubmit="return validaEspacoTema(), validaEspacoOrientador(), validaCampo(), validaCampo2();">
         <div id="cadTema">
