@@ -5,7 +5,11 @@
  */
 package br.edu.unipampa.controller;
 
+import static br.edu.unipampa.controller.DatasPrazosServlet.ANO;
+import static br.edu.unipampa.controller.DatasPrazosServlet.DIA;
+import static br.edu.unipampa.controller.DatasPrazosServlet.MES;
 import br.edu.unipampa.model.Aluno;
+import br.edu.unipampa.model.Datas;
 import br.edu.unipampa.model.Orientador;
 import br.edu.unipampa.model.Professor;
 import br.edu.unipampa.model.Tcc;
@@ -13,6 +17,8 @@ import br.edu.unipampa.model.Tema;
 import br.edu.unipampa.model.web.AcessoSistema;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import javax.servlet.ServletException;
@@ -45,21 +51,23 @@ public class SubmeterTCCServlet extends HttpServlet {
         AcessoSistema acessoSistema = new AcessoSistema();
         String usuarioAluno = (String) request.getSession().getAttribute("usuario");
         String botaoRefazer = request.getParameter("rafazerUpload");
-        
+        Datas prazo = acessoSistema.procurarDatas();
         List<Tcc> listaTcc;
-        
+        String[] prazoInicial = separarDatas(prazo.getDataInicioTcc());
+        String[] prazoFinal = separarDatas(prazo.getDataFimTcc());
+
         listaTcc = acessoSistema.procurarTCC(Integer.parseInt(usuarioAluno));
-        
-        if(botaoRefazer != null){
-            if(botaoRefazer.equals("0")){
+
+        if (botaoRefazer != null) {
+            if (botaoRefazer.equals("0")) {
                 acessoSistema.deletarTcc(listaTcc.get(0));
             }
         }
 
-        if(salvarArquivo(request, response, Integer.parseInt(usuarioAluno))){
+        if (salvarArquivo(request, response, Integer.parseInt(usuarioAluno))) {
             request.setAttribute("retorno", "Envio de arquivo bem sucedido");
         }
-        
+
         listaTcc = acessoSistema.procurarTCC(Integer.parseInt(usuarioAluno));
 
         if (!listaTcc.isEmpty()) {
@@ -71,6 +79,15 @@ public class SubmeterTCCServlet extends HttpServlet {
                 request.setAttribute("tcc3", listaTcc.get(2));
             }
         }
+        
+        request.setAttribute("Prazo", verificarPrazo());
+        
+        request.setAttribute("dataInicial", prazoInicial[DIA] +
+                "/" + prazoInicial[MES] + "/" + prazoInicial[ANO]);
+        
+        request.setAttribute("dataFinal", prazoFinal[DIA] +
+                "/" + prazoFinal[MES] + "/" + prazoFinal[ANO]);
+
         acessoSistema.completarTransacoes();
         request.getRequestDispatcher("Tema/submeterTCC.jsp").forward(request, response);
     }
@@ -89,7 +106,7 @@ public class SubmeterTCCServlet extends HttpServlet {
             throws ServletException, IOException {
 
         AcessoSistema as = new AcessoSistema();//Clase que da acesso ao banco de dados
-        
+
         if (ServletFileUpload.isMultipartContent(request)) {
 
             int cont = 0;
@@ -121,7 +138,7 @@ public class SubmeterTCCServlet extends HttpServlet {
                     if (fileItem != null && fileItem.getName() != null) {
                         byte[] arquivo = fileItem.get();
                         String fileName = fileItem.getName();
-                        
+
                         if (fileItem.getSize() > 0) {
                             //Salva no banco de dados
                             Aluno aluno = as.procurarAluno(matriculaAluno);
@@ -148,6 +165,65 @@ public class SubmeterTCCServlet extends HttpServlet {
         } else {
             return false;
         }
+    }
+
+    public boolean verificarPrazo() {
+        AcessoSistema acessoSistema = new AcessoSistema();
+        Datas datas = acessoSistema.procurarDatas();
+        String[] prazoInicial = separarDatas(datas.getDataInicioTcc());
+        String[] prazoFinal = separarDatas(datas.getDataFimTcc());;
+        String[] atual;
+        Date date = new Date(System.currentTimeMillis());
+        SimpleDateFormat formatador = new SimpleDateFormat("yyyy-MM-dd");
+
+        atual = separarDatas(formatador.format(date));
+
+        int diaAtual = Integer.parseInt(atual[2]);
+        int mesAtual = Integer.parseInt(atual[1]);
+        int anoAtual = Integer.parseInt(atual[0]);
+
+        if (anoAtual > Integer.parseInt(prazoFinal[ANO])) {
+            return false;
+        } else if (mesAtual > Integer.parseInt(prazoFinal[MES])) {
+            return false;
+        } else if (diaAtual > Integer.parseInt(prazoFinal[DIA])) {
+            return false;
+        }
+
+        if (anoAtual < Integer.parseInt(prazoInicial[ANO])) {
+            return false;
+        } else if (mesAtual < Integer.parseInt(prazoInicial[MES])) {
+            return false;
+        } else if (diaAtual < Integer.parseInt(prazoInicial[DIA])) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public String[] separarDatas(String data) {
+        String ano = "";
+        String mes = "";
+        String dia = "";
+        String[] datas = new String[3];
+        int cont = 0;
+
+        for (int i = 0; i < data.length(); i++) {
+            if (cont < 4) {
+                ano = ano + data.charAt(i);
+            } else if (cont < 7 && cont != 4) {
+                mes = mes + data.charAt(i);
+            } else if (cont > 6 && cont != 7) {
+                dia = dia + data.charAt(i);
+            }
+            cont++;
+        }
+
+        datas[ANO] = ano;
+        datas[MES] = mes;
+        datas[DIA] = dia;
+
+        return datas;
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

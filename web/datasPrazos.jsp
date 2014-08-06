@@ -17,30 +17,30 @@
         <link href="../../GerenciamentoTCC/bootstrap/css/styles.css" rel="stylesheet">
         <title>Gerenciamento TCC</title>
         <script type="text/javascript">
-            
-      function testarData() {
 
-                    if ((isNaN(tccForm.date.value)) || (tccForm.date.value === "")) {
+            function testarData() {
 
-                        alert("Digite apenas números!");
+                if ((isNaN(tccForm.date.value)) || (tccForm.date.value === "")) {
 
-                    }
+                    alert("Digite apenas números!");
 
                 }
-           
-            
+
+            }
+
+
             //trim completo
             function trim(str) {
-            return str.replace(/^\s+|\s+$/g, "");
+                return str.replace(/^\s+|\s+$/g, "");
             }
 
             function validaEspaco(input) {
-            texto = input.value;
-                    textoNovo = trim(texto);
-                    if (textoNovo === "") {
-            input.value = textoNovo;
+                texto = input.value;
+                textoNovo = trim(texto);
+                if (textoNovo === "") {
+                    input.value = textoNovo;
                     alert("Campo " + input.name + " invalido");
-            }
+                }
             }
 
             }
@@ -81,28 +81,44 @@
         <br><br><br><br><br>
         <script src="http://code.jquery.com/jquery-latest.js"></script>
         <script src="bootstrap.min.js"></script>
+        
+        <form method="post" action="DatasPrazosServlet">
+            <legend> Período de cadastros de Temas </legend>
 
-    <legend>Datas de Envios TCC</legend>
+            Data Inicial: <input name="dataTemaInicio" id="dataTemaInicio" type="date" onblur="javascript: validardata(this.value);" placeholder="Digite data Inicial" maxlength="14" required/><br>
+            Data Final:   <input name="dataTemaFinal" id="dataTemaFinal" type="date" onblur="javascript: validardata(this.value);" placeholder="Digite data Final" maxlength="14" required/><br>
+            <br><br>
 
-    Data para Entrega Inicial: <input name="date" type="date"  id="date" onblur="javascript: validardata(this.value);" placeholder="Digite data Inicial" maxlength="14" required/><br></br>
-    Data para Entrega Final:   <input name="date" type="date" id="date" onblur="javascript: validardata(this.value);" placeholder="Digite data Final" maxlength="14" required/><br></br>
+            <legend>Períodos para os Envios de TCC</legend>
 
-    <input type="submit" class="btn btn-primary" name="enviar" id="enviar" value="Enviar"   />
-    <input type="reset" class="btn btn-warning" name="limpar" id="limpar" value="Limpar" />
-    <input  type="button" class="btn btn-danger  " name="voltar" id="voltar" value="Voltar" onClick="retornaPaginaPrincipal()">
-    <script>
-                function retornaPaginaPrincipal() {
+            Data Inicial: <input name="dataTccInicio" id="dataTccInicio" type="date"  onblur="javascript: validardata(this.value);" placeholder="Digite data Inicial" maxlength="14" required/><br>
+            Data Final:   <input name="dataTccFinal" id="dataTccFinal" type="date" onblur="javascript: validardata(this.value);" placeholder="Digite data Final" maxlength="14" required/><br>
+            <br><br>
+
+            <legend>Período para marcar Banca</legend>
+
+            Data Inicial: <input name="dataBancaInicio" id="dataBancaInicio" type="date" onblur="javascript: validardata(this.value);" placeholder="Digite data Inicial" maxlength="14" required/><br>
+            Data Final:   <input name="dataBancaFinal" id="dataBancaFinal" type="date" onblur="javascript: validardata(this.value);" placeholder="Digite data Final" maxlength="14" required/><br><br>
+            <br><br>
+
+
+            <input type="submit" class="btn btn-primary" name="enviar" id="enviar" value="Enviar"   />
+            <input type="reset" class="btn btn-warning" name="limpar" id="limpar" value="Limpar" />
+            <input  type="button" class="btn btn-danger  " name="voltar" id="voltar" value="Voltar" onClick="retornaPaginaPrincipal()">
+        </form>
+
+        <script>
+            function retornaPaginaPrincipal() {
                 location.href = "menuPrincipalProfessor.html";
-                }
-    </script>
+            }
+        </script>
 
-</form>
-</div>
-<!-- Bootstrap core JavaScript
-================================================== -->
-<!-- Placed at the end of the document so the pages load faster -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-<script src="../../GerenciamentoTCC/bootstrap/js/bootstrap.min.js"></script>
+    </div>
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="../../GerenciamentoTCC/bootstrap/js/bootstrap.min.js"></script>
 
 </body>
 </html>

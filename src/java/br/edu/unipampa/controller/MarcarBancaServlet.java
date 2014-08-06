@@ -5,14 +5,20 @@
  */
 package br.edu.unipampa.controller;
 
+import static br.edu.unipampa.controller.DatasPrazosServlet.ANO;
+import static br.edu.unipampa.controller.DatasPrazosServlet.DIA;
+import static br.edu.unipampa.controller.DatasPrazosServlet.MES;
 import br.edu.unipampa.model.Aluno;
 import br.edu.unipampa.model.Banca;
+import br.edu.unipampa.model.Datas;
 import br.edu.unipampa.model.Orientador;
 import br.edu.unipampa.model.Pessoa;
 import br.edu.unipampa.model.web.AcessoSistema;
 import br.edu.unipampa.model.web.EnvioEmails;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -46,6 +52,17 @@ public class MarcarBancaServlet extends HttpServlet {
         List<Banca> listaBancas = acessoSistema.procurarBancas(usuario);
         Banca bancaEscolhida = null;
         Orientador orientador = acessoSistema.procurarOrientador(usuario);
+        Datas prazo = acessoSistema.procurarDatas();
+        String[] prazoInicial = separarDatas(prazo.getDataInicioTcc());
+        String[] prazoFinal = separarDatas(prazo.getDataFimTcc());
+        
+        request.setAttribute("Prazo", verificarPrazo());
+        
+        request.setAttribute("dataInicial", prazoInicial[DIA] +
+                "/" + prazoInicial[MES] + "/" + prazoInicial[ANO]);
+        
+        request.setAttribute("dataFinal", prazoFinal[DIA] +
+                "/" + prazoFinal[MES] + "/" + prazoFinal[ANO]);
 
         request.setAttribute("bancas", listaBancas);
 
@@ -139,6 +156,65 @@ public class MarcarBancaServlet extends HttpServlet {
             }
             cont++;
         }
+    }
+    
+    public boolean verificarPrazo() {
+        AcessoSistema acessoSistema = new AcessoSistema();
+        Datas datas = acessoSistema.procurarDatas();
+        String[] prazoInicial = separarDatas(datas.getDataInicioBanca());
+        String[] prazoFinal = separarDatas(datas.getDataFimBanca());;
+        String[] atual;
+        Date date = new Date(System.currentTimeMillis());
+        SimpleDateFormat formatador = new SimpleDateFormat("yyyy-MM-dd");
+
+        atual = separarDatas(formatador.format(date));
+
+        int diaAtual = Integer.parseInt(atual[2]);
+        int mesAtual = Integer.parseInt(atual[1]);
+        int anoAtual = Integer.parseInt(atual[0]);
+
+        if (anoAtual > Integer.parseInt(prazoFinal[ANO])) {
+            return false;
+        } else if (mesAtual > Integer.parseInt(prazoFinal[MES])) {
+            return false;
+        } else if (diaAtual > Integer.parseInt(prazoFinal[DIA])) {
+            return false;
+        }
+
+        if (anoAtual < Integer.parseInt(prazoInicial[ANO])) {
+            return false;
+        } else if (mesAtual < Integer.parseInt(prazoInicial[MES])) {
+            return false;
+        } else if (diaAtual < Integer.parseInt(prazoInicial[DIA])) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public String[] separarDatas(String data) {
+        String ano = "";
+        String mes = "";
+        String dia = "";
+        String[] datas = new String[3];
+        int cont = 0;
+
+        for (int i = 0; i < data.length(); i++) {
+            if (cont < 4) {
+                ano = ano + data.charAt(i);
+            } else if (cont < 7 && cont != 4) {
+                mes = mes + data.charAt(i);
+            } else if (cont > 6 && cont != 7) {
+                dia = dia + data.charAt(i);
+            }
+            cont++;
+        }
+
+        datas[ANO] = ano;
+        datas[MES] = mes;
+        datas[DIA] = dia;
+
+        return datas;
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

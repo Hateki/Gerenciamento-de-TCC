@@ -6,18 +6,10 @@
 
 package br.edu.unipampa.controller;
 
-import static br.edu.unipampa.controller.DatasPrazosServlet.ANO;
-import static br.edu.unipampa.controller.DatasPrazosServlet.DIA;
-import static br.edu.unipampa.controller.DatasPrazosServlet.MES;
-import br.edu.unipampa.model.Banca;
 import br.edu.unipampa.model.Datas;
-import br.edu.unipampa.model.Tcc;
 import br.edu.unipampa.model.web.AcessoSistema;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -27,7 +19,11 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author pontofrio
  */
-public class VerificarBancaServlet extends HttpServlet {
+public class DatasPrazosServlet extends HttpServlet {
+    
+    public static final int ANO = 0;
+    public static final int MES = 1;
+    public static final int DIA = 2;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,19 +36,53 @@ public class VerificarBancaServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String dataTemaInicial = request.getParameter("dataTemaInicio");
+        String dataTemaFinal = request.getParameter("dataTemaFinal");
+        String dataTccInicial = request.getParameter("dataTccInicio");
+        String dataTccFinal = request.getParameter("dataTccFinal");
+        String dataBancaInicial = request.getParameter("dataBancaInicio");
+        String dataBancaFinal = request.getParameter("dataBancaFinal");
         AcessoSistema acessoSistema = new AcessoSistema();
-        String usuario = (String) request.getSession().getAttribute("usuario");        
-        List<Banca> listaBancas;
-
-        listaBancas = acessoSistema.procurarBancas(usuario);
-
-        request.setAttribute("Bancas", listaBancas);
+        Datas datas = acessoSistema.procurarDatas();
+        
+        datas.setDataInicioTema(dataTemaInicial);
+        datas.setDataFimTema(dataTemaFinal);
+        datas.setDataInicioTcc(dataTccInicial);
+        datas.setDataFimTcc(dataTccFinal);
+        datas.setDataInicioBanca(dataBancaInicial);
+        datas.setDataFimBanca(dataBancaFinal);
+        
+        acessoSistema.salvarPrazos(datas);
         
         acessoSistema.completarTransacoes();
-        request.getRequestDispatcher("Banca/verificarBanca.jsp").forward(request, response);
+        
+        request.getRequestDispatcher("datasPrazos.jsp").forward(request, response);
     }
     
-    
+    public String[] separarDatas(String data){
+        String ano = "";
+        String mes = "";
+        String dia = "";
+        String[] datas = new String[3];
+        int cont = 0;
+        
+        for (int i = 0; i < data.length(); i++) {
+            if(cont < 4){
+                ano = ano + data.charAt(i);
+            }else if(cont < 7 && cont != 4){
+                mes = mes + data.charAt(i);
+            }else if(cont > 6 && cont != 7){
+                dia = dia + data.charAt(i);
+            }
+            cont++;
+        }
+        
+        datas[ANO] = ano;
+        datas[MES] = mes;
+        datas[DIA] = dia;
+        
+        return datas;
+    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

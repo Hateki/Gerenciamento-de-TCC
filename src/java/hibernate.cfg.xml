@@ -17,5 +17,6 @@
     <mapping resource="br/edu/unipampa/model/Orientador.hbm.xml"/>
     <mapping resource="br/edu/unipampa/model/Tecnicoadministrativo.hbm.xml"/>
     <mapping resource="br/edu/unipampa/model/Pessoaexterna.hbm.xml"/>
+    <mapping resource="br/edu/unipampa/model/Datas.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>

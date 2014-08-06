@@ -18,7 +18,7 @@
         <meta name="author" content="">
         <link rel="icon" href="../../favicon.ico">
 
-        <title>Verificar Banca</title>
+        <title>Marcar Defesa</title>
 
         <!-- Bootstrap core CSS -->
         <link href="../../GerenciamentoTCC/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -61,7 +61,13 @@
         </div>
         <br><br><br><br>
 
-        <h3> Aqui pode ver as bancas em que participa </h3>
+        <h1> <center> Marcar a Defesa de Tcc</center>  </h1>
+
+        <h2><center><label>Prazo para marcar: <c:out value="${dataInicial}"/> a <c:out value="${dataFinal}"/></label></center></h2>
+
+        <c:if test="${Prazo == false}" var="v" scope="request">
+            <div class="alert alert-danger" role="alert"> O prazo para marcar já passou </div>
+        </c:if>
 
         <br><br><br>
 
@@ -93,9 +99,11 @@
                             <br><br>
                             <div class="col-md-2">
                                 <form name="download" action="MarcarBancaServlet">
-                                    <button type="submit" class="bnt btn-success" name="botao" value="<%= cont%>">
-                                        Marcar Banca 
-                                    </button>
+                                    <c:if test="${Prazo == true}" var="v" scope="request">
+                                        <button type="submit" class="bnt btn-success" name="botao" value="<%= cont%>">
+                                            Marcar Banca 
+                                        </button>
+                                    </c:if> 
                                 </form>    
                             </div>    
 

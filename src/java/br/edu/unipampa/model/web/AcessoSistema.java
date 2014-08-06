@@ -576,7 +576,13 @@ public class AcessoSistema {
     public void salvarMarcacaoBanca(Banca banca){
         SESSAO.merge(banca);
     }
-
+    /**
+     * Salva as datas especificadas pelo coordenador
+     * @param datas 
+     */
+    public void salvarPrazos(Datas datas){
+        SESSAO.merge(datas);
+    }
     /**
      * Procura um tema através da matrícula do aluno
      *
@@ -740,5 +746,16 @@ public class AcessoSistema {
         }
 
         return bancasEncontradas;
+    }
+    
+    public Datas procurarDatas(){
+        List<Datas> datasEncontradas = SESSAO.createQuery("From Datas").list();
+        
+        for (Datas datas : datasEncontradas) {
+            if(datas.getIdDatas() == 1){
+                return datas;
+            }
+        }
+        return null;
     }
 }

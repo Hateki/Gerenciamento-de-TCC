@@ -65,6 +65,8 @@
             <h1> Envio de TCC's </h1>
             <p class="lead"> Aqui pode enviar os TCC 1, 2 e o final </p>
         </div>
+        
+        <h2><center><label>Prazo de subumissão: <c:out value="${dataInicial}"/> a <c:out value="${dataFinal}"/></label></center></h2>
 
         <br><br>
 
@@ -114,7 +116,12 @@
                             <div class="col-md-2">
                                 <form method="post" action="SubmeterTCCServlet" enctype="multipart/form-data">
                                     <input type="file" name="file" size="60"/><br/>
-                                    <input type="submit" value="Enviar" class="btn btn-success"/>
+                                    <c:if test="${Prazo == false}" var="v" scope="request">
+                                        <div class="alert alert-danger" role="alert"> Você não está no prazo de Entrega </div>
+                                    </c:if>
+                                    <c:if test="${Prazo == true}" var="v" scope="request">
+                                        <input type="submit" value="Enviar" class="btn btn-success"/>
+                                    </c:if> 
                                 </form>
                             </div>
                         </c:if>
