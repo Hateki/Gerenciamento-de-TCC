@@ -66,7 +66,7 @@
             <p class="lead"> Aqui pode enviar os TCC 1, 2 e o final </p>
         </div>
         
-        <h2><center><label>Prazo de subumissão: <c:out value="${dataInicial}"/> a <c:out value="${dataFinal}"/></label></center></h2>
+        <h2><center><label>Prazo de submissão: <c:out value="${dataInicial}"/> a <c:out value="${dataFinal}"/></label></center></h2>
 
         <br><br>
 

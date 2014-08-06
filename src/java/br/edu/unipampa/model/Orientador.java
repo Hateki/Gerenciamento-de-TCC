@@ -264,7 +264,7 @@ public class Orientador extends Professor implements java.io.Serializable {
         AcessoSistema acessoSistema = new AcessoSistema();
         tcc.setStatus(Tcc.NAO_APROVADO);
         
-        acessoSistema.atualizarTcc(tcc);
+        acessoSistema.deletarTcc(tcc);
     }
 
 }
