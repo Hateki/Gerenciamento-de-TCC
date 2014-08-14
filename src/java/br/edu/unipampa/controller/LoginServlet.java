@@ -41,32 +41,40 @@ public class LoginServlet extends HttpServlet {
         int result;
         HttpSession session = request.getSession();
         RequestDispatcher view;
+        String caminho = (String) request.getSession().getAttribute("caminho");
         
         result = login.verificarDados(nome, senha);
         
         if(result == AcessoSistema.ALUNO){
             session = request.getSession();
             session.setAttribute("usuario", nome);
-            view = request.getRequestDispatcher("menuPrincipalAluno.jsp");
-            view.forward(request, response);
+            if(caminho != null){
+                view = request.getRequestDispatcher(caminho);
+            }else{
+                view = request.getRequestDispatcher("menuPrincipalAluno.jsp");
+            }
         }else if(result == AcessoSistema.PROFESSOR){
             session = request.getSession();
             session.setAttribute("usuario", nome);
-            view = request.getRequestDispatcher("menuPrincipalProfessor.jsp");
-            view.forward(request, response);
+            if(caminho != null){
+                view = request.getRequestDispatcher(caminho);
+            }else{
+                view = request.getRequestDispatcher("menuPrincipalProfessor.jsp");
+            }
         }else if(result == AcessoSistema.PESSOA_EXTERNA){
             session = request.getSession();
             session.setAttribute("usuario", nome);
-            view = request.getRequestDispatcher("menuPrincipalProfessor.jsp");
-            view.forward(request, response);
+            if(caminho != null){
+                view = request.getRequestDispatcher(caminho);
+            }else{
+                view = request.getRequestDispatcher("menuPrincipalProfessor.jsp");
+            }
         }else {
             request.setAttribute("fracasso", "erro");
             view = request.getRequestDispatcher("telaLogin.jsp");
-            view.forward(request, response);
         }
-        
-        login.completarTransacoes();
-        
+        view.forward(request, response);
+        login.completarTransacoes();        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

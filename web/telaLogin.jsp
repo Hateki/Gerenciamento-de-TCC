@@ -15,18 +15,19 @@
             #area {margin-left:550px; margin-right:550px}; 
 
         </style>
-        
+
         <style> 
             #imagem {margin-left:550px; margin-right:550px}; 
 
         </style>
-        
-         <style> 
+
+        <style> 
             #botao {margin-left:70px; margin-right:550px}; 
 
         </style>
-        
-        <link href="bootstrap.min.css" rel="stylesheet" media="screen">
+
+        <link href="../../GerenciamentoTCC/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../GerenciamentoTCC/bootstrap/css/styles.css" rel="stylesheet">
         <script type="text/javascript">
             function validaCampoUsuario()
             {
@@ -72,7 +73,7 @@
     </head>
     <body>
         <div id="imagem">
-        <img src="imagem_unipampa.jpg" >
+            <img src="imagem_unipampa.jpg" >
         </div>
         <script src="http://code.jquery.com/jquery-latest.js"></script>
         <script src="bootstrap.min.js"></script>
@@ -93,22 +94,29 @@
                         <label> Senha: </label><input name="Senha"  type="password" id="senhaUsuario" maxlength="200" onblur="validaEspaco(this)" placeholder="Digite sua senha" required ><br>
                         <br></br>
                         <div id="botao">
-                        <input type="submit" class="btn btn-primary" name="enviar" id="enviar" value="Entrar"   />
+                            <input type="submit" class="btn btn-primary" name="enviar" id="enviar" value="Entrar"   />
                         </div>
 
                     </fieldset>
                     <%
                         String fracasso = (String) request.getAttribute("fracasso");
-                        if(fracasso != null)
-                        {
+                        if (fracasso != null) {
                     %>
-                        <script> alert("Usuário ou senha incorretos");</script>
+                    <script> alert("Usuário ou senha incorretos");</script>
                     <%
                         }
                     %>
                 </form>
+                <c:if test="${not empty retorno}" var="v" scope="request">
+                    <div class="alert alert-danger" role="alert"><c:out value="${retorno}" /></div>
+                </c:if>
             </div>
 
         </form>
+        <!-- Bootstrap core JavaScript
+        ================================================== -->
+        <!-- Placed at the end of the document so the pages load faster -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <script src="../../GerenciamentoTCC/bootstrap/js/bootstrap.min.js"></script>
     </body>
 </html>

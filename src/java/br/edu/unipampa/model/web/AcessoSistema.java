@@ -356,6 +356,37 @@ public class AcessoSistema {
         }
         return null;
     }
+    
+    /**
+     * Procura uma pessoa no banco e retorna o tipo de pessoa que ela é
+     * @param usuario Usuário para se procurar
+     * @return A pessoa procurada
+     */
+    public Pessoa procurarPessoaEspecifica(String usuario){
+        List<Aluno> alunosEncontrados = SESSAO.createQuery("From Aluno").list();
+        List<Professor> professoresEncontrados = SESSAO.createQuery("From Professor").list();
+        List<Pessoaexterna> pessoaExternas = SESSAO.createQuery("From Pessoaexterna").list();
+        
+        for (Aluno aluno : alunosEncontrados) {
+            if(usuario.equals(aluno.getUsuario())){
+                return aluno;
+            }
+        }
+        
+        for(Professor professor : professoresEncontrados){
+            if(usuario.equals(professor.getUsuario())){
+                return professor;
+            }
+        }
+        
+        for(Pessoaexterna pessoaExterna : pessoaExternas){
+            if(usuario.equals(pessoaExterna.getUsuario())){
+                return pessoaExterna;
+            }
+        }
+        
+        return null;
+    }
 
     public Session getSESSAO() {
         return SESSAO;
@@ -676,14 +707,13 @@ public class AcessoSistema {
      * @return O tcc do aluno
      */
     public Tcc procurarTCCPorBanca(Banca banca) {
+        Aluno aluno = banca.getAluno();
         //Garante que os dados vão ser todos lidos
         try {
             Thread.sleep(1000);
         } catch (InterruptedException ex) {
             Logger.getLogger(AcessoSistema.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        Aluno aluno = banca.getAluno();
         List<Tcc> tccsEncontrados = SESSAO.createQuery("From Tcc").list();
         List<Tema> temasConfirmados = procurarTemasConfirmados(banca.getOrientadorByOrientadorIdOrientador());
         Tema temaBanca = null;
