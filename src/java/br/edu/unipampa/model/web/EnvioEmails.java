@@ -45,7 +45,7 @@ public class EnvioEmails {
   
         } catch (EmailException e) {  
   
-        System.out.println(e.getMessage());  
+        String erro = e.getMessage();  
   
         } 
     }
@@ -69,7 +69,8 @@ public class EnvioEmails {
             email.addTo(emailDestinatario); 
             email.setFrom(emailRemetente);  
             email.setSubject(assuntoDoEmail);  
-            email.setMsg(mensagemASerEnviada);  
+            email.setMsg(mensagemASerEnviada);
+            //email.setSmtpPort(587);
   
             // add o anexo
             email.attach(attachment);  
