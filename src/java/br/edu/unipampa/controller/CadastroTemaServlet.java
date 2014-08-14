@@ -7,6 +7,7 @@ package br.edu.unipampa.controller;
 
 import br.edu.unipampa.model.Aluno;
 import br.edu.unipampa.model.Orientador;
+import br.edu.unipampa.model.Pessoa;
 import br.edu.unipampa.model.Professor;
 import br.edu.unipampa.model.Tema;
 import br.edu.unipampa.model.web.AcessoSistema;
@@ -33,7 +34,6 @@ import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
-
 /**
  *
  * @author pontofrio
@@ -52,19 +52,44 @@ public class CadastroTemaServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+        String usuarioAluno = (String) request.getSession().getAttribute("usuario");
+        AcessoSistema acessoSistema = new AcessoSistema();
+        Pessoa pessoaEncontrada;
+
+        if (usuarioAluno == null) {
+            request.getSession().setAttribute("caminho", "CadastroTemaServlet");
+            request.setAttribute("retorno", "A sua sessão acabou faça o login novamente.");
+            request.getRequestDispatcher("telaLogin.jsp").forward(request, response);
+        } else {
+            pessoaEncontrada = acessoSistema.procurarPessoaEspecifica(usuarioAluno);
+            if (!(pessoaEncontrada instanceof Aluno)) {
+                try {
+                    request.getSession().invalidate();
+                } catch (Exception e) {
+
+                }
+                request.setAttribute("retorno", "Você não pode acessar esta página, faça o login novamente!");
+                request.getRequestDispatcher("telaLogin.jsp").forward(request, response);
+
+            } else {
+                cadastrarTema(request, response, usuarioAluno);
+            }
+        }
+    }
+
+    public void cadastrarTema(HttpServletRequest request, HttpServletResponse response, String usuarioAluno)
+            throws ServletException, IOException {
         RequestDispatcher view;
         Tema temaCriado;
         Aluno aluno = new Aluno();
-        String usuarioAluno = (String) request.getSession().getAttribute("usuario");
         String usuarioProfessor = request.getParameter("orientador");
         String descricaoTema = request.getParameter("tema");
         AcessoSistema as = new AcessoSistema();
 
         request.setAttribute("professores", as.retornarProfossores());
-        
+
         //doDownload(request, response, "Um nome", "Outro nome");
         //salvarArquivo(request, response);
-
         if (usuarioProfessor != null) {
             int matriculaAluno = as.procurarMatriculaAluno(usuarioAluno);
 
@@ -86,7 +111,7 @@ public class CadastroTemaServlet extends HttpServlet {
                     request.setAttribute("retorno", "Sucesso");
                     view = request.getRequestDispatcher("cadastroTema.jsp");
                     view.forward(request, response);
-                    mandarEmails(temaCriado.getAluno(),temaCriado.getOrientador());
+                    mandarEmails(temaCriado.getAluno(), temaCriado.getOrientador());
                 } else {
                     //Mandar o resultador depois
                     request.setAttribute("retorno", "Problema");
@@ -100,23 +125,21 @@ public class CadastroTemaServlet extends HttpServlet {
             view.forward(request, response);
             as.completarTransacoes();
         }
-
     }
-    
+
     private void mandarEmails(Aluno aluno, Orientador orientador) {
         EnvioEmails emails = new EnvioEmails();
         String mensagemOrientador = null;
         String assunto = null;
 
         assunto = "Aluno o escolheu como orientador";
-        mensagemOrientador = "O aluno " + aluno.getNome() +" o escolheu como"
+        mensagemOrientador = "O aluno " + aluno.getNome() + " o escolheu como"
                 + " orientador, vá para aba 'Verificar Temas' no sitema"
                 + " para ter mais detalhes";
 
         emails.enviaEmailSimples(mensagemOrientador, assunto, orientador.getEmail());
     }
 
-       
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.

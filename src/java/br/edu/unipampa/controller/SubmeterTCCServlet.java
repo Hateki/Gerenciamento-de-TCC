@@ -11,6 +11,7 @@ import static br.edu.unipampa.controller.DatasPrazosServlet.MES;
 import br.edu.unipampa.model.Aluno;
 import br.edu.unipampa.model.Datas;
 import br.edu.unipampa.model.Orientador;
+import br.edu.unipampa.model.Pessoa;
 import br.edu.unipampa.model.Professor;
 import br.edu.unipampa.model.Tcc;
 import br.edu.unipampa.model.Tema;
@@ -47,9 +48,36 @@ public class SubmeterTCCServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        AcessoSistema acessoSistema = new AcessoSistema();
+        
         String usuarioAluno = (String) request.getSession().getAttribute("usuario");
+        AcessoSistema acessoSistema = new AcessoSistema();
+        Pessoa pessoaEncontrada;
+
+        if (usuarioAluno == null) {
+            request.getSession().setAttribute("caminho", "SubmeterTCCServlet");
+            request.setAttribute("retorno", "A sua sessão acabou faça o login novamente.");
+            request.getRequestDispatcher("telaLogin.jsp").forward(request, response);
+        } else {
+            pessoaEncontrada = acessoSistema.procurarPessoaEspecifica(usuarioAluno);
+            if (!(pessoaEncontrada instanceof Aluno)) {
+                try {
+                    request.getSession().invalidate();
+                } catch (Exception e) {
+
+                }
+                request.setAttribute("retorno", "Você não pode acessar esta página, faça o login novamente!");
+                request.getRequestDispatcher("telaLogin.jsp").forward(request, response);
+
+            } else {
+                submeterTcc(request, response, usuarioAluno);
+            }
+        }
+    }
+    
+    public void submeterTcc(HttpServletRequest request, HttpServletResponse response,String usuarioAluno)
+            throws ServletException, IOException{
+        
+        AcessoSistema acessoSistema = new AcessoSistema();
         String botaoRefazer = request.getParameter("rafazerUpload");
         Datas prazo = acessoSistema.procurarDatas();
         List<Tcc> listaTcc;
