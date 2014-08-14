@@ -69,7 +69,7 @@ public class ParecerFinalBanca extends HttpServlet {
             request.setAttribute("retornoParecer", "O parecer final da banca ainda não está pronto para ser gerado");
             request.getRequestDispatcher("VerificarBancaServlet").forward(request, response);
         }
-
+        acessoSistema.completarTransacoes();
     }
 
     public float fazerMedia(Tcc tcc, Banca banca) {

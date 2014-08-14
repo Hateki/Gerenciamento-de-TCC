@@ -70,7 +70,7 @@ public class AtaDefesaServlet extends HttpServlet {
             request.setAttribute("retornoAta", "A ata de defesa ainda não está pronta para ser gerada");
             request.getRequestDispatcher("VerificarBancaServlet").forward(request, response);
         }
-
+        acessoSistema.completarTransacoes();
     }
 
     public float fazerMedia(Tcc tcc) {
