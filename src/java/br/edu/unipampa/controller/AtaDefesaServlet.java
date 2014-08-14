@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package br.edu.unipampa.controller;
 
 import br.edu.unipampa.model.Banca;
@@ -35,8 +34,7 @@ public class AtaDefesaServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException
-    {
+            throws ServletException, IOException {
         AcessoSistema acessoSistema = new AcessoSistema();
         String usuario = (String) request.getSession().getAttribute("usuario");
         String botaoAvaliacao = request.getParameter("botaoAvaliacao");
@@ -44,48 +42,53 @@ public class AtaDefesaServlet extends HttpServlet {
         Banca bancaEscolhida = null;
         Tema tema;
         Tcc tcc;
-        
-        
+
         for (int i = 0; i < bancaMarcada.size(); i++) {
             int teste = Integer.parseInt(botaoAvaliacao) - 1;
-            if(i == Integer.parseInt(botaoAvaliacao) - 1){
+            if (i == Integer.parseInt(botaoAvaliacao) - 1) {
                 bancaEscolhida = bancaMarcada.get(i);
                 break;
             }
         }
-        
+
         tema = acessoSistema.procurarTema(bancaEscolhida.getAluno());
-        
+
         tcc = acessoSistema.procurarTCCPorBanca(bancaEscolhida);
-        
-        request.setAttribute("mediaFinal", fazerMedia(tcc));
-        
-        request.setAttribute("tcc", tcc);
-        
-        request.setAttribute("tema", tema);
-        
-        request.setAttribute("bancaEscolhida", bancaEscolhida);
-        
-        request.getRequestDispatcher("ataDeDefesa.jsp").forward(request, response);
-        
+
+        if (tcc != null && tema != null) {
+
+            request.setAttribute("mediaFinal", fazerMedia(tcc));
+
+            request.setAttribute("tcc", tcc);
+
+            request.setAttribute("tema", tema);
+
+            request.setAttribute("bancaEscolhida", bancaEscolhida);
+
+            request.getRequestDispatcher("ataDeDefesa.jsp").forward(request, response);
+        } else {
+            request.setAttribute("retornoAta", "A ata de defesa ainda não está pronta para ser gerada");
+            request.getRequestDispatcher("VerificarBancaServlet").forward(request, response);
+        }
+
     }
-    
-    public float fazerMedia(Tcc tcc){
+
+    public float fazerMedia(Tcc tcc) {
         float mediaFinal = 0;
-        
-        if(tcc.getNotaOrientador() > 0){
+
+        if (tcc.getNotaOrientador() > 0) {
             mediaFinal = mediaFinal + tcc.getNotaOrientador();
         }
-        if(tcc.getNotaConvidado1() > 0){
+        if (tcc.getNotaConvidado1() > 0) {
             mediaFinal = mediaFinal + tcc.getNotaConvidado1();
         }
-        if(tcc.getNotaConvidado2() > 0){
+        if (tcc.getNotaConvidado2() > 0) {
             mediaFinal = mediaFinal + tcc.getNotaConvidado2();
         }
-        if(tcc.getNotaCoorientador() > 0){
+        if (tcc.getNotaCoorientador() > 0) {
             mediaFinal = mediaFinal + tcc.getNotaCoorientador();
         }
-        return mediaFinal/3;
+        return mediaFinal / 3;
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -54,15 +54,22 @@ public class ParecerFinalBanca extends HttpServlet {
 
         tcc = acessoSistema.procurarTCCPorBanca(bancaEscolhida);
 
-        request.setAttribute("mediaFinal", fazerMedia(tcc,bancaEscolhida));
+        if (tcc != null && tema != null) {
 
-        request.setAttribute("tcc", tcc);
+            request.setAttribute("mediaFinal", fazerMedia(tcc, bancaEscolhida));
 
-        request.setAttribute("tema", tema);
+            request.setAttribute("tcc", tcc);
 
-        request.setAttribute("bancaEscolhida", bancaEscolhida);
+            request.setAttribute("tema", tema);
 
-        request.getRequestDispatcher("parecerFinalDaBanca.jsp").forward(request, response);
+            request.setAttribute("bancaEscolhida", bancaEscolhida);
+
+            request.getRequestDispatcher("parecerFinalDaBanca.jsp").forward(request, response);
+        } else {
+            request.setAttribute("retornoParecer", "O parecer final da banca ainda não está pronto para ser gerado");
+            request.getRequestDispatcher("VerificarBancaServlet").forward(request, response);
+        }
+
     }
 
     public float fazerMedia(Tcc tcc, Banca banca) {
@@ -96,7 +103,6 @@ public class ParecerFinalBanca extends HttpServlet {
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-
     /**
      * Handles the HTTP <code>GET</code> method.
      *

@@ -55,7 +55,7 @@ public class DetalheTCCServlet extends HttpServlet {
         }else{
             request.getSession().setAttribute("retorno", "O Tcc ainda não foi enviado ou não foi aprovado.");
 
-            request.getRequestDispatcher("Banca/verificarBanca.jsp").forward(request, response);
+            request.getRequestDispatcher("VerificarBancaServlet").forward(request, response);
         }
     }
 

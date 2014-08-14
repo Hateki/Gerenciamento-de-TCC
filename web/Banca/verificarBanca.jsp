@@ -66,10 +66,15 @@
 
         <br><br><br>
 
-        <% int cont = 1;%>
-        <c:if test="${not empty retorno}" var="v" scope="request">
-            <div class="alert alert-danger" role="alert"><c:out value="${retorno}"/></div>
+        <c:if test="${not empty retornoAta}" var="v" scope="request">
+            <div class="alert alert-danger" role="alert"><c:out value="${retornoAta}"/></div>
         </c:if>
+        <c:if test="${not empty retornoParecer}" var="v" scope="request">
+            <div class="alert alert-danger" role="alert"><c:out value="${retornoParecer}"/></div>
+        </c:if>    
+
+        <% int cont = 1;%>
+
         <c:forEach var="bancaEncontrada" items="${Bancas}">
             <div class="panel panel-primary">
                 <div class="panel-heading"><h5>Banca <%= cont%></h5></div>
@@ -118,7 +123,11 @@
                                         Parecer Final da Banca
                                     </button>
                                 </form>         
-                            </div>            
+                            </div>
+                            <br><br><br><br><br>
+                            <c:if test="${not empty retorno || retorno == ''}" var="v" scope="request">
+                                <div class="alert alert-danger" role="alert"><c:out value="${retorno}"/></div>
+                            </c:if>
 
                             <!-- 
                             <div class="col-md-3">

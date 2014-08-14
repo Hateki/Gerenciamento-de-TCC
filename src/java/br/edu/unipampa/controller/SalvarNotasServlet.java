@@ -58,7 +58,7 @@ public class SalvarNotasServlet extends HttpServlet {
         avaliador.avaliarAluno(notaFinal, bancaEncontrada);
         acessoSistema.completarTransacoes();
         
-        request.getRequestDispatcher("Banca/verificarBanca.jsp").forward(request, response);
+        request.getRequestDispatcher("VerificarBancaServlet").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

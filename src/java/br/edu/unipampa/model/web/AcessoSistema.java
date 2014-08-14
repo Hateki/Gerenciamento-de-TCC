@@ -5,6 +5,8 @@ import br.edu.unipampa.model.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.hibernate.Session;
 
 /**
@@ -674,6 +676,13 @@ public class AcessoSistema {
      * @return O tcc do aluno
      */
     public Tcc procurarTCCPorBanca(Banca banca) {
+        //Garante que os dados vão ser todos lidos
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(AcessoSistema.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         Aluno aluno = banca.getAluno();
         List<Tcc> tccsEncontrados = SESSAO.createQuery("From Tcc").list();
         List<Tema> temasConfirmados = procurarTemasConfirmados(banca.getOrientadorByOrientadorIdOrientador());

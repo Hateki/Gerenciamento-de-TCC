@@ -166,14 +166,17 @@ public class Pessoa implements java.io.Serializable {
 
         //Não esquecer de depois lidar com mais de um Tcc
         for (Tcc tcc : tccEncontrados) {
+            Integer idOrientador = banca.getOrientadorByOrientadorIdOrientador().getIdPessoa();
+            Integer idConvidado1 = banca.getPessoaByConvidado1IdPessoa().getIdPessoa();
+            Integer idConvidado2 = banca.getPessoaByConvidado2IdPessoa().getIdPessoa();
             if (banca.getOrientadorByCoorientadorIdOrientador() != null
-                    && this.idPessoa == banca.getOrientadorByCoorientadorIdOrientador().getIdPessoa()) {
+                    && getIdPessoa() == banca.getOrientadorByCoorientadorIdOrientador().getIdPessoa()) {
                 tcc.setNotaCoorientador(notaFinal);
-            } else if (this.idPessoa == banca.getOrientadorByOrientadorIdOrientador().getIdPessoa()) {
+            } else if (getIdPessoa() == banca.getOrientadorByOrientadorIdOrientador().getIdPessoa()) {
                 tcc.setNotaOrientador(notaFinal);
-            } else if (this.idPessoa == banca.getPessoaByConvidado1IdPessoa().getIdPessoa()) {
+            } else if (getIdPessoa() == banca.getPessoaByConvidado1IdPessoa().getIdPessoa()) {
                 tcc.setNotaConvidado1(notaFinal);
-            } else if (this.idPessoa == banca.getPessoaByConvidado2IdPessoa().getIdPessoa()) {
+            } else if (getIdPessoa() == banca.getPessoaByConvidado2IdPessoa().getIdPessoa()) {
                 tcc.setNotaConvidado2(notaFinal);
             }
             acessoSistema.atualizarTcc(tcc);
