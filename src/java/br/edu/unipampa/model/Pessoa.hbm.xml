@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 16/07/2014 21:01:25 by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+  <class catalog="`GERENCIAMENTO DE TCC`" name="br.edu.unipampa.model.Pessoa" table="pessoa">
+    <id name="idPessoa" type="java.lang.Integer">
+      <column name="idPessoa"/>
+      <generator class="identity"/>
+    </id>
+    <property name="usuario" type="string">
+      <column length="45" name="usuario" not-null="true"/>
+    </property>
+    <property name="senha" type="string">
+      <column length="45" name="senha" not-null="true"/>
+    </property>
+    <property name="email" type="string">
+      <column length="45" name="email" not-null="true"/>
+    </property>
+    <property name="nome" type="string">
+      <column length="45" name="nome"/>
+    </property>
+    <property name="areaAtuacao" type="java.lang.Integer">
+      <column name="areaAtuacao"/>
+    </property>
+    <set fetch="select" inverse="true" lazy="true" name="bancasForConvidado2IdPessoa" table="banca">
+      <key>
+        <column name="Convidado2_idPessoa" not-null="true"/>
+      </key>
+      <one-to-many class="br.edu.unipampa.model.Banca"/>
+    </set>
+    <set fetch="select" inverse="true" lazy="true" name="bancasForConvidado1IdPessoa" table="banca">
+      <key>
+        <column name="Convidado1_idPessoa" not-null="true"/>
+      </key>
+      <one-to-many class="br.edu.unipampa.model.Banca"/>
+    </set>
+    <set fetch="select" inverse="true" lazy="true" name="alunos" table="aluno">
+      <key>
+        <column name="Pessoa_idPessoa" not-null="true"/>
+      </key>
+      <one-to-many class="br.edu.unipampa.model.Aluno"/>
+    </set>
+    <set fetch="select" inverse="true" lazy="true" name="professors" table="professor">
+      <key>
+        <column name="Pessoa_idPessoa" not-null="true"/>
+      </key>
+      <one-to-many class="br.edu.unipampa.model.Professor"/>
+    </set>
+    <set fetch="select" inverse="true" lazy="true" name="tecnicoadministrativos" table="tecnicoadministrativo">
+      <key>
+        <column name="Pessoa_idPessoa" not-null="true"/>
+      </key>
+      <one-to-many class="br.edu.unipampa.model.Tecnicoadministrativo"/>
+    </set>
+    <set fetch="select" inverse="true" lazy="true" name="bancasForConvidado3IdPessoa" table="banca">
+      <key>
+        <column name="Convidado3_idPessoa"/>
+      </key>
+      <one-to-many class="br.edu.unipampa.model.Banca"/>
+    </set>
+    <set fetch="select" inverse="true" lazy="true" name="pessoaexternas" table="pessoaexterna">
+      <key>
+        <column name="Pessoa_idPessoa" not-null="true"/>
+      </key>
+      <one-to-many class="br.edu.unipampa.model.Pessoaexterna"/>
+    </set>
+  </class>
+</hibernate-mapping>
