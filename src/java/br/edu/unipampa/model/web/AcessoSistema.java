@@ -699,6 +699,29 @@ public class AcessoSistema {
         }
         return tccEncontrados;
     }
+    
+    public Tcc procurarVersaoTcc(int matriculaAluno, int versao) {
+        Tema tema = procurarTema(matriculaAluno);
+        List<Tcc> listaTcc = SESSAO.createQuery("From Tcc").list();
+
+        for (Tcc tcc : listaTcc) {
+            if (tema == tcc.getTema()) {
+
+                //Carrega os dados///
+                tcc.getArquivoTcc();
+                tcc.getDescricao();
+                tcc.getStatus();
+                tcc.getTitulo();
+                //////////////////////
+
+                if(tcc.getVersaoTCC() == versao){
+                    return tcc;
+                }
+            }
+        }
+        
+        return null;
+    }
 
     /**
      * Procura o Tcc que o aluno envio para a banca

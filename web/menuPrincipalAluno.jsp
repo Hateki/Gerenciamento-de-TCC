@@ -31,7 +31,7 @@
     </head>
 
     <body>
-
+        
         <div class="navbar navbar-inverse navbar-fixed-top">
             <div class="container">
                 <a href="menuPrincipalAluno.jsp" class="navbar-brand"> Gerenciamento de TCC </a>
@@ -46,7 +46,8 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"> Tema <span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">
                                 <li> <a href="http://localhost:8080/GerenciamentoTCC/CadastroTemaServlet"> Cadastrar Tema </a> </li>
-                                <li> <a href="http://localhost:8080/GerenciamentoTCC/SubmeterTCCServlet"> SubmeterTCC </a></li>
+                                <li> <a href="http://localhost:8080/GerenciamentoTCC/SubmeterTCCServlet" > SubmeterTCC </a></li>
+                                <li> <a href="http://localhost:8080/GerenciamentoTCC/SubmeterTCC2Servlet" > SubmeterTCC 2 </a></li>
                                 <li> <a href="http://localhost:8080/GerenciamentoTCC/ExibirSituacaoServlet"> Exibir Situacao Tema </a> </li>
                             </ul>
                         </li>

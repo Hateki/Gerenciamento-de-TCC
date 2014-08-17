@@ -1,6 +1,3 @@
-<%@page import="java.util.List"%>
-<%@page import="br.edu.unipampa.model.web.AcessoSistema"%>
-<%@page import="br.edu.unipampa.model.Tema"%>
 <%@page import="br.edu.unipampa.model.Tcc"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page isELIgnored="false" %>
@@ -83,7 +80,7 @@
                     <br><br>
                     <div class="row row-fluid">
                         <c:if test="${not empty tccInicial}" var="v" scope="request"> 
-                            <div class="col-md-3"><c:out value="${tccInicial.titulo}"/></div>
+                            <div class="col-md-3"><c:out value="${tcc.titulo}"/></div>
                             <div class="col-md-3">
                                 <form name="download" action="DownloadTCCServlet">
                                     <button type="submit" class="bnt btn-success">
@@ -147,18 +144,9 @@
                             <strong> TCC da Final</strong>
                         </p>
                         <br><br>
-                        
-                        <%
-                         AcessoSistema acessoSistema = new AcessoSistema();
-                         Tcc tcc = acessoSistema.procurarVersaoTcc(Integer.parseInt((String) request.getSession().getAttribute("usuario")), 0);
-                         request.getSession().setAttribute("tcc", tcc);
-                        %>
-                        
-                        
-                        
                         <div class="row row-fluid">
                             <c:if test="${not empty tccFinal}" var="v" scope="request"> 
-                                <div class="col-md-3"><c:out value="${tccFinal.titulo}"/></div>
+                                <div class="col-md-3"><c:out value="${tcc.titulo}"/></div>
                                 <div class="col-md-3">
                                     <form name="download" action="DownloadTCCServlet">
                                         <button type="submit" class="bnt btn-success">

@@ -26,5 +26,11 @@
         <property name="dataFimBanca" type="string">
             <column name="dataFimBanca" length="45" />        
         </property>
+        <property name="dataInicioTccFinal" type="string">
+            <column name="dataInicioTccFinal" length="45" />        
+        </property>
+        <property name="dataFinalTccFinal" type="string">
+            <column name="dataFinalTccFinal" length="45" />        
+        </property>
     </class>
 </hibernate-mapping>

@@ -32,7 +32,7 @@
             function validaCampoUsuario()
             {
                 if (document.telaLogin.nomeUsuario == "") {
-                    alert("O Campo obrigatório Usuário não foi preenchido");
+                    //alert("O Campo obrigatório Usuário não foi preenchido");
                     return false
                 }
                 else
@@ -42,7 +42,7 @@
             function validaCampoSenha()
             {
                 if (document.telaLogin.senhaUsuario == "") {
-                    alert("O Campo obrigatório Usuário não foi preenchido");
+                    //alert("O Campo obrigatório Usuário não foi preenchido");
                     return false
                 }
                 else
@@ -60,7 +60,7 @@
                 textoNovo = trim(texto);
                 if (textoNovo === "") {
                     input.value = textoNovo;
-                    alert("Campo " + input.name + " invalido");
+                    //alert("Campo " + input.name + " invalido");
                 }
             }
 

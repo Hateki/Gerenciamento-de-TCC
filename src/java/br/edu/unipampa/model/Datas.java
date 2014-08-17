@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package br.edu.unipampa.model;
 
 /**
@@ -11,6 +10,7 @@ package br.edu.unipampa.model;
  * @author pontofrio
  */
 public class Datas {
+
     private Integer idDatas;
     private String dataInicioTema;
     private String dataFimTema;
@@ -18,6 +18,8 @@ public class Datas {
     private String dataFimTcc;
     private String dataInicioBanca;
     private String dataFimBanca;
+    private String dataInicioTccFinal;
+    private String dataFinalTccFinal;
 
     /**
      * @return the idDatas
@@ -115,5 +117,21 @@ public class Datas {
      */
     public void setDataFimBanca(String dataFimBanca) {
         this.dataFimBanca = dataFimBanca;
+    }
+
+    public String getDataInicioTccFinal() {
+        return dataInicioTccFinal;
+    }
+
+    public void setDataInicioTccFinal(String dataInicioTccFinal) {
+        this.dataInicioTccFinal = dataInicioTccFinal;
+    }
+
+    public String getDataFinalTccFinal() {
+        return dataFinalTccFinal;
+    }
+
+    public void setDataFinalTccFinal(String dataFinalTccFinal) {
+        this.dataFinalTccFinal = dataFinalTccFinal;
     }
 }

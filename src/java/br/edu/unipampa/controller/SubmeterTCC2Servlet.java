@@ -35,7 +35,7 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
  *
  * @author pontofrio
  */
-public class SubmeterTCCServlet extends HttpServlet {
+public class SubmeterTCC2Servlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -97,6 +97,8 @@ public class SubmeterTCCServlet extends HttpServlet {
         if (salvarArquivo(request, response, Integer.parseInt(usuarioAluno), tipoTcc)) {
             request.setAttribute("retorno", "Envio de arquivo bem sucedido");
         }
+
+        listaTcc = acessoSistema.procurarTCC(Integer.parseInt(usuarioAluno));
 
         request.setAttribute("PrazoTccInicial",true);// verificarPrazo("tccInicial")
         request.setAttribute("PrazoTccFinal", true); //verificarPrazo("tccFinal")
@@ -180,7 +182,7 @@ public class SubmeterTCCServlet extends HttpServlet {
                             tcc.setNotaCoorientador(-1);
                             tcc.setNotaConvidado1(-1);
                             tcc.setNotaConvidado2(-1);
-                            tcc.setTipoTCC(0);
+                            tcc.setTipoTCC(1);
                             if (tipoTCC.equals("tccInicial")) {
                                 tcc.setVersaoTCC(0);
                             } else if (tipoTCC.equals("tccFinal")) {

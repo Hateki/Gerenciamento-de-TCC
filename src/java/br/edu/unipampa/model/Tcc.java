@@ -20,6 +20,8 @@ public class Tcc implements java.io.Serializable {
     private float notaCoorientador;
     private float notaConvidado1;
     private float notaConvidado2;
+    private int tipoTCC;
+    private Integer versaoTCC;
 
     public Tcc() {
     }
@@ -147,6 +149,22 @@ public class Tcc implements java.io.Serializable {
      */
     public void setNotaConvidado2(float notaConvidado2) {
         this.notaConvidado2 = notaConvidado2;
+    }
+
+    public int getTipoTCC() {
+        return tipoTCC;
+    }
+
+    public void setTipoTCC(int tipoTCC) {
+        this.tipoTCC = tipoTCC;
+    }
+
+    public Integer getVersaoTCC() {
+        return versaoTCC;
+    }
+
+    public void setVersaoTCC(Integer versaoTCC) {
+        this.versaoTCC = versaoTCC;
     }
 
 }

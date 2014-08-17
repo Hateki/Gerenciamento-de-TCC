@@ -38,5 +38,11 @@
         <property name="notaConvidado2" type="float">
             <column name="notaConvidado2" />
         </property>
+         <property name="tipoTCC" type="int">
+            <column name="tipoTCC" />
+        </property>
+        <property name="versaoTCC" type="java.lang.Integer">
+            <column name="versaoTCC" />
+        </property>
     </class>
 </hibernate-mapping>
