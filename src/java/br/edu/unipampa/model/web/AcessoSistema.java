@@ -765,6 +765,14 @@ public class AcessoSistema {
         List<Banca> bancasMarcadas = new ArrayList<Banca>();
         
         for (Banca banca : bancasEncontrados) {
+            //Garante que os dados vão estar carregados///////////
+            banca.getAluno().getNome();
+            banca.getOrientadorByOrientadorIdOrientador().getNome();
+            banca.getPessoaByConvidado1IdPessoa().getNome();
+            banca.getPessoaByConvidado2IdPessoa().getNome();
+            if(banca.getPessoaByConvidado3IdPessoa() != null)
+                banca.getPessoaByConvidado3IdPessoa().getNome();
+            ////////////////////////////////////////////////////////
             if(banca.getLocal() != null && banca.getData() != null && banca.getHorario() != null){
                 bancasMarcadas.add(banca);
             }

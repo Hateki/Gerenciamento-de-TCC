@@ -3,19 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package br.edu.unipampa.controller;
 
-import static br.edu.unipampa.controller.DatasPrazosServlet.ANO;
-import static br.edu.unipampa.controller.DatasPrazosServlet.DIA;
-import static br.edu.unipampa.controller.DatasPrazosServlet.MES;
 import br.edu.unipampa.model.Banca;
-import br.edu.unipampa.model.Datas;
-import br.edu.unipampa.model.Tcc;
+import br.edu.unipampa.model.Pessoa;
 import br.edu.unipampa.model.web.AcessoSistema;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -24,9 +19,9 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author pontofrio
+ * @author Pedro
  */
-public class VerificarBancaServlet extends HttpServlet {
+public class SalvarNotasCoordenadorServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,19 +35,25 @@ public class VerificarBancaServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         AcessoSistema acessoSistema = new AcessoSistema();
-        String usuario = (String) request.getSession().getAttribute("usuario");
-        List<Banca> listaBancas;
-
-        listaBancas = acessoSistema.procurarBancas(usuario);
-
-        request.setAttribute("Bancas", listaBancas);
-        //Ganrante que não tenham itens inuteis na Sessão
-        request.getSession().removeAttribute("bancaEscolhida");
-        request.getSession().removeAttribute("avaliadores");
+        float notaFinal = Float.parseFloat(request.getParameter("notaFinal"));
+        int idBanca = Integer.parseInt(request.getParameter("finalizar"));
+        List<Banca> bancasMarcadas = acessoSistema.procurarBancasMarcadas();
+        Banca bancaEncontrada =  null;
+        Pessoa avaliador = (Pessoa) request.getSession().getAttribute("avaliador");
+        String usuario = avaliador.getUsuario();
+        
+        for (Banca banca : bancasMarcadas) {
+            if(banca.getIdBanca() == idBanca){
+                bancaEncontrada = banca;
+                break;
+            }
+        }
+        
+        avaliador.avaliarAluno(notaFinal, bancaEncontrada);
         request.getSession().removeAttribute("avaliador");
-        ///////////////////////////////////////////////////////
         acessoSistema.completarTransacoes();
-        request.getRequestDispatcher("Banca/verificarBanca.jsp").forward(request, response);
+        
+        request.getRequestDispatcher("VerificarBancaServlet").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
