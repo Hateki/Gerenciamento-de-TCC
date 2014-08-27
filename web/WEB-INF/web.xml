@@ -88,6 +88,18 @@
         <servlet-name>SairSistemaServlet</servlet-name>
         <servlet-class>br.edu.unipampa.controller.SairSistemaServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AvaliadoresDisponiveisServlet</servlet-name>
+        <servlet-class>br.edu.unipampa.controller.AvaliadoresDisponiveisServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AvaliacaoCoodenadorServlet</servlet-name>
+        <servlet-class>br.edu.unipampa.controller.AvaliacaoCoodenadorServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SalvarNotasCoordenadorServlet</servlet-name>
+        <servlet-class>br.edu.unipampa.controller.SalvarNotasCoordenadorServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>CadastraPessoaExternaServelt</servlet-name>
         <url-pattern>/CadastraPessoaExternaServelt</url-pattern>
@@ -175,6 +187,18 @@
     <servlet-mapping>
         <servlet-name>SairSistemaServlet</servlet-name>
         <url-pattern>/SairSistemaServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AvaliadoresDisponiveisServlet</servlet-name>
+        <url-pattern>/AvaliadoresDisponiveisServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AvaliacaoCoodenadorServlet</servlet-name>
+        <url-pattern>/AvaliacaoCoodenadorServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SalvarNotasCoordenadorServlet</servlet-name>
+        <url-pattern>/SalvarNotasCoordenadorServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

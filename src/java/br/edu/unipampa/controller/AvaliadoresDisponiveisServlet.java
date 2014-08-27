@@ -5,17 +5,14 @@
  */
 package br.edu.unipampa.controller;
 
-import static br.edu.unipampa.controller.DatasPrazosServlet.ANO;
-import static br.edu.unipampa.controller.DatasPrazosServlet.DIA;
-import static br.edu.unipampa.controller.DatasPrazosServlet.MES;
 import br.edu.unipampa.model.Banca;
-import br.edu.unipampa.model.Datas;
+import br.edu.unipampa.model.Pessoa;
 import br.edu.unipampa.model.Tcc;
+import br.edu.unipampa.model.Tema;
 import br.edu.unipampa.model.web.AcessoSistema;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -24,9 +21,9 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author pontofrio
+ * @author Pedro
  */
-public class VerificarBancaServlet extends HttpServlet {
+public class AvaliadoresDisponiveisServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,20 +36,53 @@ public class VerificarBancaServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
         AcessoSistema acessoSistema = new AcessoSistema();
-        String usuario = (String) request.getSession().getAttribute("usuario");
-        List<Banca> listaBancas;
+        String botaoAvaliacao = request.getParameter("botaoAvaliacao");
+        List<Banca> bancaMarcada = acessoSistema.procurarBancasMarcadas();
+        Banca bancaEscolhida = null;
+        Tcc tccAluno;
 
-        listaBancas = acessoSistema.procurarBancas(usuario);
+        for (int i = 0; i < bancaMarcada.size(); i++) {
+            if (i == Integer.parseInt(botaoAvaliacao) - 1) {
+                bancaEscolhida = bancaMarcada.get(i);
+                break;
+            }
+        }
+        
+        if (bancaEscolhida != null) {
+            tccAluno = acessoSistema.procurarTCCPorBanca(bancaEscolhida);
+            request.setAttribute("tcc", tccAluno);
+            request.setAttribute("avaliadores", retornaAvaliadores(bancaEscolhida));
+            request.setAttribute("botaoAvaliacao", botaoAvaliacao);
+            request.getSession().setAttribute("bancaEscolhida", bancaEscolhida);
+            request.getSession().setAttribute("avaliadores", retornaAvaliadores(bancaEscolhida));
+            acessoSistema.completarTransacoes();
+            request.getRequestDispatcher("AvaliadoresDiponiveis.jsp").forward(request, response);
+        }else{
+            request.setAttribute("retorno", "Problema ao procurar os avaliadores, tente novamente.");
+            request.getSession().removeAttribute("bancaEscolhida");
+            request.getSession().removeAttribute("avaliadores");
+            acessoSistema.completarTransacoes();
+            request.getRequestDispatcher("VerificarBancaServlet").forward(request, response);
+        }
+    }
 
-        request.setAttribute("Bancas", listaBancas);
-        //Ganrante que não tenham itens inuteis na Sessão
-        request.getSession().removeAttribute("bancaEscolhida");
-        request.getSession().removeAttribute("avaliadores");
-        request.getSession().removeAttribute("avaliador");
-        ///////////////////////////////////////////////////////
-        acessoSistema.completarTransacoes();
-        request.getRequestDispatcher("Banca/verificarBanca.jsp").forward(request, response);
+    public List<Pessoa> retornaAvaliadores(Banca banca) {
+        List<Pessoa> listaAvaliadores = new ArrayList<>();
+
+        listaAvaliadores.add(banca.getOrientadorByOrientadorIdOrientador());
+        listaAvaliadores.add(banca.getPessoaByConvidado1IdPessoa());
+        listaAvaliadores.add(banca.getPessoaByConvidado2IdPessoa());
+        if (banca.getPessoaByConvidado3IdPessoa() != null) {
+            listaAvaliadores.add(banca.getPessoaByConvidado3IdPessoa());
+        }
+        //Garante que o nome vai estar carregado
+        for (Pessoa pessoa : listaAvaliadores) {
+            pessoa.getNome();
+        }
+        //////////////////////////////////////////
+        return listaAvaliadores;
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
