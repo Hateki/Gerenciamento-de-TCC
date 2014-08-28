@@ -84,7 +84,15 @@ public class SubmeterTCC2Servlet extends HttpServlet {
         List<Tcc> listaTcc;
         String[] prazoInicial = separarDatas(prazo.getDataInicioTcc());
         String[] prazoFinal = separarDatas(prazo.getDataFimTcc());
-        String tipoTcc = "tccInicial";
+        String botaoTccInicial = request.getParameter("TccInicial");
+        String botaoTccFinal = request.getParameter("TccFinal");
+        String tipoTcc = "";
+        
+        if(verificarPrazo("tccInicial")){
+            tipoTcc = "tccIncial";
+        }else{
+            tipoTcc = "tccFinal";
+        }
 
         listaTcc = acessoSistema.procurarTCC(Integer.parseInt(usuarioAluno));
 
@@ -112,11 +120,12 @@ public class SubmeterTCC2Servlet extends HttpServlet {
         request.setAttribute("dataFinal", prazoFinal[DIA]
                 + "/" + prazoFinal[MES] + "/" + prazoFinal[ANO]);
 
-        request.getSession().setAttribute("tcc", acessoSistema.procurarVersaoTcc(Integer.parseInt(usuarioAluno), 0));
+        request.getSession().setAttribute("tccInicial", acessoSistema.procurarVersaoTcc(Integer.parseInt(usuarioAluno), 0));
+        request.getSession().setAttribute("tccFinal", acessoSistema.procurarVersaoTcc(Integer.parseInt(usuarioAluno), 1));
         
         acessoSistema.completarTransacoes();
         
-        request.getRequestDispatcher("Tema/submeterTCC.jsp").forward(request, response);
+        request.getRequestDispatcher("Tema/submeterTCC2.jsp").forward(request, response);
     }
 
     /**

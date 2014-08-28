@@ -6,10 +6,14 @@
 
 package br.edu.unipampa.controller;
 
+import br.edu.unipampa.model.Aluno;
+import br.edu.unipampa.model.Banca;
 import br.edu.unipampa.model.Orientador;
+import br.edu.unipampa.model.Pessoa;
 import br.edu.unipampa.model.Tcc;
 import br.edu.unipampa.model.Tema;
 import br.edu.unipampa.model.web.AcessoSistema;
+import br.edu.unipampa.model.web.EnvioEmails;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -42,6 +46,7 @@ public class ConfirmarTccServlet extends HttpServlet {
         Orientador orientador = acessoSistema.procurarOrientador(usuarioOrientador);
         List<Tema> temasOrientador = acessoSistema.retornarTemasRequisitados(orientador);
         Tema temaEscolhido = procurarTemaEscolhido(botaoEscolhido, temasOrientador);
+        
         List<Tcc> tccEncontrados = acessoSistema.procurarTCC(temaEscolhido.getAluno().getMatricula());
 
         request.setAttribute("tccEncontrados", tccEncontrados);
@@ -59,6 +64,55 @@ public class ConfirmarTccServlet extends HttpServlet {
         return null;
     }
 
+    private void mandarEmail(Pessoa pessoa, String nomeOrientador, String nomeAluno) {
+        EnvioEmails emails = new EnvioEmails();
+        String mensagem = "";
+        String assunto = "Tcc do aluno enviado";
+
+        if (pessoa instanceof Orientador) {
+            mensagem = "Tcc do aluno " + nomeAluno + " confirmado com sucesso";
+        } else if (pessoa instanceof Aluno) {
+            mensagem = nomeOrientador + " Aceitou o seu tcc";
+        } else {
+            mensagem = "O tcc do aluno " + nomeAluno + 
+                    "foi enviado, acesse o menu de verificar"
+                    + " bancas para ver ter acesso ao tcc do aluno!";
+        }
+
+        emails.enviaEmailSimples(mensagem, assunto, pessoa.getEmail());
+    }
+
+    private void mandarEmails(Banca banca) {
+        String nomeOrientador = banca.getOrientadorByOrientadorIdOrientador().getNome();
+        String nomeAluno = banca.getAluno().getNome();
+        Orientador orientador = banca.getOrientadorByOrientadorIdOrientador();
+        Pessoa convidadado1 = banca.getPessoaByConvidado1IdPessoa();
+        Pessoa convidadado2 = banca.getPessoaByConvidado2IdPessoa();
+        Pessoa convidadado3 = banca.getPessoaByConvidado3IdPessoa();
+        Orientador coorientador = banca.getOrientadorByCoorientadorIdOrientador();
+
+        for (int i = 0; i < 6; i++) {
+            if (i == 0) {
+                mandarEmail(orientador, nomeOrientador, nomeAluno);
+            } else if (i == 1) {
+                mandarEmail(convidadado1, nomeOrientador, nomeAluno);
+            } else if (i == 2) {
+                mandarEmail(convidadado2, nomeOrientador, nomeAluno);
+            } else if (i == 3) {
+                if (convidadado3 != null) {
+                    mandarEmail(convidadado3, nomeOrientador,nomeAluno);
+                }
+            } else if (i == 4) {
+                if(coorientador != null){
+                    mandarEmail(convidadado1, nomeOrientador, nomeAluno);
+                }
+            }else{
+                mandarEmail(banca.getAluno(), nomeOrientador, nomeAluno);
+            }
+        }
+        
+    }
+    
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.

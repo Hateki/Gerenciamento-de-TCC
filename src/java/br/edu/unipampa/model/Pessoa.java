@@ -179,6 +179,20 @@ public class Pessoa implements java.io.Serializable {
             } else if (getIdPessoa() == banca.getPessoaByConvidado2IdPessoa().getIdPessoa()) {
                 tcc.setNotaConvidado2(notaFinal);
             }
+            if (banca.getPessoaByConvidado3IdPessoa() == null) {
+                if (tcc.getNotaOrientador() != -1
+                        && tcc.getNotaConvidado1() != -1
+                        && tcc.getNotaConvidado2() != -1) {
+                    tcc.setStatus(2);
+                }
+            }else{
+                if (tcc.getNotaOrientador() != -1
+                        && tcc.getNotaConvidado1() != -1
+                        && tcc.getNotaConvidado2() != -1
+                        && tcc.getNotaCoorientador() != -1) {
+                    tcc.setStatus(2);
+                }
+            }
             acessoSistema.atualizarTcc(tcc);
         }
 
