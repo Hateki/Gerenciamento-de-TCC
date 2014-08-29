@@ -768,6 +768,81 @@ public class AcessoSistema {
         }
         return tccEncontrados;
     }
+    
+        /**
+     * Procura os tccs do aluno por tipo
+     *
+     * @param matriculaAluno Mátricula do aluno que se quer procurar
+     * @param tipoTcc Tipo do tcc que está se procurando
+     * @return
+     */
+    public List<Tcc> procurarTCC(int matriculaAluno, int tipoTcc) {
+        Tema tema = procurarTema(matriculaAluno);
+        List<Tcc> listaTcc = SESSAO.createQuery("From Tcc").list();
+        List<Tcc> tccEncontrados = new ArrayList<>();
+
+        for (Tcc tcc : listaTcc) {
+            if (tema == tcc.getTema()) {
+
+                //Carrega os dados///
+                tcc.getArquivoTcc();
+                tcc.getDescricao();
+                tcc.getStatus();
+                tcc.getTitulo();
+                //////////////////////
+                if (tcc.getTipoTCC() == tipoTcc) {
+                    tccEncontrados.add(tcc);
+                }
+            }
+        }
+        return tccEncontrados;
+    }
+
+    /**
+     * Procura o tcc que o aluno está atualmente
+     *
+     * @param matriculaAluno mátricula do aluno em que se está procurando o tcc
+     * @return A lista de tcc encontrados
+     */
+    public List<Tcc> procurarTCCAtual(int matriculaAluno) {
+        Tema tema = procurarTema(matriculaAluno);
+        List<Tcc> listaTcc = SESSAO.createQuery("From Tcc").list();
+        List<Tcc> tccEncontrados = new ArrayList<>();
+        //Procura o tcc 1
+        for (Tcc tcc : listaTcc) {
+            if (tema == tcc.getTema()) {
+
+                //Carrega os dados///
+                tcc.getArquivoTcc();
+                tcc.getDescricao();
+                tcc.getStatus();
+                tcc.getTitulo();
+                //////////////////////
+                if (tcc.getTipoTCC() == 0) {
+                    if (tcc.getStatus() != 2) {
+                        tccEncontrados.add(tcc);
+                        return tccEncontrados;
+                    }
+                }
+            }
+        }
+        // Se o Tcc 1 já tiver avaliado, procura o o tcc 2
+        for (Tcc tcc : listaTcc) {
+            if (tema == tcc.getTema()) {
+
+                //Carrega os dados///
+                tcc.getArquivoTcc();
+                tcc.getDescricao();
+                tcc.getStatus();
+                tcc.getTitulo();
+                //////////////////////
+                if (tcc.getTipoTCC() == 1) {
+                    tccEncontrados.add(tcc);
+                }
+            }
+        }
+        return tccEncontrados;
+    }
 
     public Tcc procurarVersaoTcc(int matriculaAluno, int versao) {
         Tema tema = procurarTema(matriculaAluno);
