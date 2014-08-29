@@ -149,9 +149,9 @@
                         <br><br>
                         
                         <%
-                         AcessoSistema acessoSistema = new AcessoSistema();
-                         Tcc tcc = acessoSistema.procurarVersaoTcc(Integer.parseInt((String) request.getSession().getAttribute("usuario")), 0);
-                         request.getSession().setAttribute("tcc", tcc);
+                         //AcessoSistema acessoSistema = new AcessoSistema();
+                        // Tcc tcc = acessoSistema.procurarVersaoTcc(Integer.parseInt((String) request.getSession().getAttribute("usuario")), 0);
+                         //request.getSession().setAttribute("tcc", tcc);
                         %>
                         
                         
@@ -181,7 +181,7 @@
 
                                 <div class="col-md-3">    
                                     <form name="refazerUpload" action="SubmeterTCCServlet">
-                                        <button type="submit" class="bnt btn-warning" name="rafazerUpload" value="0">
+                                        <button type="submit" class="bnt btn-warning" name="rafazerUpload" value="1">
                                             Refazer a subimissão do Tcc
                                         </button>
                                     </form>
