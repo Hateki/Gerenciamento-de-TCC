@@ -41,13 +41,25 @@ public class ConfirmarTccServlet extends HttpServlet {
             throws ServletException, IOException {
         AcessoSistema acessoSistema = new AcessoSistema();
         String usuarioOrientador = (String) request.getSession().getAttribute("usuario");
-        String botao = request.getParameter("confirmarTcc");
-        int botaoEscolhido = Integer.parseInt(botao);
+        String confirmarTcc1 = request.getParameter("confirmarTcc1");
+        String confirmarTcc2 = request.getParameter("confirmarTcc2");
+        int botaoEscolhido;
+        int tipoTcc;
         Orientador orientador = acessoSistema.procurarOrientador(usuarioOrientador);
         List<Tema> temasOrientador = acessoSistema.retornarTemasRequisitados(orientador);
-        Tema temaEscolhido = procurarTemaEscolhido(botaoEscolhido, temasOrientador);
+        Tema temaEscolhido;
+     
+        if(confirmarTcc1 != null){
+            botaoEscolhido = Integer.parseInt(confirmarTcc1);
+            tipoTcc = 0;
+        }else{
+            botaoEscolhido = Integer.parseInt(confirmarTcc2);
+            tipoTcc = 1;
+        }
         
-        List<Tcc> tccEncontrados = acessoSistema.procurarTCC(temaEscolhido.getAluno().getMatricula());
+        temaEscolhido = procurarTemaEscolhido(botaoEscolhido, temasOrientador);
+        
+        List<Tcc> tccEncontrados = acessoSistema.procurarTCC(temaEscolhido.getAluno().getMatricula(),tipoTcc);
 
         request.setAttribute("tccEncontrados", tccEncontrados);
         request.setAttribute("tema", temaEscolhido);

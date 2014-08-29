@@ -1,5 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+    <filter>
+        <filter-name>LoginProfessorFilter</filter-name>
+        <filter-class>br.edu.unipampa.controller.Filtros.LoginProfessorFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>LoginProfessorFilter</filter-name>
+        <servlet-name>ParecerFinalBanca</servlet-name>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>LoginProfessorFilter</filter-name>
+        <servlet-name>AtaDefesaServlet</servlet-name>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>LoginProfessorFilter</filter-name>
+        <servlet-name>SalvarNotasServlet</servlet-name>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>LoginProfessorFilter</filter-name>
+        <servlet-name>FormularioAvaliacaoServlet</servlet-name>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>LoginProfessorFilter</filter-name>
+        <servlet-name>AgendaDefesasServlet</servlet-name>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>LoginProfessorFilter</filter-name>
+        <servlet-name>AprovarTccServlet</servlet-name>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>LoginProfessorFilter</filter-name>
+        <servlet-name>ConfirmarTccServlet</servlet-name>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>LoginProfessorFilter</filter-name>
+        <servlet-name>MarcarBancaServlet</servlet-name>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>LoginProfessorFilter</filter-name>
+        <servlet-name>VerificarBancaServlet</servlet-name>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>LoginProfessorFilter</filter-name>
+        <servlet-name>ConfirmarTemaServlet</servlet-name>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>LoginProfessorFilter</filter-name>
+        <servlet-name>TemasRequisitadosServlet</servlet-name>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>LoginProfessorFilter</filter-name>
+        <servlet-name>CadastraPessoaExternaServelt</servlet-name>
+    </filter-mapping>
     <servlet>
         <servlet-name>CadastraPessoaExternaServelt</servlet-name>
         <servlet-class>br.edu.unipampa.controller.CadastraPessoaExternaServelt</servlet-class>
@@ -141,10 +193,6 @@
         <url-pattern>/SubmeterTCCServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>SubmeterTCC2Servlet</servlet-name>
-        <url-pattern>/SubmeterTCC2Servlet</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>VerificarBancaServlet</servlet-name>
         <url-pattern>/VerificarBancaServlet</url-pattern>
     </servlet-mapping>
@@ -215,6 +263,12 @@
     <servlet-mapping>
         <servlet-name>SalvarTcc2Servlet</servlet-name>
         <url-pattern>/SalvarTcc2Servlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SubmeterTCC2Servlet</servlet-name>
+        <url-pattern>/SubmeterTcc2</url-pattern>
+        <url-pattern>/SubmeterTCC2</url-pattern>
+        <url-pattern>/SubmeterTCC2Servlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

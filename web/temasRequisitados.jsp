@@ -65,12 +65,12 @@
         <div id="tela">
             <h1>Temas cadastrados</h1>
 
-                <%
-                    for (int i = 0; i < temasPendentes.size(); i++) {
-                        Tema tema = temasPendentes.get(i);
-                        valorBotao = "" + (i + 1);
-                %>
-                <form name="formConfirmar" action="DetalheTemaServlet" method="POST">
+            <%
+                for (int i = 0; i < temasPendentes.size(); i++) {
+                    Tema tema = temasPendentes.get(i);
+                    valorBotao = "" + (i + 1);
+            %>
+            <form name="formConfirmar" action="DetalheTemaServlet" method="POST">
                 <table border="1" class="table table-hover">
                     <thead>
                         <tr>
@@ -104,10 +104,15 @@
             </form>
             <br>
             <form action="ConfirmarTccServlet" method="POST">
-                <button type="submit" class="bnt btn-success"  name="confirmarTcc" value="<%=i%>">
-                    Situação Tcc
+                <button type="submit" class="bnt btn-success"  name="confirmarTcc1" value="<%=i%>">
+                    Situação Tcc 1
                 </button>
             </form>
+            <form action="ConfirmarTccServlet" method="POST">
+                <button type="submit" class="bnt btn-success"  name="confirmarTcc2" value="<%=i%>">
+                    Situação Tcc 2
+                </button>
+            </form>        
             <br><br>
             <%
                 }

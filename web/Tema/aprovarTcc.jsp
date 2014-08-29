@@ -53,52 +53,68 @@
         <% request.getSession().setAttribute("Tema", request.getAttribute("tema")); %>
 
         <c:if test="${not empty tccEncontrados}" var="v" scope="request">
+            <% int cont = 0;%>
             <c:forEach var="tcc" items="${tccEncontrados}">
-                <% int cont = 0;%>
-                <table border="1" class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th>Nome Aluno</th>
-                            <th>Orientador</th>
-                            <th>Situação</th>
-                            <th> Fazer Download </th>
-                            <th> Aprovação </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><c:out value="${tema.aluno.nome}"/></td>
-                            <td><c:out value="${tema.orientador.nome}"/></td>
+                <div class="panel panel-primary">
+                    <c:if test="${tcc.versaoTCC == 0}" var="v" scope="request">
+                        <div class="panel-heading"><h5>Tcc Denfendido</h5></div>
+                    </c:if>
+                    <c:if test="${tcc.versaoTCC == 0}" var="v" scope="request">
+                        <div class="panel-heading"><h5>Tcc Corrigido</h5></div>
+                    </c:if>    
+                    <div class="panel-body">
+                        <table border="1" class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Nome Aluno</th>
+                                    <th>Orientador</th>
+                                    <th>Situação</th>
+                                    <th> Fazer Download </th>
+                                        <c:if test="${tcc.status != 2}" var="dasda" scope="request">
+                                        <th> Aprovação </th>
+                                        </c:if>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><c:out value="${tema.aluno.nome}"/></td>
+                                    <td><c:out value="${tema.orientador.nome}"/></td>
 
-                            <c:if test="${tcc.status == 0}" var="v" scope="request">
-                                <td> Não Aprovado </td>
-                            </c:if>
+                                    <c:if test="${tcc.status == 0}" var="v" scope="request">
+                                        <td> Não Aprovado </td>
+                                    </c:if>
 
-                            <c:if test="${tcc.status == 1}" var="v" scope="request">
-                                <td>Aprovado</td>
-                            </c:if>
+                                    <c:if test="${tcc.status == 1}" var="v" scope="request">
+                                        <td>Aprovado</td>
+                                    </c:if>
 
-                            <td>
-                                <form name="download" action="AprovarTccServlet">
-                                    <button type="submit" class="bnt btn-primary" name="botaoDownload" value="<%= cont%>">
-                                        <c:out value="${tcc.titulo}"/>
-                                    </button>
-                                </form>     
-                            </td>   
-
-                            <td> 
-                                <form name="aprovar" action="AprovarTccServlet">
-                                    <button type="submit" class="bnt btn-success" name="botaoAprovar" value="<%= cont %>.1">
-                                        Aprovar Tcc
-                                    </button>
-                                    <button type="submit" class="bnt btn-danger" name="botaoAprovar" value="<%= cont %>.2">
-                                        Reprovar Tcc
-                                    </button>
-                                </form> 
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                                    <c:if test="${tcc.status == 2}" var="v" scope="request">
+                                        <td>Avaliado</td>
+                                    </c:if>
+                                    <td>
+                                        <form name="download" action="AprovarTccServlet">
+                                            <button type="submit" class="bnt btn-primary" name="botaoDownload" value="<%= cont%>">
+                                                <c:out value="${tcc.titulo}"/>
+                                            </button>
+                                        </form>     
+                                    </td>   
+                                    <c:if test="${tcc.status != 2}" var="dasda" scope="request">
+                                        <td> 
+                                            <form name="aprovar" action="AprovarTccServlet">
+                                                <button type="submit" class="bnt btn-success" name="botaoAprovar" value="<%= cont%>.1">
+                                                    Aprovar Tcc
+                                                </button>
+                                                <button type="submit" class="bnt btn-danger" name="botaoAprovar" value="<%= cont%>.2">
+                                                    Reprovar Tcc
+                                                </button>
+                                            </form> 
+                                        </td>
+                                    </c:if>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>                      
                 <% cont++;%>
             </c:forEach>
         </c:if>

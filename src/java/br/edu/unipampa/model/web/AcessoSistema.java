@@ -103,8 +103,8 @@ public class AcessoSistema {
     public void cadastrarPessoa(Pessoa pessoa) {
         SESSAO.save(pessoa);
     }
-    
-    public void cadastrarOrientador(Orientador orientador){
+
+    public void cadastrarOrientador(Orientador orientador) {
         SESSAO.save(orientador);
     }
 
@@ -269,12 +269,13 @@ public class AcessoSistema {
     public void atualizarTema(Tema tema) {
         SESSAO.update(tema);
     }
-    
+
     /**
      * Atualiza o Tcc especificado
+     *
      * @param tcc Tcc para se atualizar
      */
-    public void atualizarTcc (Tcc tcc) {
+    public void atualizarTcc(Tcc tcc) {
         SESSAO.update(tcc);
     }
 
@@ -285,21 +286,22 @@ public class AcessoSistema {
      */
     public void deletarTema(Tema tema) {
         List<Tcc> listaTcc = SESSAO.createQuery("From Tcc").list();
-        
+
         for (Tcc tcc : listaTcc) {
-            if(tcc.getTema() == tema){
+            if (tcc.getTema() == tema) {
                 SESSAO.delete(tcc);
             }
         }
-        
+
         SESSAO.delete(tema);
     }
-    
+
     /**
      * Deleta o tcc especificado do banco de dados
+     *
      * @param tcc Tcc para ser deletador
      */
-    public void deletarTcc(Tcc tcc){
+    public void deletarTcc(Tcc tcc) {
         SESSAO.delete(tcc);
     }
 
@@ -356,35 +358,36 @@ public class AcessoSistema {
         }
         return null;
     }
-    
+
     /**
      * Procura uma pessoa no banco e retorna o tipo de pessoa que ela é
+     *
      * @param usuario Usuário para se procurar
      * @return A pessoa procurada
      */
-    public Pessoa procurarPessoaEspecifica(String usuario){
+    public Pessoa procurarPessoaEspecifica(String usuario) {
         List<Aluno> alunosEncontrados = SESSAO.createQuery("From Aluno").list();
         List<Professor> professoresEncontrados = SESSAO.createQuery("From Professor").list();
         List<Pessoaexterna> pessoaExternas = SESSAO.createQuery("From Pessoaexterna").list();
-        
+
         for (Aluno aluno : alunosEncontrados) {
-            if(usuario.equals(aluno.getUsuario())){
+            if (usuario.equals(aluno.getUsuario())) {
                 return aluno;
             }
         }
-        
-        for(Professor professor : professoresEncontrados){
-            if(usuario.equals(professor.getUsuario())){
+
+        for (Professor professor : professoresEncontrados) {
+            if (usuario.equals(professor.getUsuario())) {
                 return professor;
             }
         }
-        
-        for(Pessoaexterna pessoaExterna : pessoaExternas){
-            if(usuario.equals(pessoaExterna.getUsuario())){
+
+        for (Pessoaexterna pessoaExterna : pessoaExternas) {
+            if (usuario.equals(pessoaExterna.getUsuario())) {
                 return pessoaExterna;
             }
         }
-        
+
         return null;
     }
 
@@ -409,7 +412,6 @@ public class AcessoSistema {
         }
         return temasConfirmados;
     }
-    
 
     /**
      * Procura os professores cadastrados no sitema
@@ -421,11 +423,11 @@ public class AcessoSistema {
         List<Orientador> listaOrientador = SESSAO.createQuery("From Orientador").list();
         List<Professor> listaProfessoresOrdenada = new ArrayList<>();
         List<String> listaUsuarios = new ArrayList<>();
-        
-        for(Orientador orientador : listaOrientador){
+
+        for (Orientador orientador : listaOrientador) {
             listaProfessores.remove(orientador);
         }
-        
+
         for (Professor professor : listaProfessores) {
             listaUsuarios.add(professor.getUsuario());
         }
@@ -440,7 +442,6 @@ public class AcessoSistema {
                 }
             }
         }
-        
 
         return listaProfessoresOrdenada;
     }
@@ -487,19 +488,19 @@ public class AcessoSistema {
         List<Pessoaexterna> pessoasEncontradas = SESSAO.createQuery("From Pessoaexterna").list();
         List<Pessoa> listaPessoasOrdenada = new ArrayList<>();
         List<String> listaUsuarios = new ArrayList<>();
-        
-        for(Pessoaexterna pessoaExterna : pessoasEncontradas){
+
+        for (Pessoaexterna pessoaExterna : pessoasEncontradas) {
             listaPessoas.remove(pessoaExterna);
         }
-        
-        for(Professor professor : professoresEncontrados){
+
+        for (Professor professor : professoresEncontrados) {
             listaPessoas.remove(professor);
         }
-        
+
         for (Aluno aluno : alunosEncontrados) {
             listaPessoas.remove(aluno);
         }
-        
+
         for (Pessoa pessoa : listaPessoas) {
             listaUsuarios.add(pessoa.getUsuario());
         }
@@ -601,21 +602,25 @@ public class AcessoSistema {
     public void salvarTcc(Tcc tcc) {
         SESSAO.save(tcc);
     }
-    
+
     /**
      * Salva as aterações na banca no banco de dados
+     *
      * @param banca Banca para se salvar as alterações
      */
-    public void salvarMarcacaoBanca(Banca banca){
+    public void salvarMarcacaoBanca(Banca banca) {
         SESSAO.merge(banca);
     }
+
     /**
      * Salva as datas especificadas pelo coordenador
-     * @param datas 
+     *
+     * @param datas
      */
-    public void salvarPrazos(Datas datas){
+    public void salvarPrazos(Datas datas) {
         SESSAO.merge(datas);
     }
+
     /**
      * Procura um tema através da matrícula do aluno
      *
@@ -637,8 +642,7 @@ public class AcessoSistema {
 
         return temaEncontrado;
     }
-    
-    
+
     public Tema procurarTema(Aluno aluno) {
         List<Tema> temasEncontrados = SESSAO.createQuery("From Tema").list();
         Tema temaEncontrado = null;
@@ -699,7 +703,82 @@ public class AcessoSistema {
         }
         return tccEncontrados;
     }
-    
+
+    /**
+     * Procura os tccs do aluno por tipo
+     *
+     * @param matriculaAluno Mátricula do aluno que se quer procurar
+     * @param tipoTcc Tipo do tcc que está se procurando
+     * @return
+     */
+    public List<Tcc> procurarTCC(int matriculaAluno, int tipoTcc) {
+        Tema tema = procurarTema(matriculaAluno);
+        List<Tcc> listaTcc = SESSAO.createQuery("From Tcc").list();
+        List<Tcc> tccEncontrados = new ArrayList<>();
+
+        for (Tcc tcc : listaTcc) {
+            if (tema == tcc.getTema()) {
+
+                //Carrega os dados///
+                tcc.getArquivoTcc();
+                tcc.getDescricao();
+                tcc.getStatus();
+                tcc.getTitulo();
+                //////////////////////
+                if (tcc.getTipoTCC() == tipoTcc) {
+                    tccEncontrados.add(tcc);
+                }
+            }
+        }
+        return tccEncontrados;
+    }
+
+    /**
+     * Procura o tcc que o aluno está atualmente
+     *
+     * @param matriculaAluno mátricula do aluno em que se está procurando o tcc
+     * @return A lista de tcc encontrados
+     */
+    public List<Tcc> procurarTCCAtual(int matriculaAluno) {
+        Tema tema = procurarTema(matriculaAluno);
+        List<Tcc> listaTcc = SESSAO.createQuery("From Tcc").list();
+        List<Tcc> tccEncontrados = new ArrayList<>();
+        //Procura o tcc 1
+        for (Tcc tcc : listaTcc) {
+            if (tema == tcc.getTema()) {
+
+                //Carrega os dados///
+                tcc.getArquivoTcc();
+                tcc.getDescricao();
+                tcc.getStatus();
+                tcc.getTitulo();
+                //////////////////////
+                if (tcc.getTipoTCC() == 0) {
+                    if (tcc.getStatus() != 2) {
+                        tccEncontrados.add(tcc);
+                        return tccEncontrados;
+                    }
+                }
+            }
+        }
+        // Se o Tcc 1 já tiver avaliado, procura o o tcc 2
+        for (Tcc tcc : listaTcc) {
+            if (tema == tcc.getTema()) {
+
+                //Carrega os dados///
+                tcc.getArquivoTcc();
+                tcc.getDescricao();
+                tcc.getStatus();
+                tcc.getTitulo();
+                //////////////////////
+                if (tcc.getTipoTCC() == 1) {
+                    tccEncontrados.add(tcc);
+                }
+            }
+        }
+        return tccEncontrados;
+    }
+
     public Tcc procurarVersaoTcc(int matriculaAluno, int versao) {
         Tema tema = procurarTema(matriculaAluno);
         List<Tcc> listaTcc = SESSAO.createQuery("From Tcc").list();
@@ -714,12 +793,12 @@ public class AcessoSistema {
                 tcc.getTitulo();
                 //////////////////////
 
-                if(tcc.getVersaoTCC() == versao){
+                if (tcc.getVersaoTCC() == versao) {
                     return tcc;
                 }
             }
         }
-        
+
         return null;
     }
 
@@ -755,32 +834,34 @@ public class AcessoSistema {
         }
         return null;
     }
-    
+
     /**
      * Procura as bancas que foram marcadas
+     *
      * @return A lista de bancas marcardas
      */
-    public List<Banca> procurarBancasMarcadas(){
+    public List<Banca> procurarBancasMarcadas() {
         List<Banca> bancasEncontrados = SESSAO.createQuery("From Banca").list();
         List<Banca> bancasMarcadas = new ArrayList<Banca>();
-        
+
         for (Banca banca : bancasEncontrados) {
             //Garante que os dados vão estar carregados///////////
             banca.getAluno().getNome();
             banca.getOrientadorByOrientadorIdOrientador().getNome();
             banca.getPessoaByConvidado1IdPessoa().getNome();
             banca.getPessoaByConvidado2IdPessoa().getNome();
-            if(banca.getPessoaByConvidado3IdPessoa() != null)
+            if (banca.getPessoaByConvidado3IdPessoa() != null) {
                 banca.getPessoaByConvidado3IdPessoa().getNome();
+            }
             ////////////////////////////////////////////////////////
-            if(banca.getLocal() != null && banca.getData() != null && banca.getHorario() != null){
+            if (banca.getLocal() != null && banca.getData() != null && banca.getHorario() != null) {
                 bancasMarcadas.add(banca);
             }
         }
-        
+
         return bancasMarcadas;
     }
-    
+
     /**
      * Procura por bancas que o usuário especificado participe
      *
@@ -817,12 +898,12 @@ public class AcessoSistema {
 
         return bancasEncontradas;
     }
-    
-    public Datas procurarDatas(){
+
+    public Datas procurarDatas() {
         List<Datas> datasEncontradas = SESSAO.createQuery("From Datas").list();
-        
+
         for (Datas datas : datasEncontradas) {
-            if(datas.getIdDatas() == 1){
+            if (datas.getIdDatas() == 1) {
                 return datas;
             }
         }
