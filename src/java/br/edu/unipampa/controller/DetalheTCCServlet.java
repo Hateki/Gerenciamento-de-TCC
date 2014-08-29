@@ -50,7 +50,6 @@ public class DetalheTCCServlet extends HttpServlet {
 
         if (tccAluno != null && tccAluno.getStatus() == Tcc.APROVADO) {
             request.getSession().setAttribute("tcc", tccAluno);
-
             request.getRequestDispatcher("DownloadTCCServlet").forward(request, response);
         }else{
             request.getSession().setAttribute("retorno", "O Tcc ainda não foi enviado ou não foi aprovado.");

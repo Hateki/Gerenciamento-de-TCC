@@ -68,10 +68,8 @@ public class SalvarTcc2Servlet extends HttpServlet {
                 request.setAttribute("retorno", "Você não pode acessar esta página, faça o login novamente!");
                 request.getRequestDispatcher("telaLogin.jsp").forward(request, response);
 
-            } else if(request.getSession().getAttribute("AcessoSalvarTcc") != null){
+            } else{
                 salvarTcc(request, response, usuarioAluno);
-            }else {
-                request.getRequestDispatcher("SubmeterTCC2Servlet").forward(request, response);
             }
         }
     }

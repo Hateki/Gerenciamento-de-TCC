@@ -58,11 +58,12 @@ public class AprovarTccServlet extends HttpServlet {
             posicaoTcc = Integer.parseInt(botaoEscolhido);
         }
 
-        List<Tcc> tccEncontrado = acessoSistema.procurarTCC(tema.getAluno().getMatricula());
+        List<Tcc> tccEncontrado = acessoSistema.procurarTCCAtual(tema.getAluno().getMatricula());
 
-        for (int i = 0; i < tccEncontrado.size(); i++) {
-            if (i == posicaoTcc) {
-                tccEscolhido = tccEncontrado.get(i);
+        for (Tcc tcc : tccEncontrado) {
+            if (tcc.getVersaoTCC() == posicaoTcc) {
+                tccEscolhido = tcc;
+                break;
             }
         }
 
