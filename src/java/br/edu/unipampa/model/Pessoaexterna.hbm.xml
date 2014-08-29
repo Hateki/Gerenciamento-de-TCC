@@ -5,7 +5,7 @@
   <class catalog="`GERENCIAMENTO DE TCC`" name="br.edu.unipampa.model.Pessoaexterna" table="pessoaexterna">
     <id name="idPessoaExterna" type="int">
       <column name="idPessoaExterna"/>
-      <generator class="assigned"/>
+      <generator class="identity"/>
     </id>
     <many-to-one class="br.edu.unipampa.model.Pessoa" fetch="select" name="pessoa">
       <column name="Pessoa_idPessoa" not-null="true"/>
