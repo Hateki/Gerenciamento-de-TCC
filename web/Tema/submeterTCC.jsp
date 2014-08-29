@@ -137,6 +137,7 @@
             </div>
         </div>
         <br>
+<<<<<<< HEAD
         <c:if test="${tccInicial.status == 2}" var="v" scope="request">
             <div class="panel panel-primary">
                 <div class="panel-heading"><h4> Situação TCC Final </h4></div>
@@ -215,6 +216,8 @@
 
 
 
+=======
+>>>>>>> 92e07e138499797fc6fcc6b5453edbbfafbb1d65
         <!-- Bootstrap core JavaScript
         ================================================== -->
         <!-- Placed at the end of the document so the pages load faster -->

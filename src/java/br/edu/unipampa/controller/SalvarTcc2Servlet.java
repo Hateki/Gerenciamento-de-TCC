@@ -3,6 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package br.edu.unipampa.controller;
 
 import static br.edu.unipampa.controller.DatasPrazosServlet.ANO;
@@ -10,9 +11,7 @@ import static br.edu.unipampa.controller.DatasPrazosServlet.DIA;
 import static br.edu.unipampa.controller.DatasPrazosServlet.MES;
 import br.edu.unipampa.model.Aluno;
 import br.edu.unipampa.model.Datas;
-import br.edu.unipampa.model.Orientador;
 import br.edu.unipampa.model.Pessoa;
-import br.edu.unipampa.model.Professor;
 import br.edu.unipampa.model.Tcc;
 import br.edu.unipampa.model.Tema;
 import br.edu.unipampa.model.web.AcessoSistema;
@@ -33,9 +32,9 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 /**
  *
- * @author pontofrio
+ * @author Pedro
  */
-public class SubmeterTCC2Servlet extends HttpServlet {
+public class SalvarTcc2Servlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -48,7 +47,7 @@ public class SubmeterTCC2Servlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        
         String usuarioAluno = (String) request.getSession().getAttribute("usuario");
 
         AcessoSistema acessoSistema = new AcessoSistema();
@@ -69,59 +68,123 @@ public class SubmeterTCC2Servlet extends HttpServlet {
                 request.setAttribute("retorno", "Você não pode acessar esta página, faça o login novamente!");
                 request.getRequestDispatcher("telaLogin.jsp").forward(request, response);
 
-            } else {
-                submeterTcc(request, response, usuarioAluno);
+            } else if(request.getSession().getAttribute("AcessoSalvarTcc") != null){
+                salvarTcc(request, response, usuarioAluno);
+            }else {
+                request.getRequestDispatcher("SubmeterTCC2Servlet").forward(request, response);
             }
         }
     }
-
-    public void submeterTcc(HttpServletRequest request, HttpServletResponse response, String usuarioAluno)
-            throws ServletException, IOException {
-
+    
+    public void salvarTcc(HttpServletRequest request, HttpServletResponse response, String usuarioAluno)
+            throws ServletException, IOException{
+        
         AcessoSistema acessoSistema = new AcessoSistema();
         String botaoRefazer = request.getParameter("rafazerUpload");
         Datas prazo = acessoSistema.procurarDatas();
         List<Tcc> listaTcc;
-        String[] prazoInicial = separarDatas(prazo.getDataInicioTcc());
-        String[] prazoFinal = separarDatas(prazo.getDataFimTcc());
         String botaoTccInicial = request.getParameter("TccInicial");
         String botaoTccFinal = request.getParameter("TccFinal");
         String tipoTcc = "";
-
-        listaTcc = acessoSistema.procurarTCC(Integer.parseInt(usuarioAluno));
-
-        if (botaoRefazer != null) {
-            if (botaoRefazer.equals("0")) {
-                try {
-                    acessoSistema.deletarTcc(listaTcc.get(0));
-                } catch (Exception e) {
-
-                }
+        
+        if (verificarPrazo("tccInicial")) {
+            tipoTcc = "tccInicial";
+            if (salvarArquivo(request, response, Integer.parseInt(usuarioAluno), tipoTcc)) {
+                request.setAttribute("retorno", "Envio de arquivo bem sucedido");
+            }
+        } else if (verificarPrazo("tccFinal")) {
+            tipoTcc = "tccFinal";
+            if (salvarArquivo(request, response, Integer.parseInt(usuarioAluno), tipoTcc)) {
+                request.setAttribute("retorno", "Envio de arquivo bem sucedido");
             }
         }
-
-        listaTcc = acessoSistema.procurarTCC(Integer.parseInt(usuarioAluno));
-
-        request.setAttribute("PrazoTccInicial", verificarPrazo("tccInicial"));
-        request.setAttribute("PrazoTccFinal", verificarPrazo("tccFinal"));
-
-        request.setAttribute("tccInicial", acessoSistema.procurarVersaoTcc(Integer.parseInt(usuarioAluno), 0));
-        request.setAttribute("tccFinal", acessoSistema.procurarVersaoTcc(Integer.parseInt(usuarioAluno), 1));
-
-        request.setAttribute("dataInicial", prazoInicial[DIA]
-                + "/" + prazoInicial[MES] + "/" + prazoInicial[ANO]);
-
-        request.setAttribute("dataFinal", prazoFinal[DIA]
-                + "/" + prazoFinal[MES] + "/" + prazoFinal[ANO]);
-
-        request.getSession().setAttribute("tccInicial", acessoSistema.procurarVersaoTcc(Integer.parseInt(usuarioAluno), 0));
-        request.getSession().setAttribute("tccFinal", acessoSistema.procurarVersaoTcc(Integer.parseInt(usuarioAluno), 1));
-
-        acessoSistema.completarTransacoes();
-
-        request.getRequestDispatcher("Tema/submeterTCC2.jsp").forward(request, response);
+        
+        request.removeAttribute("AcessoSalvarTcc");
+        
+        request.getRequestDispatcher("SubmeterTCC2Servlet").forward(request, response);
     }
+    
+    /**
+     * Salva o arquivo enviado pelo usuário no banco de dados
+     *
+     * @param request Requisição do usuário
+     * @param response Resposta do usuário
+     * @param matriculaAluno Matrícula do aluno
+     * @return true se o envio foi bem sucedido
+     * @throws ServletException Caso haja problemas no servlet
+     * @throws IOException Caso haja problemas na conexão
+     */
+    public boolean salvarArquivo(HttpServletRequest request, HttpServletResponse response, int matriculaAluno, String tipoTCC)
+            throws ServletException, IOException {
 
+        AcessoSistema as = new AcessoSistema();//Clase que da acesso ao banco de dados
+
+        if (ServletFileUpload.isMultipartContent(request)) {
+
+            int cont = 0;
+
+            ServletFileUpload servletFileUpload = new ServletFileUpload(
+                    new DiskFileItemFactory());
+
+            List fileItemsList = null;
+
+            try {
+                fileItemsList = servletFileUpload.parseRequest(request);
+            } catch (FileUploadException e1) {
+                e1.printStackTrace();
+            }
+
+            FileItem fileItem = null;
+
+            Iterator it = fileItemsList.iterator();
+
+            do {
+                cont++;
+
+                FileItem fileItemTemp = (FileItem) it.next();
+
+                if (cont != (fileItemsList.size()) - 1) {
+
+                    fileItem = fileItemTemp;
+
+                    if (fileItem != null && fileItem.getName() != null) {
+                        byte[] arquivo = fileItem.get();
+                        String fileName = fileItem.getName();
+
+                        if (fileItem.getSize() > 0) {
+                            //Salva no banco de dados
+                            Aluno aluno = as.procurarAluno(matriculaAluno);
+                            Tema tema = aluno.getTema();
+                            Tcc tcc = new Tcc();
+
+                            tcc.setArquivoTcc(arquivo);
+                            tcc.setTema(tema);
+                            tcc.setDescricao("Uma ai por enquanto");
+                            tcc.setTipoArquivo(fileItem.getContentType());
+                            tcc.setTitulo(fileName);
+                            tcc.setStatus(Tcc.NAO_APROVADO);
+                            tcc.setNotaOrientador(-1);
+                            tcc.setNotaCoorientador(-1);
+                            tcc.setNotaConvidado1(-1);
+                            tcc.setNotaConvidado2(-1);
+                            tcc.setTipoTCC(1);
+                            if (tipoTCC.equals("tccInicial")) {
+                                tcc.setVersaoTCC(0);
+                            } else if (tipoTCC.equals("tccFinal")) {
+                                tcc.setVersaoTCC(1);
+                            }
+
+                            as.salvarTcc(tcc);
+                        }
+                    }
+                }
+            } while (it.hasNext());
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
     public boolean verificarPrazo(String tipoTCC) {
         AcessoSistema acessoSistema = new AcessoSistema();
         Datas datas = acessoSistema.procurarDatas();
@@ -147,7 +210,23 @@ public class SubmeterTCC2Servlet extends HttpServlet {
         int mesAtual = Integer.parseInt(atual[1]);
         int anoAtual = Integer.parseInt(atual[0]);
 
-        
+        if (anoAtual < Integer.parseInt(prazoInicial[ANO])) {
+            resultado = false;
+        } else if (anoAtual > Integer.parseInt(prazoInicial[ANO])) {
+            resultado = true;
+        } else {//Se os anos são iguais
+            if (mesAtual < Integer.parseInt(prazoInicial[MES])) {
+                resultado = false;
+            } else if (mesAtual > Integer.parseInt(prazoInicial[MES])) {
+                resultado = true;
+            } else {//Se os meses são iguais
+                if (diaAtual < Integer.parseInt(prazoInicial[DIA])) {
+                    resultado = false;
+                }else {
+                    resultado = true;
+                }
+            }
+        }
         
         if (anoAtual > Integer.parseInt(prazoFinal[ANO])) {
             resultado = false;

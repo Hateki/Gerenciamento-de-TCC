@@ -69,6 +69,10 @@
         <h2><center><label>Prazo de submissão: <c:out value="${dataInicial}"/> a <c:out value="${dataFinal}"/></label></center></h2>
 
         <br><br>
+        <c:if test="${not empty retorno}" var="v" scope="request">
+            <div class="alert alert-success" role="alert"><c:out value="${retorno}"/></div>
+        </c:if>
+        <br>
         <div class="panel panel-primary">
             <div class="panel-heading"><h4> Situação TCC Inicial </h4></div>
             <div class="panel-body">
@@ -80,7 +84,7 @@
                     <br><br>
                     <div class="row row-fluid">
                         <c:if test="${not empty tccInicial}" var="v" scope="request"> 
-                            <div class="col-md-3"><c:out value="${tcc.titulo}"/></div>
+                            <div class="col-md-3"><c:out value="${tccInicial.titulo}"/></div>
                             <div class="col-md-3">
                                 <form name="download" action="DownloadTCCServlet">
                                     <button type="submit" class="bnt btn-success">
@@ -102,7 +106,7 @@
                             </c:if>    
 
                             <div class="col-md-3">    
-                                <form name="refazerUpload" action="SubmeterTCCServlet">
+                                <form name="refazerUpload" action="SubmeterTCC2Servlet">
                                     <button type="submit" class="bnt btn-warning" name="rafazerUpload" value="0">
                                         Refazer a subimissão do Tcc
                                     </button>
@@ -114,27 +118,23 @@
                         <c:if test="${empty tccInicial}" var="v" scope="request">
                             <div class="col-md-3">.<strong>Selecione um documento para enviar</strong>:</div>
                             <div class="col-md-2">
-                                <form method="post" action="SubmeterTCCServlet" enctype="multipart/form-data">
+                                <form method="post" action="SalvarTcc2Servlet" enctype="multipart/form-data">
                                     <input type="file" name="file" size="60"/><br/>
                                     <c:if test="${PrazoTccInicial == false}" var="v" scope="request">
                                         <div class="alert alert-danger" role="alert"> Você não está no prazo de Entrega </div>
                                     </c:if>
                                     <c:if test="${PrazoTccInicial}" var="v" scope="request">
-                                        <input type="submit" value="Enviar" class="btn btn-success"/>
+                                        <input type="submit" value="Enviar" class="btn btn-success" />
                                     </c:if> 
                                 </form>
                             </div>
                         </c:if>         
                     </div>
-
-                    <c:if test="${not empty retorno}" var="v" scope="request">
-                        <div class="alert alert-success" role="alert"><c:out value="${retorno}"/></div>
-                    </c:if>
                 </div>
             </div>
         </div>
         <br>
-        <c:if test="${tccInicial.status == 2}" var="v" scope="request">
+        <c:if test="${tccInicial.status == 2 && PrazoTccInicial == false}" var="v" scope="request">
             <div class="panel panel-primary">
                 <div class="panel-heading"><h4> Situação TCC Final </h4></div>
                 <div class="panel-body">
@@ -146,7 +146,7 @@
                         <br><br>
                         <div class="row row-fluid">
                             <c:if test="${not empty tccFinal}" var="v" scope="request"> 
-                                <div class="col-md-3"><c:out value="${tcc.titulo}"/></div>
+                                <div class="col-md-3"><c:out value="${tccFinal.titulo}"/></div>
                                 <div class="col-md-3">
                                     <form name="download" action="DownloadTCCServlet">
                                         <button type="submit" class="bnt btn-success">
@@ -168,7 +168,7 @@
                                 </c:if>    
 
                                 <div class="col-md-3">    
-                                    <form name="refazerUpload" action="SubmeterTCCServlet">
+                                    <form name="refazerUpload" action="SubmeterTCC2Servlet">
                                         <button type="submit" class="bnt btn-warning" name="rafazerUpload" value="0">
                                             Refazer a subimissão do Tcc
                                         </button>
@@ -180,7 +180,7 @@
                             <c:if test="${empty tccFinal}" var="v" scope="request">
                                 <div class="col-md-3">.<strong>Selecione um documento para enviar</strong>:</div>
                                 <div class="col-md-2">
-                                    <form method="post" action="SubmeterTCCServlet" enctype="multipart/form-data">
+                                    <form method="post" action="SalvarTcc2Servlet" enctype="multipart/form-data">
                                         <input type="file" name="file" size="60"/><br/>
                                         <c:if test="${PrazoTccFinal == false}" var="v" scope="request">
                                             <div class="alert alert-danger" role="alert"> Você não está no prazo de Entrega </div>
@@ -192,10 +192,6 @@
                                 </div>
                             </c:if>         
                         </div>
-
-                        <c:if test="${not empty retorno}" var="v" scope="request">
-                            <div class="alert alert-success" role="alert"><c:out value="${retorno}"/></div>
-                        </c:if>
                     </div>
                 </div>
             </div>

@@ -33,6 +33,10 @@
         <servlet-class>br.edu.unipampa.controller.SubmeterTCCServlet</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>SubmeterTCC2Servlet</servlet-name>
+        <servlet-class>br.edu.unipampa.controller.SubmeterTCC2Servlet</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>VerificarBancaServlet</servlet-name>
         <servlet-class>br.edu.unipampa.controller.VerificarBancaServlet</servlet-class>
     </servlet>
@@ -100,6 +104,10 @@
         <servlet-name>SalvarNotasCoordenadorServlet</servlet-name>
         <servlet-class>br.edu.unipampa.controller.SalvarNotasCoordenadorServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SalvarTcc2Servlet</servlet-name>
+        <servlet-class>br.edu.unipampa.controller.SalvarTcc2Servlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>CadastraPessoaExternaServelt</servlet-name>
         <url-pattern>/CadastraPessoaExternaServelt</url-pattern>
@@ -131,6 +139,10 @@
     <servlet-mapping>
         <servlet-name>SubmeterTCCServlet</servlet-name>
         <url-pattern>/SubmeterTCCServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SubmeterTCC2Servlet</servlet-name>
+        <url-pattern>/SubmeterTCC2Servlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>VerificarBancaServlet</servlet-name>
@@ -199,6 +211,10 @@
     <servlet-mapping>
         <servlet-name>SalvarNotasCoordenadorServlet</servlet-name>
         <url-pattern>/SalvarNotasCoordenadorServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SalvarTcc2Servlet</servlet-name>
+        <url-pattern>/SalvarTcc2Servlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
