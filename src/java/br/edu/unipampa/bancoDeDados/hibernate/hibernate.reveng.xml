@@ -11,4 +11,5 @@
   <table-filter match-name="pessoa"/>
   <table-filter match-name="professor"/>
   <table-filter match-name="tema"/>
+  <table-filter match-name="coordenador"/>
 </hibernate-reverse-engineering>

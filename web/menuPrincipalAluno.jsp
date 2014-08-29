@@ -46,9 +46,9 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"> Tema <span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">
                                 <li> <a href="http://localhost:8080/GerenciamentoTCC/CadastroTemaServlet"> Cadastrar Tema </a> </li>
-                                <li> <a href="http://localhost:8080/GerenciamentoTCC/SubmeterTCCServlet" > SubmeterTCC </a></li>
-                                <li> <a href="http://localhost:8080/GerenciamentoTCC/SubmeterTCC2Servlet" > SubmeterTCC 2 </a></li>
-                                <li> <a href="http://localhost:8080/GerenciamentoTCC/ExibirSituacaoServlet"> Exibir Situacao Tema </a> </li>
+                                <li> <a href="http://localhost:8080/GerenciamentoTCC/SubmeterTCCServlet" > Submeter TCC 1 </a></li>
+                                <li> <a href="http://localhost:8080/GerenciamentoTCC/SubmeterTCC2Servlet" > Submeter TCC 2 </a></li>
+                                <li> <a href="http://localhost:8080/GerenciamentoTCC/ExibirSituacaoServlet"> Exibir Situação do Tema </a> </li>
                             </ul>
                         </li>
                         <li> <a href="http://localhost:8080/GerenciamentoTCC/contato.html"> Contato </a> </li>
@@ -61,8 +61,8 @@
         
         <div class="jumbotron">
             <div class="container">
-                <h1>Sistema de gerenciamento de Tcc</h1>
-                <p>Use o menu acima para navegar no sistema.</p>
+                <h1>Sistema de Gerenciamento de TCCs</h1>
+                <p>Use o menu acima para navegar pelo sistema!</p>
             </div>
         </div>
 

@@ -1,3 +1,5 @@
+<%@page import="br.edu.unipampa.model.Coordenador"%>
+<%@page import="br.edu.unipampa.model.Orientador"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page isELIgnored="false" %>
 <%-- 
@@ -31,20 +33,36 @@
 
         <div class="navbar navbar-inverse navbar-fixed-top">
             <div class="container">
-                <a href="menuPrincipalProfessor.jsp" class="navbar-brand"> Gerenciamento de TCC </a>
+
+                <%
+                    String usuario = (String) request.getSession().getAttribute("usuario");
+                    AcessoSistema acesso = new AcessoSistema();
+                    Orientador orientador = acesso.procurarOrientador(usuario);
+                    Coordenador coordenador = acesso.procurarCoordenador(usuario);
+                    pageContext.setAttribute("orientador", orientador);
+                    pageContext.setAttribute("coordenador", coordenador);
+                %>
+
+                <c:if test="${not empty orientador}" var="v">
+                    <a href="menuPrincipalOrientador.jsp" class="navbar-brand"> Gerenciamento de TCC </a>
+                </c:if>
+                
+                <c:if test="${not empty coordenador}" var="v" scope="request">
+                    <a href="menuPrincipalCoordenador.jsp" class="navbar-brand"> Gerenciamento de TCC </a>
+                </c:if>
                 <button class="navbar-toggle" data-toggle = "collapse" data-target = ".OpcoesMenu">
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
                 <div class="collapse navbar-collapse OpcoesMenu">
-                    <ul class="nav navbar-nav">
+                   <ul class="nav navbar-nav">
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Banca <span class="caret"></span></a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Banca Avaliadora<span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">
                                 <li> <a href="http://localhost:8080/GerenciamentoTCC/CriarTemaTCCServlet"> Criar Banca </a></li>
-                                <li> <a href="http://localhost:8080/GerenciamentoTCC/MarcarBancaServlet"> Definir Horário Local e Data </a> </li>
-                                <li> <a href="http://localhost:8080/GerenciamentoTCC/VerificarBancaServlet"> VerificarBanca </a> </li>
+                                <li> <a href="http://localhost:8080/GerenciamentoTCC/MarcarBancaServlet"> Definir Horário, Local e Data para Bancas </a> </li>
+                                <li> <a href="http://localhost:8080/GerenciamentoTCC/VerificarBancaServlet"> Verificar Bancas </a> </li>
                                 <li> <a href="http://localhost:8080/GerenciamentoTCC/AgendaDefesasServlet"> Agenda de Defesas </a> </li>
                             </ul>
                         </li>
@@ -52,7 +70,7 @@
                         <li> <a href="http://localhost:8080/GerenciamentoTCC/cadastroPessoaExterna.jsp"> Cadastrar Pessoa Externa </a> </li>
                         <li> <a href="http://localhost:8080/GerenciamentoTCC/contato.html"> Contato </a> </li>
                         <li> <a href="http://localhost:8080/GerenciamentoTCC/sobre.html"> Sobre</a> </li>
-                        <li> <a href="http://localhost:8080/GerenciamentoTCC/telaLogin.jsp"> Sair</a> </li>
+                        <li> <a href="http://localhost:8080/GerenciamentoTCC/SairSistemaServlet"> Sair</a> </li>
                     </ul>
                 </div>
             </div>
@@ -123,21 +141,21 @@
 
             <label for="titulo"></label>
             <div id="area">
-
+                <br><br>
                 <h1>Criar banca do TCC</h1>
                 <br></br>
                 <h4>Banca Avaliadora</h4>
 
                 Matrícula Aluno: <input type="text" name="matricula" id="matricula" maxlength="9" onblur="validaEspaco(this), testarMatricula()" required/>
-                <a href="#listaAlunos" data-toggle="modal" class="btn btn-primary"> Ver lista de Alunos </a> <br>
+                <a href="#listaAlunos" data-toggle="modal" class="btn btn-primary"> Ver lista de Alunos </a> <br><br>
                 Professor: <input type="text" name="professor1" id="professor1" onblur="validaEspaco(this)" required/>
-                <a href="#listaPessoas" data-toggle="modal" class="btn btn-primary"> Ver lista de Pessoas </a> <br>
+                <a href="#listaPessoas" data-toggle="modal" class="btn btn-primary"> Ver lista de Pessoas </a> <br><br>
                 Professor: <input type="text" name="professor2" id="professor2" onblur="validaEspaco(this)" required/>
-                <a href="#listaPessoas" data-toggle="modal" class="btn btn-primary"> Ver lista de Pessoas </a> <br>
+                <a href="#listaPessoas" data-toggle="modal" class="btn btn-primary"> Ver lista de Pessoas </a> <br><br>
 
 
                 <div style="display: none" id="professor3">
-                    Professor : <input type="text" name="professor3" id="professor3" onblur="validaEspaco(this)"/>
+                    Professor: <input type="text" name="professor3" id="professor3" onblur="validaEspaco(this)"/>
                     <a href="#listaPessoas" data-toggle="modal" class="btn btn-primary"> Ver lista de Pessoas </a>
                 </div>     
 
@@ -265,12 +283,12 @@
             var v = document.getElementById("orientador");
             v.value = id;
         }
-        
+
         function pegaTabelaPessoa2(id) {
             var v = document.getElementById("orientador");
             v.value = id;
         }
-        
+
         function pegaTabelaPessoa3(id) {
             var v = document.getElementById("orientador");
             v.value = id;

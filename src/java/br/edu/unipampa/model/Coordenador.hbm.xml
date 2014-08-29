@@ -3,31 +3,13 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated 16/07/2014 21:01:25 by Hibernate Tools 3.6.0 -->
 <hibernate-mapping>
-    <class name="br.edu.unipampa.model.Orientador" table="orientador" catalog="`GERENCIAMENTO DE TCC`">
-        <id name="idOrientador" type="java.lang.Integer">
-            <column name="idOrientador" />
+    <class name="br.edu.unipampa.model.Coordenador" table="coordenador" catalog="`GERENCIAMENTO DE TCC`">
+        <id name="usuario" type="string">
+            <column name="usuario" length="45"/>
             <generator class="identity" />
         </id>
-        <many-to-one name="professor" class="br.edu.unipampa.model.Professor" fetch="select">
-            <column name="Professor_siape" not-null="true" />
-        </many-to-one>
-        <set name="temas" table="tema" inverse="true" lazy="true" fetch="select">
-            <key>
-                <column name="Orientador_idOrientador" not-null="true" />
-            </key>
-            <one-to-many class="br.edu.unipampa.model.Tema" />
-        </set>
-        <set name="bancasForCoorientadorIdOrientador" table="banca" inverse="true" lazy="true" fetch="select">
-            <key>
-                <column name="Coorientador_idOrientador" />
-            </key>
-            <one-to-many class="br.edu.unipampa.model.Banca" />
-        </set>
-        <set name="bancasForOrientadorIdOrientador" table="banca" inverse="true" lazy="true" fetch="select">
-            <key>
-                <column name="Orientador_idOrientador" not-null="true" />
-            </key>
-            <one-to-many class="br.edu.unipampa.model.Banca" />
-        </set>
+        <property name="senha" type="string">
+            <column name="senha" length="45" />        
+        </property>
     </class>
 </hibernate-mapping>

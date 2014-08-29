@@ -15,7 +15,7 @@
         <meta name="author" content="">
         <link rel="icon" href="../../favicon.ico">
 
-        <title>Menu Principal do Professor</title>
+        <title>Menu Principal de Técnicos Administrativos/Pessoas Externas</title>
 
         <!-- Bootstrap core CSS -->
         <link href="../../GerenciamentoTCC/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -31,7 +31,7 @@
     <body>
         <div class="navbar navbar-inverse navbar-fixed-top">
             <div class="container">
-                <a href="menuPrincipalProfessor.jsp" class="navbar-brand"> Gerenciamento de TCC </a>
+                <a href="menuPrincipalOutros.jsp" class="navbar-brand"> Gerenciamento de TCC </a>
                 <button class="navbar-toggle" data-toggle = "collapse" data-target = ".OpcoesMenu">
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
@@ -40,16 +40,12 @@
                 <div class="collapse navbar-collapse OpcoesMenu">
                     <ul class="nav navbar-nav">
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Banca <span class="caret"></span></a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Banca Avaliadora<span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">
-                                <li> <a href="http://localhost:8080/GerenciamentoTCC/CriarTemaTCCServlet"> Criar Banca </a></li>
-                                <li> <a href="http://localhost:8080/GerenciamentoTCC/MarcarBancaServlet"> Definir Horário Local e Data </a> </li>
-                                <li> <a href="http://localhost:8080/GerenciamentoTCC/VerificarBancaServlet"> VerificarBanca </a> </li>
+                                <li> <a href="http://localhost:8080/GerenciamentoTCC/VerificarBancaServlet"> Verificar Bancas </a> </li>
                                 <li> <a href="http://localhost:8080/GerenciamentoTCC/AgendaDefesasServlet"> Agenda de Defesas </a> </li>
                             </ul>
                         </li>
-                        <li> <a href="http://localhost:8080/GerenciamentoTCC/TemasRequisitadosServlet"> Temas Requisitados  </a></li>
-                        <li> <a href="http://localhost:8080/GerenciamentoTCC/cadastroPessoaExterna.jsp"> Cadastrar Pessoa Externa </a> </li>
                         <li> <a href="http://localhost:8080/GerenciamentoTCC/contato.html"> Contato </a> </li>
                         <li> <a href="http://localhost:8080/GerenciamentoTCC/sobre.html"> Sobre</a> </li>
                         <li> <a href="http://localhost:8080/GerenciamentoTCC/SairSistemaServlet"> Sair</a> </li>
@@ -60,8 +56,8 @@
 
         <div class="jumbotron">
             <div class="container">
-                <h1>Sistema de gerenciamento de Tcc</h1>
-                <p>Use o menu acima para navegar no sistema.</p>
+                <h1>Sistema de Gerenciamento de TCCs</h1>
+                <p>Use o menu acima para navegar pelo sistema!</p>
             </div>
         </div>
 

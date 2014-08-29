@@ -1,3 +1,4 @@
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%-- 
     Document   : datasPrazos
     Created on : 24/07/2014, 10:05:30
@@ -81,29 +82,38 @@
         <br><br><br><br><br>
         <script src="http://code.jquery.com/jquery-latest.js"></script>
         <script src="bootstrap.min.js"></script>
-        
-        <form method="post" action="DatasPrazosServlet">
-            <legend> Período de cadastros de Temas </legend>
 
-            Data Inicial: <input name="dataTemaInicio" id="dataTemaInicio" type="date" onblur="javascript: validardata(this.value);" placeholder="Digite data Inicial" maxlength="14" required/><br>
-            Data Final:   <input name="dataTemaFinal" id="dataTemaFinal" type="date" onblur="javascript: validardata(this.value);" placeholder="Digite data Final" maxlength="14" required/><br>
+        <form method="post" action="DatasPrazosServlet">
+
+            <legend> Período de cadastros de Temas </legend>
+            Data Inicial: <input name="dataTemaInicio" id="dataTemaInicio" type="date" onblur="javascript: validardata(this.value);" placeholder="Digite data Inicial" maxlength="14" value="<c:out value="${dataTemaInicio}"/>"/><br>
+            Data Final: <input name="dataTemaFinal" id="dataTemaFinal" type="date" onblur="javascript: validardata(this.value);" placeholder="Digite data Final" maxlength="14" value="<c:out value="${dataTemaFinal}"/>"/><br>
             <br><br>
 
-            <legend>Períodos para os Envios de TCC</legend>
+            <legend>Períodos para os envios de TCC 1</legend>
+            Data Inicial para Envio: <input name="dataTcc1Inicio" id="dataTccInicio" type="date"  onblur="javascript: validardata(this.value);" placeholder="Digite data Inicial" maxlength="14" value="<c:out value="${dataTcc1Inicio}"/>"/><br>
+            Data Final para Envio: <input name="dataTcc1Final" id="dataTccInicio" type="date"  onblur="javascript: validardata(this.value);" placeholder="Digite data Inicial" maxlength="14" value="<c:out value="${dataTcc1Final}"/>"/><br>
+            <br><br>
 
-            Data Inicial: <input name="dataTccInicio" id="dataTccInicio" type="date"  onblur="javascript: validardata(this.value);" placeholder="Digite data Inicial" maxlength="14" required/><br>
-            Data Final:   <input name="dataTccFinal" id="dataTccFinal" type="date" onblur="javascript: validardata(this.value);" placeholder="Digite data Final" maxlength="14" required/><br>
+
+            <legend>Períodos para os envios de TCC 2</legend>
+            Data de Envio Inicial: <input name="dataTcc2Inicio" id="dataTccInicio" type="date"  onblur="javascript: validardata(this.value);" placeholder="Digite data Inicial" maxlength="14" value="<c:out value="${dataTcc2Inicio}"/>"/><br>
+            Data de Envio Final: <input name="dataTcc2Final" id="dataTccFinal" type="date" onblur="javascript: validardata(this.value);" placeholder="Digite data Final" maxlength="14" value="<c:out value="${dataTcc2Final}"/>"/><br>
+            <br><br>
+
+
+
+            <legend>Períodos para os envios das Submissões Corrigidas do TCC 2</legend>
+            Data de Envio Inicial: <input name="dataTccSubmissaoCorrigidaInicio" id="dataTccInicio" type="date"  onblur="javascript: validardata(this.value);" placeholder="Digite data Inicial" maxlength="14" value="<c:out value="${dataTccSubmissaoCorrigidaInicio}"/>"/><br>
+            Data de Envio Final: <input name="dataTccSubmissaoCorrigidaFinal" id="dataTccFinal" type="date" onblur="javascript: validardata(this.value);" placeholder="Digite data Final" maxlength="14" value="<c:out value="${dataTccSubmissaoCorrigidaFinal}"/>"/><br>
             <br><br>
 
             <legend>Período para marcar Banca</legend>
-
-            Data Inicial: <input name="dataBancaInicio" id="dataBancaInicio" type="date" onblur="javascript: validardata(this.value);" placeholder="Digite data Inicial" maxlength="14" required/><br>
-            Data Final:   <input name="dataBancaFinal" id="dataBancaFinal" type="date" onblur="javascript: validardata(this.value);" placeholder="Digite data Final" maxlength="14" required/><br><br>
+            Data Inicial: <input name="dataBancaInicio" id="dataBancaInicio" type="date" onblur="javascript: validardata(this.value);" placeholder="Digite data Inicial" maxlength="14" value="<c:out value="${dataBancaInicial}"/>"/><br>
+            Data Final:   <input name="dataBancaFinal" id="dataBancaFinal" type="date" onblur="javascript: validardata(this.value);" placeholder="Digite data Final" maxlength="14" value="<c:out value="${dataBancaFinal}"/>"/><br><br>
             <br><br>
 
-
             <input type="submit" class="btn btn-primary" name="enviar" id="enviar" value="Enviar"   />
-            <input type="reset" class="btn btn-warning" name="limpar" id="limpar" value="Limpar" />
             <input  type="button" class="btn btn-danger  " name="voltar" id="voltar" value="Voltar" onClick="retornaPaginaPrincipal()">
         </form>
 
