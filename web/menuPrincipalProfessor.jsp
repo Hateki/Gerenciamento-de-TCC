@@ -40,16 +40,13 @@
                 <div class="collapse navbar-collapse OpcoesMenu">
                     <ul class="nav navbar-nav">
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Banca <span class="caret"></span></a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Banca Avaliadora<span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">
-                                <li> <a href="http://localhost:8080/GerenciamentoTCC/CriarTemaTCCServlet"> Criar Banca </a></li>
-                                <li> <a href="http://localhost:8080/GerenciamentoTCC/MarcarBancaServlet"> Definir Horário Local e Data </a> </li>
-                                <li> <a href="http://localhost:8080/GerenciamentoTCC/VerificarBancaServlet"> VerificarBanca </a> </li>
+                                <li> <a href="http://localhost:8080/GerenciamentoTCC/VerificarBancaServlet"> Verificar Bancas </a> </li>
                                 <li> <a href="http://localhost:8080/GerenciamentoTCC/AgendaDefesasServlet"> Agenda de Defesas </a> </li>
                             </ul>
                         </li>
                         <li> <a href="http://localhost:8080/GerenciamentoTCC/TemasRequisitadosServlet"> Temas Requisitados  </a></li>
-                        <li> <a href="http://localhost:8080/GerenciamentoTCC/cadastroPessoaExterna.jsp"> Cadastrar Pessoa Externa </a> </li>
                         <li> <a href="http://localhost:8080/GerenciamentoTCC/contato.html"> Contato </a> </li>
                         <li> <a href="http://localhost:8080/GerenciamentoTCC/sobre.html"> Sobre</a> </li>
                         <li> <a href="http://localhost:8080/GerenciamentoTCC/SairSistemaServlet"> Sair</a> </li>
@@ -60,8 +57,8 @@
 
         <div class="jumbotron">
             <div class="container">
-                <h1>Sistema de gerenciamento de Tcc</h1>
-                <p>Use o menu acima para navegar no sistema.</p>
+                <h1>Sistema de Gerenciamento de TCCs</h1>
+                <p>Use o menu acima para navegar pelo sistema!</p>
             </div>
         </div>
 

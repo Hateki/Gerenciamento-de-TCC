@@ -20,6 +20,9 @@ public class Datas {
     private String dataFimBanca;
     private String dataInicioTccFinal;
     private String dataFinalTccFinal;
+    private String dataInicioTccCorrigido;
+    private String dataFinalTccCorrigido;
+    
 
     /**
      * @return the idDatas
@@ -133,5 +136,21 @@ public class Datas {
 
     public void setDataFinalTccFinal(String dataFinalTccFinal) {
         this.dataFinalTccFinal = dataFinalTccFinal;
+    }
+
+    public String getDataInicioTccCorrigido() {
+        return dataInicioTccCorrigido;
+    }
+
+    public void setDataInicioTccCorrigido(String dataInicioTccCorrigido) {
+        this.dataInicioTccCorrigido = dataInicioTccCorrigido;
+    }
+
+    public String getDataFinalTccCorrigido() {
+        return dataFinalTccCorrigido;
+    }
+
+    public void setDataFinalTccCorrigido(String dataFinalTccCorrigido) {
+        this.dataFinalTccCorrigido = dataFinalTccCorrigido;
     }
 }

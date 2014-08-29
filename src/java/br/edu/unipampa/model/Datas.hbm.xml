@@ -12,14 +12,12 @@
         <property name="dataFimTema" type="string">
             <column name="dataFimTema" length="45" />        
         </property>
-    
         <property name="dataInicioTcc" type="string">
             <column name="dataInicioTcc" length="45" />        
         </property>
         <property name="dataFimTcc" type="string">
             <column name="dataFimTcc" length="45" />        
         </property>
-    
         <property name="dataInicioBanca" type="string">
             <column name="dataInicioBanca" length="45" />        
         </property>
@@ -31,6 +29,12 @@
         </property>
         <property name="dataFinalTccFinal" type="string">
             <column name="dataFinalTccFinal" length="45" />        
+        </property>
+        <property name="dataInicioTccCorrigido" type="string">
+            <column name="dataInicioTccCorrigido" length="45" />        
+        </property>
+        <property name="dataFinalTccCorrigido" type="string">
+            <column name="dataFinalTccCorrigido" length="45" />        
         </property>
     </class>
 </hibernate-mapping>
