@@ -28,6 +28,7 @@
 
         <link href="../../GerenciamentoTCC/bootstrap/css/bootstrap.min.css" rel="stylesheet">
         <link href="../../GerenciamentoTCC/bootstrap/css/styles.css" rel="stylesheet">
+
         <script type="text/javascript">
             function validaCampoUsuario()
             {
@@ -73,7 +74,7 @@
     </head>
     <body>
         <div id="imagem">
-            <img src="imagem_unipampa.jpg" >
+            <center><img src="imagem_unipampa.jpg" ></center>
         </div>
         <script src="http://code.jquery.com/jquery-latest.js"></script>
         <script src="bootstrap.min.js"></script>
@@ -82,20 +83,18 @@
 
         <form action="LoginServlet" method="post" name="form">
             <div id="area">
-                <form id="telaLogin" name="telaLogin" method="post" action="LoginServlet" onsubmit="
-                return validaCampoUsuario(), validaCampoSenha();">
+                <form id="telaLogin" name="telaLogin" method="post" action="LoginServlet">
                     <fieldset>
                         <br></br>
 
-                        <legend><strong>Gerenciador de TCC</strong></legend>
-                        <label> Usuário: </label><input name="nomeUsuario" type="text" id="nomeUsuario" maxlength="200" onblur="validaEspaco(this)" placeholder="Digite E-mail" required ><br>                   
+                        <legend><strong><center>Gerenciador de TCC</center></strong></legend>
 
+                        <center><label class="text-uppercase"> Usuário: </label> <input class="input-small" name="nomeUsuario" type="text" id="nomeUsuario" maxlength="200" onblur="validaEspaco(this)" placeholder="Digite E-mail" required ></center><br>                   
 
-                        <label> Senha: </label><input name="Senha"  type="password" id="senhaUsuario" maxlength="200" onblur="validaEspaco(this)" placeholder="Digite sua senha" required ><br>
-                        <br></br>
-                        <div id="botao">
-                            <input type="submit" class="btn btn-primary" name="enviar" id="enviar" value="Entrar"   />
-                        </div>
+                        <center><label class="text-uppercase"> Senha: </label> <input name="Senha"  type="password" id="senhaUsuario" maxlength="200" onblur="validaEspaco(this)" placeholder="Digite sua senha" required ></center><br>
+
+                        <center><input type="submit" class="btn btn-primary" name="enviar" id="enviar" value="Entrar"/> </center>
+
 
                     </fieldset>
                     <%
@@ -106,17 +105,14 @@
                     <%
                         }
                     %>
+
+                    <c:if test="${not empty retorno}" var="v" scope="request">
+                        <div class="alert alert-danger" role="alert"><c:out value="${retorno}" /></div>
+                    </c:if>
                 </form>
-                <c:if test="${not empty retorno}" var="v" scope="request">
-                    <div class="alert alert-danger" role="alert"><c:out value="${retorno}" /></div>
-                </c:if>
             </div>
 
         </form>
-        <!-- Bootstrap core JavaScript
-        ================================================== -->
-        <!-- Placed at the end of the document so the pages load faster -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-        <script src="../../GerenciamentoTCC/bootstrap/js/bootstrap.min.js"></script>
+
     </body>
 </html>

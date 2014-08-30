@@ -24,7 +24,7 @@
         <script src="http://code.jquery.com/jquery-latest.js"></script>
         <script src="bootstrap.min.js"></script>
 
-        <form id="tccForm" name="tccForm" method="post" action="CriarTemaTCCServlet"
+        <form id="tccForm" name="tccForm" method="post" action="CriarBancaTCCServlet"
               onsubmit="return">
 
             <label for="titulo"></label>

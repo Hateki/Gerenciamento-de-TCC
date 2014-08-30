@@ -46,7 +46,7 @@
                 <c:if test="${not empty orientador}" var="v">
                     <a href="menuPrincipalOrientador.jsp" class="navbar-brand"> Gerenciamento de TCC </a>
                 </c:if>
-                
+
                 <c:if test="${not empty coordenador}" var="v" scope="request">
                     <a href="menuPrincipalCoordenador.jsp" class="navbar-brand"> Gerenciamento de TCC </a>
                 </c:if>
@@ -56,17 +56,21 @@
                     <span class="icon-bar"></span>
                 </button>
                 <div class="collapse navbar-collapse OpcoesMenu">
-                   <ul class="nav navbar-nav">
+                    <ul class="nav navbar-nav">
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Banca Avaliadora<span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">
-                                <li> <a href="http://localhost:8080/GerenciamentoTCC/CriarTemaTCCServlet"> Criar Banca </a></li>
+                                <li> <a href="http://localhost:8080/GerenciamentoTCC/CriarBancaTCCServlet"> Criar Banca </a></li>
                                 <li> <a href="http://localhost:8080/GerenciamentoTCC/MarcarBancaServlet"> Definir Horário, Local e Data para Bancas </a> </li>
                                 <li> <a href="http://localhost:8080/GerenciamentoTCC/VerificarBancaServlet"> Verificar Bancas </a> </li>
                                 <li> <a href="http://localhost:8080/GerenciamentoTCC/AgendaDefesasServlet"> Agenda de Defesas </a> </li>
                             </ul>
                         </li>
+
+                        <% if (orientador != null) { %>
                         <li> <a href="http://localhost:8080/GerenciamentoTCC/TemasRequisitadosServlet"> Temas Requisitados  </a></li>
+                            <% }%>
+
                         <li> <a href="http://localhost:8080/GerenciamentoTCC/cadastroPessoaExterna.jsp"> Cadastrar Pessoa Externa </a> </li>
                         <li> <a href="http://localhost:8080/GerenciamentoTCC/contato.html"> Contato </a> </li>
                         <li> <a href="http://localhost:8080/GerenciamentoTCC/sobre.html"> Sobre</a> </li>
@@ -136,7 +140,7 @@
             </div>
         </div>
 
-        <form id="tccForm" name="tccForm" method="post" action="CriarTemaTCCServlet"
+        <form id="tccForm" name="tccForm" method="post" action="CriarBancaTCCServlet"
               onsubmit="return">
 
             <label for="titulo"></label>

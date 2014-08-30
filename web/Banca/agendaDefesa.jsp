@@ -90,7 +90,7 @@
                             <ul class="dropdown-menu" role="menu">
 
                                 <% if (orientador != null || coordenador != null) { %>
-                                <li> <a href="http://localhost:8080/GerenciamentoTCC/CriarTemaTCCServlet"> Criar Banca </a></li>
+                                <li> <a href="http://localhost:8080/GerenciamentoTCC/CriarBancaTCCServlet"> Criar Banca </a></li>
                                 <li> <a href="http://localhost:8080/GerenciamentoTCC/MarcarBancaServlet"> Definir Horário, Local e Data para Bancas </a> </li>
                                     <% } %>
 
@@ -99,7 +99,7 @@
                             </ul>
                         </li>
 
-                        <% if (orientador != null || coordenador != null || professor != null) { %>
+                        <% if (orientador != null || professor != null) { %>
                         <li> <a href="http://localhost:8080/GerenciamentoTCC/TemasRequisitadosServlet"> Temas Requisitados  </a></li>
                         <% } %>
                         
