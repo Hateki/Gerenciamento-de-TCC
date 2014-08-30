@@ -57,9 +57,9 @@
                 </div>
             </div>
         </div>
-        
+
         <br><br><br><br>
-        
+
         <h1> <center> Situação do tema</center>  </h1>
 
         <c:if test="${not empty tema}" var="v" scope="request">
@@ -83,7 +83,15 @@
             <c:forEach var="tcc" items="${tccs}">
                 <c:if test="${not empty tcc}" var="v" scope="request">
                     <div class="panel panel-info">
-                        <div class="panel-heading"><h3>Situação TCC</h3></div>
+                        <c:if test="${tcc.tipoTCC == 0}" var="v" scope="request">
+                            <div class="panel-heading"><h3>Situação TCC1</h3></div>
+                        </c:if>
+                        <c:if test="${tcc.tipoTCC == 1 && tcc.versaoTCC == 0}" var="v" scope="request">
+                            <div class="panel-heading"><h3>Situação TCC2</h3></div>
+                        </c:if> 
+                        <c:if test="${tcc.tipoTCC == 1 && tcc.versaoTCC == 1}" var="v" scope="request">
+                            <div class="panel-heading"><h3>Situação TCC Corrigido</h3></div>
+                        </c:if> 
                         <div class="panel-body">
                             <label>Nome do arquivo:</label> <c:out value="${tcc.titulo}"/><br>
                             <label>Situação</label>
@@ -99,14 +107,28 @@
                             <c:if test="${tcc.status == 3}" var="v" scope="request">
                                 Não Aprovado<br><br>
                             </c:if>    
-                            <% Tcc tcc = (Tcc) request.getAttribute("tcc1"); %>
-                            <% request.getSession().setAttribute("tcc", tcc);%>
 
-                            <form name="download" action="DownloadTCCServlet">
-                                <button type="submit" class="bnt btn-success">
-                                    Fazer Download Arquivo 
-                                </button>
-                            </form>
+                            <c:if test="${tcc.tipoTCC == 0}" var="v" scope="request">
+                                <form name="download" action="DownloadTCCServlet">
+                                    <button type="submit" class="bnt btn-success"name="botaoDownload" value="TCC1">
+                                        Fazer Download Arquivo 
+                                    </button>
+                                </form>
+                            </c:if>
+                            <c:if test="${tcc.tipoTCC == 1 && tcc.versaoTCC == 0}" var="v" scope="request">
+                                <form name="download" action="DownloadTCCServlet">
+                                    <button type="submit" class="bnt btn-success"name="botaoDownload" value="TCC2">
+                                        Fazer Download Arquivo 
+                                    </button>
+                                </form>
+                            </c:if> 
+                            <c:if test="${tcc.tipoTCC == 1 && tcc.versaoTCC == 1}" var="v" scope="request">
+                                <form name="download" action="DownloadTCCServlet">
+                                    <button type="submit" class="bnt btn-success"name="botaoDownload" value="TCCCorrigido">
+                                        Fazer Download Arquivo 
+                                    </button>
+                                </form>
+                            </c:if> 
 
                         </div>
                     </div>  

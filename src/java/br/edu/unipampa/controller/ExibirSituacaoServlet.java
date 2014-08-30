@@ -71,6 +71,20 @@ public class ExibirSituacaoServlet extends HttpServlet {
 
         request.setAttribute("tema", tema);
         request.setAttribute("tccs", tccs);
+        
+        for (Tcc tcc : tccs) {
+            if(tcc.getTipoTCC() == 0){
+                request.getSession().setAttribute("tcc", tcc);
+            }else if(tcc.getTipoTCC() == 1){
+                if(tcc.getVersaoTCC() == 0){
+                    request.getSession().setAttribute("tccDefendido", tcc);
+                }else{
+                    request.getSession().setAttribute("tccCorrigido", tcc);
+                }
+            }
+        }
+        
+        request.getSession().setAttribute("caminho", "ExibirSituacaoServlet");
 
         request.getRequestDispatcher("Tema/exibirSituacao.jsp").forward(request, response);
     }

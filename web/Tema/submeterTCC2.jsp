@@ -65,27 +65,44 @@
             <h1> Envio de TCC's </h1>
             <p class="lead"> Aqui pode enviar os TCC 2 e o final </p>
         </div>
-        <h2><center><label>Prazo de submissão: <c:out value="${dataInicial}"/> a <c:out value="${dataFinal}"/></label></center></h2>
+        <c:if test="${empty TCC1Invalido}" var="v" scope="request">
+            <h2>
+                <center>
+                    <label>Prazo de submissão TCC 2:
+                        <c:out value="${dataInicialTCC2}"/> a <c:out value="${dataFinalTCC2}"/></label>
+                </center>
+            </h2>
+            <br><br>
+            <h2>
+                <center>
+                    <label>Prazo de submissão TCC Corrigido:
+                        <c:out value="${dataInicialCorrigido}"/> a <c:out value="${dataFinalCorrigido}"/></label>
+                </center>
+            </h2>
+        </c:if>
         <br><br>
         <c:if test="${not empty retorno}" var="v" scope="request">
             <div class="alert alert-success" role="alert"><c:out value="${retorno}"/></div>
         </c:if>
+        <c:if test="${not empty TCC1Invalido}" var="v" scope="request">
+            <div class="alert alert-danger" role="alert"><c:out value="${TCC1Invalido}"/></div>
+        </c:if>    
         <br>
         <div class="panel panel-primary">
-            <div class="panel-heading"><h4> Situação TCC Inicial </h4></div>
+            <div class="panel-heading"><h4> Situação TCC 2 </h4></div>
             <div class="panel-body">
                 <div>
                     <p>
                         Aqui pode ver a situação de seu
-                        <strong> TCC da primeira fase</strong>
+                        <strong> TCC 2</strong>
                     </p>
                     <br><br>
                     <div class="row row-fluid">
                         <c:if test="${not empty tccDefendido}" var="v" scope="request"> 
-                            <div class="col-md-3"> Situação: <c:out value="${tccDefendido.titulo}"/></div>
+                            <div class="col-md-3"> Título: <c:out value="${tccDefendido.titulo}"/></div>
                             <div class="col-md-3">
                                 <form name="download" action="DownloadTCCServlet">
-                                    <button type="submit" class="bnt btn-success">
+                                    <button type="submit" class="bnt btn-success" name="botaoDownload" value="TCC2">
                                         Fazer Download Arquivo 
                                     </button>
                                 </form>
@@ -138,7 +155,7 @@
         <br>
         <c:if test="${tccDefendido.status == 2 && PrazoTccInicial == false}" var="v" scope="request">
             <div class="panel panel-primary">
-                <div class="panel-heading"><h4> Situação TCC Final </h4></div>
+                <div class="panel-heading"><h4> Situação TCC Corrigido </h4></div>
                 <div class="panel-body">
                     <div>
                         <p>
@@ -148,10 +165,10 @@
                         <br><br>
                         <div class="row row-fluid">
                             <c:if test="${not empty tccCorrigido}" var="v" scope="request"> 
-                                <div class="col-md-3"><c:out value="${tccCorrigido.titulo}"/></div>
+                                <div class="col-md-3"> Título: <c:out value="${tccCorrigido.titulo}"/></div>
                                 <div class="col-md-3">
                                     <form name="download" action="DownloadTCCServlet">
-                                        <button type="submit" class="bnt btn-success">
+                                        <button type="submit" class="bnt btn-success" name="botaoDownload" value="TCCCorrigido">
                                             Fazer Download Arquivo 
                                         </button>
                                     </form>
@@ -175,7 +192,7 @@
                                 <c:if test="${tccCorrigido.status == 2}" var="v" scope="request">
                                     <div class="col-md-2"> Situação: Aprovado </div>
                                 </c:if>
-                                    
+
                                 <c:if test="${tccCorrigido.status == 3}" var="v" scope="request">
                                     <div class="col-md-2"> Situação: Reprovado </div>
                                 </c:if>       

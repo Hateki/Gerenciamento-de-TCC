@@ -70,7 +70,7 @@ public class SubmeterTCC2Servlet extends HttpServlet {
                 request.getRequestDispatcher("telaLogin.jsp").forward(request, response);
 
             } else if (!verificarTcc1(acessoSistema, Integer.parseInt(usuarioAluno))) {
-                request.setAttribute("retorno", "O TCC 1 não foi completo ainda");
+                request.setAttribute("TCC1Invalido", "O TCC 1 não foi completo ainda");
                 request.getRequestDispatcher("Tema/submeterTCC2.jsp").forward(request, response);
             } else {
                 submeterTcc(request, response, usuarioAluno);
@@ -86,8 +86,10 @@ public class SubmeterTCC2Servlet extends HttpServlet {
         String botaoRefazer = request.getParameter("rafazerUpload");
         Datas prazo = acessoSistema.procurarDatas();
         List<Tcc> listaTcc;
-        String[] prazoInicial = separarDatas(prazo.getDataInicioTcc());
-        String[] prazoFinal = separarDatas(prazo.getDataFimTcc());
+        String[] prazoInicialTCC2 = separarDatas(prazo.getDataInicioTccFinal());
+        String[] prazoFinalTCC2 = separarDatas(prazo.getDataFinalTccFinal());
+        String[] prazoInicialCorrigido = separarDatas(prazo.getDataInicioTccCorrigido());
+        String[] prazoFinalCorrigido = separarDatas(prazo.getDataFinalTccCorrigido());
         String botaoTccInicial = request.getParameter("TccInicial");
         String botaoTccFinal = request.getParameter("TccFinal");
         int tipoTcc = 1;
@@ -115,17 +117,25 @@ public class SubmeterTCC2Servlet extends HttpServlet {
         request.setAttribute("tccCorrigido", acessoSistema.procurarTipoVersaoTcc(Integer.parseInt(usuarioAluno),
                 1,tipoTcc));
 
-        request.setAttribute("dataInicial", prazoInicial[DIA]
-                + "/" + prazoInicial[MES] + "/" + prazoInicial[ANO]);
+        request.setAttribute("dataInicialTCC2", prazoInicialTCC2[DIA]
+                + "/" + prazoInicialTCC2[MES] + "/" + prazoInicialTCC2[ANO]);
 
-        request.setAttribute("dataFinal", prazoFinal[DIA]
-                + "/" + prazoFinal[MES] + "/" + prazoFinal[ANO]);
+        request.setAttribute("dataFinalTCC2", prazoFinalTCC2[DIA]
+                + "/" + prazoFinalTCC2[MES] + "/" + prazoFinalTCC2[ANO]);
+        
+        request.setAttribute("dataInicialCorrigido", prazoInicialCorrigido[DIA]
+                + "/" + prazoInicialCorrigido[MES] + "/" + prazoInicialCorrigido[ANO]);
+
+        request.setAttribute("dataFinalCorrigido", prazoFinalCorrigido[DIA]
+                + "/" + prazoFinalCorrigido[MES] + "/" + prazoFinalCorrigido[ANO]);
 
         request.getSession().setAttribute("tccDefendido", acessoSistema.procurarTipoVersaoTcc(Integer.parseInt(usuarioAluno),
                 0,tipoTcc));
         
         request.getSession().setAttribute("tccCorrigido", acessoSistema.procurarTipoVersaoTcc(Integer.parseInt(usuarioAluno),
                 1, tipoTcc));
+        
+        request.getSession().setAttribute("caminho", "SubmeterTcc2");
 
         acessoSistema.completarTransacoes();
 
@@ -140,11 +150,11 @@ public class SubmeterTCC2Servlet extends HttpServlet {
         boolean resultado = false;
 
         if (tipoTCC.equals("tccInicial")) {
-            prazoInicial = separarDatas(datas.getDataInicioTcc());
-            prazoFinal = separarDatas(datas.getDataFimTcc());
-        } else if (tipoTCC.equals("tccFinal")) {
-            prazoInicial = separarDatas(datas.getDataFinalTccFinal());
+            prazoInicial = separarDatas(datas.getDataInicioTccFinal());
             prazoFinal = separarDatas(datas.getDataFinalTccFinal());
+        } else if (tipoTCC.equals("tccFinal")) {
+            prazoInicial = separarDatas(datas.getDataInicioTccCorrigido());
+            prazoFinal = separarDatas(datas.getDataFinalTccCorrigido());
         }
 
         String[] atual;
