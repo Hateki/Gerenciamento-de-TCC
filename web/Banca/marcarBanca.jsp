@@ -37,8 +37,8 @@
     <body>
         <div class="navbar navbar-inverse navbar-fixed-top">
             <div class="container">
-                
-                 <%
+
+                <%
                     String usuario = (String) request.getSession().getAttribute("usuario");
                     AcessoSistema acesso = new AcessoSistema();
                     Orientador orientador = acesso.procurarOrientador(usuario);
@@ -50,28 +50,32 @@
                 <c:if test="${not empty orientador}" var="v">
                     <a href="menuPrincipalOrientador.jsp" class="navbar-brand"> Gerenciamento de TCC </a>
                 </c:if>
-                
+
                 <c:if test="${not empty coordenador}" var="v" scope="request">
                     <a href="menuPrincipalCoordenador.jsp" class="navbar-brand"> Gerenciamento de TCC </a>
                 </c:if>
-                
+
                 <button class="navbar-toggle" data-toggle = "collapse" data-target = ".OpcoesMenu">
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
                 <div class="collapse navbar-collapse OpcoesMenu">
-                   <ul class="nav navbar-nav">
+                    <ul class="nav navbar-nav">
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Banca Avaliadora<span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">
-                                <li> <a href="http://localhost:8080/GerenciamentoTCC/CriarTemaTCCServlet"> Criar Banca </a></li>
+                                <li> <a href="http://localhost:8080/GerenciamentoTCC/CriarBancaTCCServlet"> Criar Banca </a></li>
                                 <li> <a href="http://localhost:8080/GerenciamentoTCC/MarcarBancaServlet"> Definir Horário, Local e Data para Bancas </a> </li>
                                 <li> <a href="http://localhost:8080/GerenciamentoTCC/VerificarBancaServlet"> Verificar Bancas </a> </li>
                                 <li> <a href="http://localhost:8080/GerenciamentoTCC/AgendaDefesasServlet"> Agenda de Defesas </a> </li>
                             </ul>
                         </li>
+
+                        <% if (orientador != null) { %>
                         <li> <a href="http://localhost:8080/GerenciamentoTCC/TemasRequisitadosServlet"> Temas Requisitados  </a></li>
+                            <% } %>
+
                         <li> <a href="http://localhost:8080/GerenciamentoTCC/cadastroPessoaExterna.jsp"> Cadastrar Pessoa Externa </a> </li>
                         <li> <a href="http://localhost:8080/GerenciamentoTCC/contato.html"> Contato </a> </li>
                         <li> <a href="http://localhost:8080/GerenciamentoTCC/sobre.html"> Sobre</a> </li>

@@ -69,7 +69,7 @@
         <servlet-class>br.edu.unipampa.controller.DetalheTemaServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>CriarTemaTCCServlet</servlet-name>
+        <servlet-name>CriarBancaTCCServlet</servlet-name>
         <servlet-class>br.edu.unipampa.controller.CriarBancaTCCServlet</servlet-class>
     </servlet>
     <servlet>
@@ -177,8 +177,8 @@
         <url-pattern>/DetalheTemaServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>CriarTemaTCCServlet</servlet-name>
-        <url-pattern>/CriarTemaTCCServlet</url-pattern>
+        <servlet-name>CriarBancaTCCServlet</servlet-name>
+        <url-pattern>/CriarBancaTCCServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ConfirmarTemaServlet</servlet-name>

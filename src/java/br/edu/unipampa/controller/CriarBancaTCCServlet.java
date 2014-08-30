@@ -52,6 +52,7 @@ public class CriarBancaTCCServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
         String professor1 = request.getParameter("professor1");
         String professor2 = request.getParameter("professor2");
         String professor3 = request.getParameter("professor3");
