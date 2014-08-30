@@ -160,7 +160,7 @@ public class SalvarTcc2Servlet extends HttpServlet {
                             tcc.setDescricao("Uma ai por enquanto");
                             tcc.setTipoArquivo(fileItem.getContentType());
                             tcc.setTitulo(fileName);
-                            tcc.setStatus(Tcc.NAO_APROVADO);
+                            tcc.setStatus(Tcc.NAO_ACEITO);
                             tcc.setNotaOrientador(-1);
                             tcc.setNotaCoorientador(-1);
                             tcc.setNotaConvidado1(-1);

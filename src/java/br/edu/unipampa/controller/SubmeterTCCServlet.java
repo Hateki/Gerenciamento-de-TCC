@@ -85,24 +85,33 @@ public class SubmeterTCCServlet extends HttpServlet {
         String[] prazoInicial = separarDatas(prazo.getDataInicioTcc());
         String[] prazoFinal = separarDatas(prazo.getDataFimTcc());
         String tipoTcc = "tccInicial";
+        Tcc tccEncontrado = null;
+        
+        if (verificarPrazo("tccInicial")) {
+            tipoTcc = "tccInicial";
+            if (salvarArquivo(request, response, Integer.parseInt(usuarioAluno), tipoTcc)) {
+                request.setAttribute("retorno", "Envio de arquivo bem sucedido");
+            }
+        }
 
-        listaTcc = acessoSistema.procurarTCC(Integer.parseInt(usuarioAluno));
-
+        listaTcc = acessoSistema.procurarTCC(Integer.parseInt(usuarioAluno),0);
+        
+        try{
+            tccEncontrado = listaTcc.get(0);
+        }catch(Exception e){
+            
+        }
+        
         if (botaoRefazer != null) {
             if (botaoRefazer.equals("0")) {
                 acessoSistema.deletarTcc(listaTcc.get(0));
             }
         }
 
-        if (salvarArquivo(request, response, Integer.parseInt(usuarioAluno), tipoTcc)) {
-            request.setAttribute("retorno", "Envio de arquivo bem sucedido");
-        }
+        request.setAttribute("PrazoTccInicial",verificarPrazo("tccInicial"));
+        request.setAttribute("PrazoTccFinal", verificarPrazo("tccFinal"));
 
-        request.setAttribute("PrazoTccInicial",true);// verificarPrazo("tccInicial")
-        request.setAttribute("PrazoTccFinal", true); //verificarPrazo("tccFinal")
-
-        request.setAttribute("tccInicial", acessoSistema.procurarVersaoTcc(Integer.parseInt(usuarioAluno), 0));
-        request.setAttribute("tccFinal", acessoSistema.procurarVersaoTcc(Integer.parseInt(usuarioAluno), 1));
+        request.setAttribute("tccInicial", tccEncontrado);
         
         request.setAttribute("dataInicial", prazoInicial[DIA]
                 + "/" + prazoInicial[MES] + "/" + prazoInicial[ANO]);
@@ -110,7 +119,8 @@ public class SubmeterTCCServlet extends HttpServlet {
         request.setAttribute("dataFinal", prazoFinal[DIA]
                 + "/" + prazoFinal[MES] + "/" + prazoFinal[ANO]);
 
-        request.getSession().setAttribute("tcc", acessoSistema.procurarVersaoTcc(Integer.parseInt(usuarioAluno), 0));
+        request.getSession().setAttribute("tcc",
+                acessoSistema.procurarTipoVersaoTcc(Integer.parseInt(usuarioAluno), 0,0));
         
         acessoSistema.completarTransacoes();
         
@@ -175,7 +185,7 @@ public class SubmeterTCCServlet extends HttpServlet {
                             tcc.setDescricao("Uma ai por enquanto");
                             tcc.setTipoArquivo(fileItem.getContentType());
                             tcc.setTitulo(fileName);
-                            tcc.setStatus(Tcc.NAO_APROVADO);
+                            tcc.setStatus(Tcc.NAO_ACEITO);
                             tcc.setNotaOrientador(-1);
                             tcc.setNotaCoorientador(-1);
                             tcc.setNotaConvidado1(-1);
@@ -203,6 +213,7 @@ public class SubmeterTCCServlet extends HttpServlet {
         Datas datas = acessoSistema.procurarDatas();
         String[] prazoInicial = {};
         String[] prazoFinal = {};
+        boolean resultado = false;
 
         if (tipoTCC.equals("tccInicial")) {
             prazoInicial = separarDatas(datas.getDataInicioTcc());
@@ -222,23 +233,42 @@ public class SubmeterTCCServlet extends HttpServlet {
         int mesAtual = Integer.parseInt(atual[1]);
         int anoAtual = Integer.parseInt(atual[0]);
 
-        if (anoAtual > Integer.parseInt(prazoFinal[ANO])) {
-            return false;
-        } else if (mesAtual > Integer.parseInt(prazoFinal[MES])) {
-            return false;
-        } else if (diaAtual > Integer.parseInt(prazoFinal[DIA])) {
-            return false;
-        }
-
         if (anoAtual < Integer.parseInt(prazoInicial[ANO])) {
-            return false;
-        } else if (mesAtual < Integer.parseInt(prazoInicial[MES])) {
-            return false;
-        } else if (diaAtual < Integer.parseInt(prazoInicial[DIA])) {
-            return false;
+            resultado = false;
+        } else if (anoAtual > Integer.parseInt(prazoInicial[ANO])) {
+            resultado = true;
+        } else {//Se os anos são iguais
+            if (mesAtual < Integer.parseInt(prazoInicial[MES])) {
+                resultado = false;
+            } else if (mesAtual > Integer.parseInt(prazoInicial[MES])) {
+                resultado = true;
+            } else {//Se os meses são iguais
+                if (diaAtual < Integer.parseInt(prazoInicial[DIA])) {
+                    resultado = false;
+                }else {
+                    resultado = true;
+                }
+            }
         }
-
-        return true;
+        
+        if (anoAtual > Integer.parseInt(prazoFinal[ANO])) {
+            resultado = false;
+        } else if (anoAtual < Integer.parseInt(prazoFinal[ANO])) {
+            resultado = true;
+        } else {//Se os anos são iguais
+            if (mesAtual > Integer.parseInt(prazoFinal[MES])) {
+                resultado = false;
+            } else if (mesAtual < Integer.parseInt(prazoFinal[MES])) {
+                resultado = true;
+            } else {//Se os meses são iguais
+                if (diaAtual > Integer.parseInt(prazoFinal[DIA])) {
+                    resultado = false;
+                }else {
+                    resultado = true;
+                }
+            }
+        }
+        return resultado;
     }
 
     public String[] separarDatas(String data) {

@@ -63,11 +63,9 @@
 
         <div class="page-header" id="titulo">
             <h1> Envio de TCC's </h1>
-            <p class="lead"> Aqui pode enviar os TCC 1, 2 e o final </p>
+            <p class="lead"> Aqui pode enviar os TCC 2 e o final </p>
         </div>
-
         <h2><center><label>Prazo de submissão: <c:out value="${dataInicial}"/> a <c:out value="${dataFinal}"/></label></center></h2>
-
         <br><br>
         <c:if test="${not empty retorno}" var="v" scope="request">
             <div class="alert alert-success" role="alert"><c:out value="${retorno}"/></div>
@@ -83,8 +81,8 @@
                     </p>
                     <br><br>
                     <div class="row row-fluid">
-                        <c:if test="${not empty tccInicial}" var="v" scope="request"> 
-                            <div class="col-md-3"><c:out value="${tccInicial.titulo}"/></div>
+                        <c:if test="${not empty tccDefendido}" var="v" scope="request"> 
+                            <div class="col-md-3"> Situação: <c:out value="${tccDefendido.titulo}"/></div>
                             <div class="col-md-3">
                                 <form name="download" action="DownloadTCCServlet">
                                     <button type="submit" class="bnt btn-success">
@@ -93,29 +91,33 @@
                                 </form>
                             </div>
 
-                            <c:if test="${tccInicial.status == 1}" var="v" scope="request">
-                                <div class="col-md-2"> Aprovado </div>
+                            <c:if test="${tccDefendido.status == 1}" var="v" scope="request">
+                                <div class="col-md-2"> Situação: Aceito </div>
                             </c:if>
 
-                            <c:if test="${tccInicial.status == 0}" var="v" scope="request">
-                                <div class="col-md-2"> Não Aprovado </div>
+                            <c:if test="${tccDefendido.status == 0}" var="v" scope="request">
+                                <div class="col-md-2"> Situação: Não Aceito </div>
+                                <div class="col-md-3">    
+                                    <form name="refazerUpload" action="SubmeterTCC2Servlet">
+                                        <button type="submit" class="bnt btn-warning" name="rafazerUpload" value="0">
+                                            Refazer a subimissão do Tcc
+                                        </button>
+                                    </form>
+                                </div>
                             </c:if>   
 
-                            <c:if test="${tccInicial.status == 2}" var="v" scope="request">
-                                <div class="col-md-2"> Avaliado </div>
+                            <c:if test="${tccDefendido.status == 2}" var="v" scope="request">
+                                <div class="col-md-2"> Situação: Aprovado </div>
+                            </c:if>
+
+                            <c:if test="${tccDefendido.status == 3}" var="v" scope="request">
+                                <div class="col-md-2"> Situação: Reprovado </div>
                             </c:if>    
 
-                            <div class="col-md-3">    
-                                <form name="refazerUpload" action="SubmeterTCC2Servlet">
-                                    <button type="submit" class="bnt btn-warning" name="rafazerUpload" value="0">
-                                        Refazer a subimissão do Tcc
-                                    </button>
-                                </form>
-                            </div>
                         </c:if>
 
 
-                        <c:if test="${empty tccInicial}" var="v" scope="request">
+                        <c:if test="${empty tccDefendido}" var="v" scope="request">
                             <div class="col-md-3">.<strong>Selecione um documento para enviar</strong>:</div>
                             <div class="col-md-2">
                                 <form method="post" action="SalvarTcc2Servlet" enctype="multipart/form-data">
@@ -134,7 +136,7 @@
             </div>
         </div>
         <br>
-        <c:if test="${tccInicial.status == 2 && PrazoTccInicial == false}" var="v" scope="request">
+        <c:if test="${tccDefendido.status == 2 && PrazoTccInicial == false}" var="v" scope="request">
             <div class="panel panel-primary">
                 <div class="panel-heading"><h4> Situação TCC Final </h4></div>
                 <div class="panel-body">
@@ -145,8 +147,8 @@
                         </p>
                         <br><br>
                         <div class="row row-fluid">
-                            <c:if test="${not empty tccFinal}" var="v" scope="request"> 
-                                <div class="col-md-3"><c:out value="${tccFinal.titulo}"/></div>
+                            <c:if test="${not empty tccCorrigido}" var="v" scope="request"> 
+                                <div class="col-md-3"><c:out value="${tccCorrigido.titulo}"/></div>
                                 <div class="col-md-3">
                                     <form name="download" action="DownloadTCCServlet">
                                         <button type="submit" class="bnt btn-success">
@@ -155,29 +157,32 @@
                                     </form>
                                 </div>
 
-                                <c:if test="${tccFinal.status == 1}" var="v" scope="request">
-                                    <div class="col-md-2"> Aprovado </div>
+                                <c:if test="${tccCorrigido.status == 1}" var="v" scope="request">
+                                    <div class="col-md-2"> Situação: Aceito </div>
                                 </c:if>
 
-                                <c:if test="${tccFinal.status == 0}" var="v" scope="request">
-                                    <div class="col-md-2"> Não Aprovado </div>
+                                <c:if test="${tccCorrigido.status == 0}" var="v" scope="request">
+                                    <div class="col-md-2"> Situação: Não Aceito </div>
+                                    <div class="col-md-3">    
+                                        <form name="refazerUpload" action="SubmeterTCC2Servlet">
+                                            <button type="submit" class="bnt btn-warning" name="rafazerUpload" value="0">
+                                                Refazer a subimissão do Tcc
+                                            </button>
+                                        </form>
+                                    </div>
                                 </c:if>   
 
-                                <c:if test="${tccFinal.status == 2}" var="v" scope="request">
-                                    <div class="col-md-2"> Avaliado </div>
-                                </c:if>    
-
-                                <div class="col-md-3">    
-                                    <form name="refazerUpload" action="SubmeterTCC2Servlet">
-                                        <button type="submit" class="bnt btn-warning" name="rafazerUpload" value="0">
-                                            Refazer a subimissão do Tcc
-                                        </button>
-                                    </form>
-                                </div>
+                                <c:if test="${tccCorrigido.status == 2}" var="v" scope="request">
+                                    <div class="col-md-2"> Situação: Aprovado </div>
+                                </c:if>
+                                    
+                                <c:if test="${tccCorrigido.status == 3}" var="v" scope="request">
+                                    <div class="col-md-2"> Situação: Reprovado </div>
+                                </c:if>       
                             </c:if>
 
 
-                            <c:if test="${empty tccFinal}" var="v" scope="request">
+                            <c:if test="${empty tccCorrigido}" var="v" scope="request">
                                 <div class="col-md-3">.<strong>Selecione um documento para enviar</strong>:</div>
                                 <div class="col-md-2">
                                     <form method="post" action="SalvarTcc2Servlet" enctype="multipart/form-data">

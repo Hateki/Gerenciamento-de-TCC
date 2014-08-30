@@ -183,14 +183,22 @@ public class Pessoa implements java.io.Serializable {
                 if (tcc.getNotaOrientador() != -1
                         && tcc.getNotaConvidado1() != -1
                         && tcc.getNotaConvidado2() != -1) {
-                    tcc.setStatus(2);
+                    if (verificarMedia(tcc, banca.getPessoaByConvidado3IdPessoa())) {
+                        tcc.setStatus(Tcc.APROVADO);
+                    } else {
+                        tcc.setStatus(Tcc.REPROVADO);
+                    }
                 }
-            }else{
+            } else {
                 if (tcc.getNotaOrientador() != -1
                         && tcc.getNotaConvidado1() != -1
                         && tcc.getNotaConvidado2() != -1
                         && tcc.getNotaCoorientador() != -1) {
-                    tcc.setStatus(2);
+                    if (verificarMedia(tcc, banca.getPessoaByConvidado3IdPessoa())) {
+                        tcc.setStatus(Tcc.APROVADO);
+                    } else {
+                        tcc.setStatus(Tcc.REPROVADO);
+                    }
                 }
             }
             acessoSistema.atualizarTcc(tcc);
@@ -198,4 +206,20 @@ public class Pessoa implements java.io.Serializable {
 
     }
 
+    public boolean verificarMedia(Tcc tcc, Pessoa corrientador) {
+        float notaFinal = tcc.getNotaOrientador()
+                + tcc.getNotaConvidado1() + tcc.getNotaConvidado2();
+        if (corrientador != null) {
+            notaFinal += tcc.getNotaCoorientador();
+            notaFinal = notaFinal / 4;
+        } else {
+            notaFinal = notaFinal / 3;
+        }
+
+        if (notaFinal >= 6) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

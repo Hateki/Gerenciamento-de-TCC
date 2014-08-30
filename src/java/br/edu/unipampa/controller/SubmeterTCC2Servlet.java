@@ -69,9 +69,13 @@ public class SubmeterTCC2Servlet extends HttpServlet {
                 request.setAttribute("retorno", "Você não pode acessar esta página, faça o login novamente!");
                 request.getRequestDispatcher("telaLogin.jsp").forward(request, response);
 
+            } else if (!verificarTcc1(acessoSistema, Integer.parseInt(usuarioAluno))) {
+                request.setAttribute("retorno", "O TCC 1 não foi completo ainda");
+                request.getRequestDispatcher("Tema/submeterTCC2.jsp").forward(request, response);
             } else {
                 submeterTcc(request, response, usuarioAluno);
             }
+            
         }
     }
 
@@ -86,9 +90,9 @@ public class SubmeterTCC2Servlet extends HttpServlet {
         String[] prazoFinal = separarDatas(prazo.getDataFimTcc());
         String botaoTccInicial = request.getParameter("TccInicial");
         String botaoTccFinal = request.getParameter("TccFinal");
-        String tipoTcc = "";
+        int tipoTcc = 1;
 
-        listaTcc = acessoSistema.procurarTCC(Integer.parseInt(usuarioAluno));
+        listaTcc = acessoSistema.procurarTCC(Integer.parseInt(usuarioAluno), 1);
 
         if (botaoRefazer != null) {
             if (botaoRefazer.equals("0")) {
@@ -100,13 +104,16 @@ public class SubmeterTCC2Servlet extends HttpServlet {
             }
         }
 
-        listaTcc = acessoSistema.procurarTCC(Integer.parseInt(usuarioAluno));
+        listaTcc = acessoSistema.procurarTCC(Integer.parseInt(usuarioAluno),1);
 
         request.setAttribute("PrazoTccInicial", verificarPrazo("tccInicial"));
         request.setAttribute("PrazoTccFinal", verificarPrazo("tccFinal"));
 
-        request.setAttribute("tccInicial", acessoSistema.procurarVersaoTcc(Integer.parseInt(usuarioAluno), 0));
-        request.setAttribute("tccFinal", acessoSistema.procurarVersaoTcc(Integer.parseInt(usuarioAluno), 1));
+        request.setAttribute("tccDefendido", acessoSistema.procurarTipoVersaoTcc(Integer.parseInt(usuarioAluno),
+                0,tipoTcc));
+        
+        request.setAttribute("tccCorrigido", acessoSistema.procurarTipoVersaoTcc(Integer.parseInt(usuarioAluno),
+                1,tipoTcc));
 
         request.setAttribute("dataInicial", prazoInicial[DIA]
                 + "/" + prazoInicial[MES] + "/" + prazoInicial[ANO]);
@@ -114,8 +121,11 @@ public class SubmeterTCC2Servlet extends HttpServlet {
         request.setAttribute("dataFinal", prazoFinal[DIA]
                 + "/" + prazoFinal[MES] + "/" + prazoFinal[ANO]);
 
-        request.getSession().setAttribute("tccInicial", acessoSistema.procurarVersaoTcc(Integer.parseInt(usuarioAluno), 0));
-        request.getSession().setAttribute("tccFinal", acessoSistema.procurarVersaoTcc(Integer.parseInt(usuarioAluno), 1));
+        request.getSession().setAttribute("tccDefendido", acessoSistema.procurarTipoVersaoTcc(Integer.parseInt(usuarioAluno),
+                0,tipoTcc));
+        
+        request.getSession().setAttribute("tccCorrigido", acessoSistema.procurarTipoVersaoTcc(Integer.parseInt(usuarioAluno),
+                1, tipoTcc));
 
         acessoSistema.completarTransacoes();
 
@@ -147,8 +157,6 @@ public class SubmeterTCC2Servlet extends HttpServlet {
         int mesAtual = Integer.parseInt(atual[1]);
         int anoAtual = Integer.parseInt(atual[0]);
 
-        
-        
         if (anoAtual > Integer.parseInt(prazoFinal[ANO])) {
             resultado = false;
         } else if (anoAtual < Integer.parseInt(prazoFinal[ANO])) {
@@ -161,7 +169,7 @@ public class SubmeterTCC2Servlet extends HttpServlet {
             } else {//Se os meses são iguais
                 if (diaAtual > Integer.parseInt(prazoFinal[DIA])) {
                     resultado = false;
-                }else {
+                } else {
                     resultado = true;
                 }
             }
@@ -192,6 +200,29 @@ public class SubmeterTCC2Servlet extends HttpServlet {
         datas[DIA] = dia;
 
         return datas;
+    }
+    
+    /**
+     * Verifica se o tcc 1 foi avaliado ou se ele existe.
+     *
+     * @param acessoSistema Acesso ao banco de dados
+     * @param matriculaAluno matricula do aluno para se procurar o tcc
+     * @return true se existe o tcc 1 no banco
+     */
+    public boolean verificarTcc1(AcessoSistema acessoSistema, int matriculaAluno) {
+        List<Tcc> tccsEncontrados = acessoSistema.procurarTCC(matriculaAluno, 0);
+
+        if (tccsEncontrados.isEmpty()) {
+            return false;
+        }
+
+        for (Tcc tcc : tccsEncontrados) {
+            if (tcc.getStatus() == 2) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
