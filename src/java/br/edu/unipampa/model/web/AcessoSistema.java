@@ -99,7 +99,7 @@ public class AcessoSistema {
             }
             
             //Verifica se o usuário é uma pessoa externa
-            List<Pessoaexterna> resultadoPE = (List<Pessoaexterna>) SESSAO.createQuery("From pessoaexterna").list();
+            List<Pessoaexterna> resultadoPE = (List<Pessoaexterna>) SESSAO.createQuery("From Pessoaexterna").list();
             for (Pessoaexterna pessoaexterna : resultadoPE) {
                 if (pessoaexterna.getUsuario().equals(nome)
                         && pessoaexterna.getSenha().equals(senha)) {
@@ -107,7 +107,7 @@ public class AcessoSistema {
                 }
             }
              //Verifica se o usuário é um tecnico administrativo
-            List<Tecnicoadministrativo> resultadoTA = (List<Tecnicoadministrativo>) SESSAO.createQuery("From tecnicoadministrativo").list();
+            List<Tecnicoadministrativo> resultadoTA = (List<Tecnicoadministrativo>) SESSAO.createQuery("From Tecnicoadministrativo").list();
             for (Tecnicoadministrativo tecnicoAdm : resultadoTA) {
                 if (tecnicoAdm.getUsuario().equals(nome)
                         && tecnicoAdm.getSenha().equals(senha)) {

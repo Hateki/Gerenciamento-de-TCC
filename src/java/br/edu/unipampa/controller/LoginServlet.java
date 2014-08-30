@@ -104,13 +104,21 @@ public class LoginServlet extends HttpServlet {
                 view = request.getRequestDispatcher("menuPrincipalCoordenadorTCCs.jsp");
             }
 
-        } else if (result != 0 && result >= 4 && result <= 6) {
+        } else if (result == AcessoSistema.TECNICO_ADMINISTRATIVO) {
             session = request.getSession();
             session.setAttribute("usuario", nome);
             if (caminho != null) {
                 view = request.getRequestDispatcher(caminho);
             } else {
-                view = request.getRequestDispatcher("menuPrincipalProfessor.jsp");
+                view = request.getRequestDispatcher("menuPrincipalOutros.jsp");
+            }
+        } else if (result == AcessoSistema.PESSOA_EXTERNA) {
+            session = request.getSession();
+            session.setAttribute("usuario", nome);
+            if (caminho != null) {
+                view = request.getRequestDispatcher(caminho);
+            } else {
+                view = request.getRequestDispatcher("menuPrincipalOutros.jsp");
             }
         } else {
             request.setAttribute("fracasso", "erro");
