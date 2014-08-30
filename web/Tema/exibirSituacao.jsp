@@ -88,11 +88,17 @@
                             <label>Nome do arquivo:</label> <c:out value="${tcc.titulo}"/><br>
                             <label>Situação</label>
                             <c:if test="${tcc.status == 1}" var="v" scope="request">
-                                Aprovado<br><br>
+                                Aceito<br><br>
                             </c:if>
                             <c:if test="${tcc.status == 0}" var="v" scope="request">
-                                Não Aprovado<br><br>
+                                Não Aceito<br><br>
                             </c:if>
+                            <c:if test="${tcc.status == 2}" var="v" scope="request">
+                                Aprovado<br><br>
+                            </c:if>
+                            <c:if test="${tcc.status == 3}" var="v" scope="request">
+                                Não Aprovado<br><br>
+                            </c:if>    
                             <% Tcc tcc = (Tcc) request.getAttribute("tcc1"); %>
                             <% request.getSession().setAttribute("tcc", tcc);%>
 

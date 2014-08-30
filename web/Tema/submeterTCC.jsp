@@ -83,7 +83,7 @@
                     <br><br>
                     <div class="row row-fluid">
                         <c:if test="${not empty tccInicial}" var="v" scope="request"> 
-                            <div class="col-md-3"><c:out value="${tccInicial.titulo}"/></div>
+                            <div class="col-md-3"> Nome do Arquivo: <c:out value="${tccInicial.titulo}"/></div>
                             <div class="col-md-3">
                                 <form name="download" action="DownloadTCCServlet">
                                     <button type="submit" class="bnt btn-success">
@@ -93,24 +93,28 @@
                             </div>
 
                             <c:if test="${tccInicial.status == 1}" var="v" scope="request">
-                                <div class="col-md-2"> Aprovado </div>
+                                <div class="col-md-2"> Situação: Aceito </div>
                             </c:if>
 
                             <c:if test="${tccInicial.status == 0}" var="v" scope="request">
-                                <div class="col-md-2"> Não Aprovado </div>
+                                <div class="col-md-2"> Situação: Não Aceito </div>
+                                <div class="col-md-3">    
+                                    <form name="refazerUpload" action="SubmeterTCCServlet">
+                                        <button type="submit" class="bnt btn-warning" name="rafazerUpload" value="0">
+                                            Refazer a subimissão do Tcc
+                                        </button>
+                                    </form>
+                                </div>
                             </c:if>   
 
                             <c:if test="${tccInicial.status == 2}" var="v" scope="request">
-                                <div class="col-md-2"> Avaliado </div>
+                                <div class="col-md-2"> Situação: Aprovado </div>
+                            </c:if>
+
+                            <c:if test="${tccInicial.status == 3}" var="v" scope="request">
+                                <div class="col-md-2">  Situação: Reprovado </div>
                             </c:if>    
 
-                            <div class="col-md-3">    
-                                <form name="refazerUpload" action="SubmeterTCCServlet">
-                                    <button type="submit" class="bnt btn-warning" name="rafazerUpload" value="0">
-                                        Refazer a subimissão do Tcc
-                                    </button>
-                                </form>
-                            </div>
                         </c:if>
 
 
@@ -137,87 +141,7 @@
             </div>
         </div>
         <br>
-<<<<<<< HEAD
-        <c:if test="${tccInicial.status == 2}" var="v" scope="request">
-            <div class="panel panel-primary">
-                <div class="panel-heading"><h4> Situação TCC Final </h4></div>
-                <div class="panel-body">
-                    <div>
-                        <p>
-                            Aqui pode ver a situação de seu
-                            <strong> TCC da Final</strong>
-                        </p>
-                        <br><br>
-                        
-                        <%
-                         //AcessoSistema acessoSistema = new AcessoSistema();
-                        // Tcc tcc = acessoSistema.procurarVersaoTcc(Integer.parseInt((String) request.getSession().getAttribute("usuario")), 0);
-                         //request.getSession().setAttribute("tcc", tcc);
-                        %>
-                        
-                        
-                        
-                        <div class="row row-fluid">
-                            <c:if test="${not empty tccFinal}" var="v" scope="request"> 
-                                <div class="col-md-3"><c:out value="${tccFinal.titulo}"/></div>
-                                <div class="col-md-3">
-                                    <form name="download" action="DownloadTCCServlet">
-                                        <button type="submit" class="bnt btn-success">
-                                            Fazer Download Arquivo 
-                                        </button>
-                                    </form>
-                                </div>
 
-                                <c:if test="${tccFinal.status == 1}" var="v" scope="request">
-                                    <div class="col-md-2"> Aprovado </div>
-                                </c:if>
-
-                                <c:if test="${tccFinal.status == 0}" var="v" scope="request">
-                                    <div class="col-md-2"> Não Aprovado </div>
-                                </c:if>   
-
-                                <c:if test="${tccFinal.status == 2}" var="v" scope="request">
-                                    <div class="col-md-2"> Avaliado </div>
-                                </c:if>    
-
-                                <div class="col-md-3">    
-                                    <form name="refazerUpload" action="SubmeterTCCServlet">
-                                        <button type="submit" class="bnt btn-warning" name="rafazerUpload" value="1">
-                                            Refazer a subimissão do Tcc
-                                        </button>
-                                    </form>
-                                </div>
-                            </c:if>
-
-
-                            <c:if test="${empty tccFinal}" var="v" scope="request">
-                                <div class="col-md-3">.<strong>Selecione um documento para enviar</strong>:</div>
-                                <div class="col-md-2">
-                                    <form method="post" action="SubmeterTCCServlet" enctype="multipart/form-data">
-                                        <input type="file" name="file" size="60"/><br/>
-                                        <c:if test="${PrazoTccFinal == false}" var="v" scope="request">
-                                            <div class="alert alert-danger" role="alert"> Você não está no prazo de Entrega </div>
-                                        </c:if>
-                                        <c:if test="${PrazoTccFinal == true}" var="v" scope="request">
-                                            <input type="submit" value="Enviar" class="btn btn-success"/>
-                                        </c:if> 
-                                    </form>
-                                </div>
-                            </c:if>         
-                        </div>
-
-                        <c:if test="${not empty retorno}" var="v" scope="request">
-                            <div class="alert alert-success" role="alert"><c:out value="${retorno}"/></div>
-                        </c:if>
-                    </div>
-                </div>
-            </div>
-        </c:if>
-
-
-
-=======
->>>>>>> 92e07e138499797fc6fcc6b5453edbbfafbb1d65
         <!-- Bootstrap core JavaScript
         ================================================== -->
         <!-- Placed at the end of the document so the pages load faster -->

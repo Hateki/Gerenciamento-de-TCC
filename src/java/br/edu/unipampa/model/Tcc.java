@@ -6,8 +6,10 @@ package br.edu.unipampa.model;
  */
 public class Tcc implements java.io.Serializable {
 
-    public static final int APROVADO = 1;
-    public static final int NAO_APROVADO = 0;
+    public static final int ACEITO = 1;
+    public static final int NAO_ACEITO = 0;
+    public static final int APROVADO = 2;
+    public static final int REPROVADO = 3;
 
     private Integer idTcc;
     private Tema tema;

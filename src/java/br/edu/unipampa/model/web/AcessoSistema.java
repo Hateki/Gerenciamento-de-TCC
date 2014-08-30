@@ -88,7 +88,7 @@ public class AcessoSistema {
                     return ORIENTADOR;
                 }
             }
-            
+
             //Verifica se o usuário é um professor
             List<Professor> resultadoProf = (List<Professor>) SESSAO.createQuery("From Professor").list();
             for (Professor professor : resultadoProf) {
@@ -97,7 +97,7 @@ public class AcessoSistema {
                     return PROFESSOR;
                 }
             }
-            
+
             //Verifica se o usuário é uma pessoa externa
             List<Pessoaexterna> resultadoPE = (List<Pessoaexterna>) SESSAO.createQuery("From Pessoaexterna").list();
             for (Pessoaexterna pessoaexterna : resultadoPE) {
@@ -106,7 +106,7 @@ public class AcessoSistema {
                     return PESSOA_EXTERNA;
                 }
             }
-             //Verifica se o usuário é um tecnico administrativo
+            //Verifica se o usuário é um tecnico administrativo
             List<Tecnicoadministrativo> resultadoTA = (List<Tecnicoadministrativo>) SESSAO.createQuery("From Tecnicoadministrativo").list();
             for (Tecnicoadministrativo tecnicoAdm : resultadoTA) {
                 if (tecnicoAdm.getUsuario().equals(nome)
@@ -277,7 +277,7 @@ public class AcessoSistema {
         }
         return null;
     }
-    
+
     public Tecnicoadministrativo procurarTecnicoAdministrativo(String usuarioTA) {
         List<Tecnicoadministrativo> listaTAs = SESSAO.createQuery("From Tecnicoadministrativo").list();
         for (Tecnicoadministrativo tecnicoAdministrativo : listaTAs) {
@@ -297,8 +297,7 @@ public class AcessoSistema {
         }
         return null;
     }
-    
-    
+
     /**
      * Seleciona os temas não confirmados
      *
@@ -422,8 +421,7 @@ public class AcessoSistema {
         }
         return null;
     }
-    
-    
+
     /**
      * Procura uma pessoa no banco e retorna o tipo de pessoa que ela é
      *
@@ -773,8 +771,8 @@ public class AcessoSistema {
         }
         return tccEncontrados;
     }
-    
-        /**
+
+    /**
      * Procura os tccs do aluno por tipo
      *
      * @param matriculaAluno Mátricula do aluno que se quer procurar
@@ -849,7 +847,7 @@ public class AcessoSistema {
         return tccEncontrados;
     }
 
-    public Tcc procurarVersaoTcc(int matriculaAluno, int versao) {
+    public Tcc procurarTipoVersaoTcc(int matriculaAluno, int versao, int tipo) {
         Tema tema = procurarTema(matriculaAluno);
         List<Tcc> listaTcc = SESSAO.createQuery("From Tcc").list();
 
@@ -862,9 +860,10 @@ public class AcessoSistema {
                 tcc.getStatus();
                 tcc.getTitulo();
                 //////////////////////
-
-                if (tcc.getVersaoTCC() == versao) {
-                    return tcc;
+                if (tcc.getTipoTCC() == tipo) {
+                    if (tcc.getVersaoTCC() == versao) {
+                        return tcc;
+                    }
                 }
             }
         }

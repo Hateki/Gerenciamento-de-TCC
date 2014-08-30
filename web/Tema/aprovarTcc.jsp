@@ -52,15 +52,19 @@
 
         <% request.getSession().setAttribute("Tema", request.getAttribute("tema")); %>
 
+        <h1><strong><center>Aprovação de Tcc's</center>
+            </strong>
+        </h1>
+
         <c:if test="${not empty tccEncontrados}" var="v" scope="request">
             <% int cont = 0;%>
             <c:forEach var="tcc" items="${tccEncontrados}">
                 <div class="panel panel-primary">
                     <c:if test="${tcc.versaoTCC == 0}" var="v" scope="request">
-                        <div class="panel-heading"><h5>Tcc Denfendido</h5></div>
+                        <div class="panel-heading"><h4>Tcc Denfendido</h4></div>
                     </c:if>
-                    <c:if test="${tcc.versaoTCC == 0}" var="v" scope="request">
-                        <div class="panel-heading"><h5>Tcc Corrigido</h5></div>
+                    <c:if test="${tcc.versaoTCC == 1}" var="v" scope="request">
+                        <div class="panel-heading"><h4>Tcc Corrigido</h4></div>
                     </c:if>    
                     <div class="panel-body">
                         <table border="1" class="table table-hover">
@@ -68,6 +72,7 @@
                                 <tr>
                                     <th>Nome Aluno</th>
                                     <th>Orientador</th>
+                                    <th>Tema</th>
                                     <th>Situação</th>
                                     <th> Fazer Download </th>
                                         <c:if test="${tcc.status != 2}" var="dasda" scope="request">
@@ -79,18 +84,22 @@
                                 <tr>
                                     <td><c:out value="${tema.aluno.nome}"/></td>
                                     <td><c:out value="${tema.orientador.nome}"/></td>
-
+                                    <td><c:out value="${tema.descricao}"/></td>
                                     <c:if test="${tcc.status == 0}" var="v" scope="request">
-                                        <td> Não Aprovado </td>
+                                        <td> Não Aceito </td>
                                     </c:if>
 
                                     <c:if test="${tcc.status == 1}" var="v" scope="request">
-                                        <td>Aprovado</td>
+                                        <td>Aceito</td>
                                     </c:if>
 
                                     <c:if test="${tcc.status == 2}" var="v" scope="request">
-                                        <td>Avaliado</td>
+                                        <td>Aprovado</td>
                                     </c:if>
+                                    
+                                    <c:if test="${tcc.status == 3}" var="v" scope="request">
+                                        <td>Reprovado</td>
+                                    </c:if>    
                                     <td>
                                         <form name="download" action="AprovarTccServlet">
                                             <button type="submit" class="bnt btn-primary" name="botaoDownload" value="<%= cont%>">

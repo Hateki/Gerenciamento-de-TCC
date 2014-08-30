@@ -62,6 +62,9 @@
         </div>
         <br><br><br><br>
         <!------------------------------------------------------------------------------------------------------------------------------------>
+        
+        
+        
         <div id="tela">
             <h1>Temas cadastrados</h1>
 
@@ -98,7 +101,7 @@
                     </tbody>
                 </table>
                 <input type="submit" class="btn btn-info" name="confirmar" value="<%= "Confirmar Tema " + (i + 1)%>" />
-                <input type="submit" name="confirmar" class="btn btn-warning" value="<%= "Recusar Tema " + (i + 1)%> " />
+                <input type="submit" name="confirmar" class="btn btn-danger" value="<%= "Recusar Tema " + (i + 1)%> " />
                 <br>
                 </div>
             </form>

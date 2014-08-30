@@ -262,7 +262,7 @@ public class Orientador extends Professor implements java.io.Serializable {
      */
     public void reprovarTcc(Tcc tcc) {
         AcessoSistema acessoSistema = new AcessoSistema();
-        tcc.setStatus(Tcc.NAO_APROVADO);
+        tcc.setStatus(Tcc.NAO_ACEITO);
         
         acessoSistema.deletarTcc(tcc);
     }
