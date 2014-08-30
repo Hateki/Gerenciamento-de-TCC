@@ -978,4 +978,13 @@ public class AcessoSistema {
         }
         return null;
     }
+    
+    public boolean verificarTcc(Tcc tcc) {
+        if (tcc != null) {
+            return tcc.getStatus() == Tcc.APROVADO || tcc.getStatus() == Tcc.REPROVADO;
+        }
+        return false;
+    }
+    
+    
 }
