@@ -122,6 +122,8 @@ public class SubmeterTCCServlet extends HttpServlet {
         request.getSession().setAttribute("tcc",
                 acessoSistema.procurarTipoVersaoTcc(Integer.parseInt(usuarioAluno), 0,0));
         
+        request.getSession().setAttribute("caminho", "SubmeterTccServlet");
+        
         acessoSistema.completarTransacoes();
         
         request.getRequestDispatcher("Tema/submeterTCC.jsp").forward(request, response);

@@ -86,7 +86,7 @@
                             <div class="col-md-3"> Nome do Arquivo: <c:out value="${tccInicial.titulo}"/></div>
                             <div class="col-md-3">
                                 <form name="download" action="DownloadTCCServlet">
-                                    <button type="submit" class="bnt btn-success">
+                                    <button type="submit" class="bnt btn-success" name="botaoDownload" value="TCC1">
                                         Fazer Download Arquivo 
                                     </button>
                                 </form>

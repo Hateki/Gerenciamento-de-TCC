@@ -34,13 +34,30 @@ public class DownloadTCCServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        Tcc tcc = (Tcc) request.getSession().getAttribute("tcc");
-        
-        if (tcc != null) {
-            doDownload(request, response, tcc);
+        AcessoSistema acessoSistema = new AcessoSistema();
+        String botaoDownload = request.getParameter("botaoDownload");
+        Tcc tcc = null;
+
+        if (botaoDownload != null) {
+            if (botaoDownload.equalsIgnoreCase("TCC1")) {
+                tcc = (Tcc) request.getSession().getAttribute("tcc");
+            } else if (botaoDownload.equalsIgnoreCase("TCC2")) {
+                tcc = (Tcc) request.getSession().getAttribute("tccDefendido");
+            } else if (botaoDownload.equalsIgnoreCase("TCCCorrigido")) {
+                tcc = (Tcc) request.getSession().getAttribute("tccCorrigido");
+            }
+
+            if (tcc != null) {
+                doDownload(request, response, tcc);
+                request.setAttribute("retornoPositivo", "Download Iniciado");
+            } else {
+                request.setAttribute("retorno", "Erro, download não existe ou houve uma falha");
+            }
+        } else {
+            request.setAttribute("retornoNegativo", "Erro, download não existe ou houve uma falha");
         }
-        
-        request.removeAttribute("tcc");
+
+        request.getRequestDispatcher("telaDownload.jsp").forward(request, response);
     }
 
     /**
@@ -56,14 +73,14 @@ public class DownloadTCCServlet extends HttpServlet {
     private void doDownload(HttpServletRequest req, HttpServletResponse resp,
             Tcc tcc)
             throws IOException {
-        
+
         int length = -1;
         ServletOutputStream op = resp.getOutputStream();
         AcessoSistema acessoSistema = new AcessoSistema();
 
         byte[] bbuf = tcc.getArquivoTcc();//Colocar o arquivo do hibernate
 
-      //
+        //
         //  Set the response and go!
         //
         //
@@ -71,7 +88,7 @@ public class DownloadTCCServlet extends HttpServlet {
         resp.setContentLength(bbuf.length);
         resp.setHeader("Content-Disposition", "attachment; filename=\"" + tcc.getTitulo() + "\"");
 
-      //
+        //
         //  Stream to the requester.
         //
         byte[] buf = new byte[bbuf.length];

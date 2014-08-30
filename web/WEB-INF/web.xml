@@ -163,6 +163,8 @@
     <servlet>
         <servlet-name>FiltrarTCCsDosAlunos</servlet-name>
         <servlet-class>br.edu.unipampa.controller.FiltrarTCCsDosAlunos</servlet-class>
+        <servlet-name>PreparaDownloadServlet</servlet-name>
+        <servlet-class>br.edu.unipampa.controller.PreparaDownloadServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>CadastraPessoaExternaServelt</servlet-name>
@@ -277,6 +279,8 @@
     <servlet-mapping>
         <servlet-name>FiltrarTCCsDosAlunos</servlet-name>
         <url-pattern>/FiltrarTCCsDosAlunos</url-pattern>
+        <servlet-name>PreparaDownloadServlet</servlet-name>
+        <url-pattern>/PreparaDownloadServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
