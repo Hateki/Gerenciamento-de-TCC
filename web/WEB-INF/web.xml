@@ -160,6 +160,10 @@
         <servlet-name>SalvarTcc2Servlet</servlet-name>
         <servlet-class>br.edu.unipampa.controller.SalvarTcc2Servlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>FiltrarTCCsDosAlunos</servlet-name>
+        <servlet-class>br.edu.unipampa.controller.FiltrarTCCsDosAlunos</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>CadastraPessoaExternaServelt</servlet-name>
         <url-pattern>/CadastraPessoaExternaServelt</url-pattern>
@@ -269,6 +273,10 @@
         <url-pattern>/SubmeterTcc2</url-pattern>
         <url-pattern>/SubmeterTCC2</url-pattern>
         <url-pattern>/SubmeterTCC2Servlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>FiltrarTCCsDosAlunos</servlet-name>
+        <url-pattern>/FiltrarTCCsDosAlunos</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

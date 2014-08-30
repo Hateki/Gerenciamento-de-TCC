@@ -10,6 +10,7 @@ import br.edu.unipampa.model.Banca;
 import br.edu.unipampa.model.Orientador;
 import br.edu.unipampa.model.Pessoa;
 import br.edu.unipampa.model.Professor;
+import br.edu.unipampa.model.Tcc;
 import br.edu.unipampa.model.web.AcessoSistema;
 import br.edu.unipampa.model.web.EnvioEmails;
 import java.io.IOException;
@@ -52,7 +53,7 @@ public class CriarBancaTCCServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         String professor1 = request.getParameter("professor1");
         String professor2 = request.getParameter("professor2");
         String professor3 = request.getParameter("professor3");
@@ -95,6 +96,7 @@ public class CriarBancaTCCServlet extends HttpServlet {
 
         request.setAttribute("pessoas", as.retornarPessoas());
         request.setAttribute("alunos", as.retornarAlunos());
+
         as.completarTransacoes();
         request.getRequestDispatcher("criarBancaTCC.jsp").forward(request, response);
     }
@@ -211,14 +213,14 @@ public class CriarBancaTCCServlet extends HttpServlet {
                     mandarEmail(convidadado3, nomeOrientador);
                 }
             } else if (i == 4) {
-                if(coorientador != null){
+                if (coorientador != null) {
                     mandarEmail(convidadado1, nomeOrientador);
                 }
-            }else{
+            } else {
                 mandarEmail(banca.getAluno(), nomeOrientador);
             }
         }
-        
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
