@@ -131,6 +131,15 @@
                                         <td> <c:out value="${aluno.usuario}"/> </td>
                                         <td> <c:out value="${aluno.nome}"/> </td>
                                         <td> <c:out value="${aluno.pessoa.email}"/> </td>
+                                     
+                                        <%
+                                        
+                                        AcessoSistema as = new AcessoSistema();
+                                        List<Aluno> listaDeAlunos  = (List<Aluno>) request.getAttribute("alunos");
+                                        
+                                        
+                                        %>
+                                        
                                     </tr>
                                 </c:forEach>
                             </tbody>
