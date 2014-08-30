@@ -161,8 +161,13 @@
         <servlet-class>br.edu.unipampa.controller.SalvarTcc2Servlet</servlet-class>
     </servlet>
     <servlet>
+<<<<<<< HEAD
         <servlet-name>FiltrarTCCsDosAlunos</servlet-name>
         <servlet-class>br.edu.unipampa.controller.FiltrarTCCsDosAlunos</servlet-class>
+=======
+        <servlet-name>PreparaDownloadServlet</servlet-name>
+        <servlet-class>br.edu.unipampa.controller.PreparaDownloadServlet</servlet-class>
+>>>>>>> 362a283a2a60e86366798a15bb0a78a15aeae69f
     </servlet>
     <servlet-mapping>
         <servlet-name>CadastraPessoaExternaServelt</servlet-name>
@@ -275,8 +280,13 @@
         <url-pattern>/SubmeterTCC2Servlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+<<<<<<< HEAD
         <servlet-name>FiltrarTCCsDosAlunos</servlet-name>
         <url-pattern>/FiltrarTCCsDosAlunos</url-pattern>
+=======
+        <servlet-name>PreparaDownloadServlet</servlet-name>
+        <url-pattern>/PreparaDownloadServlet</url-pattern>
+>>>>>>> 362a283a2a60e86366798a15bb0a78a15aeae69f
     </servlet-mapping>
     <session-config>
         <session-timeout>
