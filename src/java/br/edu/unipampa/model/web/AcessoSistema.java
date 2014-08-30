@@ -549,13 +549,18 @@ public class AcessoSistema {
         List<Aluno> alunosEncontrados = SESSAO.createQuery("From Aluno").list();
         List<Professor> professoresEncontrados = SESSAO.createQuery("From Professor").list();
         List<Pessoaexterna> pessoasEncontradas = SESSAO.createQuery("From Pessoaexterna").list();
+        List<Tecnicoadministrativo> tecnicosEncontrados = SESSAO.createQuery("From Tecnicoadministrativo").list();
         List<Pessoa> listaPessoasOrdenada = new ArrayList<>();
         List<String> listaUsuarios = new ArrayList<>();
 
         for (Pessoaexterna pessoaExterna : pessoasEncontradas) {
             listaPessoas.remove(pessoaExterna);
         }
-
+        
+        for (Tecnicoadministrativo ta : tecnicosEncontrados) {
+            listaPessoas.remove(ta);
+        }
+        
         for (Professor professor : professoresEncontrados) {
             listaPessoas.remove(professor);
         }
