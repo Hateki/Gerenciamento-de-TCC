@@ -161,8 +161,11 @@
         <servlet-class>br.edu.unipampa.controller.SalvarTcc2Servlet</servlet-class>
     </servlet>
     <servlet>
+<<<<<<< HEAD
         <servlet-name>FiltrarTCCsDosAlunos</servlet-name>
         <servlet-class>br.edu.unipampa.controller.FiltrarTCCsDosAlunos</servlet-class>
+=======
+>>>>>>> e69409b4a4db9123e60f724503d6b91bac2b1661
         <servlet-name>PreparaDownloadServlet</servlet-name>
         <servlet-class>br.edu.unipampa.controller.PreparaDownloadServlet</servlet-class>
     </servlet>
@@ -277,8 +280,11 @@
         <url-pattern>/SubmeterTCC2Servlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+<<<<<<< HEAD
         <servlet-name>FiltrarTCCsDosAlunos</servlet-name>
         <url-pattern>/FiltrarTCCsDosAlunos</url-pattern>
+=======
+>>>>>>> e69409b4a4db9123e60f724503d6b91bac2b1661
         <servlet-name>PreparaDownloadServlet</servlet-name>
         <url-pattern>/PreparaDownloadServlet</url-pattern>
     </servlet-mapping>
