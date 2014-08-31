@@ -221,7 +221,7 @@ public class Orientador extends Professor implements java.io.Serializable {
             banca.setAluno(aluno);
             banca.setOrientadorByOrientadorIdOrientador(this);
             tccBanca.setStatus(Tcc.EM_DEFESA);
-            //banca.setTcc(tccBanca);
+            banca.setTcc(tccBanca);
 
             acessoSistema.salvarBanca(banca);
 
