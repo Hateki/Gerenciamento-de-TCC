@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package br.edu.unipampa.controller;
 
 import br.edu.unipampa.model.Banca;
@@ -34,25 +33,49 @@ public class SalvarNotasCoordenadorServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String usuario = (String) request.getSession().getAttribute("usuario");
+
+        AcessoSistema acessoSistema = new AcessoSistema();
+
+        if (usuario == null) {
+            request.setAttribute("retorno", "A sua sessão acabou faça o login novamente.");
+            request.getRequestDispatcher("telaLogin.jsp").forward(request, response);
+        } else {
+            if (acessoSistema.procurarCoordenador(usuario) == null) {
+                try {
+                    request.getSession().invalidate();
+                } catch (Exception e) {
+
+                }
+                request.setAttribute("retorno", "Você não pode acessar esta página, faça o login novamente!");
+                request.getRequestDispatcher("telaLogin.jsp").forward(request, response);
+            } else {
+                salvarNotas(request, response);
+            }
+        }
+    }
+
+    public void salvarNotas(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         AcessoSistema acessoSistema = new AcessoSistema();
         float notaFinal = Float.parseFloat(request.getParameter("notaFinal"));
         int idBanca = Integer.parseInt(request.getParameter("finalizar"));
         List<Banca> bancasMarcadas = acessoSistema.procurarBancasMarcadas();
-        Banca bancaEncontrada =  null;
+        Banca bancaEncontrada = null;
         Pessoa avaliador = (Pessoa) request.getSession().getAttribute("avaliador");
         String usuario = avaliador.getUsuario();
-        
+
         for (Banca banca : bancasMarcadas) {
-            if(banca.getIdBanca() == idBanca){
+            if (banca.getIdBanca() == idBanca) {
                 bancaEncontrada = banca;
                 break;
             }
         }
-        
+
         avaliador.avaliarAluno(notaFinal, bancaEncontrada);
         request.getSession().removeAttribute("avaliador");
         acessoSistema.completarTransacoes();
-        
+
         request.getRequestDispatcher("VerificarBancaServlet").forward(request, response);
     }
 

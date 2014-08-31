@@ -33,6 +33,30 @@ public class VerificarBancaCoordenadorServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String usuario = (String) request.getSession().getAttribute("usuario");
+
+        AcessoSistema acessoSistema = new AcessoSistema();
+
+        if (usuario == null) {
+            request.setAttribute("retorno", "A sua sessão acabou faça o login novamente.");
+            request.getRequestDispatcher("telaLogin.jsp").forward(request, response);
+        } else {
+            if (acessoSistema.procurarCoordenador(usuario) == null) {
+                try {
+                    request.getSession().invalidate();
+                } catch (Exception e) {
+
+                }
+                request.setAttribute("retorno", "Você não pode acessar esta página, faça o login novamente!");
+                request.getRequestDispatcher("telaLogin.jsp").forward(request, response);
+            }else {
+                verificarBanca(request, response);
+            }
+        }
+    }
+    
+    public void verificarBanca(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException{
         AcessoSistema acessoSistema = new AcessoSistema();
         String usuario = (String) request.getSession().getAttribute("usuario");
         List<Banca> listaBancas;

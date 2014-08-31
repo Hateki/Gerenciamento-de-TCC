@@ -466,10 +466,17 @@ public class AcessoSistema {
         List<Aluno> alunosEncontrados = SESSAO.createQuery("From Aluno").list();
         List<Professor> professoresEncontrados = SESSAO.createQuery("From Professor").list();
         List<Pessoaexterna> pessoaExternas = SESSAO.createQuery("From Pessoaexterna").list();
+        List<Orientador> orientadoresEncontrados = SESSAO.createQuery("From Orientador").list();
 
         for (Aluno aluno : alunosEncontrados) {
             if (usuario.equals(aluno.getUsuario())) {
                 return aluno;
+            }
+        }
+        
+        for(Orientador orientador : orientadoresEncontrados){
+            if(usuario.equals(orientador.getUsuario())){
+                return orientador;
             }
         }
 

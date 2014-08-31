@@ -48,20 +48,12 @@ public class VerificarBancaServlet extends HttpServlet {
         Pessoa pessoaEncontrada;
 
         if (usuario == null) {
-            request.getSession().setAttribute("caminho", "SubmeterTCCServlet");
             request.setAttribute("retorno", "A sua sessão acabou faça o login novamente.");
             request.getRequestDispatcher("telaLogin.jsp").forward(request, response);
         } else {
             pessoaEncontrada = acessoSistema.procurarPessoaEspecifica(usuario);
-            if (acessoSistema.procurarCoordenador(usuario) != null) {
-                try {
-                    request.getSession().invalidate();
-                } catch (Exception e) {
-
-                }
-                request.setAttribute("retorno", "Você não pode acessar esta página, faça o login novamente!");
-                request.getRequestDispatcher("telaLogin.jsp").forward(request, response);
-            } else if ((pessoaEncontrada instanceof Aluno)) {
+            if ((pessoaEncontrada instanceof Aluno)
+                    || acessoSistema.procurarCoordenador(usuario) != null) {
                 try {
                     request.getSession().invalidate();
                 } catch (Exception e) {
@@ -70,7 +62,7 @@ public class VerificarBancaServlet extends HttpServlet {
                 request.setAttribute("retorno", "Você não pode acessar esta página, faça o login novamente!");
                 request.getRequestDispatcher("telaLogin.jsp").forward(request, response);
             } else {
-                verificarBanca(request, response, usuario);
+                verificarBanca(request, response,usuario);
             }
         }
     }

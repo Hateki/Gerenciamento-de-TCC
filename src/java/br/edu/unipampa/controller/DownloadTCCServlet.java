@@ -5,6 +5,8 @@
  */
 package br.edu.unipampa.controller;
 
+import br.edu.unipampa.model.Aluno;
+import br.edu.unipampa.model.Pessoa;
 import br.edu.unipampa.model.Tcc;
 import br.edu.unipampa.model.web.AcessoSistema;
 import java.io.ByteArrayInputStream;
@@ -33,7 +35,21 @@ public class DownloadTCCServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String usuario = (String) request.getSession().getAttribute("usuario");
 
+        AcessoSistema acessoSistema = new AcessoSistema();
+        Pessoa pessoaEncontrada;
+
+        if (usuario == null) {
+            request.setAttribute("retorno", "A sua sessão acabou faça o login novamente.");
+            request.getRequestDispatcher("telaLogin.jsp").forward(request, response);
+        } else {
+            fazerDownload(request, response);
+        }
+    }
+    
+    public void fazerDownload(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException{
         AcessoSistema acessoSistema = new AcessoSistema();
         String botaoDownload = request.getParameter("botaoDownload");
         Tcc tcc = (Tcc) request.getSession().getAttribute("tccSessao");;
