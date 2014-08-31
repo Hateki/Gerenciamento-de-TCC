@@ -7,6 +7,7 @@ package br.edu.unipampa.controller;
 
 import br.edu.unipampa.model.Aluno;
 import br.edu.unipampa.model.Orientador;
+import br.edu.unipampa.model.Pessoa;
 import br.edu.unipampa.model.Tcc;
 import br.edu.unipampa.model.Tema;
 import br.edu.unipampa.model.web.AcessoSistema;
@@ -38,7 +39,34 @@ public class FiltrarTCCsDoAluno extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String usuario = (String) request.getSession().getAttribute("usuario");
 
+        AcessoSistema acessoSistema = new AcessoSistema();
+        Pessoa pessoaEncontrada;
+
+        if (usuario == null) {
+            request.setAttribute("retorno", "A sua sessão acabou faça o login novamente.");
+            request.getRequestDispatcher("telaLogin.jsp").forward(request, response);
+        } else {
+            pessoaEncontrada = acessoSistema.procurarPessoaEspecifica(usuario);
+            if (acessoSistema.procurarCoordenador(usuario) == null 
+                    && !(pessoaEncontrada instanceof Orientador)) {
+                try {
+                    request.getSession().invalidate();
+                } catch (Exception e) {
+
+                }
+                request.setAttribute("retorno", "Você não pode acessar esta página, faça o login novamente!");
+                request.getRequestDispatcher("telaLogin.jsp").forward(request, response);
+            } else {
+                fitrarTccs(request, response);
+            }
+        }
+    }
+        
+    public void fitrarTccs(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException{
+        
         AcessoSistema as = new AcessoSistema();
         String usuario = (String) request.getSession().getAttribute("usuario");
         List<List> alunosDisponiveis = new ArrayList<>();
@@ -70,9 +98,7 @@ public class FiltrarTCCsDoAluno extends HttpServlet {
         as.completarTransacoes();
 
         request.getRequestDispatcher("CriarBancaTCCServlet").forward(request, response);
-    }
-        
-        
+    }    
         
     
 

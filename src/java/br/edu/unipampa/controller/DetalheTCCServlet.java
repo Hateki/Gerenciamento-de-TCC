@@ -5,7 +5,9 @@
  */
 package br.edu.unipampa.controller;
 
+import br.edu.unipampa.model.Aluno;
 import br.edu.unipampa.model.Banca;
+import br.edu.unipampa.model.Pessoa;
 import br.edu.unipampa.model.Tcc;
 import br.edu.unipampa.model.web.AcessoSistema;
 import java.io.IOException;
@@ -35,7 +37,40 @@ public class DetalheTCCServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String usuario = (String) request.getSession().getAttribute("usuario");
 
+        AcessoSistema acessoSistema = new AcessoSistema();
+        Pessoa pessoaEncontrada;
+
+        if (usuario == null) {
+            request.setAttribute("retorno", "A sua sessão acabou faça o login novamente.");
+            request.getRequestDispatcher("telaLogin.jsp").forward(request, response);
+        } else {
+            pessoaEncontrada = acessoSistema.procurarPessoaEspecifica(usuario);
+            if (acessoSistema.procurarCoordenador(usuario) == null) {
+                try {
+                    request.getSession().invalidate();
+                } catch (Exception e) {
+
+                }
+                request.setAttribute("retorno", "Você não pode acessar esta página, faça o login novamente!");
+                request.getRequestDispatcher("telaLogin.jsp").forward(request, response);
+            } else if ((pessoaEncontrada instanceof Aluno)) {
+                try {
+                    request.getSession().invalidate();
+                } catch (Exception e) {
+
+                }
+                request.setAttribute("retorno", "Você não pode acessar esta página, faça o login novamente!");
+                request.getRequestDispatcher("telaLogin.jsp").forward(request, response);
+            } else {
+                mostraDetalheTcc(request, response);
+            }
+        }
+    }
+    
+    public void mostraDetalheTcc(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException{
         String valorBotao = request.getParameter("botao");
         String usuario = (String) request.getSession().getAttribute("usuario");
         int posicaoBanca = Integer.parseInt(valorBotao);
@@ -43,8 +78,12 @@ public class DetalheTCCServlet extends HttpServlet {
         Banca bancaEncontrada;
 
         acessoSistema = new AcessoSistema();
-
-        bancaEncontrada = procuraBanca(posicaoBanca, usuario);
+        
+        if(acessoSistema.procurarCoordenador(usuario) != null){
+            bancaEncontrada = procuraBanca(posicaoBanca);
+        }else{
+            bancaEncontrada = procuraBanca(posicaoBanca, usuario);
+        }
 
         tccAluno = acessoSistema.procurarTCCPorBanca(bancaEncontrada);
 
@@ -67,6 +106,17 @@ public class DetalheTCCServlet extends HttpServlet {
 
     private Banca procuraBanca(int posicaoBanca, String usuario) {
         List<Banca> bancasEncontradas = acessoSistema.procurarBancas(usuario);
+
+        for (int i = 0; i < bancasEncontradas.size(); i++) {
+            if (i == posicaoBanca - 1) {
+                return bancasEncontradas.get(i);
+            }
+        }
+        return null;
+    }
+    
+    private Banca procuraBanca(int posicaoBanca) {
+        List<Banca> bancasEncontradas = acessoSistema.procurarBancas();
 
         for (int i = 0; i < bancasEncontradas.size(); i++) {
             if (i == posicaoBanca - 1) {

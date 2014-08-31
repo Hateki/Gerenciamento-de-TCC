@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package br.edu.unipampa.controller;
 
 import br.edu.unipampa.model.Aluno;
@@ -42,39 +41,73 @@ public class ConfirmarTccServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String usuario = (String) request.getSession().getAttribute("usuario");
+
+        AcessoSistema acessoSistema = new AcessoSistema();
+        Pessoa pessoaEncontrada;
+
+        if (usuario == null) {
+            request.setAttribute("retorno", "A sua sessão acabou faça o login novamente.");
+            request.getRequestDispatcher("telaLogin.jsp").forward(request, response);
+        } else {
+            pessoaEncontrada = acessoSistema.procurarPessoaEspecifica(usuario);
+            if (acessoSistema.procurarCoordenador(usuario) == null
+                    && !(pessoaEncontrada instanceof Orientador)) {
+                try {
+                    request.getSession().invalidate();
+                } catch (Exception e) {
+
+                }
+                request.setAttribute("retorno", "Você não pode acessar esta página, faça o login novamente!");
+                request.getRequestDispatcher("telaLogin.jsp").forward(request, response);
+            } else {
+                confirmarTcc(request, response);
+            }
+        }
+    }
+
+    public void confirmarTcc(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         AcessoSistema acessoSistema = new AcessoSistema();
         String usuarioOrientador = (String) request.getSession().getAttribute("usuario");
         String confirmarTcc1 = request.getParameter("confirmarTcc1");
         String confirmarTcc2 = request.getParameter("confirmarTcc2");
         int botaoEscolhido;
         int tipoTcc;
-        Orientador orientador = acessoSistema.procurarOrientador(usuarioOrientador);
-        List<Tema> temasOrientador = acessoSistema.retornarTemasRequisitados(orientador);
+        Orientador orientador;
+        List<Tema> temasOrientador;
         Tema temaEscolhido;
-     
-        if(confirmarTcc1 != null){
+
+        orientador = acessoSistema.procurarOrientador(usuarioOrientador);
+        if (orientador != null) {
+            temasOrientador = acessoSistema.retornarTemasRequisitados(orientador);
+        }else{
+            temasOrientador = acessoSistema.procurarTemasConfirmados();
+        }
+
+        if (confirmarTcc1 != null) {
             botaoEscolhido = Integer.parseInt(confirmarTcc1);
             tipoTcc = 0;
-        }else{
+        } else {
             botaoEscolhido = Integer.parseInt(confirmarTcc2);
             tipoTcc = 1;
         }
-        
+
         temaEscolhido = procurarTemaEscolhido(botaoEscolhido, temasOrientador);
-        
-        List<Tcc> tccEncontrados = acessoSistema.procurarTCC(temaEscolhido.getAluno().getMatricula(),tipoTcc);
-        
+
+        List<Tcc> tccEncontrados = acessoSistema.procurarTCC(temaEscolhido.getAluno().getMatricula(), tipoTcc);
+
         request.getSession().setAttribute("tipoTcc", tipoTcc);
-        
+
         request.setAttribute("tccEncontrados", tccEncontrados);
         request.setAttribute("tema", temaEscolhido);
-        
+
         request.getRequestDispatcher("Tema/aprovarTcc.jsp").forward(request, response);
     }
-    
-    public Tema procurarTemaEscolhido(int botaoEscolhido,List<Tema> temasOrientador){
-        for(int i = 0; i < temasOrientador.size(); i++){
-            if(i == botaoEscolhido){
+
+    public Tema procurarTemaEscolhido(int botaoEscolhido, List<Tema> temasOrientador) {
+        for (int i = 0; i < temasOrientador.size(); i++) {
+            if (i == botaoEscolhido) {
                 return temasOrientador.get(i);
             }
         }
@@ -91,8 +124,8 @@ public class ConfirmarTccServlet extends HttpServlet {
         } else if (pessoa instanceof Aluno) {
             mensagem = nomeOrientador + " Aceitou o seu tcc";
         } else {
-            mensagem = "O tcc do aluno " + nomeAluno + 
-                    "foi enviado, acesse o menu de verificar"
+            mensagem = "O tcc do aluno " + nomeAluno
+                    + "foi enviado, acesse o menu de verificar"
                     + " bancas para ver ter acesso ao tcc do aluno!";
         }
 
@@ -117,20 +150,18 @@ public class ConfirmarTccServlet extends HttpServlet {
                 mandarEmail(convidadado2, nomeOrientador, nomeAluno);
             } else if (i == 3) {
                 if (convidadado3 != null) {
-                    mandarEmail(convidadado3, nomeOrientador,nomeAluno);
+                    mandarEmail(convidadado3, nomeOrientador, nomeAluno);
                 }
             } else if (i == 4) {
-                if(coorientador != null){
+                if (coorientador != null) {
                     mandarEmail(convidadado1, nomeOrientador, nomeAluno);
                 }
-            }else{
+            } else {
                 mandarEmail(banca.getAluno(), nomeOrientador, nomeAluno);
             }
-        }   
+        }
     }
-    
-    
-    
+
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.

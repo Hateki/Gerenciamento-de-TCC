@@ -54,7 +54,33 @@ public class CriarBancaTCCServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String usuario = (String) request.getSession().getAttribute("usuario");
 
+        AcessoSistema acessoSistema = new AcessoSistema();
+        Pessoa pessoaEncontrada;
+
+        if (usuario == null) {
+            request.setAttribute("retorno", "A sua sessão acabou faça o login novamente.");
+            request.getRequestDispatcher("telaLogin.jsp").forward(request, response);
+        } else {
+            pessoaEncontrada = acessoSistema.procurarPessoaEspecifica(usuario);
+            if (acessoSistema.procurarCoordenador(usuario) == null 
+                    && !(pessoaEncontrada instanceof Orientador)) {
+                try {
+                    request.getSession().invalidate();
+                } catch (Exception e) {
+
+                }
+                request.setAttribute("retorno", "Você não pode acessar esta página, faça o login novamente!");
+                request.getRequestDispatcher("telaLogin.jsp").forward(request, response);
+            } else {
+                criarBanca(request, response);
+            }
+        }
+    }
+    
+    public void criarBanca(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException{
         String professor1 = request.getParameter("professor1");
         String professor2 = request.getParameter("professor2");
         String professor3 = request.getParameter("professor3");

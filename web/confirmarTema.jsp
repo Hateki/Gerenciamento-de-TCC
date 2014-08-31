@@ -81,7 +81,9 @@
                         <tr>
                             <td><%=tema.getAluno().getNome()%></td>
                             <td> <%=temasPendentes.get(i).get(2) %> </td>
-                            <td><%=tema.getOrientador().getProfessor().getNome()%></td>
+                            <td>
+                                <%=tema.getOrientador().getProfessor().getNome()%>
+                            </td>
                             <td><%=tema.getDescricao()%></td>
                             <td>
                                 <input type="text" name="cargaHoraria" id="cargaHoraria"
