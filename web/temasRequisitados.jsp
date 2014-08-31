@@ -4,6 +4,9 @@
     Author     : pontofrio
 --%>
 
+<%@page import="br.edu.unipampa.model.Professor"%>
+<%@page import="br.edu.unipampa.model.Orientador"%>
+<%@page import="br.edu.unipampa.model.web.AcessoSistema"%>
 <%@page import="br.edu.unipampa.model.Tema"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="java.util.List" %>
@@ -29,25 +32,43 @@
             List<Tema> temasPendentes = (List<Tema>) request.getAttribute("retorno");
             String aprovado;
             String classe;//Classe da linha da tabela
+
+            String usuario = (String) request.getSession().getAttribute("usuario");
+            AcessoSistema acesso = new AcessoSistema();
+
+            Orientador orientador = acesso.procurarOrientador(usuario);
+            Professor professor = acesso.procurarProfessor(usuario);
+
+            pageContext.setAttribute("orientador", orientador);
+            pageContext.setAttribute("professor", professor);
         %>
 
         <!-- Criando o menuPrincipal -->
         <div class="navbar navbar-inverse navbar-fixed-top">
             <div class="container">
+
+                <% if (orientador != null) { %>
+                <a href="menuPrincipalOrientador.jsp" class="navbar-brand"> Gerenciamento de TCC </a>
+
+                <% } else if (professor != null) { %>
                 <a href="menuPrincipalProfessor.jsp" class="navbar-brand"> Gerenciamento de TCC </a>
+                <% } %>
+
                 <button class="navbar-toggle" data-toggle = "collapse" data-target = ".OpcoesMenu">
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
+
+                <% if (orientador != null) { %>    
                 <div class="collapse navbar-collapse OpcoesMenu">
                     <ul class="nav navbar-nav">
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Banca <span class="caret"></span></a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Banca Avaliadora<span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">
-                                <li> <a href="http://localhost:8080/GerenciamentoTCC/CriarBancaTCCServlet"> Criar Banca </a></li>
-                                <li> <a href="http://localhost:8080/GerenciamentoTCC/MarcarBancaServlet"> Definir Horário Local e Data </a> </li>
-                                <li> <a href="http://localhost:8080/GerenciamentoTCC/VerificarBancaServlet"> VerificarBanca </a> </li>
+                                <li> <a href="http://localhost:8080/GerenciamentoTCC/FiltrarTCCsDoAluno"> Criar Banca </a></li>
+                                <li> <a href="http://localhost:8080/GerenciamentoTCC/MarcarBancaServlet"> Definir Horário, Local e Data para Bancas </a> </li>
+                                <li> <a href="http://localhost:8080/GerenciamentoTCC/VerificarBancaServlet"> Verificar Bancas </a> </li>
                                 <li> <a href="http://localhost:8080/GerenciamentoTCC/AgendaDefesasServlet"> Agenda de Defesas </a> </li>
                             </ul>
                         </li>
@@ -55,9 +76,28 @@
                         <li> <a href="http://localhost:8080/GerenciamentoTCC/cadastroPessoaExterna.jsp"> Cadastrar Pessoa Externa </a> </li>
                         <li> <a href="http://localhost:8080/GerenciamentoTCC/contato.html"> Contato </a> </li>
                         <li> <a href="http://localhost:8080/GerenciamentoTCC/sobre.html"> Sobre</a> </li>
-                        <li> <a href="http://localhost:8080/GerenciamentoTCC/telaLogin.jsp"> Sair</a> </li>
+                        <li> <a href="http://localhost:8080/GerenciamentoTCC/SairSistemaServlet"> Sair</a> </li>
                     </ul>
                 </div>
+                
+                <% } else if (professor != null) { %>    
+                <div class="collapse navbar-collapse OpcoesMenu">
+                    <ul class="nav navbar-nav">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Banca Avaliadora<span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li> <a href="http://localhost:8080/GerenciamentoTCC/VerificarBancaServlet"> Verificar Bancas </a> </li>
+                                <li> <a href="http://localhost:8080/GerenciamentoTCC/AgendaDefesasServlet"> Agenda de Defesas </a> </li>
+                            </ul>
+                        </li>
+                        <li> <a href="http://localhost:8080/GerenciamentoTCC/TemasRequisitadosServlet"> Temas Requisitados  </a></li>
+                        <li> <a href="http://localhost:8080/GerenciamentoTCC/contato.html"> Contato </a> </li>
+                        <li> <a href="http://localhost:8080/GerenciamentoTCC/sobre.html"> Sobre</a> </li>
+                        <li> <a href="http://localhost:8080/GerenciamentoTCC/SairSistemaServlet"> Sair</a> </li>
+                    </ul>
+                </div>
+                <% } %>
+
             </div>
         </div>
         <br><br><br><br>
@@ -68,8 +108,7 @@
         <div id="tela">
             <h1>Temas cadastrados</h1>
 
-            <%
-                for (int i = 0; i < temasPendentes.size(); i++) {
+            <%                for (int i = 0; i < temasPendentes.size(); i++) {
                     Tema tema = temasPendentes.get(i);
                     valorBotao = "" + (i + 1);
             %>

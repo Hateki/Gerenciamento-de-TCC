@@ -169,12 +169,8 @@
         <servlet-class>br.edu.unipampa.controller.RelacaoNotasServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>DownloadTCCBancaServlet</servlet-name>
-        <servlet-class>br.edu.unipampa.controller.DownloadTCCBancaServlet</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>TransicaoDownloadServlet</servlet-name>
-        <servlet-class>br.edu.unipampa.controller.TransicaoDownloadServlet</servlet-class>
+        <servlet-name>ListarTemasCoordenador</servlet-name>
+        <servlet-class>br.edu.unipampa.controller.ListarTemasCoordenador</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>VerificarBancaCoordenadorServlet</servlet-name>
@@ -299,12 +295,8 @@
         <url-pattern>/RelacaoNotasServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>DownloadTCCBancaServlet</servlet-name>
-        <url-pattern>/DownloadTCCBancaServlet</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>TransicaoDownloadServlet</servlet-name>
-        <url-pattern>/TransicaoDownloadServlet</url-pattern>
+        <servlet-name>ListarTemasCoordenador</servlet-name>
+        <url-pattern>/ListarTemasCoordenador</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>VerificarBancaCoordenadorServlet</servlet-name>

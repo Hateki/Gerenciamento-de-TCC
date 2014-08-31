@@ -5,7 +5,11 @@
  */
 package br.edu.unipampa.controller;
 
+import static br.edu.unipampa.controller.DatasPrazosServlet.ANO;
+import static br.edu.unipampa.controller.DatasPrazosServlet.DIA;
+import static br.edu.unipampa.controller.DatasPrazosServlet.MES;
 import br.edu.unipampa.model.Aluno;
+import br.edu.unipampa.model.Datas;
 import br.edu.unipampa.model.Orientador;
 import br.edu.unipampa.model.Pessoa;
 import br.edu.unipampa.model.Professor;
@@ -19,6 +23,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
@@ -88,6 +94,27 @@ public class CadastroTemaServlet extends HttpServlet {
 
         request.setAttribute("professores", as.retornarProfossores());
 
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         //doDownload(request, response, "Um nome", "Outro nome");
         //salvarArquivo(request, response);
         if (usuarioProfessor != null) {
@@ -127,6 +154,78 @@ public class CadastroTemaServlet extends HttpServlet {
         }
     }
 
+    public boolean verificarPrazo(String tipoTCC) {
+        AcessoSistema acessoSistema = new AcessoSistema();
+        Datas datas = acessoSistema.procurarDatas();
+        String[] prazoInicial = {};
+        String[] prazoFinal = {};
+        boolean resultado = false;
+
+        if (tipoTCC.equals("tccInicial")) {
+            prazoInicial = separarDatas(datas.getDataInicioTccFinal());
+            prazoFinal = separarDatas(datas.getDataFinalTccFinal());
+        } else if (tipoTCC.equals("tccFinal")) {
+            prazoInicial = separarDatas(datas.getDataInicioTccCorrigido());
+            prazoFinal = separarDatas(datas.getDataFinalTccCorrigido());
+        }
+
+        String[] atual;
+        Date date = new Date(System.currentTimeMillis());
+        SimpleDateFormat formatador = new SimpleDateFormat("yyyy-MM-dd");
+
+        atual = separarDatas(formatador.format(date));
+
+        int diaAtual = Integer.parseInt(atual[2]);
+        int mesAtual = Integer.parseInt(atual[1]);
+        int anoAtual = Integer.parseInt(atual[0]);
+
+        if (anoAtual > Integer.parseInt(prazoFinal[ANO])) {
+            resultado = false;
+        } else if (anoAtual < Integer.parseInt(prazoFinal[ANO])) {
+            resultado = true;
+        } else {//Se os anos são iguais
+            if (mesAtual > Integer.parseInt(prazoFinal[MES])) {
+                resultado = false;
+            } else if (mesAtual < Integer.parseInt(prazoFinal[MES])) {
+                resultado = true;
+            } else {//Se os meses são iguais
+                if (diaAtual > Integer.parseInt(prazoFinal[DIA])) {
+                    resultado = false;
+                } else {
+                    resultado = true;
+                }
+            }
+        }
+        return resultado;
+    }
+    
+    public String[] separarDatas(String data) {
+        String ano = "";
+        String mes = "";
+        String dia = "";
+        String[] datas = new String[3];
+        int cont = 0;
+
+        for (int i = 0; i < data.length(); i++) {
+            if (cont < 4) {
+                ano = ano + data.charAt(i);
+            } else if (cont < 7 && cont != 4) {
+                mes = mes + data.charAt(i);
+            } else if (cont > 6 && cont != 7) {
+                dia = dia + data.charAt(i);
+            }
+            cont++;
+        }
+
+        datas[ANO] = ano;
+        datas[MES] = mes;
+        datas[DIA] = dia;
+
+        return datas;
+    }
+    
+    
+    
     private void mandarEmails(Aluno aluno, Orientador orientador) {
         EnvioEmails emails = new EnvioEmails();
         String mensagemOrientador = null;
