@@ -70,7 +70,7 @@ public class LoginServlet extends HttpServlet {
             if (caminho != null) {
                 view = request.getRequestDispatcher(caminho);
             } else {
-                view = request.getRequestDispatcher("menuPrincipalProfessor.jsp");
+                view = request.getRequestDispatcher("menuPrincipalOutros.jsp");
             }
         } else if (result == AcessoSistema.ORIENTADOR) {
             session = request.getSession();
@@ -81,33 +81,7 @@ public class LoginServlet extends HttpServlet {
                 view = request.getRequestDispatcher("menuPrincipalOrientador.jsp");
             }
 
-        }//else if(result == AcessoSistema.PESSOA_EXTERNA){
-        //            session = request.getSession();
-        //            session.setAttribute("usuario", nome);
-        //            if(caminho != null){
-        //                view = request.getRequestDispatcher(caminho);
-        //            }else{
-        //                view = request.getRequestDispatcher("menuPrincipalProfessor.jsp");
-        //            }
-        //        }else if(result == AcessoSistema.COORDENADOR){
-        //            session = request.getSession();
-        //            session.setAttribute("usuario", nome);
-        //            if(caminho != null){
-        //                view = request.getRequestDispatcher(caminho);
-        //            }else{
-        //                view = request.getRequestDispatcher("menuPrincipalCoordenadorTCCs.jsp");
-        //            }
-        //        }else if(result == AcessoSistema.TECNICO_ADMINISTRATIVO){
-        //            session = request.getSession();
-        //            session.setAttribute("usuario", nome);
-        //            if(caminho != null){
-        //                view = request.getRequestDispatcher(caminho);
-        //            }else{
-        //                view = request.getRequestDispatcher("menuPrincipalProfessor.jsp");
-        //            }
-        //        }
-        //        
-        else if (result == AcessoSistema.COORDENADOR) {
+        }else if (result == AcessoSistema.COORDENADOR) {
             session = request.getSession();
             session.setAttribute("usuario", nome);
             if (caminho != null) {

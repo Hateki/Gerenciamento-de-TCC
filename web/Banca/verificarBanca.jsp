@@ -62,7 +62,7 @@
                 <a href="menuPrincipalOrientador.jsp" class="navbar-brand"> Gerenciamento de TCC </a>
 
                 <% } else if (professor != null) { %>
-                <a href="menuPrincipalProfessor.jsp" class="navbar-brand"> Gerenciamento de TCC </a>
+                <a href="menuPrincipalOutros.jsp" class="navbar-brand"> Gerenciamento de TCC </a>
                 <% } %>
 
                 <c:if test="${not empty coordenador}" var="v" scope="request">
@@ -127,25 +127,7 @@
                     </ul>
                 </div>
 
-                <% } else if (professor != null) { %>
-                <div class="collapse navbar-collapse OpcoesMenu">
-                    <ul class="nav navbar-nav">
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Banca Avaliadora<span class="caret"></span></a>
-                            <ul class="dropdown-menu" role="menu">
-
-                                <li> <a href="http://localhost:8080/GerenciamentoTCC/VerificarBancaServlet"> Verificar Bancas </a> </li>
-                                <li> <a href="http://localhost:8080/GerenciamentoTCC/AgendaDefesasServlet"> Agenda de Defesas </a> </li>
-                            </ul>
-                        </li>
-                        <li> <a href="http://localhost:8080/GerenciamentoTCC/TemasRequisitadosServlet"> Temas Requisitados  </a></li>
-                        <li> <a href="http://localhost:8080/GerenciamentoTCC/contato.html"> Contato </a> </li>
-                        <li> <a href="http://localhost:8080/GerenciamentoTCC/sobre.html"> Sobre</a> </li>
-                        <li> <a href="http://localhost:8080/GerenciamentoTCC/SairSistemaServlet"> Sair</a> </li>
-                    </ul>
-                </div>
-
-                <% } else if (ta != null || pe != null) { %>
+                <% } else if (ta != null || pe != null || professor != null) { %>
                 <div class="collapse navbar-collapse OpcoesMenu">
                     <ul class="nav navbar-nav">
                         <li class="dropdown">

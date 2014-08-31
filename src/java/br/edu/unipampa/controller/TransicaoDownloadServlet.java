@@ -36,7 +36,7 @@ public class TransicaoDownloadServlet extends HttpServlet {
         Tema tema = (Tema) request.getAttribute("temaTcc");
         Tcc tcc = (Tcc) request.getAttribute("tipoTcc");
 
-        if (tcc.getTipoTCC() == 0) {
+        if (tcc != null && tcc.getTipoTCC() == 0) {
             request.getSession().setAttribute("tccSessao", tcc);
         } else if (tcc.getTipoTCC() == 1) {
             if (tcc.getVersaoTCC() == 0) {

@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package br.edu.unipampa.controller;
 
 import java.io.IOException;
@@ -30,13 +29,14 @@ public class SairSistemaServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        try{
+
+        try {
             request.getSession().invalidate();
-        }catch (Exception e){
-            
+            request.getSession().removeAttribute("caminho");
+        } catch (Exception e) {
+
         }
-        
+
         request.getRequestDispatcher("telaLogin.jsp").forward(request, response);
     }
 

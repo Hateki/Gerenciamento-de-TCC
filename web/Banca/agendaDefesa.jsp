@@ -63,7 +63,7 @@
                 <a href="menuPrincipalOrientador.jsp" class="navbar-brand"> Gerenciamento de TCC </a>
 
                 <% } else if (professor != null) { %>
-                <a href="menuPrincipalProfessor.jsp" class="navbar-brand"> Gerenciamento de TCC </a>
+                <a href="menuPrincipalOutros.jsp" class="navbar-brand"> Gerenciamento de TCC </a>
                 <% } %>
 
                 <c:if test="${not empty coordenador}" var="v" scope="request">
@@ -123,7 +123,7 @@
                             </ul>
                         </li>
 
-                        <% if (orientador != null || professor != null) { %>
+                        <% if (orientador != null) { %>
                         <li> <a href="http://localhost:8080/GerenciamentoTCC/TemasRequisitadosServlet"> Temas Requisitados  </a></li>
                             <% } %>
 
