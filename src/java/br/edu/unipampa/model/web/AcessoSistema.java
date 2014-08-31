@@ -912,30 +912,13 @@ public class AcessoSistema {
      * @return O tcc do aluno
      */
     public Tcc procurarTCCPorBanca(Banca banca) {
-        Aluno aluno = banca.getAluno();
-        //Garante que os dados vão ser todos lidos
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(AcessoSistema.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        List<Tcc> tccsEncontrados = SESSAO.createQuery("From Tcc").list();
-        List<Tema> temasConfirmados = procurarTemasConfirmados(banca.getOrientadorByOrientadorIdOrientador());
-        Tema temaBanca = null;
-
-        for (Tema tema : temasConfirmados) {
-            if (aluno == tema.getAluno()) {
-                temaBanca = tema;
-                break;
-            }
-        }
-
-        for (Tcc tcc : tccsEncontrados) {
-            if (tcc.getTema() == temaBanca) {
-                return tcc;
-            }
-        }
-        return null;
+        //Carrega os dados para serem usados
+        banca.getTcc().getNotaOrientador();
+        banca.getTcc().getNotaConvidado1();
+        banca.getTcc().getNotaConvidado2();
+        banca.getTcc().getNotaCoorientador();
+        /////////////////////////////////////
+        return banca.getTcc();
     }
 
     /**

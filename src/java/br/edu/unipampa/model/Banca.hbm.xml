@@ -26,6 +26,9 @@
         <many-to-one name="orientadorByCoorientadorIdOrientador" class="br.edu.unipampa.model.Orientador" fetch="select">
             <column name="Coorientador_idOrientador" />
         </many-to-one>
+        <many-to-one name="tcc" class="br.edu.unipampa.model.Tcc" fetch="select">
+            <column name="TCC_idTCC" />
+        </many-to-one>
         <property name="data" type="string">
             <column name="data" length="45" />
         </property>

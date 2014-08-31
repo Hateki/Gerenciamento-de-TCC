@@ -16,6 +16,7 @@ public class Banca implements java.io.Serializable {
     private String data;
     private String horario;
     private String local;
+    private Tcc tcc;
 
     public Banca() {
     }
@@ -117,6 +118,20 @@ public class Banca implements java.io.Serializable {
 
     public void setLocal(String local) {
         this.local = local;
+    }
+
+    /**
+     * @return the tcc
+     */
+    public Tcc getTcc() {
+        return tcc;
+    }
+
+    /**
+     * @param tcc the tcc to set
+     */
+    public void setTcc(Tcc tcc) {
+        this.tcc = tcc;
     }
 
 }

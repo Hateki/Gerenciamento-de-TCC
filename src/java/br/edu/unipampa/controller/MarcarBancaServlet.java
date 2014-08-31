@@ -55,18 +55,17 @@ public class MarcarBancaServlet extends HttpServlet {
         Datas prazo = acessoSistema.procurarDatas();
         String[] prazoInicial = separarDatas(prazo.getDataInicioBanca());
         String[] prazoFinal = separarDatas(prazo.getDataFimBanca());
-        
+
         request.setAttribute("Prazo", verificarPrazo());
-        
-        request.setAttribute("dataInicial", prazoInicial[DIA] +
-                "/" + prazoInicial[MES] + "/" + prazoInicial[ANO]);
-        
-        request.setAttribute("dataFinal", prazoFinal[DIA] +
-                "/" + prazoFinal[MES] + "/" + prazoFinal[ANO]);
+
+        request.setAttribute("dataInicial", prazoInicial[DIA]
+                + "/" + prazoInicial[MES] + "/" + prazoInicial[ANO]);
+
+        request.setAttribute("dataFinal", prazoFinal[DIA]
+                + "/" + prazoFinal[MES] + "/" + prazoFinal[ANO]);
 
         request.setAttribute("bancas", listaBancas);
 
-        
         if (local != null || data != null || horario != null) {
             /*
              if(data =! prazo){
@@ -78,22 +77,20 @@ public class MarcarBancaServlet extends HttpServlet {
             request.getSession().removeAttribute("Banca");
             mandarEmails(bancaEscolhida);
             request.getRequestDispatcher("Banca/marcarBanca.jsp").forward(request, response);
-        }
-        else if (valorBotao != null) {
+        } else if (valorBotao != null) {
             if (!valorBotao.equals("")) {
                 bancaEscolhida = listaBancas.get(Integer.parseInt(valorBotao) - 1);
                 request.setAttribute("banca", bancaEscolhida);
                 request.getRequestDispatcher("Banca/detalheBanca.jsp").forward(request, response);
-            }else{
+            } else {
                 request.getRequestDispatcher("Banca/marcarBanca.jsp").forward(request, response);
             }
-        }
-        else{
+        } else {
             request.getRequestDispatcher("Banca/marcarBanca.jsp").forward(request, response);
         }
         acessoSistema.completarTransacoes();
     }
-    
+
     private void mandarEmail(Pessoa pessoa, String nomeAluno) {
         EnvioEmails emails = new EnvioEmails();
         String mensagem = "";
@@ -131,38 +128,43 @@ public class MarcarBancaServlet extends HttpServlet {
                     mandarEmail(convidadado3, nomeAluno);
                 }
             } else if (i == 4) {
-                if(coorientador != null){
+                if (coorientador != null) {
                     mandarEmail(convidadado1, nomeAluno);
                 }
-            }else{
+            } else {
                 mandarEmail(banca.getAluno(), nomeAluno);
             }
         }
     }
-    
-    public void conferirPrazo(String data){
+
+    public void conferirPrazo(String data) {
         String ano = "";
         String mes = "";
         String dia = "";
         int cont = 0;
-        
+
         for (int i = 0; i < data.length(); i++) {
-            if(cont < 4){
+            if (cont < 4) {
                 ano = ano + data.charAt(i);
-            }else if(cont < 7 && cont != 4){
+            } else if (cont < 7 && cont != 4) {
                 mes = mes + data.charAt(i);
-            }else if(cont > 6 && cont != 7){
+            } else if (cont > 6 && cont != 7) {
                 dia = dia + data.charAt(i);
             }
             cont++;
         }
     }
-    
+
     public boolean verificarPrazo() {
         AcessoSistema acessoSistema = new AcessoSistema();
         Datas datas = acessoSistema.procurarDatas();
-        String[] prazoInicial = separarDatas(datas.getDataInicioBanca());
-        String[] prazoFinal = separarDatas(datas.getDataFimBanca());;
+        String[] prazoInicial = {};
+        String[] prazoFinal = {};
+        boolean resultado = false;
+
+        prazoInicial = separarDatas(datas.getDataInicioBanca());
+        prazoFinal = separarDatas(datas.getDataFimBanca());
+
         String[] atual;
         Date date = new Date(System.currentTimeMillis());
         SimpleDateFormat formatador = new SimpleDateFormat("yyyy-MM-dd");
@@ -173,23 +175,42 @@ public class MarcarBancaServlet extends HttpServlet {
         int mesAtual = Integer.parseInt(atual[1]);
         int anoAtual = Integer.parseInt(atual[0]);
 
-        if (anoAtual > Integer.parseInt(prazoFinal[ANO])) {
-            return false;
-        } else if (mesAtual > Integer.parseInt(prazoFinal[MES])) {
-            return false;
-        } else if (diaAtual > Integer.parseInt(prazoFinal[DIA])) {
-            return false;
-        }
-
         if (anoAtual < Integer.parseInt(prazoInicial[ANO])) {
-            return false;
-        } else if (mesAtual < Integer.parseInt(prazoInicial[MES])) {
-            return false;
-        } else if (diaAtual < Integer.parseInt(prazoInicial[DIA])) {
-            return false;
+            resultado = false;
+        } else if (anoAtual > Integer.parseInt(prazoInicial[ANO])) {
+            resultado = true;
+        } else {//Se os anos são iguais
+            if (mesAtual < Integer.parseInt(prazoInicial[MES])) {
+                resultado = false;
+            } else if (mesAtual > Integer.parseInt(prazoInicial[MES])) {
+                resultado = true;
+            } else {//Se os meses são iguais
+                if (diaAtual < Integer.parseInt(prazoInicial[DIA])) {
+                    resultado = false;
+                } else {
+                    resultado = true;
+                }
+            }
         }
 
-        return true;
+        if (anoAtual > Integer.parseInt(prazoFinal[ANO])) {
+            resultado = false;
+        } else if (anoAtual < Integer.parseInt(prazoFinal[ANO])) {
+            resultado = true;
+        } else {//Se os anos são iguais
+            if (mesAtual > Integer.parseInt(prazoFinal[MES])) {
+                resultado = false;
+            } else if (mesAtual < Integer.parseInt(prazoFinal[MES])) {
+                resultado = true;
+            } else {//Se os meses são iguais
+                if (diaAtual > Integer.parseInt(prazoFinal[DIA])) {
+                    resultado = false;
+                } else {
+                    resultado = true;
+                }
+            }
+        }
+        return resultado;
     }
 
     public String[] separarDatas(String data) {

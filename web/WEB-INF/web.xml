@@ -168,6 +168,14 @@
         <servlet-name>RelacaoNotasServlet</servlet-name>
         <servlet-class>br.edu.unipampa.controller.RelacaoNotasServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>DownloadTCCBancaServlet</servlet-name>
+        <servlet-class>br.edu.unipampa.controller.DownloadTCCBancaServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>TransicaoDownloadServlet</servlet-name>
+        <servlet-class>br.edu.unipampa.controller.TransicaoDownloadServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>CadastraPessoaExternaServelt</servlet-name>
         <url-pattern>/CadastraPessoaExternaServelt</url-pattern>
@@ -285,6 +293,14 @@
     <servlet-mapping>
         <servlet-name>RelacaoNotasServlet</servlet-name>
         <url-pattern>/RelacaoNotasServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DownloadTCCBancaServlet</servlet-name>
+        <url-pattern>/DownloadTCCBancaServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TransicaoDownloadServlet</servlet-name>
+        <url-pattern>/TransicaoDownloadServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
