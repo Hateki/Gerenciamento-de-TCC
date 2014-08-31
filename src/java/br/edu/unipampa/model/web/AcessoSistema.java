@@ -395,13 +395,39 @@ public class AcessoSistema {
         }
         return null;
     }
+
     /**
      * Procura os Alunos do sitema
+     *
      * @return lista de alunos encontrados
      */
-    public List<Aluno> procurarAlunos(){
+    public List<Aluno> procurarAlunos() {
         List<Aluno> alunosEncontrados = SESSAO.createQuery("From Aluno").list();
         return alunosEncontrados;
+    }
+
+    /**
+     * Procura os alunos relacionados ao orientador especificado
+     *
+     * @param orientador Orientador para se procurar os alunos
+     * @return lista de alunos encontrados
+     */
+    public List<Aluno> procurarAlunos(Orientador orientador) {
+        List<Aluno> alunosEncontrados = retornarAlunos();
+        List<Tema> temasAceitos = procurarTemasConfirmados(orientador);
+        List<Aluno> alunosOrientador = new ArrayList<>();
+
+        for (Tema tema : temasAceitos) {
+            if (tema.getOrientador() == orientador) {
+                for (Aluno aluno : alunosEncontrados) {
+                    if (tema.getAluno() == aluno) {
+                        alunosOrientador.add(aluno);
+                        break;
+                    }
+                }
+            }
+        }
+        return alunosOrientador;
     }
 
     /**
@@ -564,11 +590,11 @@ public class AcessoSistema {
         for (Pessoaexterna pessoaExterna : pessoasEncontradas) {
             listaPessoas.remove(pessoaExterna);
         }
-        
+
         for (Tecnicoadministrativo ta : tecnicosEncontrados) {
             listaPessoas.remove(ta);
         }
-        
+
         for (Professor professor : professoresEncontrados) {
             listaPessoas.remove(professor);
         }
@@ -911,13 +937,12 @@ public class AcessoSistema {
         }
         return null;
     }
-    
+
     public List<Tcc> procurarListaTCCPorBanca(Banca banca) {
         Aluno aluno = banca.getAluno();
         List<Tcc> tccsEncontrados = SESSAO.createQuery("From Tcc").list();
         List<Tema> temasConfirmados = procurarTemasConfirmados(banca.getOrientadorByOrientadorIdOrientador());
         Tema temaBanca = null;
-        
 
         for (Tema tema : temasConfirmados) {
             if (aluno == tema.getAluno()) {
@@ -928,7 +953,7 @@ public class AcessoSistema {
 
         for (Tcc tcc : tccsEncontrados) {
             if (tcc.getTema() == temaBanca) {
-                
+
             }
         }
         return null;
@@ -1008,13 +1033,12 @@ public class AcessoSistema {
         }
         return null;
     }
-    
+
     public boolean verificarTcc(Tcc tcc) {
         if (tcc != null) {
             return tcc.getStatus() == Tcc.APROVADO || tcc.getStatus() == Tcc.REPROVADO;
         }
         return false;
     }
-    
-    
+
 }

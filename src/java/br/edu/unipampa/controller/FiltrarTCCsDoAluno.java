@@ -6,6 +6,7 @@
 package br.edu.unipampa.controller;
 
 import br.edu.unipampa.model.Aluno;
+import br.edu.unipampa.model.Orientador;
 import br.edu.unipampa.model.Tcc;
 import br.edu.unipampa.model.Tema;
 import br.edu.unipampa.model.web.AcessoSistema;
@@ -39,28 +40,35 @@ public class FiltrarTCCsDoAluno extends HttpServlet {
             throws ServletException, IOException {
 
         AcessoSistema as = new AcessoSistema();
+        String usuario = (String) request.getSession().getAttribute("usuario");
+        List<List> alunosDisponiveis = new ArrayList<>();
+        List<Object> tccsNaoAvaliados;
         Tema tema;
         Tcc tcc1 = null;
         Tcc tcc2 = null;
-        List<Object> listaTCCsAluno = new ArrayList<>();
-        
-        for (Aluno aluno : as.retornarAlunos()) {
+        Orientador orientador = as.procurarOrientador(usuario);
+
+        for (Aluno aluno : as.procurarAlunos(orientador)) {
+            tccsNaoAvaliados = new ArrayList<>();
             tcc1 = as.procurarTipoVersaoTcc(aluno.getMatricula(), 0, 0);
             tcc2 = as.procurarTipoVersaoTcc(aluno.getMatricula(), 0, 1);
             tema = aluno.getTema();
             if (tcc1.getStatus() != Tcc.EM_DEFESA && tcc1.getStatus() != Tcc.APROVADO && tcc1.getStatus() != Tcc.REPROVADO) {
-                listaTCCsAluno.add(aluno);
-                listaTCCsAluno.add(tema);
-                listaTCCsAluno.add(tcc1);
-                if (tcc2.getStatus() != Tcc.EM_DEFESA && tcc2.getStatus() != Tcc.APROVADO && tcc2.getStatus() != Tcc.REPROVADO) {
-                    listaTCCsAluno.add(tcc2);
-                }
+                tccsNaoAvaliados.add(aluno);
+                tccsNaoAvaliados.add(tema);
+                tccsNaoAvaliados.add(tcc1);
+                alunosDisponiveis.add(tccsNaoAvaliados);
+            } else if (tcc2.getStatus() != Tcc.EM_DEFESA && tcc2.getStatus() != Tcc.APROVADO && tcc2.getStatus() != Tcc.REPROVADO) {
+                tccsNaoAvaliados.add(aluno);
+                tccsNaoAvaliados.add(tema);
+                tccsNaoAvaliados.add(tcc2);
+                alunosDisponiveis.add(tccsNaoAvaliados);
             }
         }
-        
-        request.setAttribute("listaDeRelacaoAlunoETCCs", listaTCCsAluno);
-        
+
+        request.setAttribute("alunosDisponiveis", alunosDisponiveis);
         as.completarTransacoes();
+
         request.getRequestDispatcher("CriarBancaTCCServlet").forward(request, response);
     }
         

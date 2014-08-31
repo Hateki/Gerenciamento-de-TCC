@@ -15,6 +15,7 @@ import br.edu.unipampa.model.web.AcessoSistema;
 import br.edu.unipampa.model.web.EnvioEmails;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import java.util.Set;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -65,9 +66,6 @@ public class CriarBancaTCCServlet extends HttpServlet {
         as = new AcessoSistema();
         Orientador professor = as.procurarOrientador(orientador);
 
-        //retorna a lista de temas pertencentes a esse orientador
-        request.setAttribute("listaTemasOrientador", as.procurarTemasConfirmados(professor));
-
         if (professor1 != null && professor2 != null && matriculaAlunoString != null) {
 
             matriculaAluno = Integer.parseInt(matriculaAlunoString);
@@ -95,7 +93,8 @@ public class CriarBancaTCCServlet extends HttpServlet {
         }
 
         request.setAttribute("pessoas", as.retornarPessoas());
-        request.setAttribute("alunos", as.retornarAlunos());
+        List<List> teste = (List<List>) request.getAttribute("alunosDisponiveis");
+        request.setAttribute("alunosDisponiveis", request.getAttribute("alunosDisponiveis"));
 
         as.completarTransacoes();
         request.getRequestDispatcher("criarBancaTCC.jsp").forward(request, response);

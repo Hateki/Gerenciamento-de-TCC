@@ -123,15 +123,21 @@
                                     <th>Usuário Aluno</th>
                                     <th>Nome do Aluno</th>
                                     <th>Email</th>
+                                    <th> Fase TCC </th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <c:forEach var="aluno" items="${alunos}">
-                                    <tr onclick="pegaTabelaAluno('<c:out value="${aluno.usuario}"/>')">
-                                        <td> <c:out value="${aluno.usuario}"/> </td>
-                                        <td> <c:out value="${aluno.nome}"/> </td>
-                                        <td> <c:out value="${aluno.pessoa.email}"/> </td>
-                          
+                                <c:forEach var="listaAlunos" items="${alunosDisponiveis}">
+                                    <tr onclick="pegaTabelaAluno('<c:out value="${listaAlunos[0].usuario}"/>')">
+                                        <td> <c:out value="${listaAlunos[0].usuario}"/> </td>
+                                        <td> <c:out value="${listaAlunos[0].nome}"/> </td>
+                                        <td> <c:out value="${listaAlunos[0].pessoa.email}"/> </td>
+                                        <c:if test="${listaAlunos[2].tipoTCC == 0}" var="v" scope="request">
+                                            <td> TCC 1 </td>
+                                        </c:if>
+                                        <c:if test="${listaAlunos[2].tipoTCC == 1}" var="v" scope="request">
+                                            <td> TCC 2 </td>
+                                        </c:if>    
                                     </tr>
                                 </c:forEach>
                             </tbody>

@@ -3,13 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package br.edu.unipampa.controller;
 
 import br.edu.unipampa.model.Aluno;
+import br.edu.unipampa.model.Orientador;
 import br.edu.unipampa.model.Tcc;
+import br.edu.unipampa.model.Tema;
 import br.edu.unipampa.model.web.AcessoSistema;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -33,23 +35,37 @@ public class FiltrarTCCsDosAlunos extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       
+
         AcessoSistema as = new AcessoSistema();
-        List<Tcc> tccsNaoAvaliados = null;
-        
-        for(Aluno alunoSelecionado : as.retornarAlunos()){
-            List<Tcc> tccAtual = (List<Tcc>) as.procurarTCCAtual(alunoSelecionado.getMatricula());
-            
-            for(Tcc tcc : tccAtual){
-                if(tcc.getStatus() == Tcc.ACEITO){
-                    tccsNaoAvaliados.add(tcc);
-                }
+        String usuario = (String) request.getSession().getAttribute("usuario");
+        List<List> alunosDisponiveis = new ArrayList<>();
+        List<Object> tccsNaoAvaliados;
+        Tema tema;
+        Tcc tcc1 = null;
+        Tcc tcc2 = null;
+        Orientador orientador = as.procurarOrientador(usuario);
+
+        for (Aluno aluno : as.procurarAlunos(orientador)) {
+            tccsNaoAvaliados = new ArrayList<>();
+            tcc1 = as.procurarTipoVersaoTcc(aluno.getMatricula(), 0, 0);
+            tcc2 = as.procurarTipoVersaoTcc(aluno.getMatricula(), 0, 1);
+            tema = aluno.getTema();
+            if (tcc1.getStatus() != Tcc.EM_DEFESA && tcc1.getStatus() != Tcc.APROVADO && tcc1.getStatus() != Tcc.REPROVADO) {
+                tccsNaoAvaliados.add(aluno);
+                tccsNaoAvaliados.add(tema);
+                tccsNaoAvaliados.add(tcc1);
+                alunosDisponiveis.add(tccsNaoAvaliados);
+            } else if (tcc2.getStatus() != Tcc.EM_DEFESA && tcc2.getStatus() != Tcc.APROVADO && tcc2.getStatus() != Tcc.REPROVADO) {
+                tccsNaoAvaliados.add(aluno);
+                tccsNaoAvaliados.add(tema);
+                tccsNaoAvaliados.add(tcc2);
+                alunosDisponiveis.add(tccsNaoAvaliados);
             }
         }
-        
-        request.setAttribute("tccsNaoAvaliados", tccsNaoAvaliados);
+
+        request.setAttribute("alunosDispoiniveis", alunosDisponiveis);
         as.completarTransacoes();
-        
+
         request.getRequestDispatcher("CriarBancaTCCServlet").forward(request, response);
     }
 

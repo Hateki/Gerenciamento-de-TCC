@@ -47,8 +47,9 @@ public class RelacaoNotasServlet extends HttpServlet {
         Tcc tcc1 = null;
         Tcc tcc2;
         List<List> listaTemas = new ArrayList<>();
-        List<Object> listaTemasNotas = new ArrayList<>();
+        List<Object> listaTemasNotas;
         for (Aluno aluno : listaAlunos) {
+            listaTemasNotas = new ArrayList<>();
             tcc1 = acessoSistema.procurarTipoVersaoTcc(aluno.getMatricula(), 0, 0);
             tcc2 = acessoSistema.procurarTipoVersaoTcc(aluno.getMatricula(), 0, 1);
             tema = aluno.getTema();
@@ -58,8 +59,8 @@ public class RelacaoNotasServlet extends HttpServlet {
                 if (tcc2 != null) {
                     listaTemasNotas.add(retornarMedia(tcc2));
                 }
+                listaTemas.add(listaTemasNotas);
             }
-            listaTemas.add(listaTemasNotas);
         }
         return listaTemas;
     }
