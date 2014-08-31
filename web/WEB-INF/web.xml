@@ -164,6 +164,10 @@
         <servlet-name>PreparaDownloadServlet</servlet-name>
         <servlet-class>br.edu.unipampa.controller.PreparaDownloadServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>RelacaoNotasServlet</servlet-name>
+        <servlet-class>br.edu.unipampa.controller.RelacaoNotasServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>CadastraPessoaExternaServelt</servlet-name>
         <url-pattern>/CadastraPessoaExternaServelt</url-pattern>
@@ -277,6 +281,10 @@
     <servlet-mapping>
         <servlet-name>PreparaDownloadServlet</servlet-name>
         <url-pattern>/PreparaDownloadServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RelacaoNotasServlet</servlet-name>
+        <url-pattern>/RelacaoNotasServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

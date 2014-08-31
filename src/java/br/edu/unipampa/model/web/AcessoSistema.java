@@ -395,6 +395,14 @@ public class AcessoSistema {
         }
         return null;
     }
+    /**
+     * Procura os Alunos do sitema
+     * @return lista de alunos encontrados
+     */
+    public List<Aluno> procurarAlunos(){
+        List<Aluno> alunosEncontrados = SESSAO.createQuery("From Aluno").list();
+        return alunosEncontrados;
+    }
 
     /**
      * Procura uma pessoa através do usuário especificado
@@ -899,6 +907,28 @@ public class AcessoSistema {
         for (Tcc tcc : tccsEncontrados) {
             if (tcc.getTema() == temaBanca) {
                 return tcc;
+            }
+        }
+        return null;
+    }
+    
+    public List<Tcc> procurarListaTCCPorBanca(Banca banca) {
+        Aluno aluno = banca.getAluno();
+        List<Tcc> tccsEncontrados = SESSAO.createQuery("From Tcc").list();
+        List<Tema> temasConfirmados = procurarTemasConfirmados(banca.getOrientadorByOrientadorIdOrientador());
+        Tema temaBanca = null;
+        
+
+        for (Tema tema : temasConfirmados) {
+            if (aluno == tema.getAluno()) {
+                temaBanca = tema;
+                break;
+            }
+        }
+
+        for (Tcc tcc : tccsEncontrados) {
+            if (tcc.getTema() == temaBanca) {
+                
             }
         }
         return null;

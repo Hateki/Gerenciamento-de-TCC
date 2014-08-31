@@ -12,6 +12,7 @@ import br.edu.unipampa.model.Tema;
 import br.edu.unipampa.model.web.AcessoSistema;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -20,9 +21,9 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author pontofrio
+ * @author Pedro
  */
-public class ExibirSituacaoServlet extends HttpServlet {
+public class RelacaoNotasServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,58 +36,51 @@ public class ExibirSituacaoServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        String usuarioAluno = (String) request.getSession().getAttribute("usuario");
         AcessoSistema acessoSistema = new AcessoSistema();
-        Pessoa pessoaEncontrada;
-
-        if (usuarioAluno == null) {
-            request.getSession().setAttribute("caminho", "ExibirSituacaoServlet");
-            request.setAttribute("retorno", "A sua sessão acabou faça o login novamente.");
-            request.getRequestDispatcher("telaLogin.jsp").forward(request, response);
-        } else {
-            pessoaEncontrada = acessoSistema.procurarPessoaEspecifica(usuarioAluno);
-            if (!(pessoaEncontrada instanceof Aluno)) {
-                try {
-                    request.getSession().invalidate();
-                } catch (Exception e) {
-
-                }
-                request.setAttribute("retorno", "Você não pode acessar esta página, faça o login novamente!");
-                request.getRequestDispatcher("telaLogin.jsp").forward(request, response);
-
-            } else {
-                exibirSituacao(request, response, usuarioAluno);
-            }
-        }
-
+        List<Aluno> alunosAvaliados = acessoSistema.procurarAlunos();
+        request.setAttribute("listaTemas", fazerListaTemas(alunosAvaliados, acessoSistema));
+        request.getRequestDispatcher("relacaoNotas.jsp").forward(request, response);
     }
 
-    public void exibirSituacao(HttpServletRequest request, HttpServletResponse response, String usuarioAluno)
-            throws ServletException, IOException {
-
-        AcessoSistema acessoSistema = new AcessoSistema();
-        Tema tema = acessoSistema.procurarTema(Integer.parseInt(usuarioAluno));
-        List<Tcc> tccs = acessoSistema.procurarTCC(Integer.parseInt(usuarioAluno));
-
-        request.setAttribute("tema", tema);
-        request.setAttribute("tccs", tccs);
-        
-        for (Tcc tcc : tccs) {
-            if(tcc.getTipoTCC() == 0){
-                request.getSession().setAttribute("tccSessao", tcc);
-            }else if(tcc.getTipoTCC() == 1){
-                if(tcc.getVersaoTCC() == 0){
-                    request.getSession().setAttribute("tccDefendidoSessao", tcc);
-                }else{
-                    request.getSession().setAttribute("tccCorrigidoSessao", tcc);
+    public List<List> fazerListaTemas(List<Aluno> listaAlunos, AcessoSistema acessoSistema) {
+        Tema tema;
+        Tcc tcc1 = null;
+        Tcc tcc2;
+        List<List> listaTemas = new ArrayList<>();
+        List<Object> listaTemasNotas = new ArrayList<>();
+        for (Aluno aluno : listaAlunos) {
+            tcc1 = acessoSistema.procurarTipoVersaoTcc(aluno.getMatricula(), 0, 0);
+            tcc2 = acessoSistema.procurarTipoVersaoTcc(aluno.getMatricula(), 0, 1);
+            tema = aluno.getTema();
+            if (verificarTcc(tcc1)) {
+                listaTemasNotas.add(tema);
+                listaTemasNotas.add(retornarMedia(tcc1));
+                if (tcc2 != null) {
+                    listaTemasNotas.add(retornarMedia(tcc2));
                 }
             }
+            listaTemas.add(listaTemasNotas);
         }
-        
-        request.getSession().setAttribute("caminho", "ExibirSituacaoServlet");
+        return listaTemas;
+    }
 
-        request.getRequestDispatcher("Tema/exibirSituacao.jsp").forward(request, response);
+    public boolean verificarTcc(Tcc tcc) {
+        if (tcc != null) {
+            return tcc.getStatus() == Tcc.APROVADO || tcc.getStatus() == Tcc.REPROVADO;
+        }
+        return false;
+    }
+
+    public float retornarMedia(Tcc tcc) {
+        float notaFinal = tcc.getNotaOrientador()
+                + tcc.getNotaConvidado1() + tcc.getNotaConvidado2();
+        if (tcc.getNotaCoorientador() != -1) {
+            notaFinal += tcc.getNotaCoorientador();
+            notaFinal = notaFinal / 4;
+        } else {
+            notaFinal = notaFinal / 3;
+        }
+        return notaFinal;
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

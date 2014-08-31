@@ -112,6 +112,11 @@
             Data Inicial: <input name="dataBancaInicio" id="dataBancaInicio" type="date" onblur="javascript: validardata(this.value);" placeholder="Digite data Inicial" maxlength="14" value="<c:out value="${dataBancaInicial}"/>"/><br>
             Data Final:   <input name="dataBancaFinal" id="dataBancaFinal" type="date" onblur="javascript: validardata(this.value);" placeholder="Digite data Final" maxlength="14" value="<c:out value="${dataBancaFinal}"/>"/><br><br>
             <br><br>
+            
+            <legend>Período do Semestre</legend>
+            Data Inicial: <input name="dataInicioSemestre" id="dataInicioSemestre" type="date" onblur="javascript: validardata(this.value);" placeholder="Digite data Inicial" maxlength="14" value="<c:out value="${dataInicioSemestre}"/>"/><br>
+            Data Final:   <input name="dataFinalSemestre" id="dataFinalSemestre" type="date" onblur="javascript: validardata(this.value);" placeholder="Digite data Final" maxlength="14" value="<c:out value="${dataFinalSemestre}"/>"/><br><br>
+            <br><br>
 
             <input type="submit" class="btn btn-primary" name="enviar" id="enviar" value="Enviar"   />
             <input  type="button" class="btn btn-danger  " name="voltar" id="voltar" value="Voltar" onClick="retornaPaginaPrincipal()">

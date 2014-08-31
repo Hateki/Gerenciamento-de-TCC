@@ -36,5 +36,11 @@
         <property name="dataFinalTccCorrigido" type="string">
             <column name="dataFinalTccCorrigido" length="45" />        
         </property>
+        <property name="dataInicioSemestre" type="string">
+            <column name="dataInicioSemestre" length="45" />        
+        </property>
+        <property name="dataFinalSemestre" type="string">
+            <column name="dataFinalSemestre" length="45" />        
+        </property>
     </class>
 </hibernate-mapping>

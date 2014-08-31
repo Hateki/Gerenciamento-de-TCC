@@ -129,10 +129,10 @@ public class SubmeterTCC2Servlet extends HttpServlet {
         request.setAttribute("dataFinalCorrigido", prazoFinalCorrigido[DIA]
                 + "/" + prazoFinalCorrigido[MES] + "/" + prazoFinalCorrigido[ANO]);
 
-        request.getSession().setAttribute("tccDefendido", acessoSistema.procurarTipoVersaoTcc(Integer.parseInt(usuarioAluno),
+        request.getSession().setAttribute("tccDefendidoSessao", acessoSistema.procurarTipoVersaoTcc(Integer.parseInt(usuarioAluno),
                 0,tipoTcc));
         
-        request.getSession().setAttribute("tccCorrigido", acessoSistema.procurarTipoVersaoTcc(Integer.parseInt(usuarioAluno),
+        request.getSession().setAttribute("tccCorrigidoSessao", acessoSistema.procurarTipoVersaoTcc(Integer.parseInt(usuarioAluno),
                 1, tipoTcc));
         
         request.getSession().setAttribute("caminho", "SubmeterTcc2");

@@ -119,7 +119,7 @@ public class SubmeterTCCServlet extends HttpServlet {
         request.setAttribute("dataFinal", prazoFinal[DIA]
                 + "/" + prazoFinal[MES] + "/" + prazoFinal[ANO]);
 
-        request.getSession().setAttribute("tcc",
+        request.getSession().setAttribute("tccSessao",
                 acessoSistema.procurarTipoVersaoTcc(Integer.parseInt(usuarioAluno), 0,0));
         
         request.getSession().setAttribute("caminho", "SubmeterTccServlet");
