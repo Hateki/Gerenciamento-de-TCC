@@ -216,25 +216,22 @@
                                     <button type="submit" class="bnt btn-primary" name="botaoAvaliacao" value="<%= cont%>">
                                         Avaliar Aluno
                                     </button>
-                                </form>
+                                </form>  
+                            </div>             
+                            <div class="col-md-2">
                                 <form name="ataDefesa" action="AtaDefesaServlet">
                                     <button type="submit" class="bnt btn-primary" name="botaoAvaliacao" value="<%= cont%>">
                                         Ata de defesa
                                     </button>
-                                </form>
+                                </form>         
+                            </div>
+                            <div class="col-md-2">
                                 <form name="parecerFinal" action="ParecerFinalBanca">
                                     <button type="submit" class="bnt btn-primary" name="botaoAvaliacao" value="<%= cont%>">
                                         Parecer Final da Banca
                                     </button>
                                 </form>         
-                            </div>
-                            <div class="col-md-2">
-                                <form name="avaliar" action="AvaliadoresDisponiveisServlet">
-                                    <button type="submit" class="bnt btn-success" name="botaoAvaliacao" value="<%= cont%>">
-                                        Avaliar Aluno(Coordenador) 
-                                    </button>
-                                </form>    
-                            </div>             
+                            </div>            
                             <br><br><br><br><br>
                             <c:if test="${not empty retorno || retorno == ''}" var="v" scope="request">
                                 <div class="alert alert-danger" role="alert"><c:out value="${retorno}"/></div>
