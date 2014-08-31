@@ -7,6 +7,8 @@ package br.edu.unipampa.controller;
 
 import br.edu.unipampa.model.Aluno;
 import br.edu.unipampa.model.Orientador;
+import br.edu.unipampa.model.Pessoa;
+import br.edu.unipampa.model.Professor;
 import br.edu.unipampa.model.Tcc;
 import br.edu.unipampa.model.Tema;
 import br.edu.unipampa.model.web.AcessoSistema;
@@ -36,6 +38,42 @@ public class AprovarTccServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String usuario = (String) request.getSession().getAttribute("usuario");
+
+        AcessoSistema acessoSistema = new AcessoSistema();
+        Pessoa pessoaEncontrada;
+
+        if (usuario == null) {
+            request.getSession().setAttribute("caminho", "SubmeterTCCServlet");
+            request.setAttribute("retorno", "A sua sessão acabou faça o login novamente.");
+            request.getRequestDispatcher("telaLogin.jsp").forward(request, response);
+        } else {
+            pessoaEncontrada = acessoSistema.procurarPessoaEspecifica(usuario);
+            if (acessoSistema.procurarCoordenador(usuario) == null) {
+                try {
+                    request.getSession().invalidate();
+                } catch (Exception e) {
+
+                }
+                request.setAttribute("retorno", "Você não pode acessar esta página, faça o login novamente!");
+                request.getRequestDispatcher("telaLogin.jsp").forward(request, response);
+            } else if (!(pessoaEncontrada instanceof Professor)) {
+                try {
+                    request.getSession().invalidate();
+                } catch (Exception e) {
+
+                }
+                request.setAttribute("retorno", "Você não pode acessar esta página, faça o login novamente!");
+                request.getRequestDispatcher("telaLogin.jsp").forward(request, response);
+            } else {
+                aprovarTcc(request, response);
+            }
+        }
+
+    }
+
+    public void aprovarTcc(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         AcessoSistema acessoSistema = new AcessoSistema();
         String botaoEscolhido = request.getParameter("download");
         String botoesApertados = request.getParameter("botaoAprovar");
@@ -59,7 +97,7 @@ public class AprovarTccServlet extends HttpServlet {
             posicaoTcc = Integer.parseInt(botaoEscolhido);
         }
 
-        List<Tcc> tccEncontrados = acessoSistema.procurarTCC(tema.getAluno().getMatricula(),tipoTcc);
+        List<Tcc> tccEncontrados = acessoSistema.procurarTCC(tema.getAluno().getMatricula(), tipoTcc);
 
         for (Tcc tcc : tccEncontrados) {
             if (tcc.getVersaoTCC() == posicaoTcc) {
@@ -94,7 +132,6 @@ public class AprovarTccServlet extends HttpServlet {
         } catch (Exception e) {
 
         }
-
     }
 
     /**
