@@ -3,15 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-<<<<<<< HEAD
-
-package br.edu.unipampa.controller;
-
-import br.edu.unipampa.model.Aluno;
-import br.edu.unipampa.model.Tcc;
-import br.edu.unipampa.model.web.AcessoSistema;
-import java.io.IOException;
-=======
 package br.edu.unipampa.controller;
 
 import br.edu.unipampa.model.Aluno;
@@ -20,19 +11,21 @@ import br.edu.unipampa.model.Tcc;
 import br.edu.unipampa.model.Tema;
 import br.edu.unipampa.model.web.AcessoSistema;
 import java.io.IOException;
+import static java.lang.System.out;
 import java.util.ArrayList;
->>>>>>> 7a1a11726353ce25a2d4d5bdb8d6999e6f841ac0
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import static jdk.nashorn.internal.objects.NativeArray.forEach;
+import static jdk.nashorn.internal.objects.NativeRegExp.test;
 
 /**
  *
  * @author Gean
  */
-public class FiltrarTCCsDosAlunos extends HttpServlet {
+public class FiltrarTCCsDoAluno extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -45,27 +38,6 @@ public class FiltrarTCCsDosAlunos extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-<<<<<<< HEAD
-       
-        AcessoSistema as = new AcessoSistema();
-        List<Aluno> listaDeAlunos = as.retornarAlunos();
-        List<Object> listaRelacaoAlunoTCC = null; 
-        
-        for(int i = 0; i < listaDeAlunos.size(); i++){
-            List<Tcc> listaTccAtual = (List<Tcc>) as.procurarTCCAtual(listaDeAlunos.get(i).getMatricula());
-            
-            for(int j = 0; j < listaTccAtual.size(); j++){
-                if(listaTccAtual.get(j).getStatus() == Tcc.ACEITO){
-                    listaRelacaoAlunoTCC.add(i, listaDeAlunos.get(i));
-                    listaRelacaoAlunoTCC.add(i++, listaTccAtual.get(j));
-                }
-            }
-        }
-        
-        request.setAttribute("tccsNaoAvaliados", listaRelacaoAlunoTCC);
-        as.completarTransacoes();
-        
-=======
 
         AcessoSistema as = new AcessoSistema();
         String usuario = (String) request.getSession().getAttribute("usuario");
@@ -94,12 +66,15 @@ public class FiltrarTCCsDosAlunos extends HttpServlet {
             }
         }
 
-        request.setAttribute("alunosDispoiniveis", alunosDisponiveis);
+        request.setAttribute("alunosDisponiveis", alunosDisponiveis);
         as.completarTransacoes();
 
->>>>>>> 7a1a11726353ce25a2d4d5bdb8d6999e6f841ac0
         request.getRequestDispatcher("CriarBancaTCCServlet").forward(request, response);
     }
+        
+        
+        
+    
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -111,7 +86,7 @@ public class FiltrarTCCsDosAlunos extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+        protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
     }
@@ -125,7 +100,7 @@ public class FiltrarTCCsDosAlunos extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+        protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
     }
@@ -136,7 +111,7 @@ public class FiltrarTCCsDosAlunos extends HttpServlet {
      * @return a String containing servlet description
      */
     @Override
-    public String getServletInfo() {
+        public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
 

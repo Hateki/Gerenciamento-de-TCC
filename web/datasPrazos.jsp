@@ -54,7 +54,7 @@
     <body>
         <div class="navbar navbar-inverse navbar-fixed-top">
             <div class="container">
-                <a href="menuPrincipalProfessor.jsp" class="navbar-brand"> Gerenciamento de TCC </a>
+                <a href="menuPrincipalCoordenador.jsp" class="navbar-brand"> Gerenciamento de TCC </a>
                 <button class="navbar-toggle" data-toggle = "collapse" data-target = ".OpcoesMenu">
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
@@ -111,6 +111,11 @@
             <legend>Período para marcar Banca</legend>
             Data Inicial: <input name="dataBancaInicio" id="dataBancaInicio" type="date" onblur="javascript: validardata(this.value);" placeholder="Digite data Inicial" maxlength="14" value="<c:out value="${dataBancaInicial}"/>"/><br>
             Data Final:   <input name="dataBancaFinal" id="dataBancaFinal" type="date" onblur="javascript: validardata(this.value);" placeholder="Digite data Final" maxlength="14" value="<c:out value="${dataBancaFinal}"/>"/><br><br>
+            <br><br>
+            
+            <legend>Período do Semestre</legend>
+            Data Inicial: <input name="dataInicioSemestre" id="dataInicioSemestre" type="date" onblur="javascript: validardata(this.value);" placeholder="Digite data Inicial" maxlength="14" value="<c:out value="${dataInicioSemestre}"/>"/><br>
+            Data Final:   <input name="dataFinalSemestre" id="dataFinalSemestre" type="date" onblur="javascript: validardata(this.value);" placeholder="Digite data Final" maxlength="14" value="<c:out value="${dataFinalSemestre}"/>"/><br><br>
             <br><br>
 
             <input type="submit" class="btn btn-primary" name="enviar" id="enviar" value="Enviar"   />

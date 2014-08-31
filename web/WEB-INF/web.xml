@@ -162,12 +162,34 @@
     </servlet>
     <servlet>
 <<<<<<< HEAD
+<<<<<<< HEAD
         <servlet-name>FiltrarTCCsDosAlunos</servlet-name>
         <servlet-class>br.edu.unipampa.controller.FiltrarTCCsDosAlunos</servlet-class>
 =======
         <servlet-name>PreparaDownloadServlet</servlet-name>
         <servlet-class>br.edu.unipampa.controller.PreparaDownloadServlet</servlet-class>
 >>>>>>> 362a283a2a60e86366798a15bb0a78a15aeae69f
+=======
+        <servlet-name>FiltrarTCCsDoAluno</servlet-name>
+        <servlet-class>br.edu.unipampa.controller.FiltrarTCCsDoAluno</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>RelacaoNotasServlet</servlet-name>
+        <servlet-class>br.edu.unipampa.controller.RelacaoNotasServlet</servlet-class>
+    </servlet>
+    <servlet>
+<<<<<<< HEAD
+        <servlet-name>ListarTemasCoordenador</servlet-name>
+        <servlet-class>br.edu.unipampa.controller.ListarTemasCoordenador</servlet-class>
+=======
+        <servlet-name>DownloadTCCBancaServlet</servlet-name>
+        <servlet-class>br.edu.unipampa.controller.DownloadTCCBancaServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>TransicaoDownloadServlet</servlet-name>
+        <servlet-class>br.edu.unipampa.controller.TransicaoDownloadServlet</servlet-class>
+>>>>>>> cb3066161dec142e12d5a646bd3c611d98ce3834
+>>>>>>> 7a1a11726353ce25a2d4d5bdb8d6999e6f841ac0
     </servlet>
     <servlet-mapping>
         <servlet-name>CadastraPessoaExternaServelt</servlet-name>
@@ -281,12 +303,34 @@
     </servlet-mapping>
     <servlet-mapping>
 <<<<<<< HEAD
+<<<<<<< HEAD
         <servlet-name>FiltrarTCCsDosAlunos</servlet-name>
         <url-pattern>/FiltrarTCCsDosAlunos</url-pattern>
 =======
         <servlet-name>PreparaDownloadServlet</servlet-name>
         <url-pattern>/PreparaDownloadServlet</url-pattern>
 >>>>>>> 362a283a2a60e86366798a15bb0a78a15aeae69f
+=======
+        <servlet-name>FiltrarTCCsDoAluno</servlet-name>
+        <url-pattern>/FiltrarTCCsDoAluno</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RelacaoNotasServlet</servlet-name>
+        <url-pattern>/RelacaoNotasServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+<<<<<<< HEAD
+        <servlet-name>ListarTemasCoordenador</servlet-name>
+        <url-pattern>/ListarTemasCoordenador</url-pattern>
+=======
+        <servlet-name>DownloadTCCBancaServlet</servlet-name>
+        <url-pattern>/DownloadTCCBancaServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TransicaoDownloadServlet</servlet-name>
+        <url-pattern>/TransicaoDownloadServlet</url-pattern>
+>>>>>>> cb3066161dec142e12d5a646bd3c611d98ce3834
+>>>>>>> 7a1a11726353ce25a2d4d5bdb8d6999e6f841ac0
     </servlet-mapping>
     <session-config>
         <session-timeout>

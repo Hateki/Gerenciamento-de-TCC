@@ -37,10 +37,11 @@ public class AprovarTccServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         AcessoSistema acessoSistema = new AcessoSistema();
-        String botaoEscolhido = request.getParameter("botaoDownload");
+        String botaoEscolhido = request.getParameter("download");
         String botoesApertados = request.getParameter("botaoAprovar");
         String[] botoesSeparados = null;
         String botaoAprovar;
+        Integer tipoTcc = (Integer) request.getSession().getAttribute("tipoTcc");
         int posicaoTcc;
         Tema tema = (Tema) request.getSession().getAttribute("Tema");
         Tcc tccEscolhido = null;
@@ -58,12 +59,11 @@ public class AprovarTccServlet extends HttpServlet {
             posicaoTcc = Integer.parseInt(botaoEscolhido);
         }
 
-        List<Tcc> tccEncontrado = acessoSistema.procurarTCCAtual(tema.getAluno().getMatricula());
+        List<Tcc> tccEncontrados = acessoSistema.procurarTCC(tema.getAluno().getMatricula(),tipoTcc);
 
-        for (Tcc tcc : tccEncontrado) {
+        for (Tcc tcc : tccEncontrados) {
             if (tcc.getVersaoTCC() == posicaoTcc) {
                 tccEscolhido = tcc;
-                break;
             }
         }
 
@@ -77,25 +77,24 @@ public class AprovarTccServlet extends HttpServlet {
                 }
                 flag = true;
             } catch (Exception e) {
-                
+
             }
         }
 
-        request.getSession().removeAttribute("Tema");
-        
-        if(flag){
-           request.getRequestDispatcher("TemasRequisitadosServlet").forward(request, response);
-        }else{
-           request.getSession().setAttribute("tcc", tccEscolhido);
-           request.getRequestDispatcher("DownloadTCCServlet").forward(request, response);
-        } 
-        //Garante que a transação foi completada
-        try{
-            acessoSistema.completarTransacoes();
-        }catch(Exception e){
-            
+        if (flag) {
+            request.getRequestDispatcher("TemasRequisitadosServlet").forward(request, response);
+        } else {
+            request.setAttribute("tipoTcc", tccEscolhido);
+            request.setAttribute("temaTcc", tema);
+            request.getRequestDispatcher("TransicaoDownloadServlet").forward(request, response);
         }
-            
+        //Garante que a transação foi completada
+        try {
+            acessoSistema.completarTransacoes();
+        } catch (Exception e) {
+
+        }
+
     }
 
     /**

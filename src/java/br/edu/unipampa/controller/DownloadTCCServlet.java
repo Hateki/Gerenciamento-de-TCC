@@ -36,26 +36,42 @@ public class DownloadTCCServlet extends HttpServlet {
 
         AcessoSistema acessoSistema = new AcessoSistema();
         String botaoDownload = request.getParameter("botaoDownload");
-        Tcc tcc = null;
+        Tcc tcc = (Tcc) request.getSession().getAttribute("tccSessao");;
+        Tcc tccDefendido = (Tcc) request.getSession().getAttribute("tccDefendidoSessao");
+        Tcc tccCorrigido = (Tcc) request.getSession().getAttribute("tccCorrigidoSessao");
 
         if (botaoDownload != null) {
+            tcc = null;
             if (botaoDownload.equalsIgnoreCase("TCC1")) {
-                tcc = (Tcc) request.getSession().getAttribute("tcc");
+                tcc = (Tcc) request.getSession().getAttribute("tccSessao");
             } else if (botaoDownload.equalsIgnoreCase("TCC2")) {
-                tcc = (Tcc) request.getSession().getAttribute("tccDefendido");
+                tcc = (Tcc) request.getSession().getAttribute("tccDefendidoSessao");
             } else if (botaoDownload.equalsIgnoreCase("TCCCorrigido")) {
-                tcc = (Tcc) request.getSession().getAttribute("tccCorrigido");
+                tcc = (Tcc) request.getSession().getAttribute("tccCorrigidoSessao");
             }
 
             if (tcc != null) {
                 doDownload(request, response, tcc);
                 request.setAttribute("retornoPositivo", "Download Iniciado");
-            } else {
-                request.setAttribute("retorno", "Erro, download não existe ou houve uma falha");
+            }else{
+                request.setAttribute("retornoNegativo", "Erro, download não existe ou houve uma falha");
             }
+        } else if (tcc != null) {
+            doDownload(request, response, tcc);
+            request.setAttribute("retornoPositivo", "Download Iniciado");
+        } else if (tccDefendido != null) {
+            doDownload(request, response, tccDefendido);
+            request.setAttribute("retornoPositivo", "Download Iniciado");
+        } else if (tccCorrigido != null) {
+            doDownload(request, response, tccCorrigido);
+            request.setAttribute("retornoPositivo", "Download Iniciado");
         } else {
             request.setAttribute("retornoNegativo", "Erro, download não existe ou houve uma falha");
         }
+
+        request.getSession().removeAttribute("tccSessao");
+        request.getSession().removeAttribute("tccDefendidoSessao");
+        request.getSession().removeAttribute("tccCorrigidoSessao");
 
         request.getRequestDispatcher("telaDownload.jsp").forward(request, response);
     }

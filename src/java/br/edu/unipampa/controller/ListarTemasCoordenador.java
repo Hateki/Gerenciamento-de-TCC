@@ -6,8 +6,11 @@
 
 package br.edu.unipampa.controller;
 
+import br.edu.unipampa.model.Orientador;
+import br.edu.unipampa.model.Tema;
+import br.edu.unipampa.model.web.AcessoSistema;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -15,9 +18,9 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author Pedro
+ * @author Gean
  */
-public class PreparaDownloadServlet extends HttpServlet {
+public class ListarTemasCoordenador extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>

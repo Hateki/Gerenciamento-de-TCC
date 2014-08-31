@@ -41,8 +41,8 @@
     <body>
         <div class="navbar navbar-inverse navbar-fixed-top">
             <div class="container">
-                
-                  <%
+
+                <%
                     String usuario = (String) request.getSession().getAttribute("usuario");
                     AcessoSistema acesso = new AcessoSistema();
 
@@ -77,19 +77,43 @@
                 <c:if test="${not empty ta}" var="v" scope="request">
                     <a href="menuPrincipalOutros.jsp" class="navbar-brand"> Gerenciamento de TCC </a>
                 </c:if>
-                
+
                 <button class="navbar-toggle" data-toggle = "collapse" data-target = ".OpcoesMenu">
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
+
+                <% if (coordenador != null) { %>    
                 <div class="collapse navbar-collapse OpcoesMenu">
-                   <ul class="nav navbar-nav">
+                    <ul class="nav navbar-nav">
+                        <li> <a href="colocar link">Lista de Temas</a> </li>
+                        <li> <a href="http://localhost:8080/GerenciamentoTCC/DatasPrazosServlet">Definir Prazos</a> </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Banca Avaliadora<span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li> <a href="http://localhost:8080/GerenciamentoTCC/CriarBancaTCCServlet"> Criar Banca </a></li>
+                                <li> <a href="http://localhost:8080/GerenciamentoTCC/MarcarBancaServlet"> Definir Horário, Local e Data para Bancas</a> </li>
+                                <li> <a href="colocar link"> Avaliar Alunos </a> </li>
+                                <li> <a href="http://localhost:8080/GerenciamentoTCC/VerificarBancaServlet"> Verificar Bancas</a> </li>
+                                <li> <a href="http://localhost:8080/GerenciamentoTCC/AgendaDefesasServlet"> Agenda de Defesas </a> </li>
+                            </ul>
+                        </li>
+                        <li> <a href="http://localhost:8080/GerenciamentoTCC/cadastroPessoaExterna.jsp"> Cadastrar Pessoa Externa </a> </li>
+                        <li> <a href="http://localhost:8080/GerenciamentoTCC/contato.html"> Contato </a> </li>
+                        <li> <a href="http://localhost:8080/GerenciamentoTCC/sobre.html"> Sobre</a> </li>
+                        <li> <a href="http://localhost:8080/GerenciamentoTCC/SairSistemaServlet"> Sair</a> </li>
+                    </ul>
+                </div>    
+                <% } else { %>   
+
+                <div class="collapse navbar-collapse OpcoesMenu">
+                    <ul class="nav navbar-nav">
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Banca Avaliadora<span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">
 
-                                <% if (orientador != null || coordenador != null) { %>
+                                <% if (orientador != null) { %>
                                 <li> <a href="http://localhost:8080/GerenciamentoTCC/CriarBancaTCCServlet"> Criar Banca </a></li>
                                 <li> <a href="http://localhost:8080/GerenciamentoTCC/MarcarBancaServlet"> Definir Horário, Local e Data para Bancas </a> </li>
                                     <% } %>
@@ -101,17 +125,18 @@
 
                         <% if (orientador != null || professor != null) { %>
                         <li> <a href="http://localhost:8080/GerenciamentoTCC/TemasRequisitadosServlet"> Temas Requisitados  </a></li>
-                        <% } %>
-                        
+                            <% } %>
+
                         <% if (orientador != null || coordenador != null) { %>
                         <li> <a href="http://localhost:8080/GerenciamentoTCC/cadastroPessoaExterna.jsp"> Cadastrar Pessoa Externa </a> </li>
-                        <% } %>
-                        
+                            <% } %>
+
                         <li> <a href="http://localhost:8080/GerenciamentoTCC/contato.html"> Contato </a> </li>
                         <li> <a href="http://localhost:8080/GerenciamentoTCC/sobre.html"> Sobre</a> </li>
                         <li> <a href="http://localhost:8080/GerenciamentoTCC/SairSistemaServlet"> Sair</a> </li>
                     </ul>
                 </div>
+                <% } %> 
             </div>
         </div>
         <br><br>
@@ -135,14 +160,19 @@
                 </tr>
             </thead>
             <tbody>
-                <% int cont = 0;%>
-                <% List<String> titulos = (List<String>) request.getAttribute("titulos"); %>
+                <% int cont = 0;
+                    List<String> titulos = (List<String>) request.getAttribute("titulos"); %>
                 <c:forEach var="bancaEncontrada" items="${bancasEncontradas}">
-                    <% String titulo = titulos.get(cont) ;%>
+                    <%
+                        String titulo = "";
+                        if (titulos.size() > 0) {
+                            titulo = titulos.get(cont);
+
+                    %>
                     <c:if test="${not empty bancaEncontrada.data}" var="v" scope="request">
                         <tr>
                             <td>1</td>
-                            <td><%= titulo %></td>
+                            <td><%=titulo%></td>
                             <td><c:out value="${bancaEncontrada.aluno.nome}"/></td>
                             <td><c:out value="${bancaEncontrada.orientadorByOrientadorIdOrientador.nome}"/></td>
 
@@ -170,8 +200,9 @@
                             <td><c:out value="${bancaEncontrada.local}"/></td>   
                         </tr>
                     <br><br>
-                    <% cont++; %>
+                    <% cont++;%>
                 </c:if>
+                <% }%>
             </c:forEach>
             </tbody>
         </table>

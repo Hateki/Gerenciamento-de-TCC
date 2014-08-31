@@ -54,6 +54,8 @@ public class DatasPrazosServlet extends HttpServlet {
             String dataTccSubmissaoCorrigidaFinal = request.getParameter("dataTccSubmissaoCorrigidaFinal");
             String dataBancaInicial = request.getParameter("dataBancaInicio");
             String dataBancaFinal = request.getParameter("dataBancaFinal");
+            String dataSemestreInicial = request.getParameter("dataInicioSemestre");
+            String dataSemestreFinal = request.getParameter("dataFinalSemestre");
 
             datasEncontradas.setDataInicioTema(dataTemaInicial);
             datasEncontradas.setDataFimTema(dataTemaFinal);
@@ -65,6 +67,8 @@ public class DatasPrazosServlet extends HttpServlet {
             datasEncontradas.setDataFinalTccCorrigido(dataTccSubmissaoCorrigidaFinal);
             datasEncontradas.setDataInicioBanca(dataBancaInicial);
             datasEncontradas.setDataFimBanca(dataBancaFinal);
+            datasEncontradas.setDataInicioSemestre(dataSemestreInicial);
+            datasEncontradas.setDataFinalSemestre(dataSemestreFinal);
 
             acessoSistema.salvarPrazos(datasEncontradas);
         }
@@ -79,6 +83,8 @@ public class DatasPrazosServlet extends HttpServlet {
         request.setAttribute("dataTccSubmissaoCorrigidaFinal", datasEncontradas.getDataFinalTccCorrigido());
         request.setAttribute("dataBancaInicial", datasEncontradas.getDataInicioBanca());
         request.setAttribute("dataBancaFinal", datasEncontradas.getDataFimBanca());
+        request.setAttribute("dataInicioSemestre", datasEncontradas.getDataInicioSemestre());
+        request.setAttribute("dataFinalSemestre", datasEncontradas.getDataFinalSemestre());
 
         acessoSistema.completarTransacoes();
         request.getRequestDispatcher("datasPrazos.jsp").forward(request, response);

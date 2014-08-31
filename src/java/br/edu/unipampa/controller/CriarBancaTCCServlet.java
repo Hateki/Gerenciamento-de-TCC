@@ -15,6 +15,7 @@ import br.edu.unipampa.model.web.AcessoSistema;
 import br.edu.unipampa.model.web.EnvioEmails;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import java.util.Set;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -64,9 +65,7 @@ public class CriarBancaTCCServlet extends HttpServlet {
         int resultadoVerificacao;
         as = new AcessoSistema();
         Orientador professor = as.procurarOrientador(orientador);
-
-        //retorna a lista de temas pertencentes a esse orientador
-        request.setAttribute("listaTemasOrientador", as.procurarTemasConfirmados(professor));
+        Tcc tccBanca;
 
         if (professor1 != null && professor2 != null && matriculaAlunoString != null) {
 
@@ -79,7 +78,8 @@ public class CriarBancaTCCServlet extends HttpServlet {
                         || confirmaProfessor(orientador, professor3)) {
                     request.setAttribute("retorno", ORIENTADOR_IGUAL_PROFESSOR);
                 } else {
-                    bancaCriada = professor.cadastrarBanca(matriculaAluno, orientador, professor1, professor2, professor3);
+                    tccBanca = as.procurarTCCAtual(matriculaAluno).get(0);
+                    bancaCriada = professor.cadastrarBanca(matriculaAluno, orientador, professor1, professor2, professor3,tccBanca);
 
                     if (bancaCriada != null) {
                         mandarEmails(bancaCriada);
@@ -95,7 +95,12 @@ public class CriarBancaTCCServlet extends HttpServlet {
         }
 
         request.setAttribute("pessoas", as.retornarPessoas());
+<<<<<<< HEAD
         request.setAttribute("alunos", request.getAttribute("tccsNaoAvaliados"));
+=======
+        List<List> teste = (List<List>) request.getAttribute("alunosDisponiveis");
+        request.setAttribute("alunosDisponiveis", request.getAttribute("alunosDisponiveis"));
+>>>>>>> 7a1a11726353ce25a2d4d5bdb8d6999e6f841ac0
 
         as.completarTransacoes();
         request.getRequestDispatcher("criarBancaTCC.jsp").forward(request, response);

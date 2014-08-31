@@ -8,6 +8,7 @@ public class Tcc implements java.io.Serializable {
 
     public static final int ACEITO = 1;
     public static final int NAO_ACEITO = 0;
+    public static final int EM_DEFESA = 4;
     public static final int APROVADO = 2;
     public static final int REPROVADO = 3;
 

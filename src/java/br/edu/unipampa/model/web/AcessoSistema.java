@@ -397,6 +397,40 @@ public class AcessoSistema {
     }
 
     /**
+     * Procura os Alunos do sitema
+     *
+     * @return lista de alunos encontrados
+     */
+    public List<Aluno> procurarAlunos() {
+        List<Aluno> alunosEncontrados = SESSAO.createQuery("From Aluno").list();
+        return alunosEncontrados;
+    }
+
+    /**
+     * Procura os alunos relacionados ao orientador especificado
+     *
+     * @param orientador Orientador para se procurar os alunos
+     * @return lista de alunos encontrados
+     */
+    public List<Aluno> procurarAlunos(Orientador orientador) {
+        List<Aluno> alunosEncontrados = retornarAlunos();
+        List<Tema> temasAceitos = procurarTemasConfirmados(orientador);
+        List<Aluno> alunosOrientador = new ArrayList<>();
+
+        for (Tema tema : temasAceitos) {
+            if (tema.getOrientador() == orientador) {
+                for (Aluno aluno : alunosEncontrados) {
+                    if (tema.getAluno() == aluno) {
+                        alunosOrientador.add(aluno);
+                        break;
+                    }
+                }
+            }
+        }
+        return alunosOrientador;
+    }
+
+    /**
      * Procura uma pessoa através do usuário especificado
      *
      * @param usuario Usuário pra se procurar
@@ -556,11 +590,11 @@ public class AcessoSistema {
         for (Pessoaexterna pessoaExterna : pessoasEncontradas) {
             listaPessoas.remove(pessoaExterna);
         }
-        
+
         for (Tecnicoadministrativo ta : tecnicosEncontrados) {
             listaPessoas.remove(ta);
         }
-        
+
         for (Professor professor : professoresEncontrados) {
             listaPessoas.remove(professor);
         }
@@ -878,30 +912,13 @@ public class AcessoSistema {
      * @return O tcc do aluno
      */
     public Tcc procurarTCCPorBanca(Banca banca) {
-        Aluno aluno = banca.getAluno();
-        //Garante que os dados vão ser todos lidos
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(AcessoSistema.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        List<Tcc> tccsEncontrados = SESSAO.createQuery("From Tcc").list();
-        List<Tema> temasConfirmados = procurarTemasConfirmados(banca.getOrientadorByOrientadorIdOrientador());
-        Tema temaBanca = null;
-
-        for (Tema tema : temasConfirmados) {
-            if (aluno == tema.getAluno()) {
-                temaBanca = tema;
-                break;
-            }
-        }
-
-        for (Tcc tcc : tccsEncontrados) {
-            if (tcc.getTema() == temaBanca) {
-                return tcc;
-            }
-        }
-        return null;
+        //Carrega os dados para serem usados
+        banca.getTcc().getNotaOrientador();
+        banca.getTcc().getNotaConvidado1();
+        banca.getTcc().getNotaConvidado2();
+        banca.getTcc().getNotaCoorientador();
+        /////////////////////////////////////
+        return banca.getTcc();
     }
 
     /**
@@ -978,4 +995,12 @@ public class AcessoSistema {
         }
         return null;
     }
+
+    public boolean verificarTcc(Tcc tcc) {
+        if (tcc != null) {
+            return tcc.getStatus() == Tcc.APROVADO || tcc.getStatus() == Tcc.REPROVADO;
+        }
+        return false;
+    }
+
 }

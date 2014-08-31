@@ -22,6 +22,8 @@ public class Datas {
     private String dataFinalTccFinal;
     private String dataInicioTccCorrigido;
     private String dataFinalTccCorrigido;
+    private String dataInicioSemestre;
+    private String dataFinalSemestre;
     
 
     /**
@@ -152,5 +154,33 @@ public class Datas {
 
     public void setDataFinalTccCorrigido(String dataFinalTccCorrigido) {
         this.dataFinalTccCorrigido = dataFinalTccCorrigido;
+    }
+
+    /**
+     * @return the dataInicioSemestre
+     */
+    public String getDataInicioSemestre() {
+        return dataInicioSemestre;
+    }
+
+    /**
+     * @param dataInicioSemestre the dataInicioSemestre to set
+     */
+    public void setDataInicioSemestre(String dataInicioSemestre) {
+        this.dataInicioSemestre = dataInicioSemestre;
+    }
+
+    /**
+     * @return the dataFinalSemestre
+     */
+    public String getDataFinalSemestre() {
+        return dataFinalSemestre;
+    }
+
+    /**
+     * @param dataFinalSemestre the dataFinalSemestre to set
+     */
+    public void setDataFinalSemestre(String dataFinalSemestre) {
+        this.dataFinalSemestre = dataFinalSemestre;
     }
 }

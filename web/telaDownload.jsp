@@ -14,7 +14,7 @@
         <title>Tela download</title>
     </head>
     <body>
-        <% String caminho = (String) request.getSession().getAttribute("caminho"); %>
+        <% String caminho = (String) request.getSession().getAttribute("caminho");%>
         <c:if test="${not empty retornoPositivo}" var="v" scope="request">
             <div class="alert alert-success" role="alert"><c:out value="${retornoPositivo}"/></div>
         </c:if>
@@ -22,6 +22,10 @@
             <div class="alert alert-danger" role="alert"><c:out value="${retornoNegativo}"/></div>
         </c:if>
         <br><br>
-        <a href="http://localhost:8080/GerenciamentoTCC/<%=caminho%>"> Voltar</a>   
+        <form action="<%=caminho%>">
+            <button type="submit" class="bnt btn-warning">
+                Continuar
+            </button>
+        </form> 
     </body>
 </html>
