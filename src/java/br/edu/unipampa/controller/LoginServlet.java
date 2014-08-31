@@ -137,7 +137,7 @@ public class LoginServlet extends HttpServlet {
             view = request.getRequestDispatcher("telaLogin.jsp");
         }
         
-        verificarSemestre(login);
+        //verificarSemestre(login);
 
         view.forward(request, response);
         login.completarTransacoes();
