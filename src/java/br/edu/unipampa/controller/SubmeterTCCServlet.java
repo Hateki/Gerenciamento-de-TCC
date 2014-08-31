@@ -103,7 +103,7 @@ public class SubmeterTCCServlet extends HttpServlet {
         }
         
         if (botaoRefazer != null) {
-            if (botaoRefazer.equals("0")) {
+            if (botaoRefazer.equals("0") && listaTcc.size() > 0) {
                 acessoSistema.deletarTcc(listaTcc.get(0));
             }
         }

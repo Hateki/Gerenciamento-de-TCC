@@ -101,7 +101,7 @@
                                         <td>Reprovado</td>
                                     </c:if>    
                                     <td>
-                                        <form name="download" action="AprovarTccServlet">
+                                        <form name="download" action="TransicaoDownloadServlet">
                                             <button type="submit" class="bnt btn-primary" name="download" value="<%= cont%>">
                                                 <c:out value="${tcc.titulo}"/>
                                             </button>

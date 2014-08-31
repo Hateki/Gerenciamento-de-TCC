@@ -53,12 +53,12 @@ public class FiltrarTCCsDoAluno extends HttpServlet {
             tcc1 = as.procurarTipoVersaoTcc(aluno.getMatricula(), 0, 0);
             tcc2 = as.procurarTipoVersaoTcc(aluno.getMatricula(), 0, 1);
             tema = aluno.getTema();
-            if (tcc1.getStatus() != Tcc.EM_DEFESA && tcc1.getStatus() != Tcc.APROVADO && tcc1.getStatus() != Tcc.REPROVADO) {
+            if (tcc1 != null && tcc1.getStatus() != Tcc.EM_DEFESA && tcc1.getStatus() != Tcc.APROVADO && tcc1.getStatus() != Tcc.REPROVADO) {
                 tccsNaoAvaliados.add(aluno);
                 tccsNaoAvaliados.add(tema);
                 tccsNaoAvaliados.add(tcc1);
                 alunosDisponiveis.add(tccsNaoAvaliados);
-            } else if (tcc2.getStatus() != Tcc.EM_DEFESA && tcc2.getStatus() != Tcc.APROVADO && tcc2.getStatus() != Tcc.REPROVADO) {
+            } else if (tcc2 != null && tcc2.getStatus() != Tcc.EM_DEFESA && tcc2.getStatus() != Tcc.APROVADO && tcc2.getStatus() != Tcc.REPROVADO) {
                 tccsNaoAvaliados.add(aluno);
                 tccsNaoAvaliados.add(tema);
                 tccsNaoAvaliados.add(tcc2);

@@ -256,7 +256,7 @@
 
                 <input type="submit" class="btn btn-primary" name="enviar" id="enviar" value="Confirmar"   />
                 <input type="reset" class="btn btn-warning" name="limpar" id="limpar" value="Limpar" />
-                <input  type="button" class="btn btn-danger  " name="voltar" id="voltar" value="Voltar" onClick="retornaPaginaPrincipal()">
+                <input  type="button" class="btn btn-danger  " name="voltar" id="voltar" value="Voltar" onClick="history.go(-1)">
                 <script>
                     function retornaPaginaPrincipal() {
                         location.href = "menuPrincipalProfessor.html"
