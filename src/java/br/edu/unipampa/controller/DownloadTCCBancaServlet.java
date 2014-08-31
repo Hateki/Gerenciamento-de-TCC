@@ -3,14 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package br.edu.unipampa.controller;
 
-import br.edu.unipampa.model.Banca;
-import br.edu.unipampa.model.Tcc;
-import br.edu.unipampa.model.web.AcessoSistema;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -18,11 +15,9 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author pontofrio
+ * @author Pedro
  */
-public class DetalheTCCServlet extends HttpServlet {
-
-    AcessoSistema acessoSistema;
+public class DownloadTCCBancaServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,45 +30,19 @@ public class DetalheTCCServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        String valorBotao = request.getParameter("botao");
-        String usuario = (String) request.getSession().getAttribute("usuario");
-        int posicaoBanca = Integer.parseInt(valorBotao);
-        Tcc tccAluno;
-        Banca bancaEncontrada;
-
-        acessoSistema = new AcessoSistema();
-
-        bancaEncontrada = procuraBanca(posicaoBanca, usuario);
-
-        tccAluno = acessoSistema.procurarTCCPorBanca(bancaEncontrada);
-
-        if (tccAluno != null && !(tccAluno.getStatus() == Tcc.NAO_ACEITO)) {
-            if(tccAluno.getTipoTCC() == 0){
-                request.getSession().setAttribute("tccSessao", tccAluno);
-            }else if(tccAluno.getTipoTCC() == 1 && tccAluno.getVersaoTCC() == 0){
-                request.getSession().setAttribute("tccDefendidoSessao", tccAluno);
-            }else if(tccAluno.getTipoTCC() == 1 && tccAluno.getVersaoTCC() == 1){
-                request.getSession().setAttribute("tccCorrigidoSessao", tccAluno);
-            }
-            request.getSession().setAttribute("caminho", "VerificarBancaServlet");
-            request.getRequestDispatcher("DownloadTCCServlet").forward(request, response);
-        }else{
-            request.getSession().setAttribute("retorno", "O Tcc ainda não foi enviado ou não foi aprovado.");
-
-            request.getRequestDispatcher("VerificarBancaServlet").forward(request, response);
+        response.setContentType("text/html;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet DownloadTCCBancaServlet</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet DownloadTCCBancaServlet at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
         }
-    }
-
-    private Banca procuraBanca(int posicaoBanca, String usuario) {
-        List<Banca> bancasEncontradas = acessoSistema.procurarBancas(usuario);
-
-        for (int i = 0; i < bancasEncontradas.size(); i++) {
-            if (i == posicaoBanca - 1) {
-                return bancasEncontradas.get(i);
-            }
-        }
-        return null;
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

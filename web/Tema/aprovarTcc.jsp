@@ -102,7 +102,7 @@
                                     </c:if>    
                                     <td>
                                         <form name="download" action="AprovarTccServlet">
-                                            <button type="submit" class="bnt btn-primary" name="botaoDownload" value="<%= cont%>">
+                                            <button type="submit" class="bnt btn-primary" name="download" value="<%= cont%>">
                                                 <c:out value="${tcc.titulo}"/>
                                             </button>
                                         </form>     
