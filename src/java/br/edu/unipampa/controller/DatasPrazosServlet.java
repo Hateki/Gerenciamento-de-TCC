@@ -57,18 +57,42 @@ public class DatasPrazosServlet extends HttpServlet {
             String dataSemestreInicial = request.getParameter("dataInicioSemestre");
             String dataSemestreFinal = request.getParameter("dataFinalSemestre");
 
-            datasEncontradas.setDataInicioTema(dataTemaInicial);
-            datasEncontradas.setDataFimTema(dataTemaFinal);
-            datasEncontradas.setDataInicioTcc(dataTcc1Inicio);
-            datasEncontradas.setDataFimTcc(dataTcc1Final);
-            datasEncontradas.setDataInicioTccFinal(dataTcc2Inicio);
-            datasEncontradas.setDataFinalTccFinal(dataTcc2Final);
-            datasEncontradas.setDataInicioTccCorrigido(dataTccSubmissaoCorrigidaInicio);
-            datasEncontradas.setDataFinalTccCorrigido(dataTccSubmissaoCorrigidaFinal);
-            datasEncontradas.setDataInicioBanca(dataBancaInicial);
-            datasEncontradas.setDataFimBanca(dataBancaFinal);
-            datasEncontradas.setDataInicioSemestre(dataSemestreInicial);
-            datasEncontradas.setDataFinalSemestre(dataSemestreFinal);
+            if (!dataTemaInicial.equals("")) {
+                datasEncontradas.setDataInicioTema(dataTemaInicial);
+            }
+            if (!dataTemaFinal.equals("")) {
+                datasEncontradas.setDataFimTema(dataTemaFinal);
+            }
+            if (!dataTcc1Inicio.equals("")) {
+                datasEncontradas.setDataInicioTcc(dataTcc1Inicio);
+            }
+            if (!dataTcc1Final.equals("")) {
+                datasEncontradas.setDataFimTcc(dataTcc1Final);
+            }
+            if (!dataTcc2Inicio.equals("")) {
+                datasEncontradas.setDataInicioTccFinal(dataTcc2Inicio);
+            }
+            if (!dataTcc2Final.equals("")) {
+                datasEncontradas.setDataFinalTccFinal(dataTcc2Final);
+            }
+            if (!dataTccSubmissaoCorrigidaInicio.equals("")) {
+                datasEncontradas.setDataInicioTccCorrigido(dataTccSubmissaoCorrigidaInicio);
+            }
+            if (!dataTccSubmissaoCorrigidaFinal.equals("")) {
+                datasEncontradas.setDataFinalTccCorrigido(dataTccSubmissaoCorrigidaFinal);
+            }
+            if (!dataBancaInicial.equals("")) {
+                datasEncontradas.setDataInicioBanca(dataBancaInicial);
+            }
+            if (!dataBancaFinal.equals("")) {
+                datasEncontradas.setDataFimBanca(dataBancaFinal);
+            }
+            if (!dataSemestreInicial.equals("")) {
+                datasEncontradas.setDataInicioSemestre(dataSemestreInicial);
+            }
+            if (!dataSemestreFinal.equals("")) {
+                datasEncontradas.setDataFinalSemestre(dataSemestreFinal);
+            }
 
             acessoSistema.salvarPrazos(datasEncontradas);
         }

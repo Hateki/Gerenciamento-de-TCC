@@ -169,17 +169,8 @@
         <servlet-class>br.edu.unipampa.controller.RelacaoNotasServlet</servlet-class>
     </servlet>
     <servlet>
-<<<<<<< HEAD
         <servlet-name>ListarTemasCoordenador</servlet-name>
         <servlet-class>br.edu.unipampa.controller.ListarTemasCoordenador</servlet-class>
-=======
-        <servlet-name>DownloadTCCBancaServlet</servlet-name>
-        <servlet-class>br.edu.unipampa.controller.DownloadTCCBancaServlet</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>TransicaoDownloadServlet</servlet-name>
-        <servlet-class>br.edu.unipampa.controller.TransicaoDownloadServlet</servlet-class>
->>>>>>> cb3066161dec142e12d5a646bd3c611d98ce3834
     </servlet>
     <servlet-mapping>
         <servlet-name>CadastraPessoaExternaServelt</servlet-name>
@@ -300,17 +291,8 @@
         <url-pattern>/RelacaoNotasServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-<<<<<<< HEAD
         <servlet-name>ListarTemasCoordenador</servlet-name>
         <url-pattern>/ListarTemasCoordenador</url-pattern>
-=======
-        <servlet-name>DownloadTCCBancaServlet</servlet-name>
-        <url-pattern>/DownloadTCCBancaServlet</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>TransicaoDownloadServlet</servlet-name>
-        <url-pattern>/TransicaoDownloadServlet</url-pattern>
->>>>>>> cb3066161dec142e12d5a646bd3c611d98ce3834
     </servlet-mapping>
     <session-config>
         <session-timeout>
