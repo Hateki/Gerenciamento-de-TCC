@@ -11,10 +11,13 @@ import br.edu.unipampa.model.Orientador;
 import br.edu.unipampa.model.Pessoa;
 import br.edu.unipampa.model.Professor;
 import br.edu.unipampa.model.Tema;
+import static br.edu.unipampa.model.enums.Cursos.CienciaComputacao;
+import static br.edu.unipampa.model.enums.Cursos.ES;
 import br.edu.unipampa.model.web.AcessoSistema;
 import br.edu.unipampa.model.web.EnvioEmails;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -45,6 +48,8 @@ public class ConfirmarTemaServlet extends HttpServlet {
         List<Tema> temasRequisitados = as.procurarTemasConfirmados();
         Tema escolhido = null;
         int temaEscolhido = -1;
+        List<List> temasECargas = new ArrayList<>();
+        List<Object> temasCargas;
 
         if (valorCompletoBotao != null) {
             valorBotao = verificaValorBotao(valorCompletoBotao);
@@ -59,9 +64,17 @@ public class ConfirmarTemaServlet extends HttpServlet {
             }
         }
         
+        for (Tema tema : temasRequisitados) {
+            temasCargas = new ArrayList<>();
+            temasCargas.add(tema);
+            temasCargas.add(retornaCargaHorariaCurso(tema.getAluno()));
+            temasCargas.add(retornaNomeCurso(tema.getAluno()));
+            temasECargas.add(temasCargas);
+        }
+        
         temasRequisitados = as.procurarTemasConfirmados();//Garante que a lista esteja atualizada
 
-        request.setAttribute("retorno", temasRequisitados);
+        request.setAttribute("retorno", temasECargas);
 
         request.getRequestDispatcher("confirmarTema.jsp").forward(request, response);
         as.completarTransacoes();
@@ -114,6 +127,26 @@ public class ConfirmarTemaServlet extends HttpServlet {
             return true;
         } else {
             return false;
+        }
+    }
+    
+    public Integer retornaCargaHorariaCurso(Aluno aluno){
+        if(aluno.getCurso() == ES.getIdCurso()){
+            return ES.getCargaHoraria();
+        }else if(aluno.getCurso() == CienciaComputacao.getIdCurso()){
+            return CienciaComputacao.getCargaHoraria();
+        }else{
+            return -1;
+        }
+    }
+    
+    public String retornaNomeCurso(Aluno aluno){
+        if(aluno.getCurso() == ES.getIdCurso()){
+            return ES.getNome();
+        }else if(aluno.getCurso() == CienciaComputacao.getIdCurso()){
+            return CienciaComputacao.getNome();
+        }else{
+            return null;
         }
     }
 

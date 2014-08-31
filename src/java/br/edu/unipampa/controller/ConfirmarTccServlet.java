@@ -12,6 +12,9 @@ import br.edu.unipampa.model.Orientador;
 import br.edu.unipampa.model.Pessoa;
 import br.edu.unipampa.model.Tcc;
 import br.edu.unipampa.model.Tema;
+import br.edu.unipampa.model.enums.Cursos;
+import static br.edu.unipampa.model.enums.Cursos.CienciaComputacao;
+import static br.edu.unipampa.model.enums.Cursos.ES;
 import br.edu.unipampa.model.web.AcessoSistema;
 import br.edu.unipampa.model.web.EnvioEmails;
 import java.io.IOException;
@@ -123,9 +126,10 @@ public class ConfirmarTccServlet extends HttpServlet {
             }else{
                 mandarEmail(banca.getAluno(), nomeOrientador, nomeAluno);
             }
-        }
-        
+        }   
     }
+    
+    
     
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

@@ -10,7 +10,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        
+
         <link href="../../GerenciamentoTCC/bootstrap/css/bootstrap.min.css" rel="stylesheet">
         <link href="../../GerenciamentoTCC/bootstrap/css/styles.css" rel="stylesheet">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -48,28 +48,29 @@
         <br><br><br>
         <%
             String valorBotao = null;
-            List<Tema> temasPendentes = (List<Tema>) request.getAttribute("retorno");
+            List<List> temasPendentes = (List<List>) request.getAttribute("retorno");
             String aprovado;
-        %>
+        %>  
         <div id="tela">
             <h1>Temas cadastrados</h1>
 
             <form name="formConfirmar" action="ConfirmarTemaServlet" method="POST">
                 <%
-                    if(temasPendentes != null)
-                    for (int i = 0; i < temasPendentes.size(); i++) {
-                        Tema tema = temasPendentes.get(i);
-                        valorBotao = "" + (i + 1);
-                        if(tema.getAprovado() == Tema.APROVADO_ORIENTADOR){
-                            aprovado = "Tema aprovado pelo orientador";
-                        }else{
-                            aprovado = "Tema aprovado pelo coordenador";
-                        }
+                    if (temasPendentes != null)
+                        for (int i = 0; i < temasPendentes.size(); i++) {
+                            Tema tema = (Tema) temasPendentes.get(i).get(0);
+                            valorBotao = "" + (i + 1);
+                            if (tema.getAprovado() == Tema.APROVADO_ORIENTADOR) {
+                                aprovado = "Tema aprovado pelo orientador";
+                            } else {
+                                aprovado = "Tema aprovado pelo coordenador";
+                            }
                 %>
                 <table border="1" class="table table-hover">
                     <thead>
                         <tr>
                             <th>Nome Aluno</th>
+                            <th> Curso </th>
                             <th>Orientador</th>
                             <th>Descrição</th>
                             <th>Carga Horária Aluno</th>
@@ -79,33 +80,76 @@
                     <tbody>
                         <tr>
                             <td><%=tema.getAluno().getNome()%></td>
+                            <td> <%=temasPendentes.get(i).get(2) %> </td>
                             <td><%=tema.getOrientador().getProfessor().getNome()%></td>
                             <td><%=tema.getDescricao()%></td>
-                            <td> <%=tema.getAluno().getCargaHoraria()%> </td>
+                            <td>
+                                <input type="text" name="cargaHoraria" id="cargaHoraria"
+                                       value="<%=tema.getAluno().getCargaHoraria()%>"
+                                       onkeypress='return SomenteNumero(event)'/>
+                                <button type="button" class="btn"
+                                        id="botaoVerificar"
+                                        value="<%=temasPendentes.get(i).get(1)%>"
+                                        onclick="verificarCargaHoraria()">
+                                    Verificar carga horária.
+                                </button>
+                            </td>
                             <td> <%=aprovado%> </td>
                         </tr>
                     </tbody>
                 </table>
 
                 <br>
-                <input type="submit" class="btn btn-info" name="confirmar" value="<%= "Confirmar Tema " + (i + 1)%>" />
-                <input type="submit" name="confirmar" class="btn btn-warning" value="<%= "Recusar Tema " + (i + 1)%> " />
+                <button type="submit" class="btn btn-success" name="confirmar" value="<%= "Confirmar Tema " + (i + 1)%>">
+                    Confirmar Tema <%=(i + 1)%>
+                </button>
+                <button type="submit" name="confirmar" class="btn btn-danger" value="<%= "Recusar Tema " + (i + 1)%> ">
+                    Recusar Tema <%=(i + 1)%>
+                </button>
                 <br><br>
-                
-                <%
-                    }
-                %>
-                <input  type="button" class="btn btn-danger  " name="voltar" id="voltar" value="Voltar" onClick="retornaPaginaPrincipal()">
                 <br>
-                </div>
-                <script>
-                    function retornaPaginaPrincipal() {
-                        location.href = "menuPrincipalProfessor.html"
-                    }
-                </script>
             </form>
-                <!-- Bootstrap core JavaScript
-        ================================================== -->
+
+            <form action="ConfirmarTccServlet" method="POST">
+                <button type="submit" class="bnt btn-info"  name="confirmarTcc1" value="<%=i%>">
+                    Situação Tcc 1
+                </button>
+                <button type="submit" class="bnt btn-info"  name="confirmarTcc2" value="<%=i%>">
+                    Situação Tcc 2
+                </button>
+            </form>        
+            <br><br>
+            <%
+                }
+            %>
+            <br>
+        </div>
+        <script>
+            
+            function verificarCargaHoraria(){
+                var totalHoras = document.getElementById("botaoVerificar");
+                var campoCarga = document.getElementById("cargaHoraria");
+                var cargaHoraria = Number(campoCarga.value);
+                var cargaHorariaTotal = Number(totalHoras.value);
+                var minimo = 65*cargaHorariaTotal/100;
+                if(minimo <= cargaHoraria){
+                    alert("Carga Horária válida");
+                }else{
+                    alert("Carga Horária Inválida");
+                }
+            }
+
+            function SomenteNumero(e) {
+                var tecla = (window.event) ? event.keyCode : e.which;
+                if ((tecla > 47 && tecla < 58))
+                    return true;
+                else {
+                    return false;
+                }
+            }
+        </script>
+        <!-- Bootstrap core JavaScript
+================================================== -->
         <!-- Placed at the end of the document so the pages load faster -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
         <script src="../../GerenciamentoTCC/bootstrap/js/bootstrap.min.js"></script>

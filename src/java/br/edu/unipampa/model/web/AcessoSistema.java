@@ -985,6 +985,27 @@ public class AcessoSistema {
         return bancasEncontradas;
     }
 
+    /**
+     * Retorna todas as bancas presentes no banco de dados
+     *
+     * @return Lista de Bancas presente no banco de daods
+     */
+    public List<Banca> procurarBancas() {
+        List<Banca> listaBancas = SESSAO.createQuery("From Banca").list();
+        for (Banca banca : listaBancas) {
+            //Carrega os dados//////////////////////////////////////
+            banca.getAluno().getNome();
+            banca.getOrientadorByOrientadorIdOrientador().getNome();
+            banca.getPessoaByConvidado1IdPessoa().getNome();
+            banca.getPessoaByConvidado2IdPessoa().getNome();
+            if (banca.getPessoaByConvidado3IdPessoa() != null) {
+                banca.getPessoaByConvidado3IdPessoa().getNome();
+            }
+            ////////////////////////////////////////////////////////
+        }
+        return listaBancas;
+    }
+
     public Datas procurarDatas() {
         List<Datas> datasEncontradas = SESSAO.createQuery("From Datas").list();
 

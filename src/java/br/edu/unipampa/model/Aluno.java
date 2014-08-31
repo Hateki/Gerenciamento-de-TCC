@@ -14,6 +14,7 @@ public class Aluno extends Pessoa implements java.io.Serializable {
     private int matricula;
     private Pessoa pessoa;
     private Integer cargaHoraria;
+    private Integer curso;
     private Set bancas = new HashSet(0);
     private Set temas = new HashSet(0);
 
@@ -135,6 +136,20 @@ public class Aluno extends Pessoa implements java.io.Serializable {
             }
         }
         return null;
+    }
+
+    /**
+     * @return the curso
+     */
+    public Integer getCurso() {
+        return curso;
+    }
+
+    /**
+     * @param curso the curso to set
+     */
+    public void setCurso(Integer curso) {
+        this.curso = curso;
     }
 
 }

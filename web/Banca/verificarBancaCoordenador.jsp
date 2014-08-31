@@ -1,17 +1,17 @@
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page isELIgnored="false" %>
+<%-- 
+    Document   : verificarBancaCoordenador
+    Created on : 31/08/2014, 08:23:05
+    Author     : Pedro
+--%>
+
 <%@page import="br.edu.unipampa.model.Tecnicoadministrativo"%>
 <%@page import="br.edu.unipampa.model.Pessoaexterna"%>
 <%@page import="br.edu.unipampa.model.Professor"%>
 <%@page import="br.edu.unipampa.model.Coordenador"%>
 <%@page import="br.edu.unipampa.model.Orientador"%>
 <%@page import="br.edu.unipampa.model.web.AcessoSistema"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ page isELIgnored="false" %>
-<%-- 
-    Document   : verificarBanca
-    Created on : 20/07/2014, 14:35:57
-    Author     : Pedro Henrique França Silva
---%>
-
 <%@page import="br.edu.unipampa.model.Tcc"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -119,95 +119,84 @@
 
         <br><br><br>
 
-        <c:if test="${not empty retornoAta}" var="v" scope="request">
-            <div class="alert alert-danger" role="alert"><c:out value="${retornoAta}"/></div>
-        </c:if>
-        <c:if test="${not empty retornoParecer}" var="v" scope="request">
-            <div class="alert alert-danger" role="alert"><c:out value="${retornoParecer}"/></div>
-        </c:if>    
+    <c:if test="${not empty retornoAta}" var="v" scope="request">
+        <div class="alert alert-danger" role="alert"><c:out value="${retornoAta}"/></div>
+    </c:if>
+    <c:if test="${not empty retornoParecer}" var="v" scope="request">
+        <div class="alert alert-danger" role="alert"><c:out value="${retornoParecer}"/></div>
+    </c:if>    
 
-        <% int cont = 1;%>
+    <% int cont = 1;%>
 
-        <c:forEach var="bancaEncontrada" items="${Bancas}">
-            <div class="panel panel-primary">
-                <div class="panel-heading"><h5>Banca <%= cont%></h5></div>
-                <div class="panel-body">
-                    <div class="row row-fluid">
-                        <c:if test="${not empty bancaEncontrada}" var="v" scope="request"> 
+    <c:forEach var="bancaEncontrada" items="${Bancas}">
+        <div class="panel panel-primary">
+            <div class="panel-heading"><h5>Banca <%= cont%></h5></div>
+            <div class="panel-body">
+                <div class="row row-fluid">
+                    <c:if test="${not empty bancaEncontrada}" var="v" scope="request"> 
 
-                            <div class="col-md-2"> <strong> Orientador: </strong><c:out value="${bancaEncontrada.orientadorByOrientadorIdOrientador.nome}"/></div>
-                            <div class="col-md-3"><strong> Aluno: </strong><c:out value="${bancaEncontrada.aluno.nome}"/></div>
-                            <div class="col-md-3"><strong> Convidado: </strong><c:out value="${bancaEncontrada.pessoaByConvidado1IdPessoa.nome}"/></div>
-                            <div class="col-md-3"><strong> Convidado: </strong><c:out value="${bancaEncontrada.pessoaByConvidado2IdPessoa.nome}"/></div>
-                            <br><br>
-                            <c:if test="${not empty bancaEncontrada.pessoaByConvidado3IdPessoa}">
-                                <div class="col-md-3"><strong> Convidado: </strong><c:out value="${bancaEncontrada.pessoaByConvidado3IdPessoa.nome}"/></div>
-                            </c:if>
-                            <c:if test="${not empty bancaEncontrada.local}">
-                                <div class="col-md-3"><strong> Local: </strong><c:out value="${bancaEncontrada.local}"/></div>
-                            </c:if>
-                            <c:if test="${not empty bancaEncontrada.horario}">
-                                <div class="col-md-3"><strong> Horario: </strong><c:out value="${bancaEncontrada.horario}"/></div>
-                            </c:if>
-                            <c:if test="${not empty bancaEncontrada.data}">
-                                <div class="col-md-3"><strong> Data: </strong><c:out value="${bancaEncontrada.data}"/></div>
-                            </c:if>    
-                            <br><br>
-                            <div class="col-md-2">
-                                <form name="download" action="DetalheTCCServlet">
-                                    <button type="submit" class="bnt btn-success" name="botao" value="<%= cont%>">
-                                        Fazer dowload do TCC 
-                                    </button>
-                                </form>    
-                            </div>    
-                            <div class="col-md-2">
-                                <form name="formularioAvaliacao" action="FormularioAvaliacaoServlet">
-                                    <button type="submit" class="bnt btn-primary" name="botaoAvaliacao" value="<%= cont%>">
-                                        Avaliar Aluno
-                                    </button>
-                                </form>  
-                            </div>             
-                            <div class="col-md-2">
-                                <form name="ataDefesa" action="AtaDefesaServlet">
-                                    <button type="submit" class="bnt btn-primary" name="botaoAvaliacao" value="<%= cont%>">
-                                        Ata de defesa
-                                    </button>
-                                </form>         
-                            </div>
-                            <div class="col-md-2">
-                                <form name="parecerFinal" action="ParecerFinalBanca">
-                                    <button type="submit" class="bnt btn-primary" name="botaoAvaliacao" value="<%= cont%>">
-                                        Parecer Final da Banca
-                                    </button>
-                                </form>         
-                            </div>
-                               
-                            <br><br><br><br><br>
-                            <c:if test="${not empty retorno || retorno == ''}" var="v" scope="request">
-                                <div class="alert alert-danger" role="alert"><c:out value="${retorno}"/></div>
-                            </c:if>
-
-                            <!-- 
-                            <div class="col-md-3">
-                                <form name="download" action="DownloadTCCServlet">
-                                    <button type="submit" class="bnt btn-success">
-                                        Fazer Download Arquivo 
-                                    </button>
-                                </form>
-                            </div>
-                            
-                            -->
+                        <div class="col-md-2"> <strong> Orientador: </strong><c:out value="${bancaEncontrada.orientadorByOrientadorIdOrientador.nome}"/></div>
+                        <div class="col-md-3"><strong> Aluno: </strong><c:out value="${bancaEncontrada.aluno.nome}"/></div>
+                        <div class="col-md-3"><strong> Convidado: </strong><c:out value="${bancaEncontrada.pessoaByConvidado1IdPessoa.nome}"/></div>
+                        <div class="col-md-3"><strong> Convidado: </strong><c:out value="${bancaEncontrada.pessoaByConvidado2IdPessoa.nome}"/></div>
+                        <br><br>
+                        <c:if test="${not empty bancaEncontrada.pessoaByConvidado3IdPessoa}">
+                            <div class="col-md-3"><strong> Convidado: </strong><c:out value="${bancaEncontrada.pessoaByConvidado3IdPessoa.nome}"/></div>
                         </c:if>
-                    </div>
+                        <c:if test="${not empty bancaEncontrada.local}">
+                            <div class="col-md-3"><strong> Local: </strong><c:out value="${bancaEncontrada.local}"/></div>
+                        </c:if>
+                        <c:if test="${not empty bancaEncontrada.horario}">
+                            <div class="col-md-3"><strong> Horario: </strong><c:out value="${bancaEncontrada.horario}"/></div>
+                        </c:if>
+                        <c:if test="${not empty bancaEncontrada.data}">
+                            <div class="col-md-3"><strong> Data: </strong><c:out value="${bancaEncontrada.data}"/></div>
+                        </c:if>    
+                        <br><br>
+                        <div class="col-md-2">
+                            <form name="download" action="DetalheTCCServlet">
+                                <button type="submit" class="bnt btn-success" name="botao" value="<%= cont%>">
+                                    Fazer dowload do TCC 
+                                </button>
+                            </form>    
+                        </div>
+                        <div class="col-md-2">
+                            <form name="avaliar" action="AvaliadoresDisponiveisServlet">
+                                <button type="submit" class="bnt btn-primary" name="botaoAvaliacao" value="<%= cont%>">
+                                    Avaliar Aluno(Coordenador) 
+                                </button>
+                            </form>    
+                        </div>            
+                        <div class="col-md-2">
+                            <form name="ataDefesa" action="AtaDefesaServlet">
+                                <button type="submit" class="bnt btn-primary" name="botaoAvaliacao" value="<%= cont%>">
+                                    Ata de defesa
+                                </button>
+                            </form>         
+                        </div>
+                        <div class="col-md-2">
+                            <form name="parecerFinal" action="ParecerFinalBanca">
+                                <button type="submit" class="bnt btn-primary" name="botaoAvaliacao" value="<%= cont%>">
+                                    Parecer Final da Banca
+                                </button>
+                            </form>         
+                        </div>             
+                        <br><br><br><br><br>
+                        <c:if test="${not empty retorno || retorno == ''}" var="v" scope="request">
+                            <div class="alert alert-danger" role="alert"><c:out value="${retorno}"/></div>
+                        </c:if>
+                    </c:if>
                 </div>
             </div>
-            <br><br>
-            <% cont++;%>
-        </c:forEach>
+        </div>
+        <br><br>
+        <% cont++;%>
+    </c:forEach>
 
-        <!-- Bootstrap core JavaScript
-        ================================================== -->
-        <!-- Placed at the end of the document so the pages load faster -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-        <script src="../../GerenciamentoTCC/bootstrap/js/bootstrap.min.js"></script>
-    </body>
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="../../GerenciamentoTCC/bootstrap/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -62,9 +62,9 @@
         </div>
         <br><br><br><br>
         <!------------------------------------------------------------------------------------------------------------------------------------>
-        
-        
-        
+
+
+
         <div id="tela">
             <h1>Temas cadastrados</h1>
 
@@ -100,19 +100,21 @@
                         </tr>
                     </tbody>
                 </table>
-                <input type="submit" class="btn btn-info" name="confirmar" value="<%= "Confirmar Tema " + (i + 1)%>" />
-                <input type="submit" name="confirmar" class="btn btn-danger" value="<%= "Recusar Tema " + (i + 1)%> " />
+                <button type="submit" class="btn btn-success" name="confirmar" value="<%= "Confirmar Tema " + (i + 1)%>">
+                    Confirmar Tema <%=(i + 1)%>
+                </button>
+                <button type="submit" name="confirmar" class="btn btn-danger" value="<%= "Recusar Tema " + (i + 1)%> ">
+                    Recusar Tema <%=(i + 1)%>
+                </button>
                 <br>
                 </div>
             </form>
             <br>
             <form action="ConfirmarTccServlet" method="POST">
-                <button type="submit" class="bnt btn-success"  name="confirmarTcc1" value="<%=i%>">
+                <button type="submit" class="bnt btn-info"  name="confirmarTcc1" value="<%=i%>">
                     Situação Tcc 1
                 </button>
-            </form>
-            <form action="ConfirmarTccServlet" method="POST">
-                <button type="submit" class="bnt btn-success"  name="confirmarTcc2" value="<%=i%>">
+                <button type="submit" class="bnt btn-info"  name="confirmarTcc2" value="<%=i%>">
                     Situação Tcc 2
                 </button>
             </form>        
