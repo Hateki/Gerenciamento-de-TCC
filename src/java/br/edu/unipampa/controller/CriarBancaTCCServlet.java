@@ -65,6 +65,7 @@ public class CriarBancaTCCServlet extends HttpServlet {
         int resultadoVerificacao;
         as = new AcessoSistema();
         Orientador professor = as.procurarOrientador(orientador);
+        Tcc tccBanca;
 
         if (professor1 != null && professor2 != null && matriculaAlunoString != null) {
 
@@ -77,7 +78,8 @@ public class CriarBancaTCCServlet extends HttpServlet {
                         || confirmaProfessor(orientador, professor3)) {
                     request.setAttribute("retorno", ORIENTADOR_IGUAL_PROFESSOR);
                 } else {
-                    bancaCriada = professor.cadastrarBanca(matriculaAluno, orientador, professor1, professor2, professor3);
+                    tccBanca = as.procurarTCCAtual(matriculaAluno).get(0);
+                    bancaCriada = professor.cadastrarBanca(matriculaAluno, orientador, professor1, professor2, professor3,tccBanca);
 
                     if (bancaCriada != null) {
                         mandarEmails(bancaCriada);

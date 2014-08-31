@@ -198,7 +198,7 @@ public class Orientador extends Professor implements java.io.Serializable {
     }
 
     public Banca cadastrarBanca(int matriculaAluno, String usuarioOrientador,
-            String professor1, String professor2, String professor3) {
+            String professor1, String professor2, String professor3,Tcc tccBanca) {
 
         AcessoSistema acessoSistema = new AcessoSistema();
         Aluno aluno = acessoSistema.procurarAluno(matriculaAluno);
@@ -220,6 +220,8 @@ public class Orientador extends Professor implements java.io.Serializable {
             banca.setPessoaByConvidado3IdPessoa(convidado3);
             banca.setAluno(aluno);
             banca.setOrientadorByOrientadorIdOrientador(this);
+            tccBanca.setStatus(Tcc.EM_DEFESA);
+            //banca.setTcc(tccBanca);
 
             acessoSistema.salvarBanca(banca);
 

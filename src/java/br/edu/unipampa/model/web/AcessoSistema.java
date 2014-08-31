@@ -938,27 +938,6 @@ public class AcessoSistema {
         return null;
     }
 
-    public List<Tcc> procurarListaTCCPorBanca(Banca banca) {
-        Aluno aluno = banca.getAluno();
-        List<Tcc> tccsEncontrados = SESSAO.createQuery("From Tcc").list();
-        List<Tema> temasConfirmados = procurarTemasConfirmados(banca.getOrientadorByOrientadorIdOrientador());
-        Tema temaBanca = null;
-
-        for (Tema tema : temasConfirmados) {
-            if (aluno == tema.getAluno()) {
-                temaBanca = tema;
-                break;
-            }
-        }
-
-        for (Tcc tcc : tccsEncontrados) {
-            if (tcc.getTema() == temaBanca) {
-
-            }
-        }
-        return null;
-    }
-
     /**
      * Procura as bancas que foram marcadas
      *
