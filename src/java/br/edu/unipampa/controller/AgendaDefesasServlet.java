@@ -5,7 +5,9 @@
  */
 package br.edu.unipampa.controller;
 
+import br.edu.unipampa.model.Aluno;
 import br.edu.unipampa.model.Banca;
+import br.edu.unipampa.model.Pessoa;
 import br.edu.unipampa.model.Tema;
 import br.edu.unipampa.model.web.AcessoSistema;
 import java.io.IOException;
@@ -35,6 +37,22 @@ public class AgendaDefesasServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+        String usuario = (String) request.getSession().getAttribute("usuario");
+
+        AcessoSistema acessoSistema = new AcessoSistema();
+        Pessoa pessoaEncontrada;
+
+        if (usuario == null) {
+            request.getSession().setAttribute("caminho", "SubmeterTCCServlet");
+            request.setAttribute("retorno", "A sua sessão acabou faça o login novamente.");
+            request.getRequestDispatcher("telaLogin.jsp").forward(request, response);
+        }else{
+            gerarAgendaDefesas(request, response);
+        }
+    }
+    
+    public void gerarAgendaDefesas(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException{
         AcessoSistema acessoSistema = new AcessoSistema();
         List<Banca> bancasEncontradas = acessoSistema.procurarBancasMarcadas();
         List<String> titulos = new ArrayList<>();
