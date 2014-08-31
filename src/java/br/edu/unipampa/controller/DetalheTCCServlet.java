@@ -48,7 +48,7 @@ public class DetalheTCCServlet extends HttpServlet {
 
         tccAluno = acessoSistema.procurarTCCPorBanca(bancaEncontrada);
 
-        if (tccAluno != null && tccAluno.getStatus() == Tcc.APROVADO) {
+        if (tccAluno != null && tccAluno.getStatus() == Tcc.ACEITO) {
             request.getSession().setAttribute("tcc", tccAluno);
             request.getRequestDispatcher("DownloadTCCServlet").forward(request, response);
         }else{

@@ -40,11 +40,11 @@ public class DownloadTCCServlet extends HttpServlet {
 
         if (botaoDownload != null) {
             if (botaoDownload.equalsIgnoreCase("TCC1")) {
-                tcc = (Tcc) request.getSession().getAttribute("tcc");
+                tcc = (Tcc) request.getSession().getAttribute("tccSessao");
             } else if (botaoDownload.equalsIgnoreCase("TCC2")) {
-                tcc = (Tcc) request.getSession().getAttribute("tccDefendido");
+                tcc = (Tcc) request.getSession().getAttribute("tccDefendidoSessao");
             } else if (botaoDownload.equalsIgnoreCase("TCCCorrigido")) {
-                tcc = (Tcc) request.getSession().getAttribute("tccCorrigido");
+                tcc = (Tcc) request.getSession().getAttribute("tccCorrigidoSessao");
             }
 
             if (tcc != null) {

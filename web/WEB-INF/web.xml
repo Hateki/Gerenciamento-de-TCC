@@ -164,6 +164,10 @@
         <servlet-name>FiltrarTCCsDoAluno</servlet-name>
         <servlet-class>br.edu.unipampa.controller.FiltrarTCCsDoAluno</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>RelacaoNotasServlet</servlet-name>
+        <servlet-class>br.edu.unipampa.controller.RelacaoNotasServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>CadastraPessoaExternaServelt</servlet-name>
         <url-pattern>/CadastraPessoaExternaServelt</url-pattern>
@@ -277,6 +281,10 @@
     <servlet-mapping>
         <servlet-name>FiltrarTCCsDoAluno</servlet-name>
         <url-pattern>/FiltrarTCCsDoAluno</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RelacaoNotasServlet</servlet-name>
+        <url-pattern>/RelacaoNotasServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

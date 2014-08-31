@@ -191,11 +191,11 @@ public class SalvarTcc2Servlet extends HttpServlet {
         boolean resultado = false;
 
         if (tipoTCC.equals("tccInicial")) {
-            prazoInicial = separarDatas(datas.getDataInicioTcc());
-            prazoFinal = separarDatas(datas.getDataFimTcc());
-        } else if (tipoTCC.equals("tccFinal")) {
-            prazoInicial = separarDatas(datas.getDataFinalTccFinal());
+            prazoInicial = separarDatas(datas.getDataInicioTccFinal());
             prazoFinal = separarDatas(datas.getDataFinalTccFinal());
+        } else if (tipoTCC.equals("tccFinal")) {
+            prazoInicial = separarDatas(datas.getDataFinalTccCorrigido());
+            prazoFinal = separarDatas(datas.getDataFinalTccCorrigido());
         }
 
         String[] atual;
