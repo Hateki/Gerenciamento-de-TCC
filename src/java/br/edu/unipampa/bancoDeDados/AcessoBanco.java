@@ -58,11 +58,12 @@ public class AcessoBanco {
                            + " `Convidado2_idPessoa`, `Convidado3_idPessoa`,"
                            + " `Orientador_idOrientador`,"
                            + " `Coorientador_idOrientador`, `TCC_idTCC`) \n" +
-"	VALUES (NULL, NULL, NULL, ?, ?, ?, NULL, ?, NULL, NULL)");
+"	VALUES (NULL, NULL, NULL, ?, ?, ?, NULL, ?, NULL, ?)");
             preparedStatement.setInt(1, banca.getAluno().getMatricula());
             preparedStatement.setInt(2, banca.getPessoaByConvidado1IdPessoa().getIdPessoa());
             preparedStatement.setInt(3, banca.getPessoaByConvidado2IdPessoa().getIdPessoa());
             preparedStatement.setInt(4, banca.getOrientadorByOrientadorIdOrientador().getIdOrientador());
+            preparedStatement.setInt(5, banca.getTcc().getIdTcc());
             preparedStatement.executeUpdate();
             return true;
         } catch (Exception e) {
@@ -87,9 +88,6 @@ public class AcessoBanco {
         }
     }
     
-    public static void main(String args[]){
-        AcessoBanco ac = new AcessoBanco();
-       
-    }
+   
 
 }

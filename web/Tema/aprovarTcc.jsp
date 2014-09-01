@@ -107,7 +107,7 @@
                                             </button>
                                         </form>     
                                     </td>   
-                                    <c:if test="${tcc.status != 2}" var="dasda" scope="request">
+                                    <c:if test="${tcc.status != 2 && tcc.status != 4}" var="dasda" scope="request">
                                         <td> 
                                             <form name="aprovar" action="AprovarTccServlet">
                                                 <button type="submit" class="bnt btn-success" name="botaoAprovar" value="<%= cont%>.1">

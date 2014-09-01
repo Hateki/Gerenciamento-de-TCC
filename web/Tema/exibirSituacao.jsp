@@ -107,7 +107,10 @@
                             </c:if>
                             <c:if test="${tcc.status == 3}" var="v" scope="request">
                                 Não Aprovado<br><br>
-                            </c:if>    
+                            </c:if>
+                            <c:if test="${tcc.status == 4}" var="v" scope="request">
+                                Em Defesa<br><br>
+                            </c:if>     
 
                             <c:if test="${tcc.tipoTCC == 0}" var="v" scope="request">
                                 <form name="download" action="DownloadTCCServlet">

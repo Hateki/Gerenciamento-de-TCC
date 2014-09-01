@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated 16/07/2014 21:01:25 by Hibernate Tools 3.6.0 -->
-<hibernate-mapping>
+<hibernate-mapping default-lazy="false">
   <class catalog="`GERENCIAMENTO DE TCC`" name="br.edu.unipampa.model.Pessoa" table="pessoa">
     <id name="idPessoa" type="java.lang.Integer">
       <column name="idPessoa"/>
