@@ -125,7 +125,7 @@
         <h3> Aqui você pode visualizar as Bancas em que participa!</h3>
 
         <br><br><br>
-        
+
         <c:if test="${not empty retornoFormulario}" var="v" scope="request">
             <div class="alert alert-danger" role="alert"><c:out value="${retornoFormulario}"/></div>
         </c:if>
@@ -183,7 +183,7 @@
                                         Ata de defesa
                                     </button>
                                 </form>         
-                            </div>
+                            </div>           
                             <div class="col-md-2">
                                 <form name="parecerFinal" action="ParecerFinalBanca">
                                     <button type="submit" class="bnt btn-primary" name="botaoAvaliacao" value="<%= cont%>">
@@ -191,6 +191,14 @@
                                     </button>
                                 </form>         
                             </div>            
+                            <div class="col-md-2">
+                                <form name="ataDefesa" action="listaDePresenca.jsp">
+                                    <button type="submit" class="bnt btn-primary" name="botaoAvaliacao" value="<%= cont%>">
+                                        Lista de Presença 
+                                    </button>
+                                </form>         
+                            </div>
+
                             <br><br><br><br><br>
                             <c:if test="${not empty retorno || retorno == ''}" var="v" scope="request">
                                 <div class="alert alert-danger" role="alert"><c:out value="${retorno}"/></div>

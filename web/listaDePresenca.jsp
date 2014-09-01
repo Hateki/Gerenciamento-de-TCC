@@ -61,7 +61,7 @@
                         newCell.innerHTML = ""
                     } else {
                         //Insere um conteúdo na coluna
-                        newCell.innerHTML = "<input type='text' name='apresentador' id='apresentador'>";
+                        newCell.innerHTML = "";
 
                     }
 
