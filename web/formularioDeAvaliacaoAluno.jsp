@@ -195,7 +195,7 @@
                     </tr>
                     <tr>
                         <td><label style="font-size: 16px" class="text text-muted">Estrutura e Organização (1,0)</label><br>
-                            <label style="font-size: 14px">O texto está bem estruturado e organizado</label></td>
+                            <label style="font-size: 14px">O etxto está bem estruturado e organizado</label></td>
                         <td style="text-align: center">
                             <input type="text" name="notaEstruturaEOrganizacao" id="notaEstruturaEOrganizacao" 
                                    onblur="return tamanhoNumero(this.value), incrementarNotaParcialQualidade(this.value)"

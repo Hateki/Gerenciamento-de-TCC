@@ -163,7 +163,7 @@
                             <div class="col-md-2">
                                 <form name="download" action="DetalheTCCServlet">
                                     <button type="submit" class="bnt btn-success" name="botao" value="<%= cont%>">
-                                        Fazer dowload do TCC 
+                                        Fazer download do TCC 
                                     </button>
                                 </form>    
                             </div>    
