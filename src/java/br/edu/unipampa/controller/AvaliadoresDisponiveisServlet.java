@@ -89,7 +89,7 @@ public class AvaliadoresDisponiveisServlet extends HttpServlet {
             request.getSession().removeAttribute("bancaEscolhida");
             request.getSession().removeAttribute("avaliadores");
             acessoSistema.completarTransacoes();
-            request.getRequestDispatcher("VerificarBancaServlet").forward(request, response);
+            request.getRequestDispatcher("VerificarBancaCoordenadorServlet").forward(request, response);
         }
     }
 

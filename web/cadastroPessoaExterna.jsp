@@ -1,3 +1,6 @@
+<%@page import="br.edu.unipampa.model.web.AcessoSistema"%>
+<%@page import="br.edu.unipampa.model.Orientador"%>
+<%@page import="br.edu.unipampa.model.Coordenador"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page isELIgnored="false" %>
 <%-- 
@@ -196,48 +199,90 @@
     <body>
         <div class="navbar navbar-inverse navbar-fixed-top">
             <div class="container">
-                <a href="menuPrincipalProfessor.jsp" class="navbar-brand"> Gerenciamento de TCC </a>
+                <%
+                    String usuario = (String) request.getSession().getAttribute("usuario");
+                    AcessoSistema acesso = new AcessoSistema();
+
+                    Orientador orientador = acesso.procurarOrientador(usuario);
+                    Coordenador coordenador = acesso.procurarCoordenador(usuario);
+
+                    pageContext.setAttribute("orientador", orientador);
+                    pageContext.setAttribute("coordenador", coordenador);
+
+                %>
+
+                <% if (orientador != null) { %>
+                <a href="menuPrincipalOrientador.jsp" class="navbar-brand"> Gerenciamento de TCC </a>
+
+                <% } else if (coordenador != null) { %>
+                <a href="menuPrincipalCoordenadorTCCs.jsp" class="navbar-brand"> Gerenciamento de TCC </a>
+                <% } %>
+
                 <button class="navbar-toggle" data-toggle = "collapse" data-target = ".OpcoesMenu">
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
                 <div class="collapse navbar-collapse OpcoesMenu">
-                    <ul class="nav navbar-nav">
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Banca <span class="caret"></span></a>
-                            <ul class="dropdown-menu" role="menu">
-                                <li> <a href="http://localhost:8080/GerenciamentoTCC/CriarBancaTCCServlet"> Criar Banca </a></li>
-                                <li> <a href="http://localhost:8080/GerenciamentoTCC/MarcarBancaServlet"> Definir Horário Local e Data </a> </li>
-                                <li> <a href="http://localhost:8080/GerenciamentoTCC/VerificarBancaServlet"> VerificarBanca </a> </li>
-                                <li> <a href="http://localhost:8080/GerenciamentoTCC/AgendaDefesasServlet"> Agenda de Defesas </a> </li>
-                            </ul>
-                        </li>
-                        <li> <a href="http://localhost:8080/GerenciamentoTCC/TemasRequisitadosServlet"> Temas Requisitados  </a></li>
-                        <li> <a href="http://localhost:8080/GerenciamentoTCC/cadastroPessoaExterna.jsp"> Cadastrar Pessoa Externa </a> </li>
-                        <li> <a href="http://localhost:8080/GerenciamentoTCC/contato.html"> Contato </a> </li>
-                        <li> <a href="http://localhost:8080/GerenciamentoTCC/sobre.html"> Sobre</a> </li>
-                        <li> <a href="http://localhost:8080/GerenciamentoTCC/SairSistemaServlet"> Sair</a> </li>
-                    </ul>
+
+                    <% if (coordenador != null) { %>    
+                    <div class="collapse navbar-collapse OpcoesMenu">
+                        <ul class="nav navbar-nav">
+                            <li> <a href="http://localhost:8080/GerenciamentoTCC/ConfirmarTemaServlet">Lista de Temas</a> </li>
+                            <li> <a href="http://localhost:8080/GerenciamentoTCC/DatasPrazosServlet">Definir Prazos</a> </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Banca Avaliadora<span class="caret"></span></a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li> <a href="http://localhost:8080/GerenciamentoTCC/CriarBancaTCCServlet"> Criar Banca </a></li>
+                                    <li> <a href="http://localhost:8080/GerenciamentoTCC/MarcarBancaServlet"> Definir Horário, Local e Data para Bancas</a> </li>
+                                    <li> <a href="http://localhost:8080/GerenciamentoTCC/VerificarBancaCoordenadorServlet"> Verificar Bancas</a> </li>
+                                    <li> <a href="http://localhost:8080/GerenciamentoTCC/AgendaDefesasServlet"> Agenda de Defesas </a> </li>
+                                </ul>
+                            </li>
+                            <li> <a href="http://localhost:8080/GerenciamentoTCC/cadastroPessoaExterna.jsp"> Cadastrar Pessoa Externa </a> </li>
+                            <li> <a href="http://localhost:8080/GerenciamentoTCC/contato.html"> Contato </a> </li>
+                            <li> <a href="http://localhost:8080/GerenciamentoTCC/sobre.html"> Sobre</a> </li>
+                            <li> <a href="http://localhost:8080/GerenciamentoTCC/SairSistemaServlet"> Sair</a> </li>
+                        </ul>
+                    </div>
+                    <% } else if (orientador != null) { %>
+                    <div class="collapse navbar-collapse OpcoesMenu">
+                        <ul class="nav navbar-nav">
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Banca Avaliadora<span class="caret"></span></a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li> <a href="http://localhost:8080/GerenciamentoTCC/FiltrarTCCsDoAluno"> Criar Banca </a></li>
+                                    <li> <a href="http://localhost:8080/GerenciamentoTCC/MarcarBancaServlet"> Definir Horário, Local e Data para Bancas </a> </li>
+                                    <li> <a href="http://localhost:8080/GerenciamentoTCC/VerificarBancaServlet"> Verificar Bancas </a> </li>
+                                    <li> <a href="http://localhost:8080/GerenciamentoTCC/AgendaDefesasServlet"> Agenda de Defesas </a> </li>
+                                </ul>
+                            </li>
+                            <li> <a href="http://localhost:8080/GerenciamentoTCC/TemasRequisitadosServlet"> Temas Requisitados  </a></li>
+                            <li> <a href="http://localhost:8080/GerenciamentoTCC/cadastroPessoaExterna.jsp"> Cadastrar Pessoa Externa </a> </li>
+                            <li> <a href="http://localhost:8080/GerenciamentoTCC/contato.html"> Contato </a> </li>
+                            <li> <a href="http://localhost:8080/GerenciamentoTCC/sobre.html"> Sobre</a> </li>
+                            <li> <a href="http://localhost:8080/GerenciamentoTCC/SairSistemaServlet"> Sair</a> </li>
+                        </ul>
+                    </div>
+                    <% } %>
                 </div>
             </div>
         </div>
         <br><br><br><br><br>
-        <script src="http://code.jquery.com/jquery-latest.js"></script>
-        <script src="bootstrap.min.js"></script>
+       
 
         <div id="form1">
             <%
                 String retorno = (String) request.getAttribute("retorno");
                 if (retorno != null && retorno.equalsIgnoreCase("usuario Existe")) {
             %>
-                <br>
-                <div class="alert alert-danger" role="alert">Usuário já existe</div>
+            <br>
+            <div class="alert alert-danger" role="alert">Usuário já existe</div>
             <%  }
                 if (retorno != null && retorno.equalsIgnoreCase("Sucesso")) {
             %>
-                <br>
-                <div class="alert alert-success" role="alert">Cadastro realizado com sucesso</div>
+            <br>
+            <div class="alert alert-success" role="alert">Cadastro realizado com sucesso</div>
             <%
                 }
             %>

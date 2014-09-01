@@ -58,23 +58,8 @@
                     pageContext.setAttribute("ta", ta);
                 %>
 
-                <% if (orientador != null) { %>
-                <a href="menuPrincipalOrientador.jsp" class="navbar-brand"> Gerenciamento de TCC </a>
-
-                <% } else if (professor != null) { %>
-                <a href="menuPrincipalProfessor.jsp" class="navbar-brand"> Gerenciamento de TCC </a>
-                <% } %>
-
                 <c:if test="${not empty coordenador}" var="v" scope="request">
-                    <a href="menuPrincipalCoordenador.jsp" class="navbar-brand"> Gerenciamento de TCC </a>
-                </c:if>
-
-                <c:if test="${not empty pe}" var="v" scope="request">
-                    <a href="menuPrincipalOutros.jsp" class="navbar-brand"> Gerenciamento de TCC </a>
-                </c:if>
-
-                <c:if test="${not empty ta}" var="v" scope="request">
-                    <a href="menuPrincipalOutros.jsp" class="navbar-brand"> Gerenciamento de TCC </a>
+                    <a href="menuPrincipalCoordenadorTCCs.jsp" class="navbar-brand"> Gerenciamento de TCC </a>
                 </c:if>
 
                 <button class="navbar-toggle" data-toggle = "collapse" data-target = ".OpcoesMenu">
@@ -84,28 +69,18 @@
                 </button>
                 <div class="collapse navbar-collapse OpcoesMenu">
                     <ul class="nav navbar-nav">
+                        <li> <a href="http://localhost:8080/GerenciamentoTCC/ConfirmarTemaServlet">Lista de Temas</a> </li>
+                        <li> <a href="http://localhost:8080/GerenciamentoTCC/DatasPrazosServlet">Definir Prazos</a> </li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Banca Avaliadora<span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">
-
-                                <% if (orientador != null || coordenador != null) { %>
                                 <li> <a href="http://localhost:8080/GerenciamentoTCC/CriarBancaTCCServlet"> Criar Banca </a></li>
-                                <li> <a href="http://localhost:8080/GerenciamentoTCC/MarcarBancaServlet"> Definir Horário, Local e Data para Bancas </a> </li>
-                                    <% } %>
-
-                                <li> <a href="http://localhost:8080/GerenciamentoTCC/VerificarBancaServlet"> Verificar Bancas </a> </li>
+                                <li> <a href="http://localhost:8080/GerenciamentoTCC/MarcarBancaServlet"> Definir Horário, Local e Data para Bancas</a> </li>
+                                <li> <a href="http://localhost:8080/GerenciamentoTCC/VerificarBancaCoordenadorServlet"> Verificar Bancas</a> </li>
                                 <li> <a href="http://localhost:8080/GerenciamentoTCC/AgendaDefesasServlet"> Agenda de Defesas </a> </li>
                             </ul>
                         </li>
-
-                        <% if (orientador != null || professor != null) { %>
-                        <li> <a href="http://localhost:8080/GerenciamentoTCC/TemasRequisitadosServlet"> Temas Requisitados  </a></li>
-                            <% } %>
-
-                        <% if (orientador != null || coordenador != null) { %>
                         <li> <a href="http://localhost:8080/GerenciamentoTCC/cadastroPessoaExterna.jsp"> Cadastrar Pessoa Externa </a> </li>
-                            <% } %>
-
                         <li> <a href="http://localhost:8080/GerenciamentoTCC/contato.html"> Contato </a> </li>
                         <li> <a href="http://localhost:8080/GerenciamentoTCC/sobre.html"> Sobre</a> </li>
                         <li> <a href="http://localhost:8080/GerenciamentoTCC/SairSistemaServlet"> Sair</a> </li>
@@ -119,84 +94,84 @@
 
         <br><br><br>
 
-    <c:if test="${not empty retornoAta}" var="v" scope="request">
-        <div class="alert alert-danger" role="alert"><c:out value="${retornoAta}"/></div>
-    </c:if>
-    <c:if test="${not empty retornoParecer}" var="v" scope="request">
-        <div class="alert alert-danger" role="alert"><c:out value="${retornoParecer}"/></div>
-    </c:if>    
+        <c:if test="${not empty retornoAta}" var="v" scope="request">
+            <div class="alert alert-danger" role="alert"><c:out value="${retornoAta}"/></div>
+        </c:if>
+        <c:if test="${not empty retornoParecer}" var="v" scope="request">
+            <div class="alert alert-danger" role="alert"><c:out value="${retornoParecer}"/></div>
+        </c:if>    
 
-    <% int cont = 1;%>
+        <% int cont = 1;%>
 
-    <c:forEach var="bancaEncontrada" items="${Bancas}">
-        <div class="panel panel-primary">
-            <div class="panel-heading"><h5>Banca <%= cont%></h5></div>
-            <div class="panel-body">
-                <div class="row row-fluid">
-                    <c:if test="${not empty bancaEncontrada}" var="v" scope="request"> 
+        <c:forEach var="bancaEncontrada" items="${Bancas}">
+            <div class="panel panel-primary">
+                <div class="panel-heading"><h5>Banca <%= cont%></h5></div>
+                <div class="panel-body">
+                    <div class="row row-fluid">
+                        <c:if test="${not empty bancaEncontrada}" var="v" scope="request"> 
 
-                        <div class="col-md-2"> <strong> Orientador: </strong><c:out value="${bancaEncontrada.orientadorByOrientadorIdOrientador.nome}"/></div>
-                        <div class="col-md-3"><strong> Aluno: </strong><c:out value="${bancaEncontrada.aluno.nome}"/></div>
-                        <div class="col-md-3"><strong> Convidado: </strong><c:out value="${bancaEncontrada.pessoaByConvidado1IdPessoa.nome}"/></div>
-                        <div class="col-md-3"><strong> Convidado: </strong><c:out value="${bancaEncontrada.pessoaByConvidado2IdPessoa.nome}"/></div>
-                        <br><br>
-                        <c:if test="${not empty bancaEncontrada.pessoaByConvidado3IdPessoa}">
-                            <div class="col-md-3"><strong> Convidado: </strong><c:out value="${bancaEncontrada.pessoaByConvidado3IdPessoa.nome}"/></div>
+                            <div class="col-md-2"> <strong> Orientador: </strong><c:out value="${bancaEncontrada.orientadorByOrientadorIdOrientador.nome}"/></div>
+                            <div class="col-md-3"><strong> Aluno: </strong><c:out value="${bancaEncontrada.aluno.nome}"/></div>
+                            <div class="col-md-3"><strong> Convidado: </strong><c:out value="${bancaEncontrada.pessoaByConvidado1IdPessoa.nome}"/></div>
+                            <div class="col-md-3"><strong> Convidado: </strong><c:out value="${bancaEncontrada.pessoaByConvidado2IdPessoa.nome}"/></div>
+                            <br><br>
+                            <c:if test="${not empty bancaEncontrada.pessoaByConvidado3IdPessoa}">
+                                <div class="col-md-3"><strong> Convidado: </strong><c:out value="${bancaEncontrada.pessoaByConvidado3IdPessoa.nome}"/></div>
+                            </c:if>
+                            <c:if test="${not empty bancaEncontrada.local}">
+                                <div class="col-md-3"><strong> Local: </strong><c:out value="${bancaEncontrada.local}"/></div>
+                            </c:if>
+                            <c:if test="${not empty bancaEncontrada.horario}">
+                                <div class="col-md-3"><strong> Horario: </strong><c:out value="${bancaEncontrada.horario}"/></div>
+                            </c:if>
+                            <c:if test="${not empty bancaEncontrada.data}">
+                                <div class="col-md-3"><strong> Data: </strong><c:out value="${bancaEncontrada.data}"/></div>
+                            </c:if>    
+                            <br><br>
+                            <div class="col-md-2">
+                                <form name="download" action="DetalheTCCServlet">
+                                    <button type="submit" class="bnt btn-success" name="botao" value="<%= cont%>">
+                                        Fazer dowload do TCC 
+                                    </button>
+                                </form>    
+                            </div>
+                            <div class="col-md-2">
+                                <form name="avaliar" action="AvaliadoresDisponiveisServlet">
+                                    <button type="submit" class="bnt btn-primary" name="botaoAvaliacao" value="<%= cont%>">
+                                        Avaliar Aluno(Coordenador) 
+                                    </button>
+                                </form>    
+                            </div>            
+                            <div class="col-md-2">
+                                <form name="ataDefesa" action="AtaDefesaServlet">
+                                    <button type="submit" class="bnt btn-primary" name="botaoAvaliacao" value="<%= cont%>">
+                                        Ata de defesa
+                                    </button>
+                                </form>         
+                            </div>
+                            <div class="col-md-2">
+                                <form name="parecerFinal" action="ParecerFinalBanca">
+                                    <button type="submit" class="bnt btn-primary" name="botaoAvaliacao" value="<%= cont%>">
+                                        Parecer Final da Banca
+                                    </button>
+                                </form>         
+                            </div>             
+                            <br><br><br><br><br>
+                            <c:if test="${not empty retorno || retorno == ''}" var="v" scope="request">
+                                <div class="alert alert-danger" role="alert"><c:out value="${retorno}"/></div>
+                            </c:if>
                         </c:if>
-                        <c:if test="${not empty bancaEncontrada.local}">
-                            <div class="col-md-3"><strong> Local: </strong><c:out value="${bancaEncontrada.local}"/></div>
-                        </c:if>
-                        <c:if test="${not empty bancaEncontrada.horario}">
-                            <div class="col-md-3"><strong> Horario: </strong><c:out value="${bancaEncontrada.horario}"/></div>
-                        </c:if>
-                        <c:if test="${not empty bancaEncontrada.data}">
-                            <div class="col-md-3"><strong> Data: </strong><c:out value="${bancaEncontrada.data}"/></div>
-                        </c:if>    
-                        <br><br>
-                        <div class="col-md-2">
-                            <form name="download" action="DetalheTCCServlet">
-                                <button type="submit" class="bnt btn-success" name="botao" value="<%= cont%>">
-                                    Fazer dowload do TCC 
-                                </button>
-                            </form>    
-                        </div>
-                        <div class="col-md-2">
-                            <form name="avaliar" action="AvaliadoresDisponiveisServlet">
-                                <button type="submit" class="bnt btn-primary" name="botaoAvaliacao" value="<%= cont%>">
-                                    Avaliar Aluno(Coordenador) 
-                                </button>
-                            </form>    
-                        </div>            
-                        <div class="col-md-2">
-                            <form name="ataDefesa" action="AtaDefesaServlet">
-                                <button type="submit" class="bnt btn-primary" name="botaoAvaliacao" value="<%= cont%>">
-                                    Ata de defesa
-                                </button>
-                            </form>         
-                        </div>
-                        <div class="col-md-2">
-                            <form name="parecerFinal" action="ParecerFinalBanca">
-                                <button type="submit" class="bnt btn-primary" name="botaoAvaliacao" value="<%= cont%>">
-                                    Parecer Final da Banca
-                                </button>
-                            </form>         
-                        </div>             
-                        <br><br><br><br><br>
-                        <c:if test="${not empty retorno || retorno == ''}" var="v" scope="request">
-                            <div class="alert alert-danger" role="alert"><c:out value="${retorno}"/></div>
-                        </c:if>
-                    </c:if>
+                    </div>
                 </div>
             </div>
-        </div>
-        <br><br>
-        <% cont++;%>
-    </c:forEach>
+            <br><br>
+            <% cont++;%>
+        </c:forEach>
 
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <script src="../../GerenciamentoTCC/bootstrap/js/bootstrap.min.js"></script>
-</body>
+        <!-- Bootstrap core JavaScript
+        ================================================== -->
+        <!-- Placed at the end of the document so the pages load faster -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <script src="../../GerenciamentoTCC/bootstrap/js/bootstrap.min.js"></script>
+    </body>
 </html>

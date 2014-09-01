@@ -24,9 +24,6 @@
 
     </head>
     <body>
-        <script src="http://code.jquery.com/jquery-latest.js"></script>
-        <script src="bootstrap.min.js"></script>
-
         <%
             String valorBotao = null;
             List<Tema> temasPendentes = (List<Tema>) request.getAttribute("retorno");
@@ -73,7 +70,7 @@
                         <li> <a href="http://localhost:8080/GerenciamentoTCC/SairSistemaServlet"> Sair</a> </li>
                     </ul>
                 </div>
-                 
+
             </div>
         </div>
         <br><br><br><br>
