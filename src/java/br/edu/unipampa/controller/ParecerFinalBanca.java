@@ -66,7 +66,7 @@ public class ParecerFinalBanca extends HttpServlet {
         AcessoSistema acessoSistema = new AcessoSistema();
         String usuario = (String) request.getSession().getAttribute("usuario");
         String botaoAvaliacao = request.getParameter("botaoAvaliacao");
-        List<Banca> bancaMarcada = acessoSistema.procurarBancasMarcadas();
+        List<Banca> bancaMarcada = acessoSistema.procurarBancas(usuario);
         Banca bancaEscolhida = null;
         Tema tema;
         Tcc tcc;

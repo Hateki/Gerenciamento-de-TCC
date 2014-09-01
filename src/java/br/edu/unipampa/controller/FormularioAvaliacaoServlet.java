@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package br.edu.unipampa.controller;
 
 import br.edu.unipampa.model.Aluno;
@@ -47,7 +46,7 @@ public class FormularioAvaliacaoServlet extends HttpServlet {
             request.getRequestDispatcher("telaLogin.jsp").forward(request, response);
         } else {
             pessoaEncontrada = acessoSistema.procurarPessoaEspecifica(usuario);
-            if ((pessoaEncontrada instanceof Aluno) 
+            if ((pessoaEncontrada instanceof Aluno)
                     || acessoSistema.procurarCoordenador(usuario) != null) {
                 try {
                     request.getSession().invalidate();
@@ -61,10 +60,9 @@ public class FormularioAvaliacaoServlet extends HttpServlet {
             }
         }
     }
-    
+
     public void gerarFormulario(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException
-    {
+            throws ServletException, IOException {
         AcessoSistema acessoSistema = new AcessoSistema();
         String usuario = (String) request.getSession().getAttribute("usuario");
         String botaoAvaliacao = request.getParameter("botaoAvaliacao");
@@ -72,26 +70,32 @@ public class FormularioAvaliacaoServlet extends HttpServlet {
         Pessoa pessoa = acessoSistema.procurarPessoa(usuario);
         Banca bancaEscolhida = null;
         Tema tema;
-        
-        
+
         for (int i = 0; i < bancaMarcada.size(); i++) {
-            if(i == Integer.parseInt(botaoAvaliacao) - 1){
+            if (i == Integer.parseInt(botaoAvaliacao) - 1) {
                 bancaEscolhida = bancaMarcada.get(i);
                 break;
             }
         }
-        
-        tema = acessoSistema.procurarTema(bancaEscolhida.getAluno());
-        
-        request.setAttribute("tema", tema);
-        
-        request.setAttribute("avaliador", acessoSistema.procurarPessoa(usuario));
-        
-        request.setAttribute("bancaEscolhida", bancaEscolhida);
-        
-        request.getRequestDispatcher("formularioDeAvaliacaoAluno.jsp").forward(request, response);
+
+        if (bancaEscolhida == null) {
+            request.setAttribute("retornoFormulario", "A banca ainda não foi marcada.");
+            request.getRequestDispatcher("VerificarBancaServlet").forward(request, response);
+        } else {
+            tema = acessoSistema.procurarTema(bancaEscolhida.getAluno());
+
+            request.setAttribute("tema", tema);
+
+            request.setAttribute("avaliador", acessoSistema.procurarPessoa(usuario));
+
+            request.setAttribute("bancaEscolhida", bancaEscolhida);
+
+            request.getRequestDispatcher("formularioDeAvaliacaoAluno.jsp").forward(request, response);
+        }
     }
+
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -130,8 +134,8 @@ public class FormularioAvaliacaoServlet extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    public boolean verificarPrazo(Pessoa pessoa, Banca banca){
+    public boolean verificarPrazo(Pessoa pessoa, Banca banca) {
         return true;
-        
+
     }
 }

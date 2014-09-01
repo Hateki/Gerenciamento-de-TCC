@@ -125,7 +125,10 @@
         <h3> Aqui você pode visualizar as Bancas em que participa!</h3>
 
         <br><br><br>
-
+        
+        <c:if test="${not empty retornoFormulario}" var="v" scope="request">
+            <div class="alert alert-danger" role="alert"><c:out value="${retornoFormulario}"/></div>
+        </c:if>
         <c:if test="${not empty retornoAta}" var="v" scope="request">
             <div class="alert alert-danger" role="alert"><c:out value="${retornoAta}"/></div>
         </c:if>

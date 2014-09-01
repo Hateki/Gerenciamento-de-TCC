@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package br.edu.unipampa.controller;
 
 import br.edu.unipampa.model.Banca;
@@ -51,42 +50,48 @@ public class AvaliacaoCoodenadorServlet extends HttpServlet {
                 }
                 request.setAttribute("retorno", "Você não pode acessar esta página, faça o login novamente!");
                 request.getRequestDispatcher("telaLogin.jsp").forward(request, response);
-            }else {
+            } else {
                 gerarFormularioAvaliacao(request, response);
             }
         }
     }
-    
+
     public void gerarFormularioAvaliacao(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException{
-        
+            throws ServletException, IOException {
+
         AcessoSistema acessoSistema = new AcessoSistema();
         Banca bancaEscolhida = (Banca) request.getSession().getAttribute("bancaEscolhida");
         List<Pessoa> avaliadores = (List<Pessoa>) request.getSession().getAttribute("avaliadores");
         int posicaoAvaliadorEscolhido = Integer.parseInt(request.getParameter("avaliadorEscolhido"));
         Pessoa avaliadorEscolhido = null;
         Tema tema;
-        
-        for(int i = 0; i < avaliadores.size();i++){
-            if(i == posicaoAvaliadorEscolhido){
+
+        for (int i = 0; i < avaliadores.size(); i++) {
+            if (i == posicaoAvaliadorEscolhido) {
                 avaliadorEscolhido = avaliadores.get(i);
             }
         }
-        
-        tema = acessoSistema.procurarTema(bancaEscolhida.getAluno());
-        
-        request.setAttribute("tema", tema);
-        
-        request.setAttribute("avaliador", avaliadorEscolhido);
-        
-        request.getSession().setAttribute("avaliador", avaliadorEscolhido);
-        
-        request.setAttribute("bancaEscolhida", bancaEscolhida);
-        
-        request.getSession().removeAttribute("bancaEscolhida");
-        request.getSession().removeAttribute("avaliadores");
-        
-        request.getRequestDispatcher("formularioAvaliacaoCoordenador.jsp").forward(request, response);
+
+        if (bancaEscolhida == null) {
+            request.setAttribute("retornoFormulario", "A banca ainda não foi marcada.");
+            request.getRequestDispatcher("VerificarBancaServlet").forward(request, response);
+        } else {
+            tema = acessoSistema.procurarTema(bancaEscolhida.getAluno());
+
+            request.setAttribute("tema", tema);
+
+            request.setAttribute("avaliador", avaliadorEscolhido);
+
+            request.getSession().setAttribute("avaliador", avaliadorEscolhido);
+
+            request.setAttribute("bancaEscolhida", bancaEscolhida);
+
+            request.getSession().removeAttribute("bancaEscolhida");
+            request.getSession().removeAttribute("avaliadores");
+
+            request.getRequestDispatcher("formularioAvaliacaoCoordenador.jsp").forward(request, response);
+        }
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
