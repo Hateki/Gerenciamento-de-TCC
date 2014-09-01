@@ -1,6 +1,7 @@
 package br.edu.unipampa.model;
 // Generated 16/07/2014 21:01:23 by Hibernate Tools 3.6.0
 
+import br.edu.unipampa.bancoDeDados.AcessoBanco;
 import br.edu.unipampa.model.web.AcessoSistema;
 import java.util.HashSet;
 import java.util.List;
@@ -223,7 +224,8 @@ public class Orientador extends Professor implements java.io.Serializable {
             tccBanca.setStatus(Tcc.EM_DEFESA);
             banca.setTcc(tccBanca);
 
-            acessoSistema.salvarBanca(banca);
+            AcessoBanco ab = new AcessoBanco();
+            ab.adicionarBanca(banca);
 
             return banca;
         }
