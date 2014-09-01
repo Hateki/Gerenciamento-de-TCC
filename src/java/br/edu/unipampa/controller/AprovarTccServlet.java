@@ -38,7 +38,7 @@ public class AprovarTccServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         String usuario = (String) request.getSession().getAttribute("usuario");
 
         AcessoSistema acessoSistema = new AcessoSistema();
@@ -49,7 +49,7 @@ public class AprovarTccServlet extends HttpServlet {
             request.getRequestDispatcher("telaLogin.jsp").forward(request, response);
         } else {
             pessoaEncontrada = acessoSistema.procurarPessoaEspecifica(usuario);
-            if (acessoSistema.procurarCoordenador(usuario) == null 
+            if (acessoSistema.procurarCoordenador(usuario) == null
                     && !(pessoaEncontrada instanceof Orientador)) {
                 try {
                     request.getSession().invalidate();
@@ -59,13 +59,13 @@ public class AprovarTccServlet extends HttpServlet {
                 request.setAttribute("retorno", "Você não pode acessar esta página, faça o login novamente!");
                 request.getRequestDispatcher("telaLogin.jsp").forward(request, response);
             } else {
-                aprovarTcc(request, response);
+                aprovarTcc(request, response, usuario);
             }
         }
 
     }
 
-    public void aprovarTcc(HttpServletRequest request, HttpServletResponse response)
+    public void aprovarTcc(HttpServletRequest request, HttpServletResponse response, String usuario)
             throws ServletException, IOException {
         AcessoSistema acessoSistema = new AcessoSistema();
         String botaoEscolhido = request.getParameter("download");
@@ -113,7 +113,11 @@ public class AprovarTccServlet extends HttpServlet {
         }
 
         if (flag) {
-            request.getRequestDispatcher("TemasRequisitadosServlet").forward(request, response);
+            if (acessoSistema.procurarCoordenador(usuario) == null) {
+                request.getRequestDispatcher("TemasRequisitadosServlet").forward(request, response);
+            } else {
+                request.getRequestDispatcher("ConfirmarTemaServlet").forward(request, response);
+            }
         } else {
             request.setAttribute("tipoTcc", tccEscolhido);
             request.setAttribute("temaTcc", tema);

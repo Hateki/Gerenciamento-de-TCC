@@ -72,6 +72,7 @@ public class ConfirmarTccServlet extends HttpServlet {
         String usuarioOrientador = (String) request.getSession().getAttribute("usuario");
         String confirmarTcc1 = request.getParameter("confirmarTcc1");
         String confirmarTcc2 = request.getParameter("confirmarTcc2");
+        String cargaHoraria = request.getParameter(confirmarTcc2);
         int botaoEscolhido;
         int tipoTcc;
         Orientador orientador;

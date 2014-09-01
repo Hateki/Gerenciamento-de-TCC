@@ -88,13 +88,13 @@
                             </td>
                             <td><%=tema.getDescricao()%></td>
                             <td>
-                                <input type="text" name="cargaHoraria" id="cargaHoraria"
+                                <input type="text" name="cargaHoraria" name="<%=i%>"id="<%=i%>"
                                        value="<%=tema.getAluno().getCargaHoraria()%>"
                                        onkeypress='return SomenteNumero(event)'/>
                                 <button type="button" class="btn"
                                         id="botaoVerificar"
                                         value="<%=temasPendentes.get(i).get(1)%>"
-                                        onclick="verificarCargaHoraria()">
+                                        onclick="verificarCargaHoraria(<%=i%>)">
                                     Verificar carga horária.
                                 </button>
                             </td>
@@ -130,9 +130,9 @@
         </div>
         <script>
             
-            function verificarCargaHoraria(){
+            function verificarCargaHoraria(posicao){
                 var totalHoras = document.getElementById("botaoVerificar");
-                var campoCarga = document.getElementById("cargaHoraria");
+                var campoCarga = document.getElementById(posicao);
                 var cargaHoraria = Number(campoCarga.value);
                 var cargaHorariaTotal = Number(totalHoras.value);
                 var minimo = 65*cargaHorariaTotal/100;
