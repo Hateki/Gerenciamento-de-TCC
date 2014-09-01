@@ -373,6 +373,8 @@ public class AcessoSistema {
     }
 
     public void completarTransacoes() {
+        SESSAO.flush();
+        SESSAO.clear();
         SESSAO.getTransaction().commit();
     }
 
