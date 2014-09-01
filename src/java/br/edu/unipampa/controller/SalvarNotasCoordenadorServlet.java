@@ -76,7 +76,7 @@ public class SalvarNotasCoordenadorServlet extends HttpServlet {
         request.getSession().removeAttribute("avaliador");
         acessoSistema.completarTransacoes();
 
-        request.getRequestDispatcher("VerificarBancaServlet").forward(request, response);
+        request.getRequestDispatcher("VerificarBancaCoordenadorServlet").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
