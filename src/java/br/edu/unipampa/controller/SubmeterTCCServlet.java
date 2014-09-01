@@ -86,33 +86,35 @@ public class SubmeterTCCServlet extends HttpServlet {
         String[] prazoFinal = separarDatas(prazo.getDataFimTcc());
         String tipoTcc = "tccInicial";
         Tcc tccEncontrado = null;
-        
+        boolean salvo = false;
+
         if (verificarPrazo("tccInicial")) {
             tipoTcc = "tccInicial";
             if (salvarArquivo(request, response, Integer.parseInt(usuarioAluno), tipoTcc)) {
-                request.setAttribute("retorno", "Envio de arquivo bem sucedido");
+                request.setAttribute("retornoPositivo", "Envio de arquivo bem sucedido");
+                salvo = true;
             }
         }
 
-        listaTcc = acessoSistema.procurarTCC(Integer.parseInt(usuarioAluno),0);
-        
-        try{
+        listaTcc = acessoSistema.procurarTCC(Integer.parseInt(usuarioAluno), 0);
+
+        try {
             tccEncontrado = listaTcc.get(0);
-        }catch(Exception e){
-            
+        } catch (Exception e) {
+
         }
-        
+
         if (botaoRefazer != null) {
             if (botaoRefazer.equals("0") && listaTcc.size() > 0) {
                 acessoSistema.deletarTcc(listaTcc.get(0));
             }
         }
 
-        request.setAttribute("PrazoTccInicial",verificarPrazo("tccInicial"));
+        request.setAttribute("PrazoTccInicial", verificarPrazo("tccInicial"));
         request.setAttribute("PrazoTccFinal", verificarPrazo("tccFinal"));
 
         request.setAttribute("tccInicial", tccEncontrado);
-        
+
         request.setAttribute("dataInicial", prazoInicial[DIA]
                 + "/" + prazoInicial[MES] + "/" + prazoInicial[ANO]);
 
@@ -120,13 +122,17 @@ public class SubmeterTCCServlet extends HttpServlet {
                 + "/" + prazoFinal[MES] + "/" + prazoFinal[ANO]);
 
         request.getSession().setAttribute("tccSessao",
-                acessoSistema.procurarTipoVersaoTcc(Integer.parseInt(usuarioAluno), 0,0));
-        
-        request.getSession().setAttribute("caminho", "SubmeterTccServlet");
-        
+                acessoSistema.procurarTipoVersaoTcc(Integer.parseInt(usuarioAluno), 0, 0));
+
+        request.getSession().setAttribute("caminho", "SubmeterTCCServlet");
+
         acessoSistema.completarTransacoes();
-        
-        request.getRequestDispatcher("Tema/submeterTCC.jsp").forward(request, response);
+        if (salvo) {
+            request.setAttribute("caminho", "SubmeterTCCServlet");
+            request.getRequestDispatcher("Tema/telaSubmissao.jsp").forward(request, response);
+        } else {
+            request.getRequestDispatcher("Tema/submeterTCC.jsp").forward(request, response);
+        }
     }
 
     /**
@@ -247,12 +253,12 @@ public class SubmeterTCCServlet extends HttpServlet {
             } else {//Se os meses são iguais
                 if (diaAtual < Integer.parseInt(prazoInicial[DIA])) {
                     resultado = false;
-                }else {
+                } else {
                     resultado = true;
                 }
             }
         }
-        
+
         if (anoAtual > Integer.parseInt(prazoFinal[ANO])) {
             resultado = false;
         } else if (anoAtual < Integer.parseInt(prazoFinal[ANO])) {
@@ -265,7 +271,7 @@ public class SubmeterTCCServlet extends HttpServlet {
             } else {//Se os meses são iguais
                 if (diaAtual > Integer.parseInt(prazoFinal[DIA])) {
                     resultado = false;
-                }else {
+                } else {
                     resultado = true;
                 }
             }

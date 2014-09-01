@@ -98,8 +98,9 @@ public class SalvarTcc2Servlet extends HttpServlet {
         }
         
         request.removeAttribute("AcessoSalvarTcc");
+        request.setAttribute("caminho", "SubmeterTCC2Servlet");
         
-        request.getRequestDispatcher("SubmeterTCC2Servlet").forward(request, response);
+        request.getRequestDispatcher("Tema/telaSubmissao.jsp").forward(request, response);
     }
     
     /**

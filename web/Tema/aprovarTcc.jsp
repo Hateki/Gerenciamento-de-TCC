@@ -120,7 +120,7 @@
                                     <th>Tema</th>
                                     <th>Situação</th>
                                     <th> Fazer Download </th>
-                                        <c:if test="${tcc.status != 2}" var="dasda" scope="request">
+                                        <c:if test="${tcc.status != 2 && tcc.status != 4}" var="dasda" scope="request">
                                         <th> Aprovação </th>
                                         </c:if>
                                 </tr>
@@ -144,6 +144,10 @@
 
                                     <c:if test="${tcc.status == 3}" var="v" scope="request">
                                         <td>Reprovado</td>
+                                    </c:if>
+                                        
+                                    <c:if test="${tcc.status == 4}" var="v" scope="request">
+                                        <td>Em defesa</td>
                                     </c:if>    
                                     <td>
                                         <form name="download" action="AprovarTccServlet">

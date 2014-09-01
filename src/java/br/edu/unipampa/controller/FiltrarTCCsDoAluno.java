@@ -49,7 +49,7 @@ public class FiltrarTCCsDoAluno extends HttpServlet {
             request.getRequestDispatcher("telaLogin.jsp").forward(request, response);
         } else {
             pessoaEncontrada = acessoSistema.procurarPessoaEspecifica(usuario);
-            if (acessoSistema.procurarCoordenador(usuario) == null 
+            if (acessoSistema.procurarCoordenador(usuario) == null
                     && !(pessoaEncontrada instanceof Orientador)) {
                 try {
                     request.getSession().invalidate();
@@ -63,10 +63,10 @@ public class FiltrarTCCsDoAluno extends HttpServlet {
             }
         }
     }
-        
+
     public void fitrarTccs(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException{
-        
+            throws ServletException, IOException {
+
         AcessoSistema as = new AcessoSistema();
         String usuario = (String) request.getSession().getAttribute("usuario");
         List<List> alunosDisponiveis = new ArrayList<>();
@@ -81,16 +81,23 @@ public class FiltrarTCCsDoAluno extends HttpServlet {
             tcc1 = as.procurarTipoVersaoTcc(aluno.getMatricula(), 0, 0);
             tcc2 = as.procurarTipoVersaoTcc(aluno.getMatricula(), 0, 1);
             tema = aluno.getTema();
-            if (tcc1 != null && tcc1.getStatus() != Tcc.EM_DEFESA && tcc1.getStatus() != Tcc.APROVADO && tcc1.getStatus() != Tcc.REPROVADO) {
-                tccsNaoAvaliados.add(aluno);
-                tccsNaoAvaliados.add(tema);
-                tccsNaoAvaliados.add(tcc1);
-                alunosDisponiveis.add(tccsNaoAvaliados);
-            } else if (tcc2 != null && tcc2.getStatus() != Tcc.EM_DEFESA && tcc2.getStatus() != Tcc.APROVADO && tcc2.getStatus() != Tcc.REPROVADO) {
-                tccsNaoAvaliados.add(aluno);
-                tccsNaoAvaliados.add(tema);
-                tccsNaoAvaliados.add(tcc2);
-                alunosDisponiveis.add(tccsNaoAvaliados);
+            if (tema.getAprovado() == Tema.APROVADO_ORIENTADOR) {
+                if (tcc1 != null && tcc1.getStatus() != Tcc.EM_DEFESA && tcc1.getStatus() != Tcc.APROVADO && tcc1.getStatus() != Tcc.REPROVADO) {
+                    tccsNaoAvaliados.add(aluno);
+                    tccsNaoAvaliados.add(tema);
+                    tccsNaoAvaliados.add(tcc1);
+                    alunosDisponiveis.add(tccsNaoAvaliados);
+                } else if (tcc2 != null && tcc2.getStatus() != Tcc.EM_DEFESA && tcc2.getStatus() != Tcc.APROVADO && tcc2.getStatus() != Tcc.REPROVADO) {
+                    tccsNaoAvaliados.add(aluno);
+                    tccsNaoAvaliados.add(tema);
+                    tccsNaoAvaliados.add(tcc2);
+                    alunosDisponiveis.add(tccsNaoAvaliados);
+                } else if(tcc1 == null && tcc2 == null){
+                    tccsNaoAvaliados.add(aluno);
+                    tccsNaoAvaliados.add(tema);
+                    tccsNaoAvaliados.add(null);
+                    alunosDisponiveis.add(tccsNaoAvaliados);
+                }
             }
         }
 
@@ -98,9 +105,11 @@ public class FiltrarTCCsDoAluno extends HttpServlet {
         as.completarTransacoes();
 
         request.getRequestDispatcher("CriarBancaTCCServlet").forward(request, response);
-    }    
-        
-    
+    }
+
+    public void verificarExistenciaBanca() {
+
+    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -112,7 +121,7 @@ public class FiltrarTCCsDoAluno extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-        protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
     }
@@ -126,7 +135,7 @@ public class FiltrarTCCsDoAluno extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-        protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
     }
@@ -137,7 +146,7 @@ public class FiltrarTCCsDoAluno extends HttpServlet {
      * @return a String containing servlet description
      */
     @Override
-        public String getServletInfo() {
+    public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
 

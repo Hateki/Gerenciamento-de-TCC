@@ -149,10 +149,13 @@
                             </thead>
                             <tbody>
                                 <c:forEach var="listaAlunos" items="${alunosDisponiveis}">
-                                    <tr onclick="pegaTabelaAluno('<c:out value="${listaAlunos[0].usuario}"/>')">
+                                    <tr onclick="pegaTabela('<c:out value="${listaAlunos[0].usuario}"/>')">
                                         <td> <c:out value="${listaAlunos[0].usuario}"/> </td>
                                         <td> <c:out value="${listaAlunos[0].nome}"/> </td>
                                         <td> <c:out value="${listaAlunos[0].pessoa.email}"/> </td>
+                                        <c:if test="${empty listaAlunos[2]}" var="v" scope="request">
+                                            <td> TCC não enviado </td>
+                                        </c:if> 
                                         <c:if test="${listaAlunos[2].tipoTCC == 0}" var="v" scope="request">
                                             <td> TCC 1 </td>
                                         </c:if>
@@ -311,6 +314,11 @@
 
 
     <script>
+        function pegaTabela(id) {
+            var v = document.getElementById("matricula");
+            v.value = id;
+        }
+        
         function pegaTabelaPessoa1(id) {
             var v = document.getElementById("orientador");
             v.value = id;
