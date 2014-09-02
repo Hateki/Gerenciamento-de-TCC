@@ -55,28 +55,29 @@ public class SubmeterTCCServlet extends HttpServlet {
         Pessoa pessoaEncontrada;
 
         Tema temaObtido = acessoSistema.procurarTema(Integer.parseInt(usuarioAluno));
-        if(temaObtido == null){
-            System.out.println("tchauuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu");
-        }
-        
-        
-        if (usuarioAluno == null) {
-            request.getSession().setAttribute("caminho", "SubmeterTCCServlet");
-            request.setAttribute("retorno", "A sua sessão acabou faça o login novamente.");
-            request.getRequestDispatcher("telaLogin.jsp").forward(request, response);
+        if (temaObtido == null) {
+            request.setAttribute("retorno", "Nao possui tema cadastrado");
+            request.getRequestDispatcher("submeterTCC.jsp").forward(request, response);
         } else {
-            pessoaEncontrada = acessoSistema.procurarPessoaEspecifica(usuarioAluno);
-            if (!(pessoaEncontrada instanceof Aluno)) {
-                try {
-                    request.getSession().invalidate();
-                } catch (Exception e) {
 
-                }
-                request.setAttribute("retorno", "Você não pode acessar esta página, faça o login novamente!");
+            if (usuarioAluno == null) {
+                request.getSession().setAttribute("caminho", "SubmeterTCCServlet");
+                request.setAttribute("retorno", "A sua sessão acabou faça o login novamente.");
                 request.getRequestDispatcher("telaLogin.jsp").forward(request, response);
-
             } else {
-                submeterTcc(request, response, usuarioAluno);
+                pessoaEncontrada = acessoSistema.procurarPessoaEspecifica(usuarioAluno);
+                if (!(pessoaEncontrada instanceof Aluno)) {
+                    try {
+                        request.getSession().invalidate();
+                    } catch (Exception e) {
+
+                    }
+                    request.setAttribute("retorno", "Você não pode acessar esta página, faça o login novamente!");
+                    request.getRequestDispatcher("telaLogin.jsp").forward(request, response);
+
+                } else {
+                    submeterTcc(request, response, usuarioAluno);
+                }
             }
         }
     }
@@ -110,7 +111,7 @@ public class SubmeterTCCServlet extends HttpServlet {
 
         if (verificaDisponibilidadeEnvio(listaTcc)) {
             tccEncontrado = null;
-        } else if(tccEncontrado != null && tccEncontrado.getStatus() == Tcc.REPROVADO){
+        } else if (tccEncontrado != null && tccEncontrado.getStatus() == Tcc.REPROVADO) {
             request.setAttribute("reprovado", "Espere até o próximo"
                     + " semestre para poder submeter o tcc novamente.");
         }

@@ -82,6 +82,7 @@
                         <strong> TCC da primeira fase</strong>
                     </p>
                     <br><br>
+                    <% if(request != null && request.getAttribute("retorno") != null && request.getAttribute("retorno").equals("Nao possui tema cadastrado")) { %>
                     <div class="row row-fluid">
                         <c:if test="${not empty tccInicial}" var="v" scope="request"> 
                             <div class="col-md-3"> Nome do Arquivo: <c:out value="${tccInicial.titulo}"/></div>
@@ -139,7 +140,7 @@
                             </div>
                         </c:if>         
                     </div>
-
+                    <% } %>
                     <c:if test="${not empty retorno}" var="v" scope="request">
                         <div class="alert alert-success" role="alert"><c:out value="${retorno}"/></div>
                     </c:if>
