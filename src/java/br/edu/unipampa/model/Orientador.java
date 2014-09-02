@@ -191,6 +191,7 @@ public class Orientador extends Professor implements java.io.Serializable {
                     break;
                 }
             }
+            
             acessoSistema.deletarTema(escolhido);
             acessoSistema.carregarDados(listaTemas);
         }

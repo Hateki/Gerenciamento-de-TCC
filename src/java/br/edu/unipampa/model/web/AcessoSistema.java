@@ -322,12 +322,13 @@ public class AcessoSistema {
     public void atualizarTema(Tema tema) {
         SESSAO.update(tema);
     }
-    
+
     /**
      * Atualiza o aluno escolhido
+     *
      * @param aluno Aluno para se atualizar
      */
-    public void atualizarAluno(Aluno aluno){
+    public void atualizarAluno(Aluno aluno) {
         SESSAO.update(aluno);
     }
 
@@ -347,14 +348,31 @@ public class AcessoSistema {
      */
     public void deletarTema(Tema tema) {
         List<Tcc> listaTcc = SESSAO.createQuery("From Tcc").list();
-
+        List<Tema> listaTema = SESSAO.createQuery("From Tema").list();
+        List<Banca> listaBanca = SESSAO.createQuery("From Banca").list();
+        List<Tema> temasOrientador = retornarTemasRequisitados(tema.getOrientador());
+        
         for (Tcc tcc : listaTcc) {
             if (tcc.getTema() == tema) {
+                for (Banca banca : listaBanca) {
+                    if (tcc == banca.getTcc()) {
+                        SESSAO.delete(banca);
+                        SESSAO.flush();
+                    }
+                }
                 SESSAO.delete(tcc);
+                SESSAO.flush();
             }
         }
-
+               
         SESSAO.delete(tema);
+        
+        SESSAO.flush();
+        
+        if(temasOrientador.size() == 1){
+            SESSAO.delete(tema.getOrientador());
+            SESSAO.flush();
+        }
     }
 
     /**
@@ -483,9 +501,9 @@ public class AcessoSistema {
                 return aluno;
             }
         }
-        
-        for(Orientador orientador : orientadoresEncontrados){
-            if(usuario.equals(orientador.getUsuario())){
+
+        for (Orientador orientador : orientadoresEncontrados) {
+            if (usuario.equals(orientador.getUsuario())) {
                 return orientador;
             }
         }
@@ -1022,18 +1040,19 @@ public class AcessoSistema {
         }
         return listaBancas;
     }
-    
+
     /**
      * Procura bancas de um aluno, que ainda não tem um Tcc.
-     * @param matriculaAluno 
-     * @return 
+     *
+     * @param matriculaAluno
+     * @return
      */
-    public Banca procurarBancaPendente(int matriculaAluno){
+    public Banca procurarBancaPendente(int matriculaAluno) {
         List<Banca> bancasENcontradas = SESSAO.createQuery("From Banca").list();
-        
+
         for (Banca banca : bancasENcontradas) {
-            if(banca.getAluno().getMatricula() == matriculaAluno){
-                if(banca.getTcc() == null){
+            if (banca.getAluno().getMatricula() == matriculaAluno) {
+                if (banca.getTcc() == null) {
                     return banca;
                 }
             }
