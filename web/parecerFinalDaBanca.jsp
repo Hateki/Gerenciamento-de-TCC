@@ -25,28 +25,70 @@
     </head>
     <body>
 
-        <h1 style="color: #3c763d"><strong><center>Universidade Federal do Pampa 
-                    <br>Campus Alegrete
-                    <br>Curso de Engenharia de Software</center>
-            </strong>
-        </h1>
-        <h2><center><br><b>PARECER FINAL DA BANCA</b></center></h2>
-
-        <div>
-            <br><br>
-            <label class="text text-uppercase" style="font-size: x-large">Aluno:</label> <label> <c:out value="${bancaEscolhida.aluno.nome}"/></label><br>
-            <label class="text text-uppercase" style="font-size: x-large" >Matrícula:</label> <c:out value="${bancaEscolhida.aluno.matricula}"/><br>
-            <label class="text text-uppercase" style="font-size: x-large">Título do Trabalho:</label> <c:out value="${tema.descricao}"/><br>
+        <div id="imagem">
+            <center><img src="imagem_logo_unipampa.jpg" ></center>
         </div>
 
-        <form method="post">
-            <br>
-            <label>Banca Examinadora:</label>
-            <center> <c:out value="${bancaEscolhida.orientadorByOrientadorIdOrientador.nome}"/>(Orientador)</center><br>
+        <h4 style="color: #3c763d"><strong><center>UNIVERSIDADE FEDERAL DO PAMPA 
+                    <br>CAMPUS ALEGRETE
+                    <br>BACHARELADO EM ENGENHARIA DE SOFTWARE</center>
+            </strong>
+        </h4>
 
-            <center><c:out value="${bancaEscolhida.pessoaByConvidado1IdPessoa.nome}"/></center><br>
-            <center><c:out value="${bancaEscolhida.pessoaByConvidado2IdPessoa.nome}"/></center><br>
-            <center><c:out value="${bancaEscolhida.pessoaByConvidado3IdPessoa.nome}"/></center><br>
+        <br>
+        <h4><center><b>PARECER FINAL DA BANCA</b></center></h4>
+
+        <div>
+            <br>
+            <style>
+                .aluno { display:inline; }
+                .valorAluno { display:inline; }
+
+                .matricula { display:inline; }
+                .valorMatricula { display:inline; } 
+
+                .titulo { display:inline; }
+                .valorTitulo { display:inline; }
+                
+                .banca { display:inline; }
+                .orientador { display:inline; }
+                
+                .notafinal { display:inline; }
+                .valorNota { display:inline; }
+                
+                .situacao { display:inline; }
+                .valorSituacao { display:inline; }
+                
+                .data  { display:inline;
+                         float: right}
+                       
+                
+
+            </style>
+            <div>
+                <h5 class="aluno"><left><b> ALUNO: </b></left></h5> <h6 class="valorAluno"><left> <c:out value="${bancaEscolhida.aluno.nome}"/> </left></h6>
+                <h5 class="data"><right><b> DATA: </b></right></h5>
+            </div>
+            <div>
+                <h5 class="matricula"><left><b> MATRÍCULA: </b></left></h5> <h6 class="valorMatricula"><left> <c:out value="${bancaEscolhida.aluno.matricula}"/> </left></h6>
+            </div>
+            <div>
+                <h5 class="titulo"><left><b> TÍTULO DO TRABALHO: </b></left></h5> <h6 class="valorTitulo"><left> <c:out value="${tema.descricao}"/> </left></h6><br>
+            </div>
+        </div>
+            <br><br>
+            
+        <form method="post">
+            <div> 
+            <h5 class="banca"><left><b> BANCA AVALIADORA: </b></left></h5>
+
+            <h6 class="orientador"><center><i> <c:out value="${bancaEscolhida.orientadorByOrientadorIdOrientador.nome}"/> </i></center></h6> <center>(Orientador)</center> <br>
+            </div>
+            
+            <h6><center><i> <c:out value="${bancaEscolhida.pessoaByConvidado1IdPessoa.nome}"/> </i></center></h6><br>
+            <h6><center><i> <c:out value="${bancaEscolhida.pessoaByConvidado2IdPessoa.nome}"/> </i></center></h6><br>
+            <h6><center><i> <c:out value="${bancaEscolhida.pessoaByConvidado3IdPessoa.nome}"/> </i></center></h6>
+
             <%
                 String situacaoAluno;
                 Float mediaFinal = (Float) request.getAttribute("mediaFinal");
@@ -56,24 +98,29 @@
                     situacaoAluno = "Reprovado";
                 }
             %>
-           
+
             <c:if test="${mediaFinal > 0}" var="v" scope="request">
-                <label>Nota final do Tcc: </label>
-                <center><c:out value="${mediaFinal}" /></center><br>
-            </c:if>
-            <c:if test="${mediaFinal < 0}" var="v" scope="request">
-            <center><label>Nem todos os avaliadores deram a nota</label></center><br>
-            </c:if>
-                <label>Situação Aluno:</label> 
-                <center><%= situacaoAluno%></center><br><br><br>
+                <h5 class="notafinal"><left><b> NOTA FINAL DO TRABALHO DE CONCLUSÃO DE CURSO: </b></left></h5>
+                <h6 class="valorNota"><center> <c:out value="${mediaFinal}" /> </center></h6><br>
+                    </c:if>
+                    <c:if test="${mediaFinal < 0}" var="v" scope="request">
+                <h5><center> Nem todos os avaliadores deram a nota! </center></h5><br>
+                    </c:if>
 
-            <center><label>_______________________________________</label></center><br>
-            <center><label><c:out value="${bancaEscolhida.orientadorByOrientadorIdOrientador.nome}" /></center></label><br>
-            <center><label>_______________________________________</label></center><br>
-            <center><label><c:out value="${bancaEscolhida.pessoaByConvidado1IdPessoa.nome}" /></label></center><br>
-            <center><label>_______________________________________</label><br></center>
-            <center><label><c:out value="${bancaEscolhida.pessoaByConvidado2IdPessoa.nome}" /></label></center><br>
-        </form>
+                
+            <div>
+                <h5 class="situacao"><left><b> SITUAÇAO DO ALUNO: </b></left></h5> <h6 class="valorSituacao"><center><b> <%= situacaoAluno%> </b></center></h6>
+            </div>
+            
+            <br><br>
+            <h5><center>_______________________________________</center></h5>
+            <h6><center> <c:out value="${bancaEscolhida.orientadorByOrientadorIdOrientador.nome}" /> </center></h6><br><br>
 
+            <h5><center>_______________________________________</center></h5>
+            <h6><center> <c:out value="${bancaEscolhida.pessoaByConvidado1IdPessoa.nome}" /> </center></h6><br><br>
+
+            <h5><center>_______________________________________</center></h5>
+            <h6><center> <c:out value="${bancaEscolhida.pessoaByConvidado2IdPessoa.nome}" /> </center></h6>
+     </form>
     </body>
 </html>

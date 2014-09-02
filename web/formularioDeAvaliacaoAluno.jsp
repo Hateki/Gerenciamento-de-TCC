@@ -25,61 +25,57 @@
     </head>
     <body>
 
-        <div class="navbar navbar-inverse navbar-fixed-top">
-            <div class="container">
-                <a href="menuPrincipalProfessor.jsp" class="navbar-brand"> Gerenciamento de TCC </a>
-                <button class="navbar-toggle" data-toggle = "collapse" data-target = ".OpcoesMenu">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <div class="collapse navbar-collapse OpcoesMenu">
-                    <ul class="nav navbar-nav">
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Banca <span class="caret"></span></a>
-                            <ul class="dropdown-menu" role="menu">
-                                <li> <a href="http://localhost:8080/GerenciamentoTCC/CriarBancaTCCServlet"> Criar Banca </a></li>
-                                <li> <a href="http://localhost:8080/GerenciamentoTCC/MarcarBancaServlet"> Definir Horário Local e Data </a> </li>
-                                <li> <a href="http://localhost:8080/GerenciamentoTCC/VerificarBancaServlet"> VerificarBanca </a> </li>
-                                <li> <a href="http://localhost:8080/GerenciamentoTCC/AgendaDefesasServlet"> Agenda de Defesas </a> </li>
-                            </ul>
-                        </li>
-                        <li> <a href="http://localhost:8080/GerenciamentoTCC/TemasRequisitadosServlet"> Temas Requisitados  </a></li>
-                        <li> <a href="http://localhost:8080/GerenciamentoTCC/cadastroPessoaExterna.jsp"> Cadastrar Pessoa Externa </a> </li>
-                        <li> <a href="http://localhost:8080/GerenciamentoTCC/contato.html"> Contato </a> </li>
-                        <li> <a href="http://localhost:8080/GerenciamentoTCC/sobre.html"> Sobre</a> </li>
-                        <li> <a href="http://localhost:8080/GerenciamentoTCC/SairSistemaServlet"> Sair</a> </li>
-                    </ul>
-                </div>
-            </div>
+        <div id="imagem">
+            <center><img src="imagem_logo_unipampa.jpg" ></center>
         </div>
 
-        <br><br>
-
-        <h1 style="color: #3c763d"><strong><center>Universidade Federal do Pampa 
-                    <br>Campus Alegrete
-                    <br>Curso de Engenharia de Software</center>
+        <h4 style="color: #3c763d"><strong><center>UNIVERSIDADE FEDERAL DO PAMPA 
+                    <br>CAMPUS ALEGRETE
+                    <br>BACHARELADO EM ENGENHARIA DE SOFTWARE</center>
             </strong>
-        </h1>
-        <h2><center><br><b>FORMULÁRIO DE AVALIAÇÃO DE TRABALHO DE CONCLUSÃO DE CURSO</b></center></h2>
+        </h4>
+
+        <br>
+        <h4><center><b>FORMULÁRIO DE AVALIAÇÃO DE TRABALHO DE CONCLUSÃO DE CURSO</b></center></h4>
 
         <div>
-            <br><br>
-            <label class="text text-uppercase" style="font-size: x-large">Aluno:</label> <label> <c:out value="${bancaEscolhida.aluno.nome}"/> </label>
-            <label class="text text-uppercase" style="font-size: x-large" >Matrícula:</label> <c:out value="${bancaEscolhida.aluno.matricula}"/><br>
-            <label class="text text-uppercase" style="font-size: x-large">Título do Trabalho:</label> <c:out value="${tema.descricao}"/><br>
-            <label class="text text-uppercase" style="font-size: x-large">Avaliador:</label> <c:out value="${avaliador.nome}"/><br><br><br>
+            <br>
+            <style>
+                .aluno { display:inline; }
+                .valorAluno { display:inline; }
+
+                .matricula { display:inline; }
+                .valorMatricula { display:inline; }
+
+                .titulo { display:inline; }
+                .valorTitulo { display:inline; }
+
+                .avaliador { display:inline; }
+                .valorAvaliador { display:inline; }
+
+            </style>
+            <div>
+                <h5 class="aluno"><left><b> ALUNO: </b></left></h5> <h6 class="valorAluno"><left> <c:out value="${bancaEscolhida.aluno.nome}"/> </left></h6>
+            </div>
+            <div>
+                <h5 class="matricula"><left><b> MATRÍCULA: </b></left></h5> <h6 class="valorMatricula"><left> <c:out value="${bancaEscolhida.aluno.matricula}"/> </left></h6>
+            </div>
+            <div>
+                <h5 class="titulo"><left><b> TÍTULO DO TRABALHO: </b></left></h5> <h6 class="valorTitulo"><left> <c:out value="${tema.descricao}"/> </left></h6>
+            </div>
+            <div>
+                <h5 class="avaliador"><left><b> AVALIADOR: </b></left></h5> <h6 class="valorAvaliador"><left> <c:out value="${avaliador.nome}"/> </left></h6> <br><br>
+            </div>
         </div>
 
         <form method="post" name="formularioDeAvaliacao"
               action="SalvarNotasServlet" method="post"
-              onsubmit="return verificarNotaFinal();"
-              >
+              onsubmit="return verificarNotaFinal();">
             <div id="formAvaliacao">
                 <table class="table table-hover">
                     <tr class="success">
                         <td><label style="font-size: 16px">I – TRABALHO DESENVOLVIDO (4,0)</label></td>
-                        <td style="text-align: center"> <label style="font-size: 16px">Nota</label></td>
+                        <td style="text-align: center"> <label style="font-size: 16px">NOTA</label></td>
                     </tr>
                     <tr>
                         <td><label style="font-size: 16px" class="text text-muted">Relevância (1,0)</label><br>
@@ -122,15 +118,15 @@
                         </td>           
                     </tr>
                     <tr class="warning">
-                        <td style="text-align: left"><label class="label label-warning" style="font-size: 16px">Nota Parcial:</label></td>
+                        <td style="text-align: left"><label class="label label-warning" style="font-size: 16px">NOTA PARCIAL:</label></td>
                         <td style="text-align: center"><input type="text" name="notaParcialTrabDesenvolvido" id="notaParcialTrabDesenvolvido" ></td>           
                     </tr>
                 </table>
-                <br><br>
+                <br>
                 <table class="table table-hover">
                     <tr class="success">
                         <td><label style="font-size: 16px">II – APRESENTAÇÃO (3,0)</label></td>
-                        <td style="text-align: center"><label style="font-size: 16px">Nota</label></td>
+                        <td style="text-align: center"><label style="font-size: 16px">NOTA</label></td>
                     </tr>
                     <tr>
                         <td><label style="font-size: 16px" class="text text-muted">Clareza (1,0)</label><br>
@@ -163,15 +159,15 @@
                         </td>           
                     </tr>
                     <tr class="warning">
-                        <td style="text-align: left"><label class="label label-warning" style="font-size: 16px">Nota Parcial:</label></td>
+                        <td style="text-align: left"><label class="label label-warning" style="font-size: 16px">NOTA PARCIAL:</label></td>
                         <td style="text-align: center"><input type="text" name="notaParcialApresentacao" id="notaParcialApresentacao" ></td>           
                     </tr>
                 </table>
-                <br><br>
+                <br>
                 <table class="table table-hover">
                     <tr class="success">
                         <td><label style="font-size: 16px">III – QUALIDADE DO TEXTO (3,0)</label></td>
-                        <td style="text-align: center"><label style="font-size: 16px">Nota</label></td>
+                        <td style="text-align: center"><label style="font-size: 16px">NOTA</label></td>
                     </tr>
                     <tr>
                         <td><label style="font-size: 16px" class="text text-muted">Clareza (1,0)</label><br>
@@ -204,7 +200,7 @@
                         </td>           
                     </tr>
                     <tr class="warning">
-                        <td style="text-align: left"><label class="label label-warning" style="font-size: 16px">Nota Parcial:</label></td>
+                        <td style="text-align: left"><label class="label label-warning" style="font-size: 16px">NOTA PARCIAL:</label></td>
                         <td style="text-align: center"><input type="text" name="notaParcialQualidade" id="notaParcialQualidade" ></td>           
                     </tr>
                     <tr class="info">

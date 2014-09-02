@@ -25,29 +25,74 @@
     </head>
     <body>
 
-        <h1 style="color: #3c763d"><strong><center>Universidade Federal do Pampa 
-                    <br>Campus Alegrete
-                    <br>Curso de Engenharia de Software</center>
+        <div id="imagem">
+            <center><img src="imagem_logo_unipampa.jpg" ></center>
+        </div>
+
+        <h4 style="color: #3c763d"><strong><center>UNIVERSIDADE FEDERAL DO PAMPA 
+                    <br>CAMPUS ALEGRETE
+                    <br>BACHARELADO EM ENGENHARIA DE SOFTWARE</center>
             </strong>
-        </h1>
-        <h2><center><br><b>ATA DE DEFESA</b></center></h2>
+        </h4>
+
+        <br>
+        <h4><center><b>ATA DE DEFESA</b></center></h4>
 
         <div>
+            <style>
+                .aluno { display:inline; }
+                .valorAluno { display:inline; }
+
+                .matricula { display:inline; }
+                .valorMatricula { display:inline; }
+
+                .titulo { display:inline; }
+                .valorTitulo { display:inline; }
+
+                .data { display:inline; }
+                .valorData { display:inline; }
+
+                .local { display:inline; }
+                .valorLocal { display:inline; }
+
+                .horario { display:inline; }
+                .valorHorario { display:inline; }
+
+                .situacao { display:inline; }
+                .valorSituacao { display:inline; }
+            </style>
+
+
+
+
             <br>
-            <label class="text text-uppercase" style="font-size: large">Aluno:</label> <label> <c:out value="${bancaEscolhida.aluno.nome}"/> </label><br>
-            <label class="text text-uppercase" style="font-size: large" >Matrícula:</label> <c:out value="${bancaEscolhida.aluno.matricula}"/><br>
-            <label class="text text-uppercase" style="font-size: large">Título do Trabalho:</label> <c:out value="${tema.descricao}"/><br>
-            <label class="text text-uppercase" style="font-size: large">Data:</label> <c:out value="${bancaEscolhida.data}"/><br>
-            <label class="text text-uppercase" style="font-size: large">Local:</label> <c:out value="${bancaEscolhida.local}"/><br>
-            <label class="text text-uppercase" style="font-size: large">Horario:</label> <c:out value="${bancaEscolhida.horario}"/><br><br><br>
+            <div>
+                <h5 class="aluno"><left><b> ALUNO: </b></left></h5> <h6 class="valorAluno"><left> <c:out value="${bancaEscolhida.aluno.nome}"/> </left></h6> 
+            </div>
+            <div>
+                <h5 class="matricula"><left><b> MATRÍCULA: </b></left></h5> <h6 class="valorMatricula"><left> <c:out value="${bancaEscolhida.aluno.matricula}"/> </left></h6>
+            </div>
+            <div>
+                <h5 class="titulo"><left><b> TÍTULO DO TRABALHO: </b></left></h5> <h6 class="valorTitulo"><left> <c:out value="${tema.descricao}"/> </left></h6>
+            </div>
+            <div>
+                <h5 class="data"><left><b> DATA: </b></left></h5> <h6 class="valorData"><left> <c:out value="${bancaEscolhida.data}"/> </left></h6>
+            </div>
+            <div>
+                <h5 class="local"><left><b> LOCAL: </b></left></h5> <h6 class="valorLocal"><left> <c:out value="${bancaEscolhida.local}"/> </left></h6>
+            </div>
+            <div>
+                <h5 class="horario"><left><b> HORÁRIO: </b></left></h5> <h6 class="valorHorario"><left> <c:out value="${bancaEscolhida.horario}"/> </left></h6> <br>
+            </div>
+            <br>
         </div>
 
         <form method="post">
             <table border="1" class="table table-hover">
                 <thead>
                     <tr>
-                        <th>Banca Examinadora</th>
-                        <th>Nota</th>                 
+                        <th>BANCA AVALIADORA</th>
+                        <th>NOTA</th>                 
                     </tr>
                 </thead>
                 <tbody>
@@ -90,7 +135,7 @@
                         </tr>
                     </c:if>
                     <tr>
-                        <td id="mediaFinal"> Média Final </td>
+                        <td id="mediaFinal"> MÉDIA FINAL </td>
                         <td> <c:out value="${mediaFinal}"/> </td>
                     </tr>    
                 </tbody>
@@ -106,14 +151,20 @@
                 }
             %>
 
-            <label class="text text-uppercase" style="font-size: x-large">Situação Aluno: <%= situacaoAluno%> </label><br><br>
+            <div>
+                <h5 class="situacao"><left><b> SITUAÇAO DO ALUNO: </b></left></h5> <h6 class="valorSituacao"><center><b> <%= situacaoAluno%> </b></center></h6>
+            </div>
 
-            <center><label>_______________________________________</label></center><br>
-            <center><label><c:out value="${bancaEscolhida.orientadorByOrientadorIdOrientador.nome}" /></center></label><br>
-            <center><label>_______________________________________</label></center><br>
-            <center><label><c:out value="${bancaEscolhida.pessoaByConvidado1IdPessoa.nome}" /></label></center><br>
-            <center><label>_______________________________________</label><br></center>
-            <center><label><c:out value="${bancaEscolhida.pessoaByConvidado2IdPessoa.nome}" /></label></center><br>
+            <br><br>
+            <h5><center>_______________________________________</center></h5>
+            <h6><center> <c:out value="${bancaEscolhida.orientadorByOrientadorIdOrientador.nome}" /> </center></h6><br><br>
+
+            <h5><center>_______________________________________</center></h5>
+            <h6><center> <c:out value="${bancaEscolhida.pessoaByConvidado1IdPessoa.nome}" /> </center></h6><br><br>
+
+            <h5><center>_______________________________________</center></h5>
+            <h6><center> <c:out value="${bancaEscolhida.pessoaByConvidado2IdPessoa.nome}" /> </center></h6>
+
         </form>
 
     </body>

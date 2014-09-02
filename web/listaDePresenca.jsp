@@ -15,20 +15,34 @@
         <meta name="author" content="">
         <link rel="icon" href="../../favicon.ico">
 
-        <title>Lista de Presença de TCC</title>
-
         <!-- Bootstrap core CSS -->
         <link href="../../GerenciamentoTCC/bootstrap/css/bootstrap.min.css" rel="stylesheet">
         <link href="../../GerenciamentoTCC/bootstrap/css/styles.css" rel="stylesheet">
+        <title>Lista de Presença de TCC</title>
     </head>
+
     <body>
-        <h1 class="h1 text-center text-muted"><strong>LISTA DE PRESENÇA</strong></h1>
+
+        <div id="imagem">
+            <center><img src="imagem_logo_unipampa.jpg" ></center>
+        </div>
+
+        <h4 style="color: #3c763d"><strong><center>UNIVERSIDADE FEDERAL DO PAMPA 
+                    <br>CAMPUS ALEGRETE
+                    <br>BACHARELADO EM ENGENHARIA DE SOFTWARE</center>
+            </strong>
+        </h4>
+
+        <br>
+        <h4><center><b>LISTA DE PRESENÇA</b></center></h4>
+
         <div class="input-group">
-            <h3><left>DISCIPLINA:</left><input class="form-control" type="text" name="disciplina" id="disciplina" ><br>
-                <left>COORDENADOR:</left><input class="form-control" type="text" name="coordenador" id="coordenador" ><br>
-                <left>CURSO:</left><input class="form-control" type="text" name="curso" id="curso" ><br>
-                <left>ANO/SEMESTRE:</left><input class="form-control" type="text" name="anoESemestre" id="anoESemestre" ><br>
-                <left>APRESENTADOR:</left><input class="form-control" type="text" name="apresentador" id="apresentador" ><br></h3>
+            <br><br>
+            <h5><left>DISCIPLINA:</left><br><br><br>
+                <left>COORDENADOR:</left><br><br><br>
+                <left>CURSO:</left><br><br><br>
+                <left>ANO/SEMESTRE:</left><br><br><br>
+                <left>APRESENTADOR:</left></h5><br>
         </div>
 
         <script language="javascript">

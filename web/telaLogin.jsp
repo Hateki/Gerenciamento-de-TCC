@@ -74,7 +74,7 @@
     </head>
     <body>
         <div id="imagem">
-            <center><img src="imagem_unipampa.jpg" ></center>
+            <center><img src="imagem_logo_unipampa_inicio.jpg" ></center>
         </div>
         <script src="http://code.jquery.com/jquery-latest.js"></script>
         <script src="bootstrap.min.js"></script>
