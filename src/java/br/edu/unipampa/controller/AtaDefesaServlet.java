@@ -67,10 +67,16 @@ public class AtaDefesaServlet extends HttpServlet {
         AcessoSistema acessoSistema = new AcessoSistema();
         String usuario = (String) request.getSession().getAttribute("usuario");
         String botaoAvaliacao = request.getParameter("botaoAvaliacao");
-        List<Banca> bancaMarcada = acessoSistema.procurarBancas(usuario);
+        List<Banca> bancaMarcada;
         Banca bancaEscolhida = null;
         Tema tema;
         Tcc tcc = null;
+        
+        if(acessoSistema.procurarCoordenador(usuario) == null){
+            bancaMarcada = acessoSistema.procurarBancas(usuario);
+        }else{
+            bancaMarcada = acessoSistema.procurarBancas();
+        }
 
         for (int i = 0; i < bancaMarcada.size(); i++) {
             int teste = Integer.parseInt(botaoAvaliacao) - 1;
