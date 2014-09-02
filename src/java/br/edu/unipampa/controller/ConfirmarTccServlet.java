@@ -97,7 +97,7 @@ public class ConfirmarTccServlet extends HttpServlet {
 
         temaEscolhido = procurarTemaEscolhido(botaoEscolhido, temasOrientador);
 
-        List<Tcc> tccEncontrados = acessoSistema.procurarTCC(temaEscolhido.getAluno().getMatricula(), tipoTcc);
+        List<Tcc> tccEncontrados = acessoSistema.procurarTccsAtuais(temaEscolhido.getAluno().getMatricula(),tipoTcc);
 
         request.getSession().setAttribute("tipoTcc", tipoTcc);
 

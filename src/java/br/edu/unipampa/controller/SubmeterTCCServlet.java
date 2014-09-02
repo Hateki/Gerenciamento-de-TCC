@@ -102,6 +102,13 @@ public class SubmeterTCCServlet extends HttpServlet {
             tccEncontrado = tcc;
         }
 
+        if (verificaDisponibilidadeEnvio(listaTcc)) {
+            tccEncontrado = null;
+        } else if(tccEncontrado != null && tccEncontrado.getStatus() == Tcc.REPROVADO){
+            request.setAttribute("reprovado", "Espere até o próximo"
+                    + " semestre para poder submeter o tcc novamente.");
+        }
+
         if (botaoRefazer != null) {
             if (botaoRefazer.equals("0") && listaTcc.size() > 0) {
                 acessoSistema.deletarTcc(listaTcc.get(0));
@@ -271,6 +278,63 @@ public class SubmeterTCCServlet extends HttpServlet {
                     resultado = false;
                 } else {
                     resultado = true;
+                }
+            }
+        }
+        return resultado;
+    }
+
+    /**
+     * Verifica se o aluno pode submeter um tcc depois que foi reprovado
+     *
+     * @param listatcc lista de tccs que o aluno tem
+     * @return true se o aluno pode reenviar o arquivo.
+     */
+    public boolean verificaDisponibilidadeEnvio(List<Tcc> listatcc) {
+        for (int i = 0; i < listatcc.size(); i++) {
+            Tcc tcc = listatcc.get(i);
+            if (i == (listatcc.size() - 1) && tcc.getStatus() == Tcc.REPROVADO) {
+                if (verificaPrazo(tcc)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean verificaPrazo(Tcc tcc) {
+        AcessoSistema acessoSistema = new AcessoSistema();
+        Datas datas = acessoSistema.procurarDatas();
+        String[] prazoInicial = {};
+        String[] prazoFinal = {};
+        boolean resultado;
+
+        prazoInicial = separarDatas(datas.getDataInicioSemestre());
+        prazoFinal = separarDatas(datas.getDataFinalSemestre());
+
+        String[] dataTcc;
+        String dataAvaliacao = tcc.getDataAvaliacao();
+
+        dataTcc = separarDatas(dataAvaliacao);
+
+        int diaAtual = Integer.parseInt(dataTcc[2]);
+        int mesAtual = Integer.parseInt(dataTcc[1]);
+        int anoAtual = Integer.parseInt(dataTcc[0]);
+
+        if (anoAtual > Integer.parseInt(prazoFinal[ANO])) {
+            resultado = true;
+        } else if (anoAtual < Integer.parseInt(prazoFinal[ANO])) {
+            resultado = false;
+        } else {//Se os anos são iguais
+            if (mesAtual > Integer.parseInt(prazoFinal[MES])) {
+                resultado = true;
+            } else if (mesAtual < Integer.parseInt(prazoFinal[MES])) {
+                resultado = false;
+            } else {//Se os meses são iguais
+                if (diaAtual > Integer.parseInt(prazoFinal[DIA])) {
+                    resultado = true;
+                } else {
+                    resultado = false;
                 }
             }
         }

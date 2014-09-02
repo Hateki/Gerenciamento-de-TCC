@@ -93,6 +93,7 @@ public class SubmeterTCC2Servlet extends HttpServlet {
         String botaoTccInicial = request.getParameter("TccInicial");
         String botaoTccFinal = request.getParameter("TccFinal");
         int tipoTcc = 1;
+        Tcc tccDefendido = null,tccCorrigido = null;
 
         listaTcc = acessoSistema.procurarTCC(Integer.parseInt(usuarioAluno), 1);
 
@@ -105,17 +106,30 @@ public class SubmeterTCC2Servlet extends HttpServlet {
                 }
             }
         }
+        
+        listaTcc = acessoSistema.procurarTccsAtuais(Integer.parseInt(usuarioAluno), 1);
+        
+        for (Tcc tcc : listaTcc) {
+            if(tcc.getVersaoTCC() == 0){
+                tccDefendido = listaTcc.get(0);
+            }else if(tcc.getVersaoTCC() == 1){
+                tccCorrigido = listaTcc.get(1);
+            }
+        }
 
-        listaTcc = acessoSistema.procurarTCC(Integer.parseInt(usuarioAluno),1);
+        if (verificaDisponibilidadeEnvio(listaTcc)) {
+            tccDefendido = null;
+        } else if(tccDefendido != null && tccDefendido.getStatus() == Tcc.REPROVADO){
+            request.setAttribute("reprovado", "Espere até o próximo"
+                    + " semestre para poder submeter o tcc novamente.");
+        }
 
         request.setAttribute("PrazoTccInicial", verificarPrazo("tccInicial"));
         request.setAttribute("PrazoTccFinal", verificarPrazo("tccFinal"));
 
-        request.setAttribute("tccDefendido", acessoSistema.procurarTipoVersaoTcc(Integer.parseInt(usuarioAluno),
-                0,tipoTcc));
+        request.setAttribute("tccDefendido", tccDefendido);
         
-        request.setAttribute("tccCorrigido", acessoSistema.procurarTipoVersaoTcc(Integer.parseInt(usuarioAluno),
-                1,tipoTcc));
+        request.setAttribute("tccCorrigido", tccCorrigido);
 
         request.setAttribute("dataInicialTCC2", prazoInicialTCC2[DIA]
                 + "/" + prazoInicialTCC2[MES] + "/" + prazoInicialTCC2[ANO]);
@@ -140,6 +154,24 @@ public class SubmeterTCC2Servlet extends HttpServlet {
         acessoSistema.completarTransacoes();
 
         request.getRequestDispatcher("Tema/submeterTCC2.jsp").forward(request, response);
+    }
+    
+    /**
+     * Verifica se o aluno pode submeter um tcc depois que foi reprovado
+     *
+     * @param listatcc lista de tccs que o aluno tem
+     * @return true se o aluno pode reenviar o arquivo.
+     */
+    public boolean verificaDisponibilidadeEnvio(List<Tcc> listatcc) {
+        for (int i = 0; i < listatcc.size(); i++) {
+            Tcc tcc = listatcc.get(i);
+            if (i == (listatcc.size() - 1) && tcc.getStatus() == Tcc.REPROVADO) {
+                if (verificaPrazo(tcc)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     public boolean verificarPrazo(String tipoTCC) {
@@ -186,6 +218,45 @@ public class SubmeterTCC2Servlet extends HttpServlet {
         }
         return resultado;
     }
+    
+    public boolean verificaPrazo(Tcc tcc) {
+        AcessoSistema acessoSistema = new AcessoSistema();
+        Datas datas = acessoSistema.procurarDatas();
+        String[] prazoInicial = {};
+        String[] prazoFinal = {};
+        boolean resultado;
+
+        prazoInicial = separarDatas(datas.getDataInicioSemestre());
+        prazoFinal = separarDatas(datas.getDataFinalSemestre());
+
+        String[] dataTcc;
+        String dataAvaliacao = tcc.getDataAvaliacao();
+
+        dataTcc = separarDatas(dataAvaliacao);
+
+        int diaAtual = Integer.parseInt(dataTcc[2]);
+        int mesAtual = Integer.parseInt(dataTcc[1]);
+        int anoAtual = Integer.parseInt(dataTcc[0]);
+
+        if (anoAtual > Integer.parseInt(prazoFinal[ANO])) {
+            resultado = true;
+        } else if (anoAtual < Integer.parseInt(prazoFinal[ANO])) {
+            resultado = false;
+        } else {//Se os anos são iguais
+            if (mesAtual > Integer.parseInt(prazoFinal[MES])) {
+                resultado = true;
+            } else if (mesAtual < Integer.parseInt(prazoFinal[MES])) {
+                resultado = false;
+            } else {//Se os meses são iguais
+                if (diaAtual > Integer.parseInt(prazoFinal[DIA])) {
+                    resultado = true;
+                } else {
+                    resultado = false;
+                }
+            }
+        }
+        return resultado;
+    }
 
     public String[] separarDatas(String data) {
         String ano = "";
@@ -220,7 +291,7 @@ public class SubmeterTCC2Servlet extends HttpServlet {
      * @return true se existe o tcc 1 no banco
      */
     public boolean verificarTcc1(AcessoSistema acessoSistema, int matriculaAluno) {
-        List<Tcc> tccsEncontrados = acessoSistema.procurarTCC(matriculaAluno, 0);
+        List<Tcc> tccsEncontrados = acessoSistema.procurarTccsAtuais(matriculaAluno, 0);
 
         if (tccsEncontrados.isEmpty()) {
             return false;

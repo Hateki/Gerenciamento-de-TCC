@@ -114,8 +114,13 @@
 
                             <c:if test="${tccInicial.status == 3}" var="v" scope="request">
                                 <div class="col-md-2">  Situação: Reprovado </div>
-                            </c:if>    
-
+                            </c:if>
+                            
+                                <br><br>
+                                
+                            <c:if test="${not empty reprovado}" var="v" scope="request">
+                                    <div class="alert alert-warning" role="alert"><c:out value="${reprovado}"/></div>
+                            </c:if>
                         </c:if>
 
 

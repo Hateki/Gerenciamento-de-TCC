@@ -351,7 +351,7 @@ public class AcessoSistema {
         List<Tema> listaTema = SESSAO.createQuery("From Tema").list();
         List<Banca> listaBanca = SESSAO.createQuery("From Banca").list();
         List<Tema> temasOrientador = retornarTemasRequisitados(tema.getOrientador());
-        
+
         for (Tcc tcc : listaTcc) {
             if (tcc.getTema() == tema) {
                 for (Banca banca : listaBanca) {
@@ -364,12 +364,12 @@ public class AcessoSistema {
                 SESSAO.flush();
             }
         }
-               
+
         SESSAO.delete(tema);
-        
+
         SESSAO.flush();
-        
-        if(temasOrientador.size() == 1){
+
+        if (temasOrientador.size() == 1) {
             SESSAO.delete(tema.getOrientador());
             SESSAO.flush();
         }
@@ -870,6 +870,28 @@ public class AcessoSistema {
         return tccEncontrados;
     }
 
+    public List<Tcc> procurarTCC(int matriculaAluno, int tipoTcc, int versaoTcc) {
+        Tema tema = procurarTema(matriculaAluno);
+        List<Tcc> listaTcc = SESSAO.createQuery("From Tcc").list();
+        List<Tcc> tccEncontrados = new ArrayList<>();
+
+        for (Tcc tcc : listaTcc) {
+            if (tema == tcc.getTema()) {
+
+                //Carrega os dados///
+                tcc.getArquivoTcc();
+                tcc.getDescricao();
+                tcc.getStatus();
+                tcc.getTitulo();
+                //////////////////////
+                if (tcc.getTipoTCC() == tipoTcc && tcc.getVersaoTCC() == versaoTcc) {
+                    tccEncontrados.add(tcc);
+                }
+            }
+        }
+        return tccEncontrados;
+    }
+
     /**
      * Procura o tcc que o aluno está atualmente
      *
@@ -878,7 +900,7 @@ public class AcessoSistema {
      */
     public Tcc procurarTCCAtual(int matriculaAluno) {
         Tema tema = procurarTema(matriculaAluno);
-        List<Tcc> listaTcc = SESSAO.createQuery("From Tcc").list();
+        List<Tcc> listaTcc = procurarTccsAtuais(matriculaAluno);
         List<Tcc> tccEncontrados = new ArrayList<>();
         //Procura o tcc 1
         for (Tcc tcc : listaTcc) {
@@ -914,6 +936,75 @@ public class AcessoSistema {
             }
         }
         return null;
+    }
+
+    public List<Tcc> procurarTccsAtuais(int matriculaAluno) {
+        List<Tcc> listaTCC1 = procurarTCC(matriculaAluno, 0);
+        List<Tcc> listaTCC2 = procurarTCC(matriculaAluno, 1, 0);
+        List<Tcc> listaTCCCorrigido = procurarTCC(matriculaAluno, 1, 1);
+        List<Tcc> resultado = new ArrayList<>();
+
+        for (int i = 0; i < listaTCC1.size(); i++) {
+            if (i == listaTCC1.size() - 1) {
+                resultado.add(listaTCC1.get(i));
+                break;
+            }
+        }
+
+        for (int i = 0; i < listaTCC2.size(); i++) {
+            if (i == listaTCC2.size() - 1) {
+                resultado.add(listaTCC2.get(i));
+                break;
+            }
+        }
+
+        for (int i = 0; i < listaTCCCorrigido.size(); i++) {
+            if (i == listaTCCCorrigido.size() - 1) {
+                resultado.add(listaTCCCorrigido.get(i));
+                break;
+            }
+        }
+
+        return resultado;
+
+    }
+
+    public List<Tcc> procurarTccsAtuais(int matriculaAluno, int tipoTcc) {
+        List<Tcc> listaTCC1 = procurarTCC(matriculaAluno, 0);
+        List<Tcc> listaTCC2 = procurarTCC(matriculaAluno, 1, 0);
+        List<Tcc> listaTCCCorrigido = procurarTCC(matriculaAluno, 1, 1);
+        List<Tcc> resultado = new ArrayList<>();
+
+        if (tipoTcc == 0) {
+            listaTCC1 = procurarTCC(matriculaAluno, 0);
+
+            for (int i = 0; i < listaTCC1.size(); i++) {
+                if (i == listaTCC1.size() - 1) {
+                    resultado.add(listaTCC1.get(i));
+                    break;
+                }
+            }
+        } else {
+            listaTCC2 = procurarTCC(matriculaAluno, 1, 0);
+            listaTCCCorrigido = procurarTCC(matriculaAluno, 1, 1);
+
+            for (int i = 0; i < listaTCC2.size(); i++) {
+                if (i == listaTCC2.size() - 1) {
+                    resultado.add(listaTCC2.get(i));
+                    break;
+                }
+            }
+
+            for (int i = 0; i < listaTCCCorrigido.size(); i++) {
+                if (i == listaTCCCorrigido.size() - 1) {
+                    resultado.add(listaTCCCorrigido.get(i));
+                    break;
+                }
+            }
+        }
+
+        return resultado;
+
     }
 
     public Tcc procurarTipoVersaoTcc(int matriculaAluno, int versao, int tipo) {

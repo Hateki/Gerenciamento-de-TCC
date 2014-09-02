@@ -88,17 +88,19 @@ public class SalvarTcc2Servlet extends HttpServlet {
         if (verificarPrazo("tccInicial")) {
             tipoTcc = "tccInicial";
             if (salvarArquivo(request, response, Integer.parseInt(usuarioAluno), tipoTcc)) {
-                request.setAttribute("retorno", "Envio de arquivo bem sucedido");
+                request.setAttribute("retornoPositivo", "Envio de arquivo bem sucedido");
             }
         } else if (verificarPrazo("tccFinal")) {
             tipoTcc = "tccFinal";
             if (salvarArquivo(request, response, Integer.parseInt(usuarioAluno), tipoTcc)) {
-                request.setAttribute("retorno", "Envio de arquivo bem sucedido");
+                request.setAttribute("retornoPositivo", "Envio de arquivo bem sucedido");
             }
         }
         
         request.removeAttribute("AcessoSalvarTcc");
         request.setAttribute("caminho", "SubmeterTCC2Servlet");
+        
+        acessoSistema.completarTransacoes();
         
         request.getRequestDispatcher("Tema/telaSubmissao.jsp").forward(request, response);
     }

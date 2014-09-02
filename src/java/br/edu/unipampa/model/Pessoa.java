@@ -2,6 +2,8 @@ package br.edu.unipampa.model;
 // Generated 16/07/2014 21:01:23 by Hibernate Tools 3.6.0
 
 import br.edu.unipampa.model.web.AcessoSistema;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -162,48 +164,55 @@ public class Pessoa implements java.io.Serializable {
     public void avaliarAluno(float notaFinal, Banca banca) {
         AcessoSistema acessoSistema = new AcessoSistema();
         Tema tema = acessoSistema.procurarTema(banca.getAluno());
-        List<Tcc> tccEncontrados = acessoSistema.procurarTCC(banca.getAluno().getMatricula());
+        Tcc tcc = banca.getTcc();
 
-        //Não esquecer de depois lidar com mais de um Tcc
-        for (Tcc tcc : tccEncontrados) {
-            Integer idOrientador = banca.getOrientadorByOrientadorIdOrientador().getIdPessoa();
-            Integer idConvidado1 = banca.getPessoaByConvidado1IdPessoa().getIdPessoa();
-            Integer idConvidado2 = banca.getPessoaByConvidado2IdPessoa().getIdPessoa();
-            if (banca.getOrientadorByCoorientadorIdOrientador() != null
-                    && getIdPessoa() == banca.getOrientadorByCoorientadorIdOrientador().getIdPessoa()) {
-                tcc.setNotaCoorientador(notaFinal);
-            } else if (getIdPessoa() == banca.getOrientadorByOrientadorIdOrientador().getIdPessoa()) {
-                tcc.setNotaOrientador(notaFinal);
-            } else if (getIdPessoa() == banca.getPessoaByConvidado1IdPessoa().getIdPessoa()) {
-                tcc.setNotaConvidado1(notaFinal);
-            } else if (getIdPessoa() == banca.getPessoaByConvidado2IdPessoa().getIdPessoa()) {
-                tcc.setNotaConvidado2(notaFinal);
-            }
-            if (banca.getPessoaByConvidado3IdPessoa() == null) {
-                if (tcc.getNotaOrientador() != -1
-                        && tcc.getNotaConvidado1() != -1
-                        && tcc.getNotaConvidado2() != -1) {
-                    if (verificarMedia(tcc, banca.getPessoaByConvidado3IdPessoa())) {
-                        tcc.setStatus(Tcc.APROVADO);
-                    } else {
-                        tcc.setStatus(Tcc.REPROVADO);
-                    }
-                }
-            } else {
-                if (tcc.getNotaOrientador() != -1
-                        && tcc.getNotaConvidado1() != -1
-                        && tcc.getNotaConvidado2() != -1
-                        && tcc.getNotaCoorientador() != -1) {
-                    if (verificarMedia(tcc, banca.getPessoaByConvidado3IdPessoa())) {
-                        tcc.setStatus(Tcc.APROVADO);
-                    } else {
-                        tcc.setStatus(Tcc.REPROVADO);
-                    }
-                }
-            }
-            acessoSistema.atualizarTcc(tcc);
+        Integer idOrientador = banca.getOrientadorByOrientadorIdOrientador().getIdPessoa();
+        Integer idConvidado1 = banca.getPessoaByConvidado1IdPessoa().getIdPessoa();
+        Integer idConvidado2 = banca.getPessoaByConvidado2IdPessoa().getIdPessoa();
+        if (banca.getOrientadorByCoorientadorIdOrientador() != null
+                && getIdPessoa() == banca.getOrientadorByCoorientadorIdOrientador().getIdPessoa()) {
+            tcc.setNotaCoorientador(notaFinal);
+        } else if (getIdPessoa() == banca.getOrientadorByOrientadorIdOrientador().getIdPessoa()) {
+            tcc.setNotaOrientador(notaFinal);
+        } else if (getIdPessoa() == banca.getPessoaByConvidado1IdPessoa().getIdPessoa()) {
+            tcc.setNotaConvidado1(notaFinal);
+        } else if (getIdPessoa() == banca.getPessoaByConvidado2IdPessoa().getIdPessoa()) {
+            tcc.setNotaConvidado2(notaFinal);
         }
+        if (banca.getPessoaByConvidado3IdPessoa() == null) {
+            if (tcc.getNotaOrientador() != -1
+                    && tcc.getNotaConvidado1() != -1
+                    && tcc.getNotaConvidado2() != -1) {
+                if (verificarMedia(tcc, banca.getPessoaByConvidado3IdPessoa())) {
+                    tcc.setStatus(Tcc.APROVADO);
+                    tcc.setDataAvaliacao(getDataAtual());
+                } else {
+                    tcc.setStatus(Tcc.REPROVADO);
+                    tcc.setDataAvaliacao(getDataAtual());
+                }
+            }
+        } else {
+            if (tcc.getNotaOrientador() != -1
+                    && tcc.getNotaConvidado1() != -1
+                    && tcc.getNotaConvidado2() != -1
+                    && tcc.getNotaCoorientador() != -1) {
+                if (verificarMedia(tcc, banca.getPessoaByConvidado3IdPessoa())) {
+                    tcc.setStatus(Tcc.APROVADO);
+                    tcc.setDataAvaliacao(getDataAtual());
+                } else {
+                    tcc.setStatus(Tcc.REPROVADO);
+                    tcc.setDataAvaliacao(getDataAtual());
+                }
+            }
+        }
+        acessoSistema.atualizarTcc(tcc);
 
+    }
+
+    private String getDataAtual() {
+        Date date = new Date(System.currentTimeMillis());
+        SimpleDateFormat formatador = new SimpleDateFormat("yyyy-MM-dd");
+        return formatador.format(date);
     }
 
     public boolean verificarMedia(Tcc tcc, Pessoa corrientador) {

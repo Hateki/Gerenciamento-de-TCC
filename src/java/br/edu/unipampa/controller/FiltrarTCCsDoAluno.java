@@ -70,6 +70,7 @@ public class FiltrarTCCsDoAluno extends HttpServlet {
         AcessoSistema as = new AcessoSistema();
         String usuario = (String) request.getSession().getAttribute("usuario");
         List<List> alunosDisponiveis = new ArrayList<>();
+        List<Tcc> tccAtuais;
         List<Object> tccsNaoAvaliados;
         Tema tema;
         Tcc tcc1 = null;
@@ -78,8 +79,14 @@ public class FiltrarTCCsDoAluno extends HttpServlet {
 
         for (Aluno aluno : as.procurarAlunos(orientador)) {
             tccsNaoAvaliados = new ArrayList<>();
-            tcc1 = as.procurarTipoVersaoTcc(aluno.getMatricula(), 0, 0);
-            tcc2 = as.procurarTipoVersaoTcc(aluno.getMatricula(), 0, 1);
+            tccAtuais = as.procurarTccsAtuais(aluno.getMatricula());
+            for (Tcc tcc : tccAtuais) {
+                if(tcc.getTipoTCC() == 0){
+                    tcc1 = tcc;
+                }else if(tcc.getTipoTCC() == 1 && tcc.getVersaoTCC() == 0){
+                    tcc2 = tcc;
+                }
+            }
             tema = aluno.getTema();
             if (tema.getAprovado() == Tema.APROVADO_COODENADOR) {
                 if (tcc1 != null && tcc1.getStatus() != Tcc.EM_DEFESA && tcc1.getStatus() != Tcc.APROVADO && tcc1.getStatus() != Tcc.REPROVADO) {

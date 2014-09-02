@@ -25,6 +25,7 @@ public class Tcc implements java.io.Serializable {
     private float notaConvidado2;
     private int tipoTCC;
     private Integer versaoTCC;
+    private String dataAvaliacao;
 
     public Tcc() {
     }
@@ -168,6 +169,20 @@ public class Tcc implements java.io.Serializable {
 
     public void setVersaoTCC(Integer versaoTCC) {
         this.versaoTCC = versaoTCC;
+    }
+
+    /**
+     * @return the dataAvaliacao
+     */
+    public String getDataAvaliacao() {
+        return dataAvaliacao;
+    }
+
+    /**
+     * @param dataAvaliacao the dataAvaliacao to set
+     */
+    public void setDataAvaliacao(String dataAvaliacao) {
+        this.dataAvaliacao = dataAvaliacao;
     }
 
 }

@@ -44,5 +44,8 @@
         <property name="versaoTCC" type="java.lang.Integer">
             <column name="versaoTCC" />
         </property>
+        <property name="dataAvaliacao" type="string">
+            <column name="dataAvaliacao" />
+        </property>
     </class>
 </hibernate-mapping>
