@@ -70,6 +70,7 @@
                 <div class="collapse navbar-collapse OpcoesMenu">
                     <ul class="nav navbar-nav">
                         <li> <a href="http://localhost:8080/GerenciamentoTCC/ConfirmarTemaServlet">Lista de Temas</a> </li>
+                        <li> <a href="http://localhost:8080/GerenciamentoTCC/relacaoNotas.jsp">Relação de Notas</a> </li>
                         <li> <a href="http://localhost:8080/GerenciamentoTCC/DatasPrazosServlet">Definir Prazos</a> </li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Banca Avaliadora<span class="caret"></span></a>
@@ -138,7 +139,7 @@
                             <div class="col-md-2">
                                 <form name="avaliar" action="AvaliadoresDisponiveisServlet">
                                     <button type="submit" class="bnt btn-primary" name="botaoAvaliacao" value="<%= cont%>">
-                                        Avaliar Aluno(Coordenador) 
+                                        Avaliar Aluno (Coordenador) 
                                     </button>
                                 </form>    
                             </div>            
