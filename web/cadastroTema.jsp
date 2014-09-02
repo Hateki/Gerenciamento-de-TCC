@@ -85,37 +85,39 @@
 
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
-            <div class="container">
-                <a href="menuPrincipalAluno.jsp" class="navbar-brand"> Gerenciamento de TCC </a>
-                <button class="navbar-toggle" data-toggle = "collapse" data-target = ".OpcoesMenu">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <div class="collapse navbar-collapse OpcoesMenu">
-                    <ul class="nav navbar-nav navbar-right">
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"> Tema <span class="caret"></span></a>
-                            <ul class="dropdown-menu" role="menu">
-                                <li> <a href="http://localhost:8080/GerenciamentoTCC/CadastroTemaServlet"> Cadastrar Tema </a> </li>
-                                <li> <a href="http://localhost:8080/GerenciamentoTCC/SubmeterTCCServlet" > Submeter TCC 1 </a></li>
-                                <li> <a href="http://localhost:8080/GerenciamentoTCC/SubmeterTCC2Servlet" > Submeter TCC 2 </a></li>
-                                <li> <a href="http://localhost:8080/GerenciamentoTCC/ExibirSituacaoServlet"> Exibir Situação do Tema </a> </li>
-                            </ul>
-                        </li>
-                        <li> <a href="http://localhost:8080/GerenciamentoTCC/contato.html"> Contato </a> </li>
-                        <li> <a href="http://localhost:8080/GerenciamentoTCC/sobre.html"> Sobre</a> </li>
-                        <li> <a href="http://localhost:8080/GerenciamentoTCC/SairSistemaServlet"> Sair</a> </li>
-                    </ul>
-                </div>
+        <div class="container">
+            <a href="menuPrincipalAluno.jsp" class="navbar-brand"> Gerenciamento de TCC </a>
+            <button class="navbar-toggle" data-toggle = "collapse" data-target = ".OpcoesMenu">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <div class="collapse navbar-collapse OpcoesMenu">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"> Tema <span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li> <a href="http://localhost:8080/GerenciamentoTCC/CadastroTemaServlet"> Cadastrar Tema </a> </li>
+                            <li> <a href="http://localhost:8080/GerenciamentoTCC/SubmeterTCCServlet" > Submeter TCC 1 </a></li>
+                            <li> <a href="http://localhost:8080/GerenciamentoTCC/SubmeterTCC2Servlet" > Submeter TCC 2 </a></li>
+                            <li> <a href="http://localhost:8080/GerenciamentoTCC/ExibirSituacaoServlet"> Exibir Situação do Tema </a> </li>
+                        </ul>
+                    </li>
+                    <li> <a href="http://localhost:8080/GerenciamentoTCC/contato.html"> Contato </a> </li>
+                    <li> <a href="http://localhost:8080/GerenciamentoTCC/sobre.html"> Sobre</a> </li>
+                    <li> <a href="http://localhost:8080/GerenciamentoTCC/SairSistemaServlet"> Sair</a> </li>
+                </ul>
             </div>
         </div>
+    </div>
     <form id="cadform" name="cadform" method="post" action="CadastroTemaServlet"
           onsubmit="return validaEspacoTema(), validaEspacoOrientador(), validaCampo(), validaCampo2();">
         <div id="cadTema">
-
-            <legend>Cadastro Do Tema</legend>
-
+            
+            <br><br><br>
+            <h2><center><label>Prazo para cadastro de Tema: <c:out value="${dataInicial}"/> a <c:out value="${dataFinal}"/></label></center></h2>
+            <legend>Cadastro de Tema</legend>
+            
             <strong>Tema:</strong><br><br/>
             <textarea rows="6" cols="40" name="tema" id="tema" maxlength="200"  onblur="validaEspaco(this)" required></textarea><br><br/>
             Orientador: <input type="text" name="orientador" id="orientador" onblur="validaEspaco(this)" placeholder="Orientador" required />
@@ -142,6 +144,9 @@
 <c:if test="${retorno == 'Problema'}" var="teste" scope="request">
     <div class="alert alert-danger" role="alert">Ocorreu um problema no sistema tente o cadastro novamente</div>
 </c:if> 
+<% if (request != null && request.getAttribute("retorno") != null && request.getAttribute("retorno").equals("Fora da data")) { %>
+<div class="alert alert-danger" role="alert">Fora da data permitida para cadastro de temas!</div>
+<% } %> 
 
 
 <div class="modal fade" id="listaProfessores" role="dialog">

@@ -90,63 +90,85 @@ public class CadastroTemaServlet extends HttpServlet {
         Aluno aluno = new Aluno();
         String usuarioProfessor = request.getParameter("orientador");
         String descricaoTema = request.getParameter("tema");
+
         AcessoSistema as = new AcessoSistema();
 
-        request.setAttribute("professores", as.retornarProfossores());          
+        Datas prazo = as.procurarDatas();
+        String[] prazoInicial = separarDatas(prazo.getDataInicioTema());
+        String[] prazoFinal = separarDatas(prazo.getDataFimTema());
         
-        //doDownload(request, response, "Um nome", "Outro nome");
-        //salvarArquivo(request, response);
-        if (usuarioProfessor != null) {
-            int matriculaAluno = as.procurarMatriculaAluno(usuarioAluno);
+         request.setAttribute("dataInicial", prazoInicial[DIA]
+                + "/" + prazoInicial[MES] + "/" + prazoInicial[ANO]);
 
-            if (!as.verificarProfessor(usuarioProfessor)) {
-                //Certificar que o usuário saiba que o professor não existe
-                request.setAttribute("retorno", "Professor Nao Existe");
-                view = request.getRequestDispatcher("cadastroTema.jsp");
-                view.forward(request, response);
-                as.completarTransacoes();
-            } else if (as.verificaExistenciaTema(matriculaAluno)) {
-                request.setAttribute("retorno", "Tema Ja Cadastrado");
-                view = request.getRequestDispatcher("cadastroTema.jsp");
-                view.forward(request, response);
-                as.completarTransacoes();
-            } else {
-                temaCriado = aluno.cadastrarTema(matriculaAluno, usuarioProfessor, descricaoTema);
-                if (temaCriado != null) {
-                    //Certificar de que o usuário saiba que o cadastro foi bem sucedido
-                    request.setAttribute("retorno", "Sucesso");
-                    view = request.getRequestDispatcher("cadastroTema.jsp");
-                    view.forward(request, response);
-                    mandarEmails(temaCriado.getAluno(), temaCriado.getOrientador());
-                } else {
-                    //Mandar o resultador depois
-                    request.setAttribute("retorno", "Problema");
-                    view = request.getRequestDispatcher("cadastroTema.jsp");
-                    view.forward(request, response);
-                    as.completarTransacoes();
-                }
-            }
-        } else {
+        request.setAttribute("dataFinal", prazoFinal[DIA]
+                + "/" + prazoFinal[MES] + "/" + prazoFinal[ANO]);
+        
+        
+        if (!verificarPrazo(prazoInicial, prazoFinal)) {
+            request.setAttribute("retorno", "Fora da data");
             view = request.getRequestDispatcher("cadastroTema.jsp");
             view.forward(request, response);
             as.completarTransacoes();
+        } else {
+
+            request.setAttribute("professores", as.retornarProfossores());
+
+        //doDownload(request, response, "Um nome", "Outro nome");
+            //salvarArquivo(request, response);
+            if (usuarioProfessor != null) {
+                int matriculaAluno = as.procurarMatriculaAluno(usuarioAluno);
+
+                if (!as.verificarProfessor(usuarioProfessor)) {
+                    //Certificar que o usuário saiba que o professor não existe
+                    request.setAttribute("retorno", "Professor Nao Existe");
+                    view = request.getRequestDispatcher("cadastroTema.jsp");
+                    view.forward(request, response);
+                    as.completarTransacoes();
+                } else if (as.verificaExistenciaTema(matriculaAluno)) {
+                    request.setAttribute("retorno", "Tema Ja Cadastrado");
+                    view = request.getRequestDispatcher("cadastroTema.jsp");
+                    view.forward(request, response);
+                    as.completarTransacoes();
+                } else {
+                    temaCriado = aluno.cadastrarTema(matriculaAluno, usuarioProfessor, descricaoTema);
+                    if (temaCriado != null) {
+                        //Certificar de que o usuário saiba que o cadastro foi bem sucedido
+                        request.setAttribute("retorno", "Sucesso");
+                        view = request.getRequestDispatcher("cadastroTema.jsp");
+                        view.forward(request, response);
+                        mandarEmails(temaCriado.getAluno(), temaCriado.getOrientador());
+                    } else {
+                        //Mandar o resultador depois
+                        request.setAttribute("retorno", "Problema");
+                        view = request.getRequestDispatcher("cadastroTema.jsp");
+                        view.forward(request, response);
+                        as.completarTransacoes();
+                    }
+                }
+            } else {
+                view = request.getRequestDispatcher("cadastroTema.jsp");
+                view.forward(request, response);
+                as.completarTransacoes();
+            }
         }
     }
 
-    public boolean verificarPrazo(String tipoTCC) {
+    public boolean verificarPrazo(String[] prazoInicial, String[] prazoFinal) {
         AcessoSistema acessoSistema = new AcessoSistema();
-        Datas datas = acessoSistema.procurarDatas();
-        String[] prazoInicial = {};
-        String[] prazoFinal = {};
-        boolean resultado = false;
+//        Datas datas = acessoSistema.procurarDatas();
+//        String[] prazoInicial = {};
+//        String[] prazoFinal = {};
+//        boolean resultado = false;
+//
+//        if (tipoTCC.equals("tccInicial")) {
+//            prazoInicial = separarDatas(datas.getDataInicioTccFinal());
+//            prazoFinal = separarDatas(datas.getDataFinalTccFinal());
+//        } else if (tipoTCC.equals("tccFinal")) {
+//            prazoInicial = separarDatas(datas.getDataInicioTccCorrigido());
+//            prazoFinal = separarDatas(datas.getDataFinalTccCorrigido());
+//        }
 
-        if (tipoTCC.equals("tccInicial")) {
-            prazoInicial = separarDatas(datas.getDataInicioTccFinal());
-            prazoFinal = separarDatas(datas.getDataFinalTccFinal());
-        } else if (tipoTCC.equals("tccFinal")) {
-            prazoInicial = separarDatas(datas.getDataInicioTccCorrigido());
-            prazoFinal = separarDatas(datas.getDataFinalTccCorrigido());
-        }
+        boolean resultado = false;
 
         String[] atual;
         Date date = new Date(System.currentTimeMillis());
@@ -177,7 +199,7 @@ public class CadastroTemaServlet extends HttpServlet {
         }
         return resultado;
     }
-    
+
     public String[] separarDatas(String data) {
         String ano = "";
         String mes = "";
@@ -202,9 +224,7 @@ public class CadastroTemaServlet extends HttpServlet {
 
         return datas;
     }
-    
-    
-    
+
     private void mandarEmails(Aluno aluno, Orientador orientador) {
         EnvioEmails emails = new EnvioEmails();
         String mensagemOrientador = null;

@@ -54,6 +54,12 @@ public class SubmeterTCCServlet extends HttpServlet {
         AcessoSistema acessoSistema = new AcessoSistema();
         Pessoa pessoaEncontrada;
 
+        Tema temaObtido = acessoSistema.procurarTema(Integer.parseInt(usuarioAluno));
+        if(temaObtido == null){
+            System.out.println("tchauuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu");
+        }
+        
+        
         if (usuarioAluno == null) {
             request.getSession().setAttribute("caminho", "SubmeterTCCServlet");
             request.setAttribute("retorno", "A sua sessão acabou faça o login novamente.");
