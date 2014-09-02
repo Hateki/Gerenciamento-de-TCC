@@ -61,16 +61,16 @@ public class AtaDefesaServlet extends HttpServlet {
             }
         }
     }
-    
+
     public void gerarAtaDefesa(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException{
+            throws ServletException, IOException {
         AcessoSistema acessoSistema = new AcessoSistema();
         String usuario = (String) request.getSession().getAttribute("usuario");
         String botaoAvaliacao = request.getParameter("botaoAvaliacao");
         List<Banca> bancaMarcada = acessoSistema.procurarBancas(usuario);
         Banca bancaEscolhida = null;
         Tema tema;
-        Tcc tcc;
+        Tcc tcc = null;
 
         for (int i = 0; i < bancaMarcada.size(); i++) {
             int teste = Integer.parseInt(botaoAvaliacao) - 1;
@@ -82,10 +82,8 @@ public class AtaDefesaServlet extends HttpServlet {
 
         tema = acessoSistema.procurarTema(bancaEscolhida.getAluno());
 
-        tcc = acessoSistema.procurarTCCPorBanca(bancaEscolhida);
-
-        if (tcc != null && tema != null) {
-
+        try {
+            tcc = acessoSistema.procurarTCCPorBanca(bancaEscolhida);
             request.setAttribute("mediaFinal", fazerMedia(tcc));
 
             request.setAttribute("tcc", tcc);
@@ -95,9 +93,13 @@ public class AtaDefesaServlet extends HttpServlet {
             request.setAttribute("bancaEscolhida", bancaEscolhida);
 
             request.getRequestDispatcher("ataDeDefesa.jsp").forward(request, response);
-        } else {
+        } catch (Exception e) {
             request.setAttribute("retornoAta", "A ata de defesa ainda não está pronta para ser gerada");
-            request.getRequestDispatcher("VerificarBancaServlet").forward(request, response);
+            if (acessoSistema.procurarCoordenador(usuario) == null) {
+                request.getRequestDispatcher("VerificarBancaServlet").forward(request, response);
+            }else{
+                request.getRequestDispatcher("VerificarBancaCoordenadorServlet").forward(request, response);
+            }
         }
         acessoSistema.completarTransacoes();
     }

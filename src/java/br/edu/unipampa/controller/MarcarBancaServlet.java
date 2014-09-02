@@ -52,7 +52,7 @@ public class MarcarBancaServlet extends HttpServlet {
             request.getRequestDispatcher("telaLogin.jsp").forward(request, response);
         } else {
             pessoaEncontrada = acessoSistema.procurarPessoaEspecifica(usuario);
-            if (acessoSistema.procurarCoordenador(usuario) == null 
+            if (acessoSistema.procurarCoordenador(usuario) == null
                     && !(pessoaEncontrada instanceof Orientador)) {
                 try {
                     request.getSession().invalidate();
@@ -66,9 +66,9 @@ public class MarcarBancaServlet extends HttpServlet {
             }
         }
     }
-    
+
     public void marcarBanca(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException{
+            throws ServletException, IOException {
         AcessoSistema acessoSistema = new AcessoSistema();
         String usuario = (String) request.getSession().getAttribute("usuario");
         String valorBotao = request.getParameter("botao");

@@ -18,6 +18,7 @@ import br.edu.unipampa.model.web.EnvioEmails;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -74,16 +75,24 @@ public class ConfirmarTemaServlet extends HttpServlet {
         int temaEscolhido = -1;
         List<List> temasECargas = new ArrayList<>();
         List<Object> temasCargas;
-
+        Aluno aluno;
+        int cargaHoraria = procuraCargaHoraria(request, temasRequisitados);
+        
         if (valorCompletoBotao != null) {
             valorBotao = verificaValorBotao(valorCompletoBotao);
             temaEscolhido = Integer.parseInt(valorBotao);
-
+            
             if (verificaOpcao(valorCompletoBotao)) {
                 escolhido = orientador.confirmarTema(temasRequisitados, temaEscolhido, true);
+                aluno = escolhido.getAluno();
+                aluno.setCargaHoraria(cargaHoraria);
+                as.atualizarAluno(aluno);
                 mandarEmails(escolhido.getAluno(), escolhido.getOrientador(), true);
             } else {
                 escolhido = orientador.recusarTema(temasRequisitados, temaEscolhido);
+                aluno = escolhido.getAluno();
+                aluno.setCargaHoraria(cargaHoraria);
+                as.atualizarAluno(aluno);
                 mandarEmails(escolhido.getAluno(), escolhido.getOrientador(), false);
             }
         }
@@ -172,6 +181,19 @@ public class ConfirmarTemaServlet extends HttpServlet {
         }else{
             return null;
         }
+    }
+    
+    public int procuraCargaHoraria(HttpServletRequest request, List<Tema> listaTemas) {
+        String cargaHoraria, posicao;
+        
+        for (int i = 0; i < listaTemas.size();i++) {
+            posicao = "" + i;
+            cargaHoraria = request.getParameter(posicao);
+            if(cargaHoraria != null){
+                return Integer.parseInt(cargaHoraria);
+            }
+        }
+        return 0;
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

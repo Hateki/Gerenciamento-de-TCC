@@ -72,12 +72,12 @@ public class ConfirmarTccServlet extends HttpServlet {
         String usuarioOrientador = (String) request.getSession().getAttribute("usuario");
         String confirmarTcc1 = request.getParameter("confirmarTcc1");
         String confirmarTcc2 = request.getParameter("confirmarTcc2");
-        String cargaHoraria = request.getParameter(confirmarTcc2);
         int botaoEscolhido;
         int tipoTcc;
         Orientador orientador;
         List<Tema> temasOrientador;
         Tema temaEscolhido;
+        
 
         orientador = acessoSistema.procurarOrientador(usuarioOrientador);
         if (orientador != null) {
@@ -85,6 +85,7 @@ public class ConfirmarTccServlet extends HttpServlet {
         }else{
             temasOrientador = acessoSistema.procurarTemasConfirmados();
         }
+        
 
         if (confirmarTcc1 != null) {
             botaoEscolhido = Integer.parseInt(confirmarTcc1);

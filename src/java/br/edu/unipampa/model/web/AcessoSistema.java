@@ -324,6 +324,15 @@ public class AcessoSistema {
     }
 
     /**
+     * Atualiza o aluno escolhido
+     *
+     * @param aluno Aluno para se atualizar
+     */
+    public void atualizarAluno(Aluno aluno) {
+        SESSAO.update(aluno);
+    }
+
+    /**
      * Atualiza o Tcc especificado
      *
      * @param tcc Tcc para se atualizar
@@ -339,14 +348,31 @@ public class AcessoSistema {
      */
     public void deletarTema(Tema tema) {
         List<Tcc> listaTcc = SESSAO.createQuery("From Tcc").list();
-
+        List<Tema> listaTema = SESSAO.createQuery("From Tema").list();
+        List<Banca> listaBanca = SESSAO.createQuery("From Banca").list();
+        List<Tema> temasOrientador = retornarTemasRequisitados(tema.getOrientador());
+        
         for (Tcc tcc : listaTcc) {
             if (tcc.getTema() == tema) {
+                for (Banca banca : listaBanca) {
+                    if (tcc == banca.getTcc()) {
+                        SESSAO.delete(banca);
+                        SESSAO.flush();
+                    }
+                }
                 SESSAO.delete(tcc);
+                SESSAO.flush();
             }
         }
-
+               
         SESSAO.delete(tema);
+        
+        SESSAO.flush();
+        
+        if(temasOrientador.size() == 1){
+            SESSAO.delete(tema.getOrientador());
+            SESSAO.flush();
+        }
     }
 
     /**
@@ -475,9 +501,9 @@ public class AcessoSistema {
                 return aluno;
             }
         }
-        
-        for(Orientador orientador : orientadoresEncontrados){
-            if(usuario.equals(orientador.getUsuario())){
+
+        for (Orientador orientador : orientadoresEncontrados) {
+            if (usuario.equals(orientador.getUsuario())) {
                 return orientador;
             }
         }
@@ -850,7 +876,7 @@ public class AcessoSistema {
      * @param matriculaAluno mátricula do aluno em que se está procurando o tcc
      * @return A lista de tcc encontrados
      */
-    public List<Tcc> procurarTCCAtual(int matriculaAluno) {
+    public Tcc procurarTCCAtual(int matriculaAluno) {
         Tema tema = procurarTema(matriculaAluno);
         List<Tcc> listaTcc = SESSAO.createQuery("From Tcc").list();
         List<Tcc> tccEncontrados = new ArrayList<>();
@@ -867,7 +893,7 @@ public class AcessoSistema {
                 if (tcc.getTipoTCC() == 0) {
                     if (tcc.getStatus() != 2) {
                         tccEncontrados.add(tcc);
-                        return tccEncontrados;
+                        return tcc;
                     }
                 }
             }
@@ -883,11 +909,11 @@ public class AcessoSistema {
                 tcc.getTitulo();
                 //////////////////////
                 if (tcc.getTipoTCC() == 1) {
-                    tccEncontrados.add(tcc);
+                    return tcc;
                 }
             }
         }
-        return tccEncontrados;
+        return null;
     }
 
     public Tcc procurarTipoVersaoTcc(int matriculaAluno, int versao, int tipo) {
@@ -1013,6 +1039,25 @@ public class AcessoSistema {
             ////////////////////////////////////////////////////////
         }
         return listaBancas;
+    }
+
+    /**
+     * Procura bancas de um aluno, que ainda não tem um Tcc.
+     *
+     * @param matriculaAluno
+     * @return
+     */
+    public Banca procurarBancaPendente(int matriculaAluno) {
+        List<Banca> bancasENcontradas = SESSAO.createQuery("From Banca").list();
+
+        for (Banca banca : bancasENcontradas) {
+            if (banca.getAluno().getMatricula() == matriculaAluno) {
+                if (banca.getTcc() == null) {
+                    return banca;
+                }
+            }
+        }
+        return null;
     }
 
     public Datas procurarDatas() {

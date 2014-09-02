@@ -41,6 +41,7 @@ public class CriarBancaTCCServlet extends HttpServlet {
     public static final int PROFESSORES_EXISTEM = 0;//Todos os professores existem
     public static final int ORIENTADOR_IGUAL_PROFESSOR = 8;//O Professor digitado é igual ao orientador digitado
     public static final int ALUNO_NO_LUGAR_PROFESSOR = 9;//Um usuário de aluno foi encontrado no lugar onde deveria haver um professor
+    public static final int BANCA_PENDENTE = 10;
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////
     /**
@@ -64,7 +65,7 @@ public class CriarBancaTCCServlet extends HttpServlet {
             request.getRequestDispatcher("telaLogin.jsp").forward(request, response);
         } else {
             pessoaEncontrada = acessoSistema.procurarPessoaEspecifica(usuario);
-            if (acessoSistema.procurarCoordenador(usuario) == null 
+            if (acessoSistema.procurarCoordenador(usuario) == null
                     && !(pessoaEncontrada instanceof Orientador)) {
                 try {
                     request.getSession().invalidate();
@@ -78,9 +79,9 @@ public class CriarBancaTCCServlet extends HttpServlet {
             }
         }
     }
-    
+
     public void criarBanca(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException{
+            throws ServletException, IOException {
         String professor1 = request.getParameter("professor1");
         String professor2 = request.getParameter("professor2");
         String professor3 = request.getParameter("professor3");
@@ -98,14 +99,16 @@ public class CriarBancaTCCServlet extends HttpServlet {
             matriculaAluno = Integer.parseInt(matriculaAlunoString);
             resultadoVerificacao = verificaExistenciaProfessor(professor1, professor2, professor3);
 
-            if (resultadoVerificacao == PROFESSORES_EXISTEM) {
+            if (verificarBancaPendente(matriculaAluno, as)) {
+                request.setAttribute("retorno", BANCA_PENDENTE);
+            } else if (resultadoVerificacao == PROFESSORES_EXISTEM) {
                 if (confirmaProfessor(orientador, professor1)
                         || confirmaProfessor(orientador, professor2)
                         || confirmaProfessor(orientador, professor3)) {
                     request.setAttribute("retorno", ORIENTADOR_IGUAL_PROFESSOR);
                 } else {
-                    tccBanca = as.procurarTCCAtual(matriculaAluno).get(0);
-                    bancaCriada = professor.cadastrarBanca(matriculaAluno, orientador, professor1, professor2, professor3,tccBanca);
+                    tccBanca = as.procurarTCCAtual(matriculaAluno);
+                    bancaCriada = professor.cadastrarBanca(matriculaAluno, orientador, professor1, professor2, professor3, tccBanca);
 
                     if (bancaCriada != null) {
                         mandarEmails(bancaCriada);
@@ -248,6 +251,23 @@ public class CriarBancaTCCServlet extends HttpServlet {
             }
         }
 
+    }
+
+    /**
+     * Verifica se há uma banca pendente, ou seja, que não tenha um TCC
+     * associado.
+     *
+     * @param matriculaAluno matricula do aluno para se procurar
+     * @param acessoSistema Acesso ao banco
+     * @return true se o aluno tem uma banca pendente
+     */
+    public boolean verificarBancaPendente(int matriculaAluno, AcessoSistema acessoSistema) {
+        Banca banca = acessoSistema.procurarBancaPendente(matriculaAluno);
+        if (banca == null) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

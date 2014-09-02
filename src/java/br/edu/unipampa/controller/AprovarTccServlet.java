@@ -121,7 +121,7 @@ public class AprovarTccServlet extends HttpServlet {
         } else {
             request.setAttribute("tipoTcc", tccEscolhido);
             request.setAttribute("temaTcc", tema);
-            request.getRequestDispatcher("TransicaoDownloadServlet").forward(request, response);
+            request.getRequestDispatcher("TemasRequisitadosServlet").forward(request, response);
         }
         //Garante que a transação foi completada
         try {

@@ -60,9 +60,9 @@ public class ParecerFinalBanca extends HttpServlet {
             }
         }
     }
-    
+
     public void gerarParecer(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException{
+            throws ServletException, IOException {
         AcessoSistema acessoSistema = new AcessoSistema();
         String usuario = (String) request.getSession().getAttribute("usuario");
         String botaoAvaliacao = request.getParameter("botaoAvaliacao");
@@ -81,9 +81,8 @@ public class ParecerFinalBanca extends HttpServlet {
 
         tema = acessoSistema.procurarTema(bancaEscolhida.getAluno());
 
-        tcc = acessoSistema.procurarTCCPorBanca(bancaEscolhida);
-
-        if (tcc != null && tema != null) {
+        try {
+            tcc = acessoSistema.procurarTCCPorBanca(bancaEscolhida);
 
             request.setAttribute("mediaFinal", fazerMedia(tcc, bancaEscolhida));
 
@@ -94,9 +93,13 @@ public class ParecerFinalBanca extends HttpServlet {
             request.setAttribute("bancaEscolhida", bancaEscolhida);
 
             request.getRequestDispatcher("parecerFinalDaBanca.jsp").forward(request, response);
-        } else {
+        } catch (Exception e) {
             request.setAttribute("retornoParecer", "O parecer final da banca ainda não está pronto para ser gerado");
-            request.getRequestDispatcher("VerificarBancaServlet").forward(request, response);
+            if (acessoSistema.procurarCoordenador(usuario) == null) {
+                request.getRequestDispatcher("VerificarBancaServlet").forward(request, response);
+            } else {
+                request.getRequestDispatcher("VerificarBancaCoordenadorServlet").forward(request, response);
+            }
         }
         acessoSistema.completarTransacoes();
     }
