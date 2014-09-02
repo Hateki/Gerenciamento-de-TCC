@@ -109,7 +109,9 @@
                         </table>
 
                         <br>
-                        <button type="submit" class="btn btn-success" name="confirmar" value="<%= "Confirmar Tema " + (i + 1)%>">
+                        <button type="submit" class="btn btn-success" name="confirmar"
+                                value="<%= "Confirmar Tema " + (i + 1)%>"           
+                                onclick="return verificarCargaHorariaConfirmar(<%=i%>)">
                             Confirmar Tema <%=(i + 1)%>
                         </button>
                         <button type="submit" name="confirmar" class="btn btn-danger" value="<%= "Recusar Tema " + (i + 1)%> ">
@@ -144,9 +146,23 @@
                 var cargaHorariaTotal = Number(totalHoras.value);
                 var minimo = 65 * cargaHorariaTotal / 100;
                 if (minimo <= cargaHoraria) {
-                    alert("Carga Horária válida");
+                    alert("Carga Horária válida, o aluno tem 65% da carga horária.");
                 } else {
-                    alert("Carga Horária Inválida");
+                    alert("Carga Horária Inválida, o aluno não tem 65% da carga horária.");
+                }
+            }
+            
+            function verificarCargaHorariaConfirmar(posicao) {
+                var totalHoras = document.getElementById("botaoVerificar");
+                var campoCarga = document.getElementById(posicao);
+                var cargaHoraria = Number(campoCarga.value);
+                var cargaHorariaTotal = Number(totalHoras.value);
+                var minimo = 65 * cargaHorariaTotal / 100;
+                if (minimo <= cargaHoraria) {
+                    return true;
+                } else {
+                    alert("Carga Horária Inválida, o aluno não tem 65% da carga horária.");
+                    return false;
                 }
             }
 

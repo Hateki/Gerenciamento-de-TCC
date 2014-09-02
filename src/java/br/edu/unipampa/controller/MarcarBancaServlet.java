@@ -75,12 +75,18 @@ public class MarcarBancaServlet extends HttpServlet {
         String local = request.getParameter("local");
         String data = request.getParameter("data");
         String horario = request.getParameter("horario");
-        List<Banca> listaBancas = acessoSistema.procurarBancas(usuario);
+        List<Banca> listaBancas;
         Banca bancaEscolhida = null;
         Orientador orientador = acessoSistema.procurarOrientador(usuario);
         Datas prazo = acessoSistema.procurarDatas();
         String[] prazoInicial = separarDatas(prazo.getDataInicioBanca());
         String[] prazoFinal = separarDatas(prazo.getDataFimBanca());
+
+        if (acessoSistema.procurarCoordenador(usuario) == null) {
+            listaBancas = acessoSistema.procurarBancas(usuario);
+        } else {
+            listaBancas = acessoSistema.procurarBancas();
+        }
 
         request.setAttribute("Prazo", verificarPrazo());
 
@@ -99,6 +105,12 @@ public class MarcarBancaServlet extends HttpServlet {
              }
              */
             bancaEscolhida = (Banca) request.getSession().getAttribute("banca");
+            if (acessoSistema.procurarCoordenador(usuario) == null) {
+                orientador = acessoSistema.procurarOrientador(usuario);
+            } else {
+                orientador = acessoSistema.procurarOrientador(bancaEscolhida.getOrientadorByOrientadorIdOrientador().getUsuario());
+            }
+
             orientador.marcarBanca(bancaEscolhida, horario, data, local);
             request.getSession().removeAttribute("Banca");
             mandarEmails(bancaEscolhida);
