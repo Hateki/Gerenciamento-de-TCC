@@ -56,89 +56,95 @@
         <div id="tela">
             <h1>Temas cadastrados</h1>
 
-            <form name="formConfirmar" action="ConfirmarTemaServlet" method="POST">
-                <%
-                    if (temasPendentes != null)
-                        for (int i = 0; i < temasPendentes.size(); i++) {
-                            Tema tema = (Tema) temasPendentes.get(i).get(0);
-                            valorBotao = "" + (i + 1);
-                            if (tema.getAprovado() == Tema.APROVADO_ORIENTADOR) {
-                                aprovado = "Tema aprovado pelo orientador";
-                            } else {
-                                aprovado = "Tema aprovado pelo coordenador";
-                            }
-                %>
-                <table border="1" class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th>Nome Aluno</th>
-                            <th> Curso </th>
-                            <th>Orientador</th>
-                            <th>Descrição</th>
-                            <th>Carga Horária Aluno</th>
-                            <th>Situação</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><%=tema.getAluno().getNome()%></td>
-                            <td> <%=temasPendentes.get(i).get(2) %> </td>
-                            <td>
-                                <%=tema.getOrientador().getProfessor().getNome()%>
-                            </td>
-                            <td><%=tema.getDescricao()%></td>
-                            <td>
-                                <input type="text" name="cargaHoraria" name="<%=i%>"id="<%=i%>"
-                                       value="<%=tema.getAluno().getCargaHoraria()%>"
-                                       onkeypress='return SomenteNumero(event)'/>
-                                <button type="button" class="btn"
-                                        id="botaoVerificar"
-                                        value="<%=temasPendentes.get(i).get(1)%>"
-                                        onclick="verificarCargaHoraria(<%=i%>)">
-                                    Verificar carga horária.
-                                </button>
-                            </td>
-                            <td> <%=aprovado%> </td>
-                        </tr>
-                    </tbody>
-                </table>
 
-                <br>
-                <button type="submit" class="btn btn-success" name="confirmar" value="<%= "Confirmar Tema " + (i + 1)%>">
-                    Confirmar Tema <%=(i + 1)%>
-                </button>
-                <button type="submit" name="confirmar" class="btn btn-danger" value="<%= "Recusar Tema " + (i + 1)%> ">
-                    Recusar Tema <%=(i + 1)%>
-                </button>
-                <br><br>
-                <br>
-            </form>
+            <%
+                if (temasPendentes != null)
+                    for (int i = 0; i < temasPendentes.size(); i++) {
+                        Tema tema = (Tema) temasPendentes.get(i).get(0);
+                        valorBotao = "" + (i + 1);
+                        if (tema.getAprovado() == Tema.APROVADO_ORIENTADOR) {
+                            aprovado = "Tema aprovado pelo orientador";
+                        } else {
+                            aprovado = "Tema aprovado pelo coordenador";
+                        }
+            %>
+            <div class="panel panel-primary">
+                <div class="panel-heading"><h5>Tema <%= i + 1%></h5></div>
+                <div class="panel-body">
+                    <form name="formConfirmar" action="ConfirmarTemaServlet" method="POST">
+                        <table border="1" class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Nome Aluno</th>
+                                    <th> Curso </th>
+                                    <th>Orientador</th>
+                                    <th>Descrição</th>
+                                    <th>Carga Horária Aluno</th>
+                                    <th>Situação</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><%=tema.getAluno().getNome()%></td>
+                                    <td> <%=temasPendentes.get(i).get(2)%> </td>
+                                    <td>
+                                        <%=tema.getOrientador().getProfessor().getNome()%>
+                                    </td>
+                                    <td><%=tema.getDescricao()%></td>
+                                    <td>
+                                        <input type="text" name="cargaHoraria" name="<%=i%>"id="<%=i%>"
+                                               value="<%=tema.getAluno().getCargaHoraria()%>"
+                                               onkeypress='return SomenteNumero(event)'/>
+                                        <button type="button" class="btn"
+                                                id="botaoVerificar"
+                                                value="<%=temasPendentes.get(i).get(1)%>"
+                                                onclick="verificarCargaHoraria(<%=i%>)">
+                                            Verificar carga horária.
+                                        </button>
+                                    </td>
+                                    <td> <%=aprovado%> </td>
+                                </tr>
+                            </tbody>
+                        </table>
 
-            <form action="ConfirmarTccServlet" method="POST">
-                <button type="submit" class="bnt btn-info"  name="confirmarTcc1" value="<%=i%>">
-                    Situação Tcc 1
-                </button>
-                <button type="submit" class="bnt btn-info"  name="confirmarTcc2" value="<%=i%>">
-                    Situação Tcc 2
-                </button>
-            </form>        
-            <br><br>
+                        <br>
+                        <button type="submit" class="btn btn-success" name="confirmar" value="<%= "Confirmar Tema " + (i + 1)%>">
+                            Confirmar Tema <%=(i + 1)%>
+                        </button>
+                        <button type="submit" name="confirmar" class="btn btn-danger" value="<%= "Recusar Tema " + (i + 1)%> ">
+                            Recusar Tema <%=(i + 1)%>
+                        </button>
+                        <br><br>
+                        <br>
+                    </form>
+
+                    <form action="ConfirmarTccServlet" method="POST">
+                        <button type="submit" class="bnt btn-info"  name="confirmarTcc1" value="<%=i%>">
+                            Situação Tcc 1
+                        </button>
+                        <button type="submit" class="bnt btn-info"  name="confirmarTcc2" value="<%=i%>">
+                            Situação Tcc 2
+                        </button>
+                    </form>        
+                    <br><br>
+                </div>                  
+            </div>         
             <%
                 }
             %>
             <br>
         </div>
         <script>
-            
-            function verificarCargaHoraria(posicao){
+
+            function verificarCargaHoraria(posicao) {
                 var totalHoras = document.getElementById("botaoVerificar");
                 var campoCarga = document.getElementById(posicao);
                 var cargaHoraria = Number(campoCarga.value);
                 var cargaHorariaTotal = Number(totalHoras.value);
-                var minimo = 65*cargaHorariaTotal/100;
-                if(minimo <= cargaHoraria){
+                var minimo = 65 * cargaHorariaTotal / 100;
+                if (minimo <= cargaHoraria) {
                     alert("Carga Horária válida");
-                }else{
+                } else {
                     alert("Carga Horária Inválida");
                 }
             }

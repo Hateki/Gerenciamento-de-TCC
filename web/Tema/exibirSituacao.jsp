@@ -106,7 +106,7 @@
                                 Aprovado<br><br>
                             </c:if>
                             <c:if test="${tcc.status == 3}" var="v" scope="request">
-                                Não Aprovado<br><br>
+                                Reprovado<br><br>
                             </c:if>
                             <c:if test="${tcc.status == 4}" var="v" scope="request">
                                 Em Defesa<br><br>

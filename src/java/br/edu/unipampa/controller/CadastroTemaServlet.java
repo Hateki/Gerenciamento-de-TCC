@@ -92,28 +92,7 @@ public class CadastroTemaServlet extends HttpServlet {
         String descricaoTema = request.getParameter("tema");
         AcessoSistema as = new AcessoSistema();
 
-        request.setAttribute("professores", as.retornarProfossores());
-
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+        request.setAttribute("professores", as.retornarProfossores());          
         
         //doDownload(request, response, "Um nome", "Outro nome");
         //salvarArquivo(request, response);

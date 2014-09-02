@@ -79,24 +79,24 @@
 
                 <c:if test="${not empty coordenador}" var="v" scope="request"> 
                     <div class="collapse navbar-collapse OpcoesMenu">
-                    <ul class="nav navbar-nav">
-                        <li> <a href="http://localhost:8080/GerenciamentoTCC/ConfirmarTemaServlet">Lista de Temas</a> </li>
-                        <li> <a href="http://localhost:8080/GerenciamentoTCC/DatasPrazosServlet">Definir Prazos</a> </li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Banca Avaliadora<span class="caret"></span></a>
-                            <ul class="dropdown-menu" role="menu">
-                                <li> <a href="http://localhost:8080/GerenciamentoTCC/CriarBancaTCCServlet"> Criar Banca </a></li>
-                                <li> <a href="http://localhost:8080/GerenciamentoTCC/MarcarBancaServlet"> Definir Horário, Local e Data para Bancas</a> </li>
-                                <li> <a href="http://localhost:8080/GerenciamentoTCC/VerificarBancaCoordenadorServlet"> Verificar Bancas</a> </li>
-                                <li> <a href="http://localhost:8080/GerenciamentoTCC/AgendaDefesasServlet"> Agenda de Defesas </a> </li>
-                            </ul>
-                        </li>
-                        <li> <a href="http://localhost:8080/GerenciamentoTCC/cadastroPessoaExterna.jsp"> Cadastrar Pessoa Externa </a> </li>
-                        <li> <a href="http://localhost:8080/GerenciamentoTCC/contato.html"> Contato </a> </li>
-                        <li> <a href="http://localhost:8080/GerenciamentoTCC/sobre.html"> Sobre</a> </li>
-                        <li> <a href="http://localhost:8080/GerenciamentoTCC/SairSistemaServlet"> Sair</a> </li>
-                    </ul>
-                </div>
+                        <ul class="nav navbar-nav">
+                            <li> <a href="http://localhost:8080/GerenciamentoTCC/ConfirmarTemaServlet">Lista de Temas</a> </li>
+                            <li> <a href="http://localhost:8080/GerenciamentoTCC/DatasPrazosServlet">Definir Prazos</a> </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Banca Avaliadora<span class="caret"></span></a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li> <a href="http://localhost:8080/GerenciamentoTCC/CriarBancaTCCServlet"> Criar Banca </a></li>
+                                    <li> <a href="http://localhost:8080/GerenciamentoTCC/MarcarBancaServlet"> Definir Horário, Local e Data para Bancas</a> </li>
+                                    <li> <a href="http://localhost:8080/GerenciamentoTCC/VerificarBancaCoordenadorServlet"> Verificar Bancas</a> </li>
+                                    <li> <a href="http://localhost:8080/GerenciamentoTCC/AgendaDefesasServlet"> Agenda de Defesas </a> </li>
+                                </ul>
+                            </li>
+                            <li> <a href="http://localhost:8080/GerenciamentoTCC/cadastroPessoaExterna.jsp"> Cadastrar Pessoa Externa </a> </li>
+                            <li> <a href="http://localhost:8080/GerenciamentoTCC/contato.html"> Contato </a> </li>
+                            <li> <a href="http://localhost:8080/GerenciamentoTCC/sobre.html"> Sobre</a> </li>
+                            <li> <a href="http://localhost:8080/GerenciamentoTCC/SairSistemaServlet"> Sair</a> </li>
+                        </ul>
+                    </div>
                 </c:if> 
             </div>
         </div>
@@ -312,13 +312,20 @@
         </c:if>
     </c:if>
 
+    <c:if test="${not empty retorno}" var="variavel" scope="request">
+        <c:if test="${retorno == 10 }" var="variavel" scope="request"><!Um usuário de aluno foi encontrado no lugar onde deveria haver um professor>
+            <div class="alert alert-danger" role="alert">Há uma banca pedente: Você não pode criar uma banca enquanto o Tcc
+                , da banca enviada previamente, não for enviado.</div>
+        </c:if>
+    </c:if>    
+
 
     <script>
         function pegaTabela(id) {
             var v = document.getElementById("matricula");
             v.value = id;
         }
-        
+
         function pegaTabelaPessoa1(id) {
             var v = document.getElementById("orientador");
             v.value = id;

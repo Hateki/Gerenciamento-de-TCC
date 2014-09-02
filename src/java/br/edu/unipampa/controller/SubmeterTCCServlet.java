@@ -98,10 +98,8 @@ public class SubmeterTCCServlet extends HttpServlet {
 
         listaTcc = acessoSistema.procurarTCC(Integer.parseInt(usuarioAluno), 0);
 
-        try {
-            tccEncontrado = listaTcc.get(0);
-        } catch (Exception e) {
-
+        for (Tcc tcc : listaTcc) {
+            tccEncontrado = tcc;
         }
 
         if (botaoRefazer != null) {

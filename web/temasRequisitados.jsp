@@ -3,6 +3,8 @@
     Created on : 15/06/2014, 13:02:33
     Author     : pontofrio
 --%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page isELIgnored="false" %>
 
 <%@page import="br.edu.unipampa.model.Professor"%>
 <%@page import="br.edu.unipampa.model.Orientador"%>
@@ -85,59 +87,67 @@
                     Tema tema = temasPendentes.get(i);
                     valorBotao = "" + (i + 1);
             %>
-            <form name="formConfirmar" action="DetalheTemaServlet" method="POST">
-                <table border="1" class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th>Nome Aluno</th>
-                            <th>Descrição</th>
-                            <th>Situação</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <%
-                                if (tema.getAprovado() == Tema.APROVADO_ORIENTADOR) {
-                                    aprovado = "Aprovado";
-                                } else if (tema.getAprovado() == Tema.APROVADO_COODENADOR) {
-                                    aprovado = "Aprovado pelo coordenador";
-                                } else {
-                                    aprovado = "Não aprovado";
-                                }
-                            %>
-                            <td><%=tema.getAluno().getNome()%></td>
-                            <td><%=tema.getDescricao()%></td>
-                            <td> <%=aprovado%> </td>
+            <div class="panel panel-primary">
+                <div class="panel-heading"><h5>Tema <%= i + 1%></h5></div>
+                <div class="panel-body">
+                    <form name="formConfirmar" action="DetalheTemaServlet" method="POST">
+                        <table border="1" class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Nome Aluno</th>
+                                    <th>Descrição</th>
+                                    <th>Situação</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <%
+                                        if (tema.getAprovado() == Tema.APROVADO_ORIENTADOR) {
+                                            aprovado = "Aprovado";
+                                        } else if (tema.getAprovado() == Tema.APROVADO_COODENADOR) {
+                                            aprovado = "Aprovado pelo coordenador";
+                                        } else {
+                                            aprovado = "Não aprovado";
+                                        }
+                                    %>
+                                    <td><%=tema.getAluno().getNome()%></td>
+                                    <td><%=tema.getDescricao()%></td>
+                                    <td> <%=aprovado%> </td>
 
-                        </tr>
-                    </tbody>
-                </table>
-                <button type="submit" class="btn btn-success" name="confirmar" value="<%= "Confirmar Tema " + (i + 1)%>">
-                    Confirmar Tema <%=(i + 1)%>
-                </button>
-                <button type="submit" name="confirmar" class="btn btn-danger" value="<%= "Recusar Tema " + (i + 1)%> ">
-                    Recusar Tema <%=(i + 1)%>
-                </button>
-                <br>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <% if (tema.getAprovado() == Tema.NAO_APROVADO) {%>
+                        <button type="submit" class="btn btn-success" name="confirmar" value="<%= "Confirmar Tema " + (i + 1)%>">
+                            Confirmar Tema <%=(i + 1)%>
+                        </button>
+                        <%}%>
+                        <button type="submit" name="confirmar" class="btn btn-danger" value="<%= "Recusar Tema " + (i + 1)%> ">
+                            Recusar Tema <%=(i + 1)%>
+                        </button>
+                        <br>
+                    </form>
+                    <br>
+                    <form action="ConfirmarTccServlet" method="POST">
+                        <button type="submit" class="bnt btn-info"  name="confirmarTcc1" value="<%=i%>">
+                            Situação Tcc 1
+                        </button>
+                        <button type="submit" class="bnt btn-info"  name="confirmarTcc2" value="<%=i%>">
+                            Situação Tcc 2
+                        </button>
+                    </form> 
                 </div>
-            </form>
-            <br>
-            <form action="ConfirmarTccServlet" method="POST">
-                <button type="submit" class="bnt btn-info"  name="confirmarTcc1" value="<%=i%>">
-                    Situação Tcc 1
-                </button>
-                <button type="submit" class="bnt btn-info"  name="confirmarTcc2" value="<%=i%>">
-                    Situação Tcc 2
-                </button>
-            </form>        
-            <br><br>
-            <%
-                }
-            %>
-            <!-- Bootstrap core JavaScript
-            ================================================== -->
-            <!-- Placed at the end of the document so the pages load faster -->
-            <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-            <script src="../../GerenciamentoTCC/bootstrap/js/bootstrap.min.js"></script>
+            </div></div>
+
+
+        <br><br>
+        <%
+            }
+        %>
+        <!-- Bootstrap core JavaScript
+        ================================================== -->
+        <!-- Placed at the end of the document so the pages load faster -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <script src="../../GerenciamentoTCC/bootstrap/js/bootstrap.min.js"></script>
     </body>
 </html>
