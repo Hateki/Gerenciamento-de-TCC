@@ -18,6 +18,7 @@ import br.edu.unipampa.model.web.EnvioEmails;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -83,15 +84,15 @@ public class ConfirmarTemaServlet extends HttpServlet {
             
             if (verificaOpcao(valorCompletoBotao)) {
                 escolhido = orientador.confirmarTema(temasRequisitados, temaEscolhido, true);
-                //aluno = escolhido.getAluno();
-                //aluno.setCargaHoraria(cargaHoraria);
-                //as.atualizarAluno(aluno);
+                aluno = escolhido.getAluno();
+                aluno.setCargaHoraria(cargaHoraria);
+                as.atualizarAluno(aluno);
                 mandarEmails(escolhido.getAluno(), escolhido.getOrientador(), true);
             } else {
                 escolhido = orientador.recusarTema(temasRequisitados, temaEscolhido);
-                //aluno = escolhido.getAluno();
-                //aluno.setCargaHoraria(cargaHoraria);
-                //as.atualizarAluno(aluno);
+                aluno = escolhido.getAluno();
+                aluno.setCargaHoraria(cargaHoraria);
+                as.atualizarAluno(aluno);
                 mandarEmails(escolhido.getAluno(), escolhido.getOrientador(), false);
             }
         }
@@ -183,9 +184,11 @@ public class ConfirmarTemaServlet extends HttpServlet {
     }
     
     public int procuraCargaHoraria(HttpServletRequest request, List<Tema> listaTemas) {
-        String cargaHoraria;
+        String cargaHoraria, posicao;
+        
         for (int i = 0; i < listaTemas.size();i++) {
-            cargaHoraria = request.getParameter(""+i);
+            posicao = "" + i;
+            cargaHoraria = request.getParameter(posicao);
             if(cargaHoraria != null){
                 return Integer.parseInt(cargaHoraria);
             }

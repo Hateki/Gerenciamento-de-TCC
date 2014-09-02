@@ -92,7 +92,7 @@
                                     </td>
                                     <td><%=tema.getDescricao()%></td>
                                     <td>
-                                        <input type="text" name="cargaHoraria" name="<%=i%>"id="<%=i%>"
+                                        <input type="text" name="<%=i%>"id="<%=i%>"
                                                value="<%=tema.getAluno().getCargaHoraria()%>"
                                                onkeypress='return SomenteNumero(event)'/>
                                         <button type="button" class="btn"
