@@ -77,7 +77,7 @@ public class MarcarBancaServlet extends HttpServlet {
         String horario = request.getParameter("horario");
         List<Banca> listaBancas;
         Banca bancaEscolhida = null;
-        Orientador orientador = acessoSistema.procurarOrientador(usuario);
+        Orientador orientador;
         Datas prazo = acessoSistema.procurarDatas();
         String[] prazoInicial = separarDatas(prazo.getDataInicioBanca());
         String[] prazoFinal = separarDatas(prazo.getDataFimBanca());

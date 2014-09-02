@@ -71,9 +71,9 @@
         </div>
 
         <h2><center><label>Prazo de submissão: <c:out value="${dataInicial}"/> a <c:out value="${dataFinal}"/></label></center></h2>
-
         <br><br>
-        <div class="panel panel-primary">
+        <c:if test="${empty faltaTema}" var="v" scope="request">
+            <div class="panel panel-primary">
             <div class="panel-heading"><h4> Situação TCC Inicial </h4></div>
             <div class="panel-body">
                 <div>
@@ -147,6 +147,13 @@
                 </div>
             </div>
         </div>
+        </c:if>
+        
+        <c:if test="${not empty faltaTema}" var="v" scope="request">
+            <div class="alert alert-danger" role="alert"><c:out value="${faltaTema}"/></div>
+        </c:if>
+        
+        
         <br>
 
         <!-- Bootstrap core JavaScript

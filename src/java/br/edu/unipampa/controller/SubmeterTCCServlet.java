@@ -56,8 +56,8 @@ public class SubmeterTCCServlet extends HttpServlet {
 
         Tema temaObtido = acessoSistema.procurarTema(Integer.parseInt(usuarioAluno));
         if (temaObtido == null) {
-            request.setAttribute("retorno", "Nao possui tema cadastrado");
-            request.getRequestDispatcher("submeterTCC.jsp").forward(request, response);
+            request.setAttribute("faltaTema", "Nao possui tema cadastrado");
+            request.getRequestDispatcher("Tema/submeterTCC.jsp").forward(request, response);
         } else {
 
             if (usuarioAluno == null) {
