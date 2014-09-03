@@ -49,11 +49,12 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                
+
                 <% if (coordenador != null) { %>    
                 <div class="collapse navbar-collapse OpcoesMenu">
                     <ul class="nav navbar-nav">
                         <li> <a href="http://localhost:8080/GerenciamentoTCC/ConfirmarTemaServlet">Lista de Temas</a> </li>
+                        <li> <a href="http://localhost:8080/GerenciamentoTCC/RelacaoNotasServlet">Relação de Notas</a> </li>
                         <li> <a href="http://localhost:8080/GerenciamentoTCC/DatasPrazosServlet">Definir Prazos</a> </li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Banca Avaliadora<span class="caret"></span></a>
@@ -145,7 +146,7 @@
                                     <c:if test="${tcc.status == 3}" var="v" scope="request">
                                         <td>Reprovado</td>
                                     </c:if>
-                                        
+
                                     <c:if test="${tcc.status == 4}" var="v" scope="request">
                                         <td>Em defesa</td>
                                     </c:if>    

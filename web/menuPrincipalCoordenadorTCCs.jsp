@@ -40,7 +40,7 @@
                 <div class="collapse navbar-collapse OpcoesMenu">
                     <ul class="nav navbar-nav">
                         <li> <a href="http://localhost:8080/GerenciamentoTCC/ConfirmarTemaServlet">Lista de Temas</a> </li>
-                        <li> <a href="http://localhost:8080/GerenciamentoTCC/relacaoNotas.jsp">Relação de Notas</a> </li>
+                        <li> <a href="http://localhost:8080/GerenciamentoTCC/RelacaoNotasServlet">Relação de Notas</a> </li>
                         <li> <a href="http://localhost:8080/GerenciamentoTCC/DatasPrazosServlet">Definir Prazos</a> </li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Banca Avaliadora<span class="caret"></span></a>
