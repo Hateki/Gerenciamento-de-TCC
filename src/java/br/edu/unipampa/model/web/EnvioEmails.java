@@ -45,7 +45,7 @@ public class EnvioEmails {
   
         } catch (EmailException e) {  
   
-        String erro = e.getMessage();  
+        e.printStackTrace();  
   
         } 
     }
