@@ -215,7 +215,7 @@
         </table>
 
         <label style="font-size: 16px" class="label label-default">Comentários:</label><br><br>
-        <textarea class="form-control" rows="10"></textarea><br>
+        <textarea class="form-control" name="comentarios" rows="10"></textarea><br>
 
         <button type="submit" class="btn btn-primary" name="finalizar" id="finalizar" value="<c:out value='${bancaEscolhida.idBanca}'/>">
             <strong>Finalizar</strong>

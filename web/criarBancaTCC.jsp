@@ -234,7 +234,7 @@
         </div>
 
         <form id="tccForm" name="tccForm" method="post" action="CriarBancaTCCServlet"
-              onsubmit="return">
+              >
 
             <label for="titulo"></label>
             <div id="area">

@@ -175,13 +175,13 @@ public class AprovarTccServlet extends HttpServlet {
         String mensagemOrientador, mensagemAluno, mensagemBanca;
         String assunto = null;
 
-        assunto = "Tcc aceito";
+        assunto = "TCC aceito";
         mensagemOrientador = "Você aceitou o tcc do aluno " + aluno.getNome() + ".";
 
-        mensagemAluno = "O seu tema foi aceito pelo orientador. Vá em exibir"
+        mensagemAluno = "O seu TCC foi aceito pelo orientador. Vá em exibir"
                 + " situação tcc para ter mais detalhes.";
 
-        mensagemBanca = "O tema do aluno " + aluno.getNome()
+        mensagemBanca = "O TCC do aluno " + aluno.getNome()
                 + "foi aceito pelo orientador, vá em verificar"
                 + " bancas para ter acesso ao arquivo envido.";
 
@@ -202,7 +202,7 @@ public class AprovarTccServlet extends HttpServlet {
         String mensagemOrientador, mensagemAluno, mensagemBanca;
         String assunto = null;
 
-        assunto = "Tcc não aceitp";
+        assunto = "Tcc não aceito";
         mensagemOrientador = "Você não aceitou o tcc do aluno " + aluno.getNome() + ".";
 
         mensagemAluno = "O seu tcc enviado, não foi aceito pelo orientador."

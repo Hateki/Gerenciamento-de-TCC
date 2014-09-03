@@ -11,6 +11,7 @@ import br.edu.unipampa.model.Banca;
 import br.edu.unipampa.model.Orientador;
 import br.edu.unipampa.model.Pessoa;
 import br.edu.unipampa.model.web.AcessoSistema;
+import br.edu.unipampa.model.web.EnvioEmails;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -74,14 +75,44 @@ public class SalvarNotasServlet extends HttpServlet {
         List<Banca> bancasMarcadas = acessoSistema.procurarBancasMarcadas();
         Banca bancaEncontrada =  null;
         String usuario = (String) request.getSession().getAttribute("usuario");
+        String comentarios = request.getParameter("comentarios");
         Pessoa avaliador = acessoSistema.procurarPessoa(usuario);
         
         bancaEncontrada = (Banca) request.getSession().getAttribute("bancaParaAvaliacao");
         
         avaliador.avaliarAluno(notaFinal, bancaEncontrada);
-        acessoSistema.completarTransacoes();
         
+        acessoSistema.completarTransacoes();
+        mandarEmailsPositivo(bancaEncontrada, comentarios, avaliador);
         request.getRequestDispatcher("VerificarBancaServlet").forward(request, response);
+    }
+    
+    private void mandarEmailsPositivo(Banca banca , String comentario,Pessoa avaliador) {
+        EnvioEmails emails = new EnvioEmails();
+        String mensagemOrientador, mensagemAluno, mensagemBanca;
+        String assunto = null;
+
+        assunto = "Tcc avaliado";
+        mensagemOrientador = "O membro da banca "
+                + avaliador.getNome() + "Avaliou o aluno "
+                + banca.getAluno().getNome() + ".";
+
+        mensagemAluno = "O seu Tcc foi avaliado por " + avaliador.getNome() + ". "
+                + "O comentário foi : \n" + comentario;
+
+        mensagemBanca = "O tcc do aluno " + banca.getAluno().getNome()
+                + "foi avaliado por " + avaliador.getNome();
+
+        emails.enviaEmailSimples(mensagemAluno, assunto, banca.getAluno().getEmail());
+
+        if (banca != null) {
+            emails.enviaEmailSimples(mensagemAluno, assunto, banca.getOrientadorByOrientadorIdOrientador().getEmail());
+            emails.enviaEmailSimples(mensagemBanca, assunto, banca.getPessoaByConvidado1IdPessoa().getEmail());
+            emails.enviaEmailSimples(mensagemBanca, assunto, banca.getPessoaByConvidado2IdPessoa().getEmail());
+            if (banca.getPessoaByConvidado3IdPessoa() != null) {
+                emails.enviaEmailSimples(mensagemBanca, assunto, banca.getPessoaByConvidado3IdPessoa().getEmail());
+            }
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
