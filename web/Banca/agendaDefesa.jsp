@@ -143,10 +143,10 @@
                 <% } %>
             </div>
         </div>
-        <br><br>
+        <br><br><br>
 
-        <h3> Defesas Marcadas </h3>
-
+        <h3><center> Defesas Marcadas </center></h3><hr>
+        <br>
         <table border="1" class="table table-hover">
             <thead>
                 <tr>
@@ -176,13 +176,13 @@
                     <c:if test="${not empty bancaEncontrada.data}" var="v" scope="request">
                         <tr>
                             <c:if test="${bancaEncontrada.tcc != null && bancaEncontrada.tcc.tipoTCC == 0}" var="dsadsa" scope="request">
-                               <td> 1 </td> 
+                                <td> 1 </td> 
                             </c:if>
-                            
+
                             <c:if test="${bancaEncontrada.tcc != null && bancaEncontrada.tcc.tipoTCC == 1}" var="dsadsa" scope="request">
                                 <td> 2 </td>
                             </c:if>
-                           
+
                             <td><%=titulo%></td>
                             <td><c:out value="${bancaEncontrada.aluno.nome}"/></td>
                             <td><c:out value="${bancaEncontrada.orientadorByOrientadorIdOrientador.nome}"/></td>
@@ -210,11 +210,11 @@
                             <td><c:out value="${bancaEncontrada.horario}"/></td>
                             <td><c:out value="${bancaEncontrada.local}"/></td>   
                         </tr>
-                    <br><br>
-                    <% cont++;%>
-                </c:if>
-                <% }%>
-            </c:forEach>
+
+                        <% cont++;%>
+                    </c:if>
+                    <% }%>
+                </c:forEach>
             </tbody>
         </table>
         <!-- Bootstrap core JavaScript

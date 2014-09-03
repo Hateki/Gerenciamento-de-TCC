@@ -70,8 +70,8 @@
         </div>
         <br><br><br>
 
-    <center><h3> Relação de Notas </h3></center>
-    <br><br>
+    <center><h3> Relação de Notas </h3></center><hr>
+    <br>
     <table border="1" class="table table-hover">
         <thead>
             <tr>

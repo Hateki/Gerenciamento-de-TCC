@@ -110,18 +110,17 @@
             </div>
         </div>
     </div>
-    <form id="cadform" name="cadform" method="post" action="CadastroTemaServlet"
-          onsubmit="return validaEspacoTema(), validaEspacoOrientador(), validaCampo(), validaCampo2();">
+    <form id="cadform" name="cadform" method="post" action="CadastroTemaServlet">
         <div id="cadTema">
-            
+
             <br><br><br>
             <h2><center><label>Prazo para cadastro de Tema: <c:out value="${dataInicial}"/> a <c:out value="${dataFinal}"/></label></center></h2>
             <legend>Cadastro de Tema</legend>
-            
+
             <strong>Tema:</strong><br><br/>
-            <textarea rows="6" cols="40" name="tema" id="tema" maxlength="200"  onblur="validaEspaco(this)" required></textarea><br><br/>
-            Orientador: <input type="text" name="orientador" id="orientador" onblur="validaEspaco(this)" placeholder="Orientador" required />
-            <a href="#listaProfessores" data-toggle="modal" class="btn btn-primary"> Ver lista </a>
+            <textarea rows="6" cols="40" name="tema" id="tema" maxlength="200" required></textarea><br><br/>
+            Orientador: <input readonly="readonly" type="text" name="orientador" id="orientador" placeholder="Orientador" required />
+            <a href="#listaProfessores" data-toggle="modal" class="btn btn-primary"> Selecionar Orientador </a>
             <br></br>
 
             <input class="btn btn-success" type="submit" id="enviar" name="enviar" value="Enviar">
@@ -167,7 +166,7 @@
                     <tbody>
                         <c:forEach var="professor" items="${professores}">
                             <% int cont = 0;%>
-                            <tr onclick="pegaTabela('<c:out value="${professor.usuario}"/>')">
+                            <tr onclick="pegaTabela('<c:out value="${professor.usuario}"/>'), fechaModal(listaProfessores)">
                                 <td id="<%= cont%>">
                                     <c:out value="${professor.usuario}"/>
                                 </td>
@@ -188,6 +187,11 @@
         var v = document.getElementById("orientador");
         v.value = id;
     }
+
+    function fechaModal(id) {
+        $(id).modal('hide');
+    }
+
 </script>
 
 <!-- Bootstrap core JavaScript
