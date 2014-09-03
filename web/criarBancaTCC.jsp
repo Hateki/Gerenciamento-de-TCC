@@ -242,12 +242,13 @@
                 <h1>Criar banca do TCC</h1>
                 <br></br>
                 <h4>Banca Avaliadora</h4>
+               
 
-                Matrícula Aluno: <input type="text" name="matricula" id="matricula" maxlength="9" onblur="validaEspaco(this), testarMatricula()" required/>
+                Matrícula Aluno: <input readonly="readonly" type="text" name="matricula" id="matricula" maxlength="9" onblur="validaEspaco(this), testarMatricula()" required/>
                 <a href="#listaAlunos" data-toggle="modal" class="btn btn-primary"> Ver lista de Alunos </a> <br><br>
-                Professor: <input type="text" name="professor1" id="professor1" onblur="validaEspaco(this)" required/>
+                Professor: <input readonly="readonly" type="text" name="professor1" id="professor1" onblur="validaEspaco(this)" required/>
                 <a href="#listaConvidado1" data-toggle="modal" class="btn btn-primary"> Ver lista de Pessoas </a> <br><br>
-                Professor: <input type="text" name="professor2" id="professor2" onblur="validaEspaco(this)" required/>
+                Professor: <input readonly="readonly" type="text" name="professor2" id="professor2" onblur="validaEspaco(this)" required/>
                 <a href="#listaConvidado2" data-toggle="modal" class="btn btn-primary"> Ver lista de Pessoas </a> <br><br>
 
 
