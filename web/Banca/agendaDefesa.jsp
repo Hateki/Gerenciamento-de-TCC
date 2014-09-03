@@ -150,7 +150,7 @@
         <table border="1" class="table table-hover">
             <thead>
                 <tr>
-                    <th>TCC</th>
+                    <th>Tipo TCC</th>
                     <th>Titulo do trabalho</th>
                     <th>Aluno</th>
                     <th>Orientador</th>
@@ -175,7 +175,14 @@
                     %>
                     <c:if test="${not empty bancaEncontrada.data}" var="v" scope="request">
                         <tr>
-                            <td>1</td>
+                            <c:if test="${bancaEncontrada.tcc != null && bancaEncontrada.tcc.tipoTCC == 0}" var="dsadsa" scope="request">
+                               <td> 1 </td> 
+                            </c:if>
+                            
+                            <c:if test="${bancaEncontrada.tcc != null && bancaEncontrada.tcc.tipoTCC == 1}" var="dsadsa" scope="request">
+                                <td> 2 </td>
+                            </c:if>
+                           
                             <td><%=titulo%></td>
                             <td><c:out value="${bancaEncontrada.aluno.nome}"/></td>
                             <td><c:out value="${bancaEncontrada.orientadorByOrientadorIdOrientador.nome}"/></td>
