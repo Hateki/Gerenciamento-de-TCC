@@ -408,9 +408,13 @@ public class AcessoSistema {
     }
 
     public void completarTransacoes() {
-        SESSAO.flush();
-        SESSAO.clear();
-        SESSAO.getTransaction().commit();
+        try {
+            SESSAO.flush();
+            SESSAO.clear();
+            SESSAO.getTransaction().commit();
+        } catch (Exception e) {
+
+        }
     }
 
     public void salvarBanca(Banca banca) {
@@ -1047,13 +1051,17 @@ public class AcessoSistema {
      * @return O tcc do aluno
      */
     public Tcc procurarTCCPorBanca(Banca banca) {
-        //Carrega os dados para serem usados
-        banca.getTcc().getNotaOrientador();
-        banca.getTcc().getNotaConvidado1();
-        banca.getTcc().getNotaConvidado2();
-        banca.getTcc().getNotaCoorientador();
-        /////////////////////////////////////
-        return banca.getTcc();
+        if (banca != null && banca.getTcc() != null) {
+            //Carrega os dados para serem usados
+            banca.getTcc().getNotaOrientador();
+            banca.getTcc().getNotaConvidado1();
+            banca.getTcc().getNotaConvidado2();
+            banca.getTcc().getNotaCoorientador();
+            /////////////////////////////////////
+            return banca.getTcc();
+        } else {
+            return null;
+        }
     }
 
     /**

@@ -134,6 +134,10 @@
         </c:if>
         <c:if test="${not empty retornoParecer}" var="v" scope="request">
             <div class="alert alert-danger" role="alert"><c:out value="${retornoParecer}"/></div>
+        </c:if>  
+
+        <c:if test="${not empty retorno || retorno == ''}" var="v" scope="request">
+            <div class="alert alert-danger" role="alert"><c:out value="${retorno}"/></div>
         </c:if>    
 
         <% int cont = 1;%>
@@ -200,9 +204,6 @@
                             </div>
 
                             <br><br><br><br><br>
-                            <c:if test="${not empty retorno || retorno == ''}" var="v" scope="request">
-                                <div class="alert alert-danger" role="alert"><c:out value="${retorno}"/></div>
-                            </c:if>
 
                             <!-- 
                             <div class="col-md-3">

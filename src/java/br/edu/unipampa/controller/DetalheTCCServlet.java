@@ -42,7 +42,7 @@ public class DetalheTCCServlet extends HttpServlet {
         AcessoSistema acessoSistema = new AcessoSistema();
         Pessoa pessoaEncontrada;
 
-       if (usuario == null) {
+        if (usuario == null) {
             request.setAttribute("retorno", "A sua sessão acabou faça o login novamente.");
             request.getRequestDispatcher("telaLogin.jsp").forward(request, response);
         } else {
@@ -60,9 +60,9 @@ public class DetalheTCCServlet extends HttpServlet {
             }
         }
     }
-    
+
     public void mostraDetalheTcc(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException{
+            throws ServletException, IOException {
         String valorBotao = request.getParameter("botao");
         String usuario = (String) request.getSession().getAttribute("usuario");
         int posicaoBanca = Integer.parseInt(valorBotao);
@@ -70,32 +70,34 @@ public class DetalheTCCServlet extends HttpServlet {
         Banca bancaEncontrada;
 
         acessoSistema = new AcessoSistema();
-        
-        if(acessoSistema.procurarCoordenador(usuario) != null){
+
+        if (acessoSistema.procurarCoordenador(usuario) != null) {
             bancaEncontrada = procuraBanca(posicaoBanca);
-        }else{
+        } else {
             bancaEncontrada = procuraBanca(posicaoBanca, usuario);
         }
 
         tccAluno = acessoSistema.procurarTCCPorBanca(bancaEncontrada);
 
         if (tccAluno != null && !(tccAluno.getStatus() == Tcc.NAO_ACEITO)) {
-            if(tccAluno.getTipoTCC() == 0){
+            if (tccAluno.getTipoTCC() == 0) {
                 request.getSession().setAttribute("tccSessao", tccAluno);
-            }else if(tccAluno.getTipoTCC() == 1 && tccAluno.getVersaoTCC() == 0){
+            } else if (tccAluno.getTipoTCC() == 1 && tccAluno.getVersaoTCC() == 0) {
                 request.getSession().setAttribute("tccDefendidoSessao", tccAluno);
-            }else if(tccAluno.getTipoTCC() == 1 && tccAluno.getVersaoTCC() == 1){
+            } else if (tccAluno.getTipoTCC() == 1 && tccAluno.getVersaoTCC() == 1) {
                 request.getSession().setAttribute("tccCorrigidoSessao", tccAluno);
             }
             request.getSession().setAttribute("caminho", "VerificarBancaServlet");
             acessoSistema.completarTransacoes();
             request.getRequestDispatcher("DownloadTCCServlet").forward(request, response);
-        }else{
-            
-            acessoSistema.completarTransacoes();
+        } else {
             request.getSession().setAttribute("retorno", "O Tcc ainda não foi enviado ou não foi aprovado.");
-
-            request.getRequestDispatcher("VerificarBancaServlet").forward(request, response);
+            if (acessoSistema.procurarCoordenador(usuario) == null) {
+                request.getRequestDispatcher("VerificarBancaServlet").forward(request, response);
+            }else{
+                request.getRequestDispatcher("VerificarBancaCoordenadorServlet").forward(request, response);
+            }
+            acessoSistema.completarTransacoes();
         }
     }
 
@@ -109,7 +111,7 @@ public class DetalheTCCServlet extends HttpServlet {
         }
         return null;
     }
-    
+
     private Banca procuraBanca(int posicaoBanca) {
         List<Banca> bancasEncontradas = acessoSistema.procurarBancas();
 
