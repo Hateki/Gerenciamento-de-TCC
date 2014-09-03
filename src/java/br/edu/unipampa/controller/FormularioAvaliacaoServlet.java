@@ -71,9 +71,9 @@ public class FormularioAvaliacaoServlet extends HttpServlet {
         Banca bancaEscolhida = null;
         Tema tema;
 
-        for (int i = 0; i < bancaMarcada.size(); i++) {
-            if (i == Integer.parseInt(botaoAvaliacao) - 1) {
-                bancaEscolhida = bancaMarcada.get(i);
+        for (Banca banca : bancaMarcada) {
+            if (banca.getIdBanca() == Integer.parseInt(botaoAvaliacao)) {
+                bancaEscolhida = banca;
                 break;
             }
         }
@@ -90,6 +90,8 @@ public class FormularioAvaliacaoServlet extends HttpServlet {
             request.setAttribute("avaliador", acessoSistema.procurarPessoa(usuario));
 
             request.setAttribute("bancaEscolhida", bancaEscolhida);
+            
+            request.getSession().setAttribute("bancaParaAvaliacao", bancaEscolhida);
             
             acessoSistema.completarTransacoes();
 

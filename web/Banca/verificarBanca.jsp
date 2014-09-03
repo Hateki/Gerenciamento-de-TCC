@@ -176,7 +176,7 @@
                             </div>    
                             <div class="col-md-2">
                                 <form name="formularioAvaliacao" action="FormularioAvaliacaoServlet">
-                                    <button type="submit" class="bnt btn-primary" name="botaoAvaliacao" value="<%= cont%>">
+                                    <button type="submit" class="bnt btn-primary" name="botaoAvaliacao" value="<c:out value="${bancaEncontrada.idBanca}" />">
                                         Avaliar Aluno
                                     </button>
                                 </form>  

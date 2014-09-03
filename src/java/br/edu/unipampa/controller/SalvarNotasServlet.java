@@ -69,19 +69,14 @@ public class SalvarNotasServlet extends HttpServlet {
     public void salvarNotas(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException{
         AcessoSistema acessoSistema = new AcessoSistema();
-        String usuario = (String) request.getSession().getAttribute("usuario");
         float notaFinal = Float.parseFloat(request.getParameter("notaFinal"));
         int idBanca = Integer.parseInt(request.getParameter("finalizar"));
-        List<Banca> bancasMarcadas = acessoSistema.procurarBancas(usuario);
-        Banca bancaEncontrada =  null;       
+        List<Banca> bancasMarcadas = acessoSistema.procurarBancasMarcadas();
+        Banca bancaEncontrada =  null;
+        String usuario = (String) request.getSession().getAttribute("usuario");
         Pessoa avaliador = acessoSistema.procurarPessoa(usuario);
         
-        for (Banca banca : bancasMarcadas) {
-            if(banca.getIdBanca() == idBanca){
-                bancaEncontrada = banca;
-                break;
-            }
-        }
+        bancaEncontrada = (Banca) request.getSession().getAttribute("bancaParaAvaliacao");
         
         avaliador.avaliarAluno(notaFinal, bancaEncontrada);
         acessoSistema.completarTransacoes();

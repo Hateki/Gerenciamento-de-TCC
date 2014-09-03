@@ -347,7 +347,7 @@ public class AcessoSistema {
      * @param tcc Tcc para se atualizar
      */
     public void atualizarTcc(Tcc tcc) {
-        SESSAO.update(tcc);
+        SESSAO.merge(tcc);
     }
 
     /**
