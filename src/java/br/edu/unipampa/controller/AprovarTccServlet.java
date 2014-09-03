@@ -6,12 +6,14 @@
 package br.edu.unipampa.controller;
 
 import br.edu.unipampa.model.Aluno;
+import br.edu.unipampa.model.Banca;
 import br.edu.unipampa.model.Orientador;
 import br.edu.unipampa.model.Pessoa;
 import br.edu.unipampa.model.Professor;
 import br.edu.unipampa.model.Tcc;
 import br.edu.unipampa.model.Tema;
 import br.edu.unipampa.model.web.AcessoSistema;
+import br.edu.unipampa.model.web.EnvioEmails;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -78,6 +80,7 @@ public class AprovarTccServlet extends HttpServlet {
         Tcc tccEscolhido = null;
         Orientador orientador = tema.getOrientador();
         boolean flag = false;
+        Banca bancaTcc;
 
         if (botoesApertados != null) {
             botoesSeparados = separarBotao(botoesApertados);
@@ -90,7 +93,7 @@ public class AprovarTccServlet extends HttpServlet {
             posicaoTcc = Integer.parseInt(botaoEscolhido);
         }
 
-        List<Tcc> tccEncontrados = acessoSistema.procurarTccsAtuais(tema.getAluno().getMatricula(),tipoTcc);
+        List<Tcc> tccEncontrados = acessoSistema.procurarTccsAtuais(tema.getAluno().getMatricula(), tipoTcc);
 
         for (Tcc tcc : tccEncontrados) {
             if (tcc.getVersaoTCC() == posicaoTcc) {
@@ -110,6 +113,14 @@ public class AprovarTccServlet extends HttpServlet {
             } catch (Exception e) {
 
             }
+        }
+
+        bancaTcc = acessoSistema.procurarBancaPorTcc(tccEscolhido);
+
+        if (tccEscolhido != null) {
+            mandarEmailsPositivo(tema.getAluno(), orientador, bancaTcc);
+        } else {
+            mandarEmailsNegativo(tema.getAluno(), orientador);
         }
 
         if (flag) {
@@ -157,6 +168,48 @@ public class AprovarTccServlet extends HttpServlet {
         botoesSeparados[1] = botaoAprovar;
 
         return botoesSeparados;
+    }
+
+    private void mandarEmailsPositivo(Aluno aluno, Orientador orientador, Banca banca) {
+        EnvioEmails emails = new EnvioEmails();
+        String mensagemOrientador, mensagemAluno, mensagemBanca;
+        String assunto = null;
+
+        assunto = "Tcc aceito";
+        mensagemOrientador = "Você aceitou o tcc do aluno " + aluno.getNome() + ".";
+
+        mensagemAluno = "O seu tema foi aceito pelo orientador. Vá em exibir"
+                + " situação tcc para ter mais detalhes.";
+
+        mensagemBanca = "O tema do aluno " + aluno.getNome()
+                + "foi aceito pelo orientador, vá em verificar"
+                + " bancas para ter acesso ao arquivo envido.";
+
+        emails.enviaEmailSimples(mensagemOrientador, assunto, orientador.getEmail());
+        emails.enviaEmailSimples(mensagemAluno, assunto, aluno.getEmail());
+
+        if (banca != null) {
+            emails.enviaEmailSimples(mensagemBanca, assunto, banca.getPessoaByConvidado1IdPessoa().getEmail());
+            emails.enviaEmailSimples(mensagemBanca, assunto, banca.getPessoaByConvidado2IdPessoa().getEmail());
+            if (banca.getPessoaByConvidado3IdPessoa() != null) {
+                emails.enviaEmailSimples(mensagemBanca, assunto, banca.getPessoaByConvidado3IdPessoa().getEmail());
+            }
+        }
+    }
+    
+    private void mandarEmailsNegativo(Aluno aluno, Orientador orientador) {
+        EnvioEmails emails = new EnvioEmails();
+        String mensagemOrientador, mensagemAluno, mensagemBanca;
+        String assunto = null;
+
+        assunto = "Tcc não aceitp";
+        mensagemOrientador = "Você não aceitou o tcc do aluno " + aluno.getNome() + ".";
+
+        mensagemAluno = "O seu tcc enviado, não foi aceito pelo orientador."
+                + " Você pode submeter outro em 'submeter Tcc'";
+
+        emails.enviaEmailSimples(mensagemOrientador, assunto, orientador.getEmail());
+        emails.enviaEmailSimples(mensagemAluno, assunto, aluno.getEmail());
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

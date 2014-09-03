@@ -1063,6 +1063,24 @@ public class AcessoSistema {
             return null;
         }
     }
+    
+    /**
+     * Procura banca que contém o tcc especificado
+     * @param tcc Tcc para se procurar a banca
+     * @return banca encontrada
+     */
+    public Banca procurarBancaPorTcc(Tcc tcc){
+        List<Banca> bancasEncontradas = procurarBancas();
+        
+        if(tcc != null){
+            for (Banca banca : bancasEncontradas) {
+                if(banca.getTcc() == tcc){
+                    return banca;
+                }
+            }
+        }
+        return null;
+    }
 
     /**
      * Procura as bancas que foram marcadas
