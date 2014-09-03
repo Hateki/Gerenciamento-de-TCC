@@ -64,7 +64,7 @@
 
         <div class="page-header" id="titulo">
             <h1> Envio de TCC's </h1>
-            <p class="lead"> Aqui pode enviar os TCC 2 e o final </p>
+            <p class="lead"> Aqui você pode enviar o TCC 2 e a versão final corrigida </p>
         </div>
         <c:if test="${empty TCC1Invalido}" var="v" scope="request">
             <h2>

@@ -67,7 +67,7 @@
 
         <div class="page-header" id="titulo">
             <h1> Envio de TCC's </h1>
-            <p class="lead"> Aqui pode enviar os TCC 1, 2 e o final </p>
+            <p class="lead"> Aqui você pode enviar o TCC 1</p>
         </div>
 
         <h2><center><label>Prazo de submissão: <c:out value="${dataInicial}"/> a <c:out value="${dataFinal}"/></label></center></h2>

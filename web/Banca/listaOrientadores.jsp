@@ -49,8 +49,8 @@
             </div>
         </div>
         <br><br><br>
-    <center><h1> Orientadores Disponíveis </h1></center>
-    <br><br>
+    <center><h1> Orientadores Disponíveis </h1></center><hr>
+    <br>
     <form method="post" action="FiltrarTCCsDoAluno" >
         <% int cont = 0;%>
         <table border="1" class="table table-hover">

@@ -119,7 +119,7 @@
                             </thead>
                             <tbody>
                                 <c:forEach var="pessoa" items="${pessoas}">
-                                    <tr onclick="pegaTabelaPessoa1('<c:out value="${pessoa.usuario}"/>')">
+                                    <tr onclick="pegaTabelaPessoa1('<c:out value="${pessoa.usuario}"/>'), fechaModal(listaConvidado1)">
                                         <td> <c:out value="${pessoa.usuario}"/> </td>
                                         <td> <c:out value="${pessoa.nome}"/> </td>
                                         <td> <c:out value="${pessoa.email}"/> </td>
@@ -149,7 +149,7 @@
                             </thead>
                             <tbody>
                                 <c:forEach var="pessoa" items="${pessoas}">
-                                    <tr onclick="pegaTabelaPessoa2('<c:out value="${pessoa.usuario}"/>')">
+                                    <tr onclick="pegaTabelaPessoa2('<c:out value="${pessoa.usuario}"/>'), fechaModal(listaConvidado2)">
                                         <td> <c:out value="${pessoa.usuario}"/> </td>
                                         <td> <c:out value="${pessoa.nome}"/> </td>
                                         <td> <c:out value="${pessoa.email}"/> </td>
@@ -211,7 +211,7 @@
                             </thead>
                             <tbody>
                                 <c:forEach var="listaAlunos" items="${alunosDisponiveis}">
-                                    <tr onclick="pegaTabela('<c:out value="${listaAlunos[0].usuario}"/>')">
+                                    <tr onclick="pegaTabela('<c:out value="${listaAlunos[0].usuario}"/>'), fechaModal(listaAlunos)">
                                         <td> <c:out value="${listaAlunos[0].usuario}"/> </td>
                                         <td> <c:out value="${listaAlunos[0].nome}"/> </td>
                                         <td> <c:out value="${listaAlunos[0].pessoa.email}"/> </td>
@@ -242,19 +242,19 @@
                 <h1>Criar banca do TCC</h1>
                 <br></br>
                 <h4>Banca Avaliadora</h4>
-               
 
-                Matrícula Aluno: <input readonly="readonly" type="text" name="matricula" id="matricula" maxlength="9" onblur="validaEspaco(this), testarMatricula()" required/>
-                <a href="#listaAlunos" data-toggle="modal" class="btn btn-primary"> Ver lista de Alunos </a> <br><br>
-                Professor: <input readonly="readonly" type="text" name="professor1" id="professor1" onblur="validaEspaco(this)" required/>
-                <a href="#listaConvidado1" data-toggle="modal" class="btn btn-primary"> Ver lista de Pessoas </a> <br><br>
-                Professor: <input readonly="readonly" type="text" name="professor2" id="professor2" onblur="validaEspaco(this)" required/>
-                <a href="#listaConvidado2" data-toggle="modal" class="btn btn-primary"> Ver lista de Pessoas </a> <br><br>
+
+                Matrícula Aluno: <input readonly="readonly" type="text" name="matricula" id="matricula" maxlength="9" required/>
+                <a href="#listaAlunos" data-toggle="modal" class="btn btn-primary"> Selecionar Aluno </a> <br><br>
+                Professor: <input readonly="readonly" type="text" name="professor1" id="professor1" required/>
+                <a href="#listaConvidado1" data-toggle="modal" class="btn btn-primary"> Selecionar Pessoa </a> <br><br>
+                Professor: <input readonly="readonly" type="text" name="professor2" id="professor2"  required/>
+                <a href="#listaConvidado2" data-toggle="modal" class="btn btn-primary"> Selecionar Pessoa </a> <br><br>
 
 
                 <div style="display: none" id="professor3">
-                    Professor: <input type="text" name="professor3" id="professor3" onblur="validaEspaco(this)"/>
-                    <a href="#listaPessoas" data-toggle="modal" class="btn btn-primary"> Ver lista de Pessoas </a>
+                    Professor: <input type="text" name="professor3" id="professor3" required/>
+                    <a href="#listaPessoas" data-toggle="modal" class="btn btn-primary"> Selecionar Pessoa </a>
                 </div>     
 
 
@@ -273,46 +273,24 @@
 
 
                 <button type="button" class="btn btn-success" onclick="mostraProfessorInv()" name="btAddProfessor" id="btAddProfessor" >Adicionar</button><br></br>
-                <input  type="button" class="btn btn-danger  " name="voltar" id="voltar" value="Voltar" onClick="retornaPaginaPrincipal()">
                 <input type="submit" class="btn btn-info" name="enviar" id="enviar" value="Enviar"   />
             </div>
-            <script>
-                function retornaPaginaPrincipal() {
-                    location.href = "menuPrincipalProfessor.html"
-                }
-            </script>
-
 
         </form>
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
         <script>
-                function mostraProfessorInv() {
-                    $('#professor3').slideDown();
-                }
-
-                //trim completo
-                function trim(str) {
-                    return str.replace(/^\s+|\s+$/g, "");
-                }
-
-                function validaEspaco(input) {
-                    texto = input.value;
-                    textoNovo = trim(texto);
-                    if (textoNovo === "") {
-                        input.value = textoNovo;
-                        alert("Campo " + input.name + " invalido");
-                    }
-                }
-
-                function testarMatricula() {
-
-                    if ((isNaN(tccForm.matricula.value)) || (tccForm.matricula.value == "")) {
-
-                        alert("Digite apenas números!");
-
+                    function mostraProfessorInv() {
+                        $('#professor3').slideDown();
                     }
 
-                }
+                    function fechaModal(id) {
+                        $(id).modal('hide');
+                    }
+                    //trim completo
+                    function trim(str) {
+                        return str.replace(/^\s+|\s+$/g, "");
+                    }
         </script>
 
         <c:if test="${not empty retorno}" var="variavel" scope="request">
