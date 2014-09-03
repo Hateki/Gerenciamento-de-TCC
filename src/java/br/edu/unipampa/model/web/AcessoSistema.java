@@ -251,6 +251,14 @@ public class AcessoSistema {
         }
         return temasRelacionados;
     }
+    
+    /**
+     * Retorna a lista de orientadores presentes no banco
+     * @return lista de orientadores
+     */
+    public List<Orientador> retornarOrientadores(){
+        return SESSAO.createQuery("From Orientador").list();
+    }
 
     /**
      * Procura um professor através de um usuario

@@ -86,13 +86,20 @@ public class CriarBancaTCCServlet extends HttpServlet {
         String professor2 = request.getParameter("professor2");
         String professor3 = request.getParameter("professor3");
         String orientador = (String) request.getSession().getAttribute("usuario");
+        String orientadorUsuario = (String) request.getSession().getAttribute("orientadorBanca");
         String matriculaAlunoString = (String) request.getParameter("matricula");
         int matriculaAluno = -1;
         Banca bancaCriada;
         int resultadoVerificacao;
         as = new AcessoSistema();
-        Orientador professor = as.procurarOrientador(orientador);
+        Orientador professor;
         Tcc tccBanca;
+        
+        if(orientadorUsuario == null){
+            professor = as.procurarOrientador(orientador);
+        }else{
+            professor = as.procurarOrientador(orientadorUsuario);
+        }
 
         if (professor1 != null && professor2 != null && matriculaAlunoString != null) {
 
@@ -108,7 +115,7 @@ public class CriarBancaTCCServlet extends HttpServlet {
                     request.setAttribute("retorno", ORIENTADOR_IGUAL_PROFESSOR);
                 } else {
                     tccBanca = as.procurarTCCAtual(matriculaAluno);
-                    bancaCriada = professor.cadastrarBanca(matriculaAluno, orientador, professor1, professor2, professor3, tccBanca);
+                    bancaCriada = professor.cadastrarBanca(matriculaAluno, professor.getUsuario(), professor1, professor2, professor3, tccBanca);
 
                     if (bancaCriada != null) {
                         mandarEmails(bancaCriada);

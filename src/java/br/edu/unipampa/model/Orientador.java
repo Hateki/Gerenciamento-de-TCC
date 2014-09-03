@@ -203,7 +203,6 @@ public class Orientador extends Professor implements java.io.Serializable {
 
         AcessoSistema acessoSistema = new AcessoSistema();
         Aluno aluno = acessoSistema.procurarAluno(matriculaAluno);
-        Professor professor = acessoSistema.procurarProfessor(usuarioOrientador);
         Pessoa convidado1 = acessoSistema.procurarPessoa(professor1);
         Pessoa convidado2 = acessoSistema.procurarPessoa(professor2);
         Pessoa convidado3 = acessoSistema.procurarPessoa(professor3);
@@ -214,7 +213,7 @@ public class Orientador extends Professor implements java.io.Serializable {
         }
 
         if (convidado1 != null && convidado2 != null
-                && professor != null) {
+                && this != null) {
 
             banca.setPessoaByConvidado1IdPessoa(convidado1);
             banca.setPessoaByConvidado2IdPessoa(convidado2);

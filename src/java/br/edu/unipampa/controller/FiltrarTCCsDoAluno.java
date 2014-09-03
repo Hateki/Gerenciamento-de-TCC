@@ -68,22 +68,29 @@ public class FiltrarTCCsDoAluno extends HttpServlet {
             throws ServletException, IOException {
 
         AcessoSistema as = new AcessoSistema();
+        String orientadorUsuario = request.getParameter("orientador");
         String usuario = (String) request.getSession().getAttribute("usuario");
         List<List> alunosDisponiveis = new ArrayList<>();
         List<Tcc> tccAtuais;
         List<Object> tccsNaoAvaliados;
         Tema tema;
-        Tcc tcc1 = null;
-        Tcc tcc2 = null;
-        Orientador orientador = as.procurarOrientador(usuario);
+        Orientador orientador;
+
+        if (orientadorUsuario == null) {
+            orientador = as.procurarOrientador(usuario);
+        } else {
+            orientador = as.procurarOrientador(orientadorUsuario);
+        }
 
         for (Aluno aluno : as.procurarAlunos(orientador)) {
+            Tcc tcc1 = null;
+            Tcc tcc2 = null;
             tccsNaoAvaliados = new ArrayList<>();
             tccAtuais = as.procurarTccsAtuais(aluno.getMatricula());
             for (Tcc tcc : tccAtuais) {
-                if(tcc.getTipoTCC() == 0){
+                if (tcc.getTipoTCC() == 0) {
                     tcc1 = tcc;
-                }else if(tcc.getTipoTCC() == 1 && tcc.getVersaoTCC() == 0){
+                } else if (tcc.getTipoTCC() == 1 && tcc.getVersaoTCC() == 0) {
                     tcc2 = tcc;
                 }
             }
@@ -99,7 +106,7 @@ public class FiltrarTCCsDoAluno extends HttpServlet {
                     tccsNaoAvaliados.add(tema);
                     tccsNaoAvaliados.add(tcc2);
                     alunosDisponiveis.add(tccsNaoAvaliados);
-                } else if(tcc1 == null && tcc2 == null){
+                } else if (tcc1 == null && tcc2 == null) {
                     tccsNaoAvaliados.add(aluno);
                     tccsNaoAvaliados.add(tema);
                     tccsNaoAvaliados.add(null);
@@ -107,6 +114,8 @@ public class FiltrarTCCsDoAluno extends HttpServlet {
                 }
             }
         }
+
+        request.getSession().setAttribute("orientadorBanca", orientadorUsuario);
 
         request.setAttribute("alunosDisponiveis", alunosDisponiveis);
         as.completarTransacoes();
