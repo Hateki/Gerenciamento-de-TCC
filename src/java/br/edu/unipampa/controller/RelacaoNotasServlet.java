@@ -69,15 +69,23 @@ public class RelacaoNotasServlet extends HttpServlet {
     public List<List> fazerListaTemas(List<Aluno> listaAlunos, AcessoSistema acessoSistema) {
         Tema tema;
         Tcc tcc1 = null;
-        Tcc tcc2;
+        Tcc tcc2 = null;
         List<List> listaTemas = new ArrayList<>();
         List<Object> listaTemasNotas;
+        List<Tcc> listaTcc;
         for (Aluno aluno : listaAlunos) {
             listaTemasNotas = new ArrayList<>();
-            tcc1 = acessoSistema.procurarTipoVersaoTcc(aluno.getMatricula(), 0, 0);
-            tcc2 = acessoSistema.procurarTipoVersaoTcc(aluno.getMatricula(), 0, 1);
+            listaTcc = acessoSistema.procurarTccsAtuais(aluno.getMatricula());
+            for (Tcc tcc : listaTcc) {
+                if(tcc.getTipoTCC() == 0){
+                    tcc1 = tcc;
+                }else if(tcc.getTipoTCC() == 1 && tcc.getVersaoTCC() == 0){
+                    tcc2 = tcc;
+                }
+            }
             tema = aluno.getTema();
-            if (verificarTcc(tcc1)) {
+            if (tema != null && verificarTcc(tcc1)
+                    && tema.getAprovado() == Tema.APROVADO_COODENADOR) {
                 listaTemasNotas.add(tema);
                 listaTemasNotas.add(retornarMedia(tcc1));
                 if (tcc2 != null) {
