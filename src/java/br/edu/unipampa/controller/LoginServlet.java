@@ -112,9 +112,9 @@ public class LoginServlet extends HttpServlet {
         }
         
         //verificarSemestre(login);
-
-        view.forward(request, response);
         login.completarTransacoes();
+        view.forward(request, response);
+        
     }
 
     public void verificarSemestre(AcessoSistema acessoSistema) {

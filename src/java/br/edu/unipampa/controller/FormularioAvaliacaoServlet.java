@@ -80,6 +80,7 @@ public class FormularioAvaliacaoServlet extends HttpServlet {
 
         if (bancaEscolhida == null) {
             request.setAttribute("retornoFormulario", "A banca ainda não foi marcada.");
+            acessoSistema.completarTransacoes();
             request.getRequestDispatcher("VerificarBancaServlet").forward(request, response);
         } else {
             tema = acessoSistema.procurarTema(bancaEscolhida.getAluno());
@@ -89,6 +90,8 @@ public class FormularioAvaliacaoServlet extends HttpServlet {
             request.setAttribute("avaliador", acessoSistema.procurarPessoa(usuario));
 
             request.setAttribute("bancaEscolhida", bancaEscolhida);
+            
+            acessoSistema.completarTransacoes();
 
             request.getRequestDispatcher("formularioDeAvaliacaoAluno.jsp").forward(request, response);
         }

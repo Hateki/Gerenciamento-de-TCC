@@ -48,6 +48,8 @@ public class TransicaoDownloadServlet extends HttpServlet {
         
         request.getSession().setAttribute("caminho", "ConfirmarTccServlet");
         
+        acessoSistema.completarTransacoes();
+        
         request.getRequestDispatcher("DownloadTCCServlet").forward(request, response);
     }
 

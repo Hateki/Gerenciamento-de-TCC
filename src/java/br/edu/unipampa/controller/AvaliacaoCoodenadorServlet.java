@@ -74,6 +74,7 @@ public class AvaliacaoCoodenadorServlet extends HttpServlet {
 
         if (bancaEscolhida == null) {
             request.setAttribute("retornoFormulario", "A banca ainda não foi marcada.");
+            acessoSistema.completarTransacoes();
             request.getRequestDispatcher("VerificarBancaServlet").forward(request, response);
         } else {
             tema = acessoSistema.procurarTema(bancaEscolhida.getAluno());
@@ -88,6 +89,8 @@ public class AvaliacaoCoodenadorServlet extends HttpServlet {
 
             request.getSession().removeAttribute("bancaEscolhida");
             request.getSession().removeAttribute("avaliadores");
+            
+            acessoSistema.completarTransacoes();
 
             request.getRequestDispatcher("formularioAvaliacaoCoordenador.jsp").forward(request, response);
         }

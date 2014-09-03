@@ -63,6 +63,7 @@ public class RelacaoNotasServlet extends HttpServlet {
         AcessoSistema acessoSistema = new AcessoSistema();
         List<Aluno> alunosAvaliados = acessoSistema.procurarAlunos();
         request.setAttribute("listaTemas", fazerListaTemas(alunosAvaliados, acessoSistema));
+        acessoSistema.completarTransacoes();
         request.getRequestDispatcher("relacaoNotas.jsp").forward(request, response);
     }
 

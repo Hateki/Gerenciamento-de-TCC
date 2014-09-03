@@ -88,8 +88,11 @@ public class DetalheTCCServlet extends HttpServlet {
                 request.getSession().setAttribute("tccCorrigidoSessao", tccAluno);
             }
             request.getSession().setAttribute("caminho", "VerificarBancaServlet");
+            acessoSistema.completarTransacoes();
             request.getRequestDispatcher("DownloadTCCServlet").forward(request, response);
         }else{
+            
+            acessoSistema.completarTransacoes();
             request.getSession().setAttribute("retorno", "O Tcc ainda não foi enviado ou não foi aprovado.");
 
             request.getRequestDispatcher("VerificarBancaServlet").forward(request, response);

@@ -88,6 +88,8 @@ public class DownloadTCCServlet extends HttpServlet {
         request.getSession().removeAttribute("tccSessao");
         request.getSession().removeAttribute("tccDefendidoSessao");
         request.getSession().removeAttribute("tccCorrigidoSessao");
+        
+        acessoSistema.completarTransacoes();
 
         request.getRequestDispatcher("telaDownload.jsp").forward(request, response);
     }

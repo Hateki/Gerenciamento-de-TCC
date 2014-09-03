@@ -103,6 +103,8 @@ public class ConfirmarTccServlet extends HttpServlet {
 
         request.setAttribute("tccEncontrados", tccEncontrados);
         request.setAttribute("tema", temaEscolhido);
+        
+        acessoSistema.completarTransacoes();
 
         request.getRequestDispatcher("Tema/aprovarTcc.jsp").forward(request, response);
     }

@@ -67,6 +67,8 @@ public class AgendaDefesasServlet extends HttpServlet {
 
         request.setAttribute("bancasEncontradas", bancasEncontradas);
         request.setAttribute("titulos", titulos);
+        
+        acessoSistema.completarTransacoes();
 
         request.getRequestDispatcher("Banca/agendaDefesa.jsp").forward(request, response);
     }

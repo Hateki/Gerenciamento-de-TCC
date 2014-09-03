@@ -25,7 +25,7 @@ public class AcessoBanco {
         String driver = "com.mysql.jdbc.Driver";
         String url = "jdbc:mysql://localhost:3306/gerenciamento de tcc?zeroDateTimeBehavior=convertToNull";
         String login = "root";
-        String senha = "e02c50";
+        String senha = "root";
 
         try {
             Class.forName(driver);

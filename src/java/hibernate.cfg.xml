@@ -8,6 +8,7 @@
     <property name="hibernate.connection.username">root</property>
     <property name="hibernate.connection.password">root</property>
     <property name="hibernate.current_session_context_class">thread</property>
+    <property name="hibernate.connection.isolation">2</property>
     <mapping resource="br/edu/unipampa/model/Aluno.hbm.xml"/>
     <mapping resource="br/edu/unipampa/model/Tcc.hbm.xml"/>
     <mapping resource="br/edu/unipampa/model/Professor.hbm.xml"/>

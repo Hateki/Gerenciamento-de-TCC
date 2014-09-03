@@ -61,7 +61,7 @@ public class SelecionarOrientadorServlet extends HttpServlet {
         List<Orientador> listaOrientadores = acessoSistema.retornarOrientadores();
         
         request.setAttribute("listaOrientadores", listaOrientadores);
-        
+        acessoSistema.completarTransacoes();
         request.getRequestDispatcher("Banca/listaOrientadores.jsp").forward(request, response);
         
         

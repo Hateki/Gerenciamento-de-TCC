@@ -85,6 +85,8 @@ public class ExibirSituacaoServlet extends HttpServlet {
         }
         
         request.getSession().setAttribute("caminho", "ExibirSituacaoServlet");
+        
+        acessoSistema.completarTransacoes();
 
         request.getRequestDispatcher("Tema/exibirSituacao.jsp").forward(request, response);
     }
