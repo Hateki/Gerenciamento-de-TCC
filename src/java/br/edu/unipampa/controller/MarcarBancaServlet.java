@@ -83,7 +83,7 @@ public class MarcarBancaServlet extends HttpServlet {
         String[] prazoFinal = separarDatas(prazo.getDataFimBanca());
 
         if (acessoSistema.procurarCoordenador(usuario) == null) {
-            listaBancas = acessoSistema.procurarBancas(usuario);
+            listaBancas = acessoSistema.procurarBancasOrientador(usuario);
         } else {
             listaBancas = acessoSistema.procurarBancas();
         }

@@ -251,12 +251,13 @@ public class AcessoSistema {
         }
         return temasRelacionados;
     }
-    
+
     /**
      * Retorna a lista de orientadores presentes no banco
+     *
      * @return lista de orientadores
      */
-    public List<Orientador> retornarOrientadores(){
+    public List<Orientador> retornarOrientadores() {
         return SESSAO.createQuery("From Orientador").list();
     }
 
@@ -1112,6 +1113,25 @@ public class AcessoSistema {
                 bancasEncontradas.add(banca);
             } else if (banca.getPessoaByConvidado3IdPessoa() != null
                     && banca.getPessoaByConvidado3IdPessoa().getUsuario().equals(usuario)) {
+                bancasEncontradas.add(banca);
+            }
+        }
+
+        return bancasEncontradas;
+    }
+
+    /**
+     * Procura as bancas o orientador especificado
+     *
+     * @param usuario usuário do orientador
+     * @return lista de bancas encontradas
+     */
+    public List<Banca> procurarBancasOrientador(String usuario) {
+        List<Banca> bancas = SESSAO.createQuery("From Banca").list();
+        List<Banca> bancasEncontradas = new ArrayList<>();
+
+        for (Banca banca : bancas) {
+            if (banca.getOrientadorByOrientadorIdOrientador().getUsuario().equals(usuario)) {
                 bancasEncontradas.add(banca);
             }
         }

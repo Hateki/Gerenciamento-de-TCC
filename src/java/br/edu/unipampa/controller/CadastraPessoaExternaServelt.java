@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package br.edu.unipampa.controller;
 
 import br.edu.unipampa.model.Orientador;
@@ -35,7 +34,7 @@ public class CadastraPessoaExternaServelt extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-          
+
         String usuario = (String) request.getSession().getAttribute("usuario");
 
         AcessoSistema acessoSistema = new AcessoSistema();
@@ -46,15 +45,8 @@ public class CadastraPessoaExternaServelt extends HttpServlet {
             request.getRequestDispatcher("telaLogin.jsp").forward(request, response);
         } else {
             pessoaEncontrada = acessoSistema.procurarPessoaEspecifica(usuario);
-            if (acessoSistema.procurarCoordenador(usuario) == null) {
-                try {
-                    request.getSession().invalidate();
-                } catch (Exception e) {
-
-                }
-                request.setAttribute("retorno", "Você não pode acessar esta página, faça o login novamente!");
-                request.getRequestDispatcher("telaLogin.jsp").forward(request, response);
-            } else if (!(pessoaEncontrada instanceof Orientador)) {
+            if (acessoSistema.procurarCoordenador(usuario) == null
+                    && !(pessoaEncontrada instanceof Orientador)) {
                 try {
                     request.getSession().invalidate();
                 } catch (Exception e) {
@@ -67,9 +59,9 @@ public class CadastraPessoaExternaServelt extends HttpServlet {
             }
         }
     }
-    
+
     public void cadastrarPessoaExterna(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException{
+            throws ServletException, IOException {
         int resposta;
         Orientador orientador = new Orientador();
         AcessoSistema ac = new AcessoSistema();
@@ -79,34 +71,34 @@ public class CadastraPessoaExternaServelt extends HttpServlet {
         String instituicao = request.getParameter("nomeInstituicao");
         String email = request.getParameter("email");
         ArrayList<String> listaParametros = new ArrayList<>();
-        
+
         for (int i = 0; i < 5; i++) {
-            if(i == 0){
+            if (i == 0) {
                 listaParametros.add(nomeUsuario);
-            }else if(i == 1){
+            } else if (i == 1) {
                 listaParametros.add(senha);
-            }else if(i == 2){
+            } else if (i == 2) {
                 listaParametros.add(cpf);
-            }else if(i == 3){
+            } else if (i == 3) {
                 listaParametros.add(instituicao);
-            }else{
+            } else {
                 listaParametros.add(email);
             }
         }
-             
+
         resposta = orientador.cadastraPessoaExterna(listaParametros);
-        
-        if(resposta == AcessoSistema.LISTA_INCORRETA){
+
+        if (resposta == AcessoSistema.LISTA_INCORRETA) {
             //resolve o problema
             request.setAttribute("retorno", "Lista Incorreta");
             request.getRequestDispatcher("cadastroPessoaExterna.jsp").forward(request, response);
             ac.completarTransacoes();
-        }else if(resposta == AcessoSistema.USUARIO_JA_EXISTENTE){
+        } else if (resposta == AcessoSistema.USUARIO_JA_EXISTENTE) {
             //manda de volta pra pagina de cadastro
             request.setAttribute("retorno", "Usuario Existe");
             request.getRequestDispatcher("cadastroPessoaExterna.jsp").forward(request, response);
             ac.completarTransacoes();
-        }else{
+        } else {
             //manda pra página de cadastro concluido
             request.setAttribute("retorno", "Sucesso");
             request.getRequestDispatcher("cadastroPessoaExterna.jsp").forward(request, response);
