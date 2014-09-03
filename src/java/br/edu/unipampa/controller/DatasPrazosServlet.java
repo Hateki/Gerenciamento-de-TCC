@@ -119,6 +119,7 @@ public class DatasPrazosServlet extends HttpServlet {
             }
 
             acessoSistema.salvarPrazos(datasEncontradas);
+            request.setAttribute("retorno", "Data salva com sucesso");
         }
 
         request.setAttribute("dataTemaInicio", datasEncontradas.getDataInicioTema());

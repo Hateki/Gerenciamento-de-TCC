@@ -1,4 +1,5 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page isELIgnored="false" %>
 <%-- 
     Document   : datasPrazos
     Created on : 24/07/2014, 10:05:30
@@ -86,6 +87,10 @@
         <br><br><br><br><br>
 
         <form method="post" action="DatasPrazosServlet">
+            
+            <c:if test="${not empty retorno}" var="v" scope="request">
+                <div class="alert alert-success" role="alert"><c:out value="${retorno}"/></div>
+            </c:if>
 
             <legend> Período de cadastros de Temas </legend>
             Data Inicial: <input name="dataTemaInicio" id="dataTemaInicio" type="date" onblur="javascript: validardata(this.value);" placeholder="Digite data Inicial" maxlength="14" value="<c:out value="${dataTemaInicio}"/>"/><br>
